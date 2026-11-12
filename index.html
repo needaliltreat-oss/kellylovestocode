@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kelly Burgess — Fractional CTO</title>
+<meta name="description" content="Kelly Burgess, fractional CTO. Selected work and contact.">
+<meta name="theme-color" content="#16171b">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&family=Gabarito:wght@400..800&family=Lexend:wght@300..600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<style>
+/* THE HOME PAGE of kellylovestocode.com, 12 Nov 2026. Built from Demo S, which came from Demo R. Demo P, Demo R and Demo S are untouched.
+   Her Demo P picks of 12 Nov are built in: the blue out of the heart is Demo P's (one mass, nine lumpy blobs, two drips), the wipe is back as LQ2 "the blue pushed off"
+   AND the lava lamp stays the border where the two colours meet, the wipe follows her scroll both ways once she has been in Work (SU3), the small s is .78 of the name,
+   the sections are x.75 apart, the origami cat is gone and a paper letter drops from the last Work bar and unfolds into the email form (DK3, DT2), and light / dark sits
+   in a Settings section in the open menu. The word glow stays one step along the scale from the word. The demo tray and options panel are gone (E520).
+   Older notes, still true:
+   Demo R (9 Nov 2026), per Kelly E285–E413; updated 10 Nov 2026 (session 4) with her picks from the chat forms and her typed notes.
+   Her picks are now the page's settings and are no longer in the options panel: heart HS3, small s SS2, gap SG1, heart glow HG3, blue pour PO2, About text AK4, About icon AI1,
+   lava-lamp look OW1 at strength OS1 (E400), Work bar hover HV3, bar gap BG1, tilt TL2 (1.2 degrees), tilt pattern TP3, depth DP3, the bars push the blue back at PS2 (E410, her words: "whatever it is now i like"),
+   the colour change into Contact starts when the top edge of Graphic Work is 30% down the screen (GS4; E404) and never goes back (E405), no hint under the cat CH3, fold back both ways FB1, simple cat face CF2,
+   menu links fall and stack MN2 resting at ML2 (24%), space between sections SP2 (x.5).
+   Still in the panel because she has not chosen: how the 14 intro words get to the floor (WF0 to WF3, E388 item 4; the list is Claude's), when each Work bar starts to fall (BS1 or BS2, E399: she asked to see both) and the back colour of the origami paper (CB1 to CB5, E302; the list is Claude's).
+   Kelly white (E390, E394): Kelly and the s are white over the blue exactly where the blue is, and keep their colour elsewhere (#klw is a clone of #kl, clipped to the blue's outline; see blueOutline and kellyWhite in the About script).
+   Blue (E402, E403, E407, E408): the screen below the heart is the ground colour; when the visitor starts to scroll the blue fills the heart, runs out of its point as one stream, runs down the screen with a front that spreads, and keeps pouring until the screen is blue; the black Work edge then arrives from below and the oil-and-water edge meets it (E269, E270). The pour follows the scrolling, not a timer.
+   Bars push the blue back (E391, E395, E396): only at the black edge, the blue is shoved away from a bar and flows back (pushStep in the About script).
+   Lava-lamp blobs (E411: "more fluid"): every blob has a second, smaller ball joined to it by the same soft join, so no blob is a plain round ball; the sizes and speeds are placeholders.
+   Light skin (E413: "the colors on the light skin are very washed out"; she ticked the Contact colour, E414, and typed "just make them richer, more saturated", E415): on the light skin only, the Contact colour has its chroma multiplied (RICH in the core script; a placeholder, 1.2), easing back to 1 as the colour reaches full strength. The dark skin is not changed.
+   Work bars: names in Title Case, second lines in ALL CAPS (E299); every bar has its 2px border (E298), the off-black (#16171b) on the light skin and on the white side of a bar after it flips, the off-white (#f1f0ec) on the dark skin (E415, E416, E417). The bars have no depth treatment of any kind (she said so; they are Demo Q's plain bars).
+   Contact: the origami cat is still the placeholder from Demo R (it does not yet look like the cat in her reference photos; she is working on the cat and the Contact form in another session). Every number is a placeholder. Text is lorem (E31). */
+:root{
+  --Lg:#f1f0ec; --Dg:#16171b; --cobalt:#2448d8; --signal:#ff6a2b; --grain:.4;
+  --head:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --blurb:"Gabarito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --out:cubic-bezier(.16,1,.3,1); --quint:cubic-bezier(.22,1,.36,1);
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --ground:var(--Lg); --text:#111111; --kelly:#000000; --muted:#5b5b60; --rule:var(--Dg); --bar:#000000; --barText:#ffffff; --barEdge:var(--Lg); --line:#d3d2cc;
+  --word:clamp(2.47rem,8.55vw,7.125rem); --sp:.75; --ssz:.7;
+  --dhi:rgba(255,255,255,.7); --dsh:rgba(0,0,0,.32); --dts:0 0 0 transparent; --g1:.38; --g2:.14;
+}
+body[data-skin="dark"]{--ground:var(--Dg);--text:#f1f0ec;--kelly:#f1f0ec;--muted:#a4a4a8;--rule:#f1f0ec;--bar:#ffffff;--barText:#000000;--barEdge:var(--Dg);--line:#37383e;--dhi:rgba(255,255,255,.16);--dsh:rgba(0,0,0,.72);--g1:.10;--g2:.45;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--text);font:300 1rem/1.6 var(--body);overflow-x:hidden}
+body.locked{overflow:hidden}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g{position:relative;isolation:isolate}
+.g::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain);pointer-events:none;z-index:6}
+
+/* hover text roll (D2): every link and button (E158) */
+.r{position:relative;display:inline-block;overflow:hidden;vertical-align:bottom;line-height:1.15}
+.r > span{display:block;transition:transform .45s var(--quint)}
+.r > span + span{position:absolute;left:0;top:0;transform:translateY(100%)}
+:is(a,button):hover > .r > span:first-child,:is(a,button):focus-visible > .r > span:first-child{transform:translateY(-100%)}
+:is(a,button):hover > .r > span + span,:is(a,button):focus-visible > .r > span + span{transform:none}
+.btn{display:inline-flex;align-items:center;gap:10px;font:800 .95rem var(--head);border-radius:999px;padding:10px 18px;cursor:pointer;border:2px solid currentColor;background:transparent;color:inherit;text-decoration:none}
+.btn .ar{display:inline-block;overflow:hidden;position:relative;width:1em;height:1.2em}
+.btn .ar i{position:absolute;inset:0;font-style:normal;transition:transform .45s var(--quint)}
+.btn .ar i + i{transform:translate(-100%,100%)}
+.btn:hover .ar i:first-child,.btn:focus-visible .ar i:first-child{transform:translate(100%,-100%)}.btn:hover .ar i + i,.btn:focus-visible .ar i + i{transform:none}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:300;background:var(--cobalt);pointer-events:none}
+#loader.done{display:none}
+
+/* nav icon: a hamburger that turns into the heart on hover (E199); hidden until About (E162) */
+#menuBtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(14px,env(safe-area-inset-right,0px));z-index:60;width:52px;height:52px;border-radius:50%;border:2px solid transparent;background:transparent;color:var(--navc,var(--text));display:grid;place-items:center;cursor:pointer;transform:scale(0) rotate(-90deg);transition:transform .6s var(--quint),color .4s;padding:0}
+#menuBtn.in{transform:none}
+#menuBtn .bars,#menuBtn .nh{grid-area:1/1;transition:transform .45s var(--quint),opacity .3s}
+#menuBtn .bars{display:grid;gap:5px}
+#menuBtn .bars i{display:block;width:26px;height:3px;background:currentColor;border-radius:2px}
+#menuBtn .nh{width:30px;height:28px;transform:scale(0) rotate(-30deg);opacity:0}
+#menuBtn .nh svg{width:30px;height:28px;display:block}
+#menuBtn:hover .bars,#menuBtn:focus-visible .bars{transform:scale(.2);opacity:0}
+#menuBtn:hover .nh,#menuBtn:focus-visible .nh{transform:none;opacity:1}
+#menuBtn:hover .nh svg{animation:hpulse .9s ease-in-out infinite}
+
+/* full-screen menu with huge links (E183); plain or falling and stacking (E198, E223) */
+#menu{position:fixed;inset:0;z-index:250;background:var(--cobalt);color:#fff;display:grid;align-content:center;clip-path:circle(0px at var(--mx,95%) var(--my,5%));transition:clip-path .8s var(--quint);visibility:hidden}
+#menu::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain);pointer-events:none}
+#menu[hidden]{display:none}
+#menu.open{clip-path:circle(150vmax at var(--mx,95%) var(--my,5%));visibility:visible}
+#menu nav{position:relative;z-index:1;display:grid;gap:0;padding-inline:clamp(16px,4vw,48px)}
+#menu nav a{color:#fff;text-decoration:none;font:900 clamp(3.4rem,14vw,11rem)/1 var(--head);letter-spacing:-.045em;justify-self:start}
+#menu nav a .r{line-height:1.02}
+#menu .mline > span{transition-duration:.9s}
+#menu nav.phys{position:absolute;inset:0;display:block;padding:0}
+#menu nav.phys a{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform;cursor:grab;user-select:none;padding:.02em .04em .08em;line-height:.9;overflow:visible;touch-action:pan-y}
+#menu nav.phys .mline > span{transform:none;transition:none}
+#menu nav:not(.phys) .mline{overflow:hidden;padding-bottom:.04em}
+#menu nav:not(.phys) .mline > span{display:block;transform:translateY(108%);transition:transform .9s var(--quint)}
+#menu nav:not(.phys).on .mline > span{transform:none}
+#menu .mline:hover .r > span:first-child,#menu .mline:focus-visible .r > span:first-child{transform:translateY(-100%)}
+#menu .mline:hover .r > span + span,#menu .mline:focus-visible .r > span + span{transform:none}
+#menuClose{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(14px,env(safe-area-inset-right,0px));z-index:2;width:52px;height:52px;border-radius:50%;border:2px solid #fff;background:transparent;color:#fff;font:800 1.4rem var(--head);cursor:pointer}
+/* light / dark lives in the open menu, in a section called Settings, as a toggle (10 Nov: "In the full-screen menu"; 12 Nov: "put light/dark in a section called
+   setting and it will be a toggle in the menu"). It replaces the one that was in the demo tray (E130, E520). */
+#mset{position:absolute;left:clamp(16px,4vw,48px);bottom:calc(clamp(20px,5vh,56px) + env(safe-area-inset-bottom,0px));z-index:3;display:grid;gap:10px;justify-items:start}
+.mslab{margin:0;font:600 .72rem var(--head);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+#skinSw{color:#fff;border-color:rgba(255,255,255,.55);padding-right:12px}
+#skinSw .si{width:18px;height:18px;display:block;flex:none}
+#skinSw svg{width:18px;height:18px;display:block}
+#skinSw .sw{width:36px;height:20px;border-radius:999px;border:2px solid rgba(255,255,255,.55);display:block;position:relative;flex:none;margin-left:4px}
+#skinSw .sw i{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .35s var(--quint)}
+#skinSw[aria-checked="true"] .sw{background:rgba(255,255,255,.22)}
+#skinSw[aria-checked="true"] .sw i{transform:translateX(16px)}
+
+/* intro */
+.track{position:relative;height:calc(100vh + 120vh * var(--sp))}
+/* 12 Nov, her words: "for the blue out of the heart - i want the page to be moving before the blue appears (slight delay on that)", and she chose "The intro drifts
+   up first". So as she starts to scroll, the whole intro — the name, the heart, the s and the pile of words — rides up the screen a little before any blue shows.
+   It is done by lifting where the panel sticks, so the words' floor and the physics move with it. The distance is a placeholder. */
+.sticky{position:sticky;top:calc(0px - var(--drift,0px));height:100vh;height:100svh;overflow:hidden}
+.kl{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);margin:0;display:flex;align-items:baseline;gap:0;font:900 var(--ksz,12vw)/1 var(--head);letter-spacing:-.045em;color:var(--kelly);z-index:3;white-space:nowrap}
+.hgap{display:inline-block;align-self:center;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);margin-left:.08em;margin-block:calc((var(--ksz,12vw) - var(--hh) * 1px) / 2)}
+.kl .s{font-size:calc(var(--ssz,.7) * 1em);letter-spacing:0;margin-left:calc(var(--sg,0) * 1px);opacity:0;transition:opacity .5s}
+.kl.landed .s{opacity:1}
+/* Kelly turns white exactly where the blue is (E390, E394): a white copy of the name sits on top and is clipped to the blue; the real name is clipped to everything that is not blue (see kellyWhite) */
+.klw{color:#fff;pointer-events:none;visibility:hidden}
+.heart{position:absolute;left:0;top:0;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);z-index:5;will-change:transform;pointer-events:none}
+.heart svg{width:100%;height:100%;display:block;overflow:visible}
+.heart.shake svg{animation:shake .55s ease-out}
+.heart.live{pointer-events:auto;cursor:pointer}
+.heart.live:hover svg,.heart.live.pulse svg{animation:hpulse .9s ease-in-out infinite;filter:drop-shadow(0 0 6px var(--hglow)) drop-shadow(0 0 22px var(--hglow))}
+@keyframes hpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes shake{20%{transform:rotate(-8deg) scale(1.08)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(1deg)}100%{transform:none}}
+/* her words, 10 Nov: "if there are words left on Kelly then every 30s let 'Kelly heart s' shake a bit". The name keeps its centring in every step. */
+.kl.knock{animation:klknock .7s ease-out}
+@keyframes klknock{0%,100%{transform:translate(-50%,-50%)}14%{transform:translate(-50%,-50%) rotate(-1.1deg) translateX(-7px)}32%{transform:translate(-50%,-50%) rotate(.9deg) translateX(6px)}52%{transform:translate(-50%,-50%) rotate(-.6deg) translateX(-4px)}74%{transform:translate(-50%,-50%) rotate(.3deg) translateX(2px)}}
+.heart.knock svg{animation:shake .7s ease-out}
+.word{position:absolute;left:0;top:0;font:900 var(--word)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;user-select:none;z-index:4;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
+.word.on{opacity:1}
+.word .wi{display:block;text-shadow:var(--dts)}
+.word.hot .wi{animation:wshake var(--skd,.45s) ease-in-out infinite;text-shadow:var(--dts),0 0 .12em var(--glow),0 0 .45em var(--glow),0 0 .9em var(--glow)}
+/* the shake is driven by how long the word has been held (E451: "the more you hold the more it shakes"); --sk and --skd are set while it is held, and the amounts are placeholders */
+@keyframes wshake{0%,100%{transform:none}25%{transform:rotate(calc(var(--sk,1) * -3deg)) translateX(calc(var(--sk,1) * -.02em))}75%{transform:rotate(calc(var(--sk,1) * 3deg)) translateX(calc(var(--sk,1) * .02em))}}
+.hint{position:absolute;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:3;color:var(--muted);transition:opacity .4s;display:grid;justify-items:center;gap:4px;font:600 .8rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+.hint .bob{animation:bob 1.6s ease-in-out infinite;display:block}
+.hint svg{width:22px;height:22px;display:block}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* About: the blue is a fixed layer whose shape is liquid poured out of the heart (E210), then the liquid edge with the black (E269, E270).
+   The ground / page colour layer (#tk) is UNDER the blue now (it was over it for the wipe). In "cv" mode the blue is drawn by one WebGL shader. */
+#tl{position:fixed;inset:0;z-index:1;pointer-events:none;background:var(--cobalt);opacity:0}
+#tl::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain)}
+#tl canvas{position:absolute;inset:0;width:100%;height:100%;display:none}
+#tl.cv{background:transparent}
+#tl.cv canvas{display:block}
+#tl.cv::after{display:none}
+/* E448, E503: the colour change exists ONLY from the top edge of the Graphic Work bar (bar 05) downward. Above that line (--gwy) this layer stays the Work ground,
+   so the strips beside and between bars 01 to 04, the top of Work, About and the intro are not changed by it. The grain stays over the whole layer. */
+/* E509, her words: "it should be a gradient.  put more than one stop in it. it should be the off black until Graphic Work then it should transition to the changing color."
+   So the ground (off-black on the dark skin, off-white on the light skin) holds all the way down to the Graphic Work edge (--gwy), and from there runs through four stops
+   into the changing Contact colour (--pagebg) over --gwr pixels. No hard line anywhere. Both lengths are set in paintAll; --gwr is a placeholder. */
+#tk{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;background:linear-gradient(to bottom,
+ var(--ground) 0,
+ var(--ground) var(--gwy,0px),
+ color-mix(in oklch, var(--pagebg,var(--ground)) 16%, var(--ground)) calc(var(--gwy,0px) + var(--gwr,240px) * .22),
+ color-mix(in oklch, var(--pagebg,var(--ground)) 48%, var(--ground)) calc(var(--gwy,0px) + var(--gwr,240px) * .48),
+ color-mix(in oklch, var(--pagebg,var(--ground)) 80%, var(--ground)) calc(var(--gwy,0px) + var(--gwr,240px) * .76),
+ var(--pagebg,var(--ground)) calc(var(--gwy,0px) + var(--gwr,240px)),
+ var(--pagebg,var(--ground)) 100%)}
+#tk::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain)}
+main,section{position:relative;z-index:1}
+.about{min-height:calc(110vh * var(--sp));display:grid;align-content:center;justify-items:start;padding-block:calc(clamp(60px,14vh,160px) * var(--sp))}
+.ap{font:500 clamp(2.4rem,6.6vw,5.25rem)/1.12 var(--blurb);margin:0;max-width:22ch;letter-spacing:-.01em;transition:color .4s}
+.ap + .ap{margin-top:.6em}
+.lit{color:#fff}
+.kw{display:inline-block;transform-origin:50% 80%;will-change:transform;transition:color .3s}
+.alink{display:inline-grid;place-items:center;width:clamp(64px,9vw,92px);aspect-ratio:1;border:2px solid currentColor;border-radius:50%;color:inherit;margin-top:clamp(22px,4vw,44px);text-decoration:none;transition:color .4s,opacity .6s}
+.ico{position:relative;display:block;width:44%;height:44%;overflow:hidden}
+.ico > span{position:absolute;inset:0;transition:transform .45s var(--quint)}
+.ico > span + span{transform:translate(-110%,110%)}
+.ico svg{width:100%;height:100%;display:block}
+.alink:hover .ico > span:first-child,.alink:focus-visible .ico > span:first-child{transform:translate(110%,-110%)}
+.alink:hover .ico > span + span,.alink:focus-visible .ico > span + span{transform:none}
+.anote{font:500 .9rem var(--body);min-height:1.5em;margin-top:8px;transition:color .4s}
+/* 12 Nov, her Demo P picks: the arrow in a circle "needs to be the same color as the text". It was taking the ground colour over the blue, because .alink's own
+   colour:inherit came after .lit in this sheet; now it takes exactly what the words beside it take. */
+.alink.lit,.anote.lit{color:#fff}
+
+/* Work (E214–E217, E226, E227) */
+.work{position:relative;isolation:isolate;overflow-x:clip;min-height:calc(100vh * var(--sp));display:flex;flex-direction:column;justify-content:flex-end;padding-block:calc(clamp(40px,8vh,100px) * var(--sp)) 0}
+.wbox{position:relative;flex:none;width:100%}
+.wbar{position:absolute;left:0;top:0;z-index:2;will-change:transform}
+.wbar:not(.on){visibility:hidden}
+.wbar.gone .face h3{visibility:hidden}
+.frow{display:block;position:relative;text-decoration:none;color:inherit;perspective:1400px}
+.card{display:block;position:relative;transform-style:preserve-3d;transition:transform .7s var(--quint)}
+/* 12 Nov, her words: "there can be more padding on the work bars, they seem kinda thin". The bars are taller; the stack and the physics follow the new height by themselves. Placeholders. */
+.face{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;align-items:center;gap:16px;padding:clamp(16px,3.2vh,42px) max(16px,env(safe-area-inset-right,0px)) clamp(16px,3.2vh,42px) max(16px,env(safe-area-inset-left,0px));backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--ground);border:2px solid var(--rule)}
+/* 12 Nov, her words: "the work bars - the dark bars need to have the same border as the white ones do (except of course they are light, even on the flip)".
+   The flipped face used to take an off-black border whatever colour it was, so a dark bar had a border you could not see. Now the border is always the opposite
+   ink to the face it sits on, at the same 2px: an off-white border on a dark bar, an off-black border on a white one, on both skins and on both faces (E416, E417). */
+.face.back{position:absolute;inset:0;transform:rotateX(180deg);background:var(--bar);color:var(--barText);border-color:var(--barEdge)}
+.frow:hover .card,.frow:focus-visible .card,.frow.flipped .card{transform:rotateX(180deg)}
+body[data-hov="HV1"] .card{transform:none!important}
+.face .i{font:600 .9rem var(--head)}
+/* the chameleon on the Work bar names (8 Nov, C1: "colour slides across the letters"; 12 Nov she put it here, on the page titles and on the next-project name).
+   Off hover the letters keep the face's own ink, through a flat gradient of currentColor; on hover the two burst colours slide across them. Speed and width are placeholders. */
+/* the box the colour is clipped to has to be taller than the line box, or it cuts the tails off the g and the y (12 Nov: "the lowercase g in GigBag are cut off").
+   The padding is taken straight back off as margin, so nothing moves. */
+.face h3{margin:-.04em -.02em -.16em;font:900 clamp(2rem,min(8vw,8.8vh),6.5rem)/.95 var(--head);letter-spacing:-.04em;min-width:0;overflow-wrap:anywhere;padding:.04em .02em .16em;
+ -webkit-text-fill-color:transparent;background-image:linear-gradient(currentColor,currentColor);-webkit-background-clip:text;background-clip:text;background-size:100% 100%}
+@keyframes chame{from{background-position:140% 0}to{background-position:-140% 0}}
+.frow:hover .face h3,.frow:focus-visible .face h3{background-image:linear-gradient(100deg,var(--cobalt) 0%,var(--signal) 26%,var(--cobalt) 52%,var(--signal) 78%,var(--cobalt) 100%);
+ background-size:280% 100%;animation:chame 13s linear infinite}   /* 12 Nov: "slow the chameleon effect waaaay dpown", then "slow the chameleon down a tad more" — 13s a pass, a placeholder */
+.face .k{font:500 .9rem var(--body);text-align:right;text-transform:uppercase}
+@media (max-width:640px){.face{grid-template-columns:2rem minmax(0,1fr)}.face .k{grid-column:2;text-align:left}}
+
+/* Contact: CT6 colour switch kept (E173, E220). The origami cat sits here (E277, E278); clicking it unfolds the paper into the email form (E279–E283). */
+.ct{position:relative;min-height:min(calc(100vh * var(--sp)),900px);overflow:hidden;display:grid;align-content:center;padding-block:calc(clamp(60px,12vh,140px) * var(--sp)) calc(clamp(60px,12vh,140px) * var(--sp) + 64px);background:transparent;color:var(--ink)}
+/* the cursor colour switch is held below the Graphic Work edge too (E406, E409, E448), and fades in over the same band as the gradient (E509) instead of being cut off at a line */
+#tk .inkclip{position:absolute;inset:0;--fade:linear-gradient(to bottom,transparent 0,transparent var(--gwy,0px),rgba(0,0,0,.5) calc(var(--gwy,0px) + var(--gwr,240px) * .4),#000 calc(var(--gwy,0px) + var(--gwr,240px)),#000 100%);-webkit-mask-image:var(--fade);mask-image:var(--fade)}
+#tk .ink{position:absolute;inset:0;background:var(--next);clip-path:circle(var(--r,0px) at var(--x,50%) var(--y,50%))}
+#tk .ink.grow{transition:clip-path .9s var(--quint)}
+.ct .wrap{position:relative;z-index:2;display:grid;justify-items:center;width:100%}
+/* 12 Nov: the origami cat is gone ("i do not want the origami"). A paper letter drops from the last Work bar and unfolds into this sheet (DK3, DT2). Demo P's markup. */
+.stagef{position:relative;width:min(100%,640px);filter:drop-shadow(0 14px 16px rgba(0,0,0,.28))}
+/* 12 Nov, her words: "please put the same border on the contact form as the wokr bars". The sheet is white, so it takes the border a white bar takes:
+   2px of the off-black, the same width and the same ink rule as the Work bars (E416, E417). */
+.sheet{background:#fff;color:#111;width:100%;padding:clamp(22px,4vw,40px);position:relative;will-change:transform,clip-path;border:2px solid var(--Dg)}
+.sheet.pre{visibility:hidden}
+.cform{display:grid;gap:4px}
+.cform label{font:600 .78rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:10px;min-height:1.2em}
+.cform input,.cform textarea{width:100%;border:0;border-bottom:2px solid transparent;font:400 1.05rem var(--body);padding:8px 0;background:linear-gradient(#000,#000) left bottom/0% 2px no-repeat;color:#111;border-radius:0;transition:background-size .7s var(--quint)}
+.cform textarea{resize:none}
+.cform .btn{justify-self:start;margin-top:16px;background:#111;color:#fff;border-color:#111}
+.formnote{font:400 .85rem var(--body);color:#555;margin:6px 0 0}
+.clinks{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:14px;font:700 1rem var(--head)}
+.clinks a{color:inherit;text-decoration:none;border-bottom:2px solid currentColor}
+.sheet .cform .btn,.sheet .clinks,.sheet .formnote{opacity:0;transform:translateY(10px);transition:opacity .5s,transform .6s var(--quint)}
+.stagef.show .cform input,.stagef.show .cform textarea{background-size:100% 2px}
+.stagef.show .cform .btn,.stagef.show .clinks,.stagef.show .formnote{opacity:1;transform:none;transition-delay:1.6s}
+/* the paper letter itself: it lives above the sections and falls down the page (Demo P, E245, E246) */
+#dropL{position:absolute;left:0;top:0;width:100%;height:0;overflow:visible;z-index:55;pointer-events:none}
+#dpObj{position:absolute;left:0;top:0;display:none;background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.3);overflow:hidden;will-change:transform}
+#dpObj.k-paper::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom right,transparent 49.5%,#d9d6cd 50%) 0 0/100% 56% no-repeat,linear-gradient(to bottom left,transparent 49.5%,#e9e6df 50%) 0 0/100% 56% no-repeat;transform:scaleY(var(--fl,1));transform-origin:50% 0;z-index:1}
+#dpObj.k-paper::after{content:"";position:absolute;left:0;right:0;top:56%;bottom:0;background:linear-gradient(#f4f2ec,#fff);border-top:1px solid #cfcbc0;opacity:var(--po,1)}
+
+/* colour depth: body[data-depth] is DP1 layered paper-wash tones, DP2 raised (soft highlight and shadow), DP3 shaded gradient with grain. DP3 is Kelly's pick (session 4, 10 Nov).
+   It reaches three places: the blue block (the shader in "cv" mode, the rules on #tl otherwise), the falling words and the Contact colour (#tk .dp, which fades in with the colour change).
+   It is NOT on the Work bars: Kelly said she does not want any of it there, and the bars are back to Demo Q's plain bars (session 4).
+   Every strength below is a placeholder, not a decision. */
+#tk .dp{position:absolute;inset:0;pointer-events:none;opacity:var(--q,0);--fade:linear-gradient(to bottom,transparent 0,transparent var(--gwy,0px),rgba(0,0,0,.5) calc(var(--gwy,0px) + var(--gwr,240px) * .4),#000 calc(var(--gwy,0px) + var(--gwr,240px)),#000 100%);-webkit-mask-image:var(--fade);mask-image:var(--fade)}
+body[data-depth="DP1"] #tk .dp{background:radial-gradient(70% 55% at 18% 28%,rgba(255,255,255,.16),transparent 72%),radial-gradient(75% 60% at 84% 18%,rgba(0,0,0,.11),transparent 72%),linear-gradient(118deg,transparent 36%,rgba(255,255,255,.08) 36.4%,rgba(255,255,255,.08) 62%,transparent 62.4%),linear-gradient(118deg,transparent 64%,rgba(0,0,0,.09) 64.4%,transparent 100%)}
+body[data-depth="DP2"] #tk .dp{background:radial-gradient(95% 70% at 14% 8%,rgba(255,255,255,.30),transparent 62%),radial-gradient(95% 80% at 92% 100%,rgba(0,0,0,.30),transparent 66%)}
+body[data-depth="DP3"] #tk .dp{background:linear-gradient(165deg,rgba(255,255,255,.24),rgba(255,255,255,0) 46%,rgba(0,0,0,.32))}
+body[data-depth="DP3"] #tk .dp::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:calc(var(--grain) * 1.4)}
+body[data-depth="DP3"] #tl::after{opacity:calc(var(--grain) * 2.4)}
+body[data-depth="DP1"] #tl:not(.cv){background-image:radial-gradient(70% 55% at 20% 30%,rgba(255,255,255,.13),transparent 72%),radial-gradient(70% 60% at 85% 20%,rgba(0,0,0,.10),transparent 72%),linear-gradient(118deg,transparent 40%,rgba(255,255,255,.07) 40.4%,rgba(255,255,255,.07) 62%,transparent 62.4%)}
+body[data-depth="DP2"] #tl:not(.cv){background-image:radial-gradient(95% 70% at 14% 8%,rgba(255,255,255,.22),transparent 62%),linear-gradient(160deg,transparent 40%,rgba(0,0,0,.2))}
+body[data-depth="DP3"] #tl:not(.cv){background-image:linear-gradient(165deg,rgba(255,255,255,.2),rgba(255,255,255,0) 46%,rgba(0,0,0,.3))}
+body[data-depth="DP2"]{--dts:-.012em -.014em 0 rgba(255,255,255,.5),.022em .036em .05em rgba(0,0,0,.4),.05em .09em .12em rgba(0,0,0,.22)}
+body[data-depth="DP1"]{--dts:.028em .03em 0 color-mix(in srgb,currentColor 52%,transparent),.058em .062em 0 color-mix(in srgb,currentColor 26%,transparent)}
+body[data-depth="DP3"] .word .wi{padding:.06em .02em .1em;margin:-.06em -.02em -.1em;-webkit-text-fill-color:transparent;background-image:var(--noise),linear-gradient(165deg,rgba(255,255,255,.46),rgba(255,255,255,0) 42%,rgba(0,0,0,.36)),linear-gradient(var(--wc,#000),var(--wc,#000));background-blend-mode:soft-light,normal,normal;-webkit-background-clip:text;background-clip:text}
+/* Kelly, 10 Nov: "the glow makes it hard to read". The wide halo is gone; what is left is a tight edge glow that does not sit over the letters. Placeholder amounts. */
+body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06em var(--glow)) drop-shadow(0 0 .2em var(--glow))}
+
+/* tray + options */
+.tray{position:fixed;left:0;right:0;bottom:0;z-index:200;padding:10px max(10px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:rgba(0,0,0,.92);color:#fff;font:600 .8rem var(--head)}
+.tray fieldset{border:0;margin:0;padding:0;display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.tray legend{float:left;margin-right:6px;opacity:.8;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem}
+.tray button{font:600 .8rem var(--head);background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:6px 11px;cursor:pointer}
+.tray button[aria-pressed="true"]{background:#fff;color:#000;border-color:#fff}
+.tray .sp{margin-left:auto}
+.tray.min{right:auto;background:transparent;padding:0;left:max(10px,env(safe-area-inset-left,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+.tray.min > :not(#trayToggle):not(.rp){display:none}
+#trayToggle,.tray.min .rp{background:rgba(0,0,0,.9)!important;border-color:#fff!important}
+#panel{position:fixed;left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));bottom:calc(var(--trayH,56px) + 8px);z-index:199;max-height:min(70vh,560px,calc(100vh - var(--trayH,56px) - 24px));max-height:min(70dvh,560px,calc(100dvh - var(--trayH,56px) - 24px));overflow:auto;overscroll-behavior:contain;background:rgba(0,0,0,.94);color:#fff;border-radius:10px;padding:14px 14px 22px;display:grid;gap:10px;font:600 .8rem var(--head)}
+#panel[hidden]{display:none}
+#panel button{font:600 .8rem var(--head);background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:6px 11px;cursor:pointer}
+#panel button[aria-pressed="true"]{background:#fff;color:#000;border-color:#fff}
+#panel h2{font:800 1rem var(--head);margin:0}
+#panel p{margin:0;opacity:.8;font-weight:400}
+#panel details{border-top:1px solid rgba(255,255,255,.22);padding-top:8px}
+#panel summary{cursor:pointer;font:800 .9rem var(--head);letter-spacing:.04em;padding:4px 0}
+#panel details > div{display:grid;gap:12px;padding-top:8px}
+#panel .hgrow{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 0}
+#panel .hgp{display:grid;gap:4px;justify-items:center;padding:10px 16px;border-radius:12px;border-width:1.5px}
+#panel .hgp svg{width:44px;height:40px;overflow:visible;filter:drop-shadow(0 0 5px var(--c)) drop-shadow(0 0 16px var(--c));animation:hpulse .9s ease-in-out infinite}
+#panel .hgp[aria-pressed="true"] svg{filter:drop-shadow(0 0 5px var(--c)) drop-shadow(0 0 16px var(--c)) drop-shadow(0 0 1px #000)}
+#copyOut{position:fixed;left:10px;right:10px;bottom:110px;z-index:210;min-height:140px;font:400 .85rem var(--body);padding:8px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01s!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="kgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2448d8"/><stop offset="1" stop-color="#ff6a2b"/></linearGradient></defs></svg>
+<div id="loader" class="g" aria-hidden="true"></div>
+<div id="tl" aria-hidden="true"></div>
+<div id="tk" aria-hidden="true"><div class="inkclip"><div class="ink" id="ink"></div></div><div class="dp"></div></div>
+<div id="dropL" aria-hidden="true"><div id="dpObj"></div></div>
+<button type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"></button>
+<div id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden><button type="button" id="menuClose" aria-label="Close menu">✕</button><nav id="mstage" aria-label="Main"><a href="#work" class="mline"><span><span class="r"><span>Work</span><span aria-hidden="true">Work</span></span></span></a><a href="about/" class="mline"><span><span class="r"><span>About</span><span aria-hidden="true">About</span></span></span></a><a href="contact/" class="mline"><span><span class="r"><span>Contact</span><span aria-hidden="true">Contact</span></span></span></a></nav><div id="mset"><p class="mslab">Settings</p><button type="button" class="btn" id="skinSw" role="switch" aria-checked="false"><span class="si" aria-hidden="true"></span><span class="r"><span class="sl1"></span><span class="sl2" aria-hidden="true"></span></span><span class="sw" aria-hidden="true"><i></i></span></button></div></div>
+
+<main>
+<section class="track" id="introTrack" aria-label="Kelly loves">
+  <div class="sticky" id="stage">
+    <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">loves</span></h1>
+    <div class="kl klw" id="klw" aria-hidden="true"><span>Kelly</span><span class="hgap"></span><span class="s">s</span></div>
+    <div class="heart" id="heart" aria-hidden="true"></div>
+    <div class="hint" id="hint" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="about" id="about" aria-label="About">
+  <div class="wrap">
+    <p class="ap" id="ap1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+    <p class="ap" id="ap2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+    <a class="alink" id="alink" href="about/" aria-label="About"></a>
+    <p class="anote" id="anote" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="work" id="work" aria-label="Work"><div class="wbox" id="wbox"></div></section>
+
+<section class="ct" id="contact" aria-label="Contact">
+  <div class="wrap">
+    <div class="stagef" id="formStage"></div>
+  </div>
+</section>
+</main>
+
+<!-- E520: the demo tray, the options panel, the replay buttons and "Copy my picks" are gone from the live site. Every choice comes through the chat forms now. -->
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],root=document.documentElement,body=document.body;
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,fine=matchMedia("(pointer:fine)").matches;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t;
+const easeIO=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const easeOutBack=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
+const C={cob:"#2448d8",sig:"#ff6a2b"};
+const mix=(a,b,t)=>`color-mix(in oklch, ${b} ${Math.round(clamp(t)*100)}%, ${a})`;
+/* the light skin's colours looked washed out (E413). On the light skin only, the Contact colour (the page colour and the colour that grows from the cursor) is made richer: the chroma is multiplied by RICH (a placeholder, not a decision)
+   and the multiplier eases back to 1 as the colour reaches full strength (q from .9 to 1), so a full-strength colour is the Contact colour itself. A browser without relative colours keeps the plain colour. */
+const RICH=1.2,richOK=!!(window.CSS&&CSS.supports&&CSS.supports("color","oklch(from red l c h)"));
+const rich=(c,q)=>richOK&&body.dataset.skin==="light"?`oklch(from ${c} l calc(c * ${(1+(RICH-1)*(1-clamp((q-.9)/.1))).toFixed(3)}) h)`:c;
+const HALF=Math.PI/2;
+
+/* options (each is Kelly's to choose; a group starts on its first listed state only so the page has something to show; every number in a "steps" group is a placeholder) */
+const OPT={
+ hsize:{label:"Heart size beside the name: 3 steps (E245; placeholders)",v:"HS3",o:{HS1:"Bigger (x1.3)",HS2:"Much bigger (x1.6)",HS3:"Huge (x2.0)"}},
+ ssize:{label:"Size of the small s, as a share of the name: 3 steps (E245; placeholders)",v:"SS1",o:{SS1:"Just under the name (.78)",SS2:"Closer (.85)",SS3:"Almost the name (.92)"}},   /* SS1: her Demo P picks, 12 Nov */
+ sgap:{label:"Gap between the heart and the small s (E224)",v:"SG1",o:{SG1:"Tight",SG2:"As in Demo M",SG3:"Wide"}},
+ hglow:{label:"Heart glow and pulse on hover, side by side (E222, E187)",v:"HG3",o:{HG1:"The heart's own colour",HG2:"Signal",HG3:"Same as the word glow"}},
+ po:{label:"The blue pouring out of the heart: 4 looks (E245, E247)",v:"PO2",o:{PO1:"Curved liquid edge",PO2:"WebGL fluid (goo shader; falls back to PO1 without WebGL)",PO3:"Pour and rising level",PO4:"Demo O's blob"}},
+ atext:{label:"About text: kinetic / size (E211)",v:"AK4",o:{AK1:"Words swell as they arrive",AK2:"Text grows near the cursor",AK3:"Size wave across the lines",AK4:"Words pop in at different sizes"}},
+ aicon:{label:"Icon link to the About page (E212)",v:"AI1",o:{AI1:"Arrow in a circle",AI2:"Person",AI3:"Page",AI4:"Plus"}},
+ ow:{label:"About → Work: the blue and the black as oil and water: 2 looks (E269, E270; sizes, speeds and where the edge sits are placeholders)",v:"OW1",o:{OW1:"Lava-lamp blobs",OW2:"Beads and droplets"}},
+ owsub:{label:"About → Work: how strong the lava-lamp blobs are: 3 steps, each subtler than before (your 15:48 note: more subtle; how much is not chosen; the numbers are placeholders)",v:"OS1",o:{OS1:"A little subtler (x.75)",OS2:"Subtler (x.5)",OS3:"Much subtler (x.3)"}},
+ owpush:{label:"About → Work: the Work bars push the blue back at the black edge, how strong: 3 steps (E391, E395, E396: a bar shoves the blue away and it flows back; how far is not chosen; the numbers are placeholders; starts on the middle step only so the page has something)",v:"PS2",o:{PS1:"Gentle",PS2:"Medium",PS3:"Strong"}},
+ wf:{label:"Intro: how the 14 words get to the floor (E294). Your pick is WF3, nudged off the name (E440, and E450: \"ITS FINE\"); the others are here to compare",v:"WF3",o:{WF0:"As now (words can rest on Kelly, the heart and the s)",WF1:"Rounded tops (words slide off Kelly, the heart and the s)",WF2:"Solid for the first bounce only (a word bounces off once, then falls through)",WF3:"Nudged off (a word resting on the name is pushed sideways until it slides off)"}},
+ hov:{label:"Work bar when the cursor is over it (E226, E227)",v:"HV3",o:{HV1:"Water bob only",HV2:"Card flip only",HV3:"Bob and flip together"}},
+ bgap:{label:"Gap between the Work bars: 3 steps (E245; placeholders)",v:"BG1",o:{BG1:"Small (8px)",BG2:"Medium (14px)",BG3:"Large (22px)"}},
+ btilt:{label:"Work bar tilt: 3 steps (E245, E242; placeholders)",v:"TL2",o:{TL1:"Slight (.6 degrees)",TL2:"More (1.2 degrees)",TL3:"Most (2 degrees)"}},
+ tpat:{label:"Work bar tilt: which way each bar leans (group kept, E264; which pattern is not chosen yet)",v:"TP3",o:{TP1:"Alternating",TP2:"All the same way",TP3:"Each its own"}},
+ depth:{label:"Depth in the colour: the blue block, the Work bars, the falling words and the Contact colour, 3 looks (E300, E303; you leaned to 2, Raised, E306; all strengths are placeholders)",v:"DP3",o:{DP1:"Layered paper-wash tones",DP2:"Raised: soft highlight and shadow",DP3:"Shaded gradient with grain"}},
+ gs:{label:"Where the colour change into Contact starts (E402, E404: the top edge of the Graphic Work bar; it never goes back, E405; the change still ends when Contact is in the middle of the screen)",v:"GS4",o:{GS4:"Top edge of Graphic Work at 30% of the screen height"}},
+ bs:{label:"Work bars: when each bar starts to fall (E399: you asked to see both; starts on how it is now only so the page has something)",v:"BS1",o:{BS1:"A bar waits until its place is on the screen, and bars settle in the order they were dropped (the current build)",BS2:"Every bar falls on its timer only, as before this session"}},
+ chint:{label:"Hint under the cat (not decided yet; first state shown only so the page has something)",v:"CH3",o:{CH1:"A small line of words",CH2:"A bobbing arrow",CH3:"No hint"}},
+ fb:{label:"Folding the paper back into the cat (E283: you asked to see both)",v:"FB1",o:{FB1:"Both: a button and a click on the paper",FB2:"The button only",FB3:"A click on the paper only"}},
+ cface:{label:"The cat's face (not asked for; shown here as a choice only)",v:"CF2",o:{CF1:"Plain paper, no face",CF2:"A simple face (eyes, nose, whiskers)"}},
+ cback:{label:"The back of the origami paper, what shows where a fold turns the paper over (E302: you asked to see options; this list is mine, none is chosen)",v:"CB1",o:{CB1:"Cobalt",CB2:"Signal",CB3:"Near-black (the dark ground)",CB4:"Cobalt to signal across the sheet (the heart's gradient)",CB5:"Deeper cream"}},
+ menu:{label:"Menu links (E198, E223)",v:"MN2",o:{MN1:"Plain links",MN2:"Links fall and stack"}},
+ mlift:{label:"Menu links: how high they rest: 3 steps (E245; placeholders)",v:"ML2",o:{ML1:"A little higher (12% of the screen)",ML2:"Higher (24%)",ML3:"Much higher (36%)"}},
+ spc:{label:"Space between all the sections: 3 steps (E245; placeholders)",v:"SP1",o:{SP1:"Tighter (x.75)",SP2:"Tight (x.5)",SP3:"Very tight (x.3)"}},   /* SP1: her Demo P picks, 12 Nov */
+ size:{label:"Name size (E170, picked S2)",v:"S2",o:{S1:"About 80% of the width",S2:"About half the width"}},
+ heart:{label:"Heart (E150, picked HT4)",v:"HT4",o:{HT1:"Classic, signal",HT2:"Classic, gradient",HT3:"Geometric, cobalt",HT4:"Outline, signal"}},
+ count:{label:"Words (E151, picked W14)",v:"W14",o:{W14:"14 words",W8:"8 words"}},
+ hint:{label:"Scroll hint (E165, picked SH2)",v:"SH2",o:{SH1:"The word Scroll",SH2:"A bobbing arrow",SH3:"A bobbing small heart",SH0:"No hint"}},
+ glow:{label:"Word glow on hover / pick-up (E169, picked G1)",v:"G1",o:{G1:"Its band colour",G2:"Signal",G3:"Cobalt"}}
+};
+/* only what Kelly has not decided stays in the panel (E293, E296): the ways for the intro words to reach the floor, when each Work bar starts to fall (she asked to see both, E399) and the back of the origami paper */
+const SECT=[["Intro: the words",["wf"]],["Work: the bars falling",["bs"]],["Contact: the origami cat",["cback"]]];
+/* decided: no longer in the panel, still applied. The first five were picked in earlier demos; the rest are Kelly's picks from the chat forms of 9–10 Nov (session 4):
+   HS3 SS2 SG1 HG3 PO2 AK4 AI1 OW1 HV3 BG1 TL2 TP3 DP3 CH3 FB1 CF2 MN2 ML2 SP2, then OS1 (E400: "record OS1 as my choice"), PS2 (E410: "whatever it is now i like") and the colour-change start GS4 (E404: the top edge of Graphic Work at 30%) */
+const EARLIER=["size","heart","count","hint","glow","hsize","ssize","sgap","hglow","po","atext","aicon","ow","owsub","owpush","hov","bgap","btilt","tpat","depth","gs","chint","fb","cface","menu","mlift","spc"];
+/* placeholder values behind the steps (none of these is a decision) */
+const LINE=.95;   /* the whole Kelly, heart and s line is about 5% smaller than in Demo Q (E308, E310) */
+const HSZ={HS1:1.3,HS2:1.6,HS3:2},SSZ={SS1:.78,SS2:.85,SS3:.92},SPC={SP1:.75,SP2:.5,SP3:.3},MLF={ML1:.12,ML2:.24,ML3:.36};
+
+/* skin (E130) */
+const st={skin:"auto"};const mq=matchMedia("(prefers-color-scheme: dark)");
+const skin=()=>st.skin!=="auto"?st.skin:root.dataset.theme==="dark"?"dark":root.dataset.theme==="light"?"light":(mq.matches?"dark":"light");
+const inkEnd=()=>skin()==="dark"?"#f1f0ec":"#000000";
+/* the light / dark switch lives in the open menu (10 Nov: "In the full-screen menu"). The page still follows the device until someone uses it (E130). */
+const SUN=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>`;
+const MOON=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.9 6.9 0 0 0 10.2 10.2z"/></svg>`;
+const skinSw=$("#skinSw");
+function syncSkinSw(){if(!skinSw)return;const dark=skin()==="dark",next=dark?"Light":"Dark";
+ skinSw.querySelector(".si").innerHTML=dark?SUN:MOON;
+ skinSw.querySelector(".sl1").textContent=next+" mode";skinSw.querySelector(".sl2").textContent=next+" mode";
+ skinSw.setAttribute("aria-checked",String(dark));
+ skinSw.setAttribute("aria-label","Dark mode")}
+if(skinSw)skinSw.addEventListener("click",()=>{st.skin=skin()==="dark"?"light":"dark";applySkin()});
+function applySkin(){body.dataset.skin=skin();ctPaint();buildHgPrev();syncSkinSw()}
+mq.addEventListener("change",applySkin);new MutationObserver(applySkin).observe(root,{attributes:true,attributeFilter:["data-theme"]});
+$$(".tray [data-skin]").forEach(b=>b.addEventListener("click",()=>{st.skin=b.dataset.skin;applySkin()}));
+
+/* hearts */
+const CLASSIC="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z";
+const GEO="M12 21.5 2.7 12.2a5.6 5.6 0 0 1 7.9-7.9L12 5.7l1.4-1.4a5.6 5.6 0 0 1 7.9 7.9Z";
+const HEARTS={HT1:`<svg viewBox="0 0 24 24"><path d="${CLASSIC}" fill="#ff6a2b"/></svg>`,HT2:`<svg viewBox="0 0 24 24"><path d="${CLASSIC}" fill="url(#kgrad)"/></svg>`,HT3:`<svg viewBox="0 0 24 24"><path d="${GEO}" fill="#2448d8"/></svg>`,HT4:`<svg viewBox="0 0 24 24"><path d="${CLASSIC}" fill="none" stroke="#ff6a2b" stroke-width="2.6" stroke-linejoin="round"/></svg>`};
+const HEART_OWN={HT1:C.sig,HT2:C.cob,HT3:C.cob,HT4:C.sig};
+const ARROW=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg>`;
+
+/* E520: the options panel and the demo tray are not on the live site. The settings above are the page's settings; nothing here builds a control for them. */
+function syncOpts(){}
+
+/* ── sizing: "Kelly ♥s" centred, heart slightly bigger than the name (E162, E170, E184–E186) ── */
+const stage=$("#stage"),kl=$("#kl"),klw=$("#klw"),heart=$("#heart"),hgap=$("#hgap"),track=$("#introTrack");
+/* the white copy of the name follows the real one: same size, same "landed" state */
+new MutationObserver(()=>klw.classList.toggle("landed",kl.classList.contains("landed"))).observe(kl,{attributes:true,attributeFilter:["class"]});
+const SG={SG1:.03,SG2:.0936,SG3:.2};
+function measure(t,css){const p=document.createElement("span");p.style.cssText="position:absolute;visibility:hidden;white-space:nowrap;"+css;p.textContent=t;body.append(p);const w=p.getBoundingClientRect().width;p.remove();return w}
+function fitName(){const W=stage.clientWidth;const target=OPT.size.v==="S1"?.8:.5;const sg=SG[OPT.sgap.v],hk=HSZ[OPT.hsize.v],ss=SSZ[OPT.ssize.v];
+ root.style.setProperty("--ssz",ss);
+ const nw=measure("Kelly","font:900 100px/1 Figtree,system-ui,sans-serif;letter-spacing:-.045em"),sw=measure("s",`font:900 ${100*ss}px/1 Figtree,system-ui,sans-serif`);
+ const hh=1.12*.74*100*hk,hw=hh*1.1,gaps=8+sg*100;const fs=100*LINE*target*W/(nw+gaps+hw+sw);
+ [kl,klw].forEach(e=>{e.style.setProperty("--ksz",fs+"px");e.style.setProperty("--sg",(sg*fs).toFixed(2))});const s=fs/100;stage.style.setProperty("--hh",(hh*s).toFixed(1));stage.style.setProperty("--hw",(hw*s).toFixed(1))}
+
+/* ── heart flies in by itself once the screen is open (E179) ── */
+let landed=false,heartT=0,heartRaf=0;
+function heartAt(t){const sr=stage.getBoundingClientRect(),gr=hgap.getBoundingClientRect();const ex=gr.left-sr.left,ey=gr.top-sr.top;const sx=sr.width*.95,sy=-sr.height*.25,cx=sr.width*.9,cy=sr.height*.95;const u=1-t;
+ const x=u*u*sx+2*u*t*cx+t*t*ex,y=u*u*sy+2*u*t*cy+t*t*ey;heart.style.transform=`translate(${x}px,${y}px) rotate(${(1-t)*-420}deg) scale(${.35+.65*t})`;heart.style.opacity=t>0?1:0}
+function flyHeart(){cancelAnimationFrame(heartRaf);landed=false;kl.classList.remove("landed");heart.classList.remove("live","shake");if(reduce){heartT=1;heartAt(1);land();return}
+ let t0=null;const dur=1300;const step=now=>{if(!t0)t0=now;const k=clamp((now-t0)/dur);heartT=1-Math.pow(1-k,3);heartAt(heartT);if(k<1)heartRaf=requestAnimationFrame(step);else land()};heartRaf=requestAnimationFrame(step)}
+function land(){landed=true;heart.classList.remove("shake");void heart.offsetWidth;heart.classList.add("shake","live");kl.classList.add("landed");setHeartGlow();setTimeout(startPile,reduce?0:280)}
+function glowFor(v){let c=HEART_OWN[OPT.heart.v];if(v==="HG2")c=C.sig;if(v==="HG3")c=OPT.glow.v==="G2"?C.sig:OPT.glow.v==="G3"?C.cob:bandColour(.44);return c}
+function setHeartGlow(){heart.style.setProperty("--hglow",glowFor(OPT.hglow.v));buildHgPrev()}
+function buildHgPrev(){const host=$("#hgPrev");if(!host)return;host.innerHTML="";["HG1","HG2","HG3"].forEach(id=>{const b=document.createElement("button");b.type="button";b.className="hgp";b.dataset.k="hglow";b.dataset.v=id;b.style.setProperty("--c",glowFor(id));b.setAttribute("aria-pressed",String(OPT.hglow.v===id));b.innerHTML=`${HEARTS[OPT.heart.v]}<span>${id}</span>`;b.addEventListener("click",()=>setOpt("hglow",id));host.append(b)})}
+heart.addEventListener("click",()=>{heart.classList.toggle("pulse")});
+
+/* ── physics: the screen is the box, its bottom is the floor (E179) ── */
+const WORDS=["Code","CSS","Delivery","Lorem","Ipsum","Dolor","Sit","Amet","Consectetur","Adipiscing","Elit","Tempor","Magna","Aliqua"];
+/* hold a word to shoot it (E450 to E454, E457, E458): while it is held it follows the cursor and shakes harder the longer you hold it; when you let go it flies the way the
+   cursor was moving, or straight up if the cursor was not moving, and the longer the hold the harder it goes, hardest at 3 seconds. The hold replaces the double-click (E453).
+   HOLD_MAX is her 3 seconds (E454) and SHOT_MAX is the double-click's own speed from Demo R (she did not object to it). Every other number here is a placeholder. */
+const HOLD_MAX=3000,SHOT_MIN=10,SHOT_MAX=32,SHAKE_MAX=3.6,CV_STILL=.08;
+const GSTEP=.22;   /* how far along the cobalt-to-signal scale the hover glow sits from the word's own colour (a placeholder) */
+const PDLY=.18;    /* how much of the pinned intro passes before the blue starts coming out of the heart (12 Nov; a placeholder) */
+const DRIFT=.1;    /* how far the intro rides up the screen through that stretch, as a share of the screen's height (12 Nov; a placeholder) */
+let cvx=0,cvy=0,clx=0,cly=0,clt=0;
+addEventListener("pointermove",e=>{const now=performance.now();if(clt){const dt=Math.max(10,now-clt),a=.45;cvx=cvx*(1-a)+((e.clientX-clx)/dt)*a;cvy=cvy*(1-a)+((e.clientY-cly)/dt)*a}clx=e.clientX;cly=e.clientY;clt=now},{passive:true});
+const holdK=t0=>clamp((performance.now()-t0)/HOLD_MAX);
+let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,flyUp=false,drift=0,knockT=0,W0=0,H0=0,nameBodies=[];
+/* the falling words run through the colour scale they rest on: cobalt at the top to signal orange at the bottom (W4, E128). There is no white and no black in it at all,
+   and it ends in the signal orange (her words, 10 Nov session 5: "there should BE NO WHITE IN THE GRADIENT OF THE WORDS", "IT ENDS IN THE GODDAMN SIGNAL ORANGE"). */
+function bandColour(yn){return yn<=0?C.cob:yn>=1?C.sig:mix(C.cob,C.sig,yn)}
+function stopPile(){cancelAnimationFrame(raf);timers.forEach(clearTimeout);timers=[];clearInterval(drift);clearInterval(knockT);[kl,klw,heart].forEach(e=>e&&e.classList.remove("knock"));items.forEach(t=>t.el.remove());items=[];if(mc){dropMouse(mc);mc=null}if(eng)Matter.Engine.clear(eng);eng=null;ceiling=null}
+function rectBody(el,opt){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();return Matter.Bodies.rectangle(r.left-s.left+r.width/2,r.top-s.top+r.height/2,Math.max(4,r.width),Math.max(4,r.height),Object.assign({isStatic:true},opt||{}))}
+function setCeiling(on){if(!eng)return;if(on&&!ceiling){ceiling=Matter.Bodies.rectangle(W0/2,-200,W0*3,400,{isStatic:true});Matter.Composite.add(eng.world,ceiling)}if(!on&&ceiling){Matter.Composite.remove(eng.world,ceiling);ceiling=null}}
+function mkMouse(el,e,stiff){const {Mouse,MouseConstraint,Composite}=Matter;const mouse=Mouse.create(el);["mousewheel","DOMMouseScroll","wheel"].forEach(ev=>mouse.element.removeEventListener(ev,mouse.mousewheel));
+ ["touchstart","touchmove","touchend"].forEach(ev=>{mouse.element.removeEventListener(ev,mouse.mousedown);mouse.element.removeEventListener(ev,mouse.mousemove);mouse.element.removeEventListener(ev,mouse.mouseup)});
+ const m=MouseConstraint.create(e,{mouse,constraint:{stiffness:stiff||.2,render:{visible:false}}});Composite.add(e.world,m);return m}
+function dropMouse(c){const m=c.mouse,el=m&&m.element;if(!el)return;["mousemove","mousedown","mouseup"].forEach(ev=>el.removeEventListener(ev,m[ev]))}
+function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Composite,Mouse,MouseConstraint,Events,Body}=Matter;
+ const W=W0=stage.clientWidth,H=H0=stage.clientHeight;eng=Engine.create();eng.gravity.y=flyUp?-1.4:1.1;eng.positionIterations=10;eng.velocityIterations=8;
+ const wall=400;Composite.add(eng.world,[Bodies.rectangle(W/2,H+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
+ /* the name, the heart and the s are the surfaces the words bounce off (E162). OPT.wf (E388 item 4) offers ways for the words to reach the floor: WF1 gives them rounded tops. */
+ const wfm=OPT.wf.v,NAMEC=2;
+ const nameBody=(el,opt)=>{const cf={collisionFilter:{category:NAMEC,mask:0xFFFFFFFF,group:0}};
+  if(wfm==="WF1"){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();const e=Bodies.circle(r.left-s.left+r.width/2,r.top-s.top+r.height/2,50,cf,40);Body.scale(e,Math.max(4,r.width)/100,Math.max(4,r.height)/100);Body.setStatic(e,true);return e}
+  return rectBody(el,Object.assign(cf,opt||{}))};
+ nameBodies=[nameBody($("#kname"),{chamfer:{radius:12}}),nameBody(hgap,{chamfer:{radius:20}}),nameBody($("#ks"))];Composite.add(eng.world,nameBodies);
+ WORDS.slice(0,OPT.count.v==="W8"?8:14).forEach((w,i)=>{const el=document.createElement("span");el.className="word";el.innerHTML=`<span class="wi">${w}</span>`;stage.append(el);const t={el,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null};items.push(t);
+  el.addEventListener("pointerenter",()=>el.classList.add("hot"));el.addEventListener("pointerleave",()=>{if(!t.drag)el.classList.remove("hot")})});
+  /* the double-click that used to shoot the word (E180) is gone: the hold replaces it (E453) */
+ mc=mkMouse(stage,eng,.2);
+ const by=new Map();
+ Events.on(mc,"startdrag",e=>{const t=by.get(e.body);if(t){t.drag=true;t.h0=performance.now();t.el.classList.add("hot")}});
+ /* let go: the word flies the way the cursor was moving (E452), or straight up if the cursor was still (E458), harder the longer it was held (E450, E454) */
+ Events.on(mc,"enddrag",e=>{const t=by.get(e.body);if(!t)return;t.drag=false;
+  const h=t.h0?holdK(t.h0):0;t.h0=0;t.el.style.removeProperty("--sk");t.el.style.removeProperty("--skd");
+  const sp=SHOT_MIN+(SHOT_MAX-SHOT_MIN)*Math.pow(h,.85),m=Math.hypot(cvx,cvy);
+  const dx=m>CV_STILL?cvx/m:0,dy=m>CV_STILL?cvy/m:-1,b=t.body;
+  requestAnimationFrame(()=>{if(!b||!eng)return;Body.setVelocity(b,{x:dx*sp,y:dy*sp});Body.setAngularVelocity(b,(Math.random()-.5)*.6)});
+  t.el.classList.add("hot");setTimeout(()=>{if(!t.drag)t.el.classList.remove("hot")},500)});
+ /* WF2: the first time a word hits the name, the heart or the s it bounces off; after that it no longer collides with them and falls through to the floor */
+ if(wfm==="WF2")Events.on(eng,"collisionStart",e=>e.pairs.forEach(pr=>{const w=by.get(pr.bodyA)||by.get(pr.bodyB),n=by.get(pr.bodyA)?pr.bodyB:pr.bodyA;if(w&&n&&n.collisionFilter.category===NAMEC&&!w.pass){w.pass=true;w.body.collisionFilter.mask=0xFFFFFFFF^NAMEC}}));
+ /* WF3 used to shove a word sideways while it sat on the name until it slid off. Kelly, 10 Nov: "dont move them if they are sitting there.  thatsb stupid.  that was an
+    unfortunate leftover from a session that didnt listen". It is gone. A word that lands on the name stays where it lands; the 30-second shake below is what moves it. */
+ const nudgeOff=()=>{};
+ /* the words fall exactly as they did in Demo S. The "wider floor, flatter pile" attempt (E508) was reverted on 10 Nov: Kelly saw it and said "i dont like any of that". */
+ const drop=t=>{const x=t.bw/2+Math.random()*Math.max(1,W-t.bw);const y0=-t.bh*1.3-Math.random()*H*.35;
+  t.body=Bodies.rectangle(x,y0,t.bw,t.bh,{chamfer:{radius:Math.min(8,t.bh*.12)},restitution:.25+Math.random()*.15,friction:.5,frictionAir:.006+Math.random()*.04,angle:(Math.random()-.5)*.7});
+  Body.setVelocity(t.body,{x:(Math.random()-.5)*2,y:Math.random()*4});by.set(t.body,t);Composite.add(eng.world,t.body);t.el.classList.add("on")};
+ const spreadOut=()=>{};
+ const draw=()=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
+  /* G1 is "its band colour" (E169). It used to fall back to cobalt in the top and bottom 8% of the screen, from when the scale ended in black there;
+     the scale is cobalt to signal now (E507 era), so the glow is simply the colour the word is sitting at. Kelly, 10 Nov: "why is the hover blue for the words at the bottom left thjat is not correct". */
+  /* her words, 10 Nov: "make the glow either one color above or below it on the gradient" — so the halo is a step along the scale from the word's own colour,
+     towards the far end, never the same colour as the letters. GSTEP is a placeholder. */
+  const yn=p.y/H,c=bandColour(yn),gy=yn<.5?Math.min(1,yn+GSTEP):Math.max(0,yn-GSTEP);
+  t.el.style.color=c;t.el.style.setProperty("--wc",c);t.el.style.setProperty("--glow",OPT.glow.v==="G2"?C.sig:OPT.glow.v==="G3"?C.cob:bandColour(gy))});
+ /* while a word is held, the shake grows with the hold (E451); the amounts are placeholders */
+ const holdShake=()=>items.forEach(t=>{if(!t.drag||!t.h0)return;const h=holdK(t.h0);t.el.style.setProperty("--sk",(1+(SHAKE_MAX-1)*h).toFixed(2));t.el.style.setProperty("--skd",(.45-.3*h).toFixed(3)+"s")});
+ if(reduce){items.forEach(drop);setCeiling(true);for(let k=0;k<900;k++){nudgeOff();spreadOut();Engine.update(eng,1000/60)}draw();return}
+ items.forEach((t,i)=>timers.push(setTimeout(()=>drop(t),i*170+Math.random()*140)));
+ timers.push(setTimeout(()=>{if(!flyUp)setCeiling(true)},items.length*170+1600));
+ drift=setInterval(()=>{if(!eng||flyUp)return;items.forEach(t=>{if(t.body&&t.body.speed<.4&&!t.drag&&Math.random()<.35){Body.applyForce(t.body,{x:t.body.position.x+(Math.random()-.5)*t.bw*.4,y:t.body.position.y},{x:(Math.random()-.5)*.0016*t.body.mass,y:-.0022*t.body.mass})}})},1400);
+ /* her words, 10 Nov: "if there are words left on Kelly then every 30s let 'Kelly heart s' shake a bit" and "the shaking should affect the words, rmebver the physics".
+    So the line shakes AND the words sitting on it are thrown by it: three kicks that follow the three swings of the shake, left, right, left. Every amount is a placeholder. */
+ const sitsOnName=t=>{const b=t.body;if(!b||t.drag)return false;
+  return nameBodies.some(nb=>b.bounds.max.y>=nb.bounds.min.y-3&&b.bounds.max.y<=nb.bounds.min.y+Math.max(18,t.bh*.6)&&b.bounds.max.x>nb.bounds.min.x&&b.bounds.min.x<nb.bounds.max.x)};
+ knockT=setInterval(()=>{if(!eng||flyUp)return;const hit=items.filter(sitsOnName);if(!hit.length)return;
+  [kl,klw,heart].forEach(e=>{e.classList.remove("knock");void e.offsetWidth;e.classList.add("knock")});
+  const kick=(dir,k)=>hit.forEach(t=>{const b=t.body;if(!b||t.drag)return;
+   Body.setVelocity(b,{x:b.velocity.x+dir*(3.4+Math.random()*2.6)*k,y:b.velocity.y-(1.8+Math.random()*2.2)*k});
+   Body.setAngularVelocity(b,b.angularVelocity+(Math.random()-.5)*.14*k)});
+  kick(-1,1);timers.push(setTimeout(()=>kick(1,.75),150));timers.push(setTimeout(()=>kick(-1,.45),330));
+  setTimeout(()=>[kl,klw,heart].forEach(e=>e.classList.remove("knock")),800)},30000);
+ let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;nudgeOff();spreadOut();holdShake();Engine.update(eng,dt);draw();raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
+
+/* words fly up as About arrives (E162); coming back, the visitor breaks through them (E179, E181) */
+function setFly(up){if(up===flyUp)return;flyUp=up;if(!eng)return;const B=Matter.Body;
+ if(up){setCeiling(false);eng.gravity.y=-1.4;items.forEach(t=>{if(t.body)B.setVelocity(t.body,{x:t.body.velocity.x,y:-6-Math.random()*6})})}
+ else breakThrough(true)}
+function breakThrough(reenter){if(!eng)return;const B=Matter.Body;eng.gravity.y=1.1;
+ items.forEach(t=>{if(!t.body)return;if(reenter&&t.body.position.y<t.bh){B.setPosition(t.body,{x:t.bw/2+Math.random()*Math.max(1,W0-t.bw),y:H0*(.12+Math.random()*.35)})}
+  const a=Math.random()*Math.PI*2,v=14+Math.random()*16;B.setVelocity(t.body,{x:Math.cos(a)*v,y:Math.sin(a)*v-6});B.setAngularVelocity(t.body,(Math.random()-.5)*.5)});
+ setCeiling(true)}
+
+/* ── scrolling ── */
+let lastY=scrollY;
+function introTick(){const r=track.getBoundingClientRect();const p=clamp(-r.top/(r.height-innerHeight));const dy=scrollY-lastY;lastY=scrollY;
+ if(landed)heartAt(1);
+ $("#hint").style.opacity=p>.03||!landed?0:1;
+ setFly(p>.55);
+ /* scrolling up through a pile that is still in the box knocks the words about */
+ if(eng&&!flyUp&&dy<-3&&p<.55&&r.bottom>0){const k=Math.min(1,-dy/60);items.forEach(t=>{if(t.body&&Math.random()<.6)Matter.Body.setVelocity(t.body,{x:t.body.velocity.x+(Math.random()-.5)*14*k,y:t.body.velocity.y-(6+Math.random()*12)*k})})}}
+
+/* shared elements */
+const about=$("#about"),tl=$("#tl"),tk=$("#tk"),ink=$("#ink"),mb=$("#menuBtn"),work=$("#work"),wbox=$("#wbox"),ct=$("#contact"),dpObj=$("#dpObj");
+const ap1=$("#ap1"),ap2=$("#ap2"),alink=$("#alink"),anote=$("#anote");
+
+/* jump to the part of the page a choice affects, then show it (demo tooling, not a design choice) */
+function jumpTo(el,then){const r=el.getBoundingClientRect(),vh=innerHeight;const inView=r.top<vh*.6&&r.bottom>vh*.3;
+ if(inView){then&&then();return}
+ scrollTo({top:Math.max(0,scrollY+r.top-vh*.08),behavior:reduce?"auto":"smooth"});setTimeout(()=>then&&then(),reduce?60:950)}
+
+/* ── the blue and the ground are two fixed layers (#tl, #tk) so no section ever has an edge of its own (E255) ──
+   #tk (under) is the ground colour (and, from Graphic Work (bar 05) at 30% of the screen on, the page colour changing towards the Contact colour, E256, E404); #tl (over) is the blue.
+   The blue is a shape: the pour down out of the heart (E402, E407), then the liquid edge that meets the black Work section (E269, E270). paintAll() draws it every frame. */
+
+/* liquid edge as in Demo O (PO4, and the wipe from the bar) */
+const DR=[[-1.0,.8,.2],[-.45,1.0,.17],[.08,1.25,.25],[.55,.85,.18],[1.0,1.05,.21]];
+function liquidR(th,p,R,tm){
+ if(p>=1)return R*1.2;
+ const e=Math.pow(p,1.35),amp=.2*Math.pow(1-p,.8);
+ const n=(Math.sin(3*th+5.1*p+tm*.9+.6)+.6*Math.sin(5*th-3.7*p-tm*1.3+2.1)+.35*Math.sin(9*th+7.3*p+tm*1.9))/1.95;
+ const dn=Math.max(0,Math.sin(th));
+ let r=R*e*(1+amp*n)*(1+.4*Math.pow(1-p,.5)*dn*dn);
+ for(let i=0;i<DR.length;i++){const o=DR[i][0],s=DR[i][1],w=DR[i][2];let d=th-(HALF+o);d=Math.atan2(Math.sin(d),Math.cos(d));r+=R*.4*clamp((p*s-.04)/.5)*Math.pow(1-p,.7)*Math.exp(-(d*d)/(w*w))}
+ return Math.max(0,r)}
+/* PO1: a smooth curved edge with a soft droop, no drips */
+function curveR(th,p,R,tm){if(p>=1)return R*1.2;const e=Math.pow(p,1.15),f=Math.pow(1-p,.6);
+ const n=.55*Math.sin(2*th+1.1+tm*.7)+.45*Math.sin(3*th-tm*.5+2);
+ return Math.max(0,R*e*(1+.05*f*n)*(1+.16*f*Math.max(0,Math.sin(th))))}
+const RAD={PO1:curveR,PO4:liquidR};
+function radPts(fn,cx,cy,p,R,tm){const N=320,pts=new Array(N);for(let k=0;k<N;k++){const th=k/N*Math.PI*2,r=fn(th,p,R,tm);pts[k]=[cx+Math.cos(th)*r,cy+Math.sin(th)*r]}return pts}
+const polyStr=pts=>`polygon(${pts.map(q=>q[0].toFixed(1)+"px "+q[1].toFixed(1)+"px").join(",")})`;
+
+/* PO3: a stream pours from the heart and the pool it makes rises with a wavy surface (one path: stream + head + pool) */
+function po3(p,cx,cy,tm,W,H){
+ const hr=heart.getBoundingClientRect(),hw=Math.max(24,hr.width),sw=hw*.5,headR=hw*.5;
+ const k1=clamp(p/.3),tip=cy+(H+60-cy)*(1-Math.pow(1-k1,2));
+ const lvl=clamp((p-.2)/.8),sb=(H+30)-Math.pow(lvl,1.05)*(H*1.35+30),A=8+14*(1-lvl);
+ const surf=x=>sb+A*Math.sin(x*.011+tm*1.7)+A*.5*Math.sin(x*.026-tm*1.2+1.7)-(1-lvl)*26*Math.exp(-Math.pow((x-cx)/(sw*1.8),2));
+ const wob=y=>3*Math.sin(y*.03+tm*5),tipY=Math.min(tip,surf(cx)+8);
+ let d="";
+ if(sb<H+40){d+=`M-30 ${H+60}L-30 ${surf(-30).toFixed(1)}`;for(let x=-18;x<=W+30;x+=12)d+=`L${x} ${surf(x).toFixed(1)}`;d+=`L${W+30} ${H+60}Z`}
+ if(tipY>cy+2){d+=`M${(cx-sw/2+wob(cy)).toFixed(1)} ${cy.toFixed(1)}L${(cx+sw/2+wob(cy)).toFixed(1)} ${cy.toFixed(1)}`;
+  for(let y=cy+14;y<tipY;y+=14){const tp=1-.18*clamp((y-cy)/Math.max(1,H));d+=`L${(cx+sw/2*tp+wob(y)).toFixed(1)} ${y.toFixed(1)}`}
+  d+=`L${(cx+sw*.3+wob(tipY)).toFixed(1)} ${(tipY+sw*.28).toFixed(1)}L${(cx-sw*.3+wob(tipY)).toFixed(1)} ${(tipY+sw*.28).toFixed(1)}`;
+  for(let y=tipY;y>cy+14;y-=14){const tp=1-.18*clamp((y-cy)/Math.max(1,H));d+=`L${(cx-sw/2*tp+wob(y)).toFixed(1)} ${y.toFixed(1)}`}d+="Z"}
+ d+=`M${(cx+headR).toFixed(1)} ${cy.toFixed(1)}`;for(let k=1;k<=64;k++){const a=k/64*Math.PI*2;d+=`L${(cx+Math.cos(a)*headR).toFixed(1)} ${(cy+Math.sin(a)*headR).toFixed(1)}`}d+="Z";
+ return {clip:`path("${d}")`,inside:(x,y)=>{if(Math.hypot(x-cx,y-cy)<headR)return true;if(y>=cy&&y<=tipY&&Math.abs(x-cx-wob(y))<sw/2)return true;return y>surf(x)}}}
+
+/* ── WebGL: one shader draws the blue. It joins metaballs with a smooth minimum (PO2, the pour, as before) and now also the liquid edge with the black (E269, E270):
+   the blue is everything above a wavy line; blue blobs sink into the black below the line and black blobs rise into the blue above it.
+   Everything is joined by a smooth minimum / maximum, so necks form and pinch off. The same maths runs in JS (owD) so the page knows where the blue is
+   (the white words, the menu icon). ── */
+const smin=(a,b,k)=>{const h=Math.max(k-Math.abs(a-b),0)/k;return Math.min(a,b)-h*h*k*.25};
+const smax=(a,b,k)=>-smin(-a,-b,k);
+function sdfBalls(B,K,x,y){let d=1e5;for(let i=0;i<B.length;i++){const b=B[i];if(b[2]<=0)continue;const cy=b[3]>0?Math.min(Math.max(y,b[1]),b[3]):b[1];d=smin(d,Math.hypot(x-b[0],y-cy)-b[2],K)}return d}
+/* ── the pour (E390, E402, E403, E407, E408): Kelly's picture. The screen below the heart is the ground colour until the visitor starts to scroll. The blue then fills the heart, runs out of its point
+   as a stream, runs DOWN the screen with a front that spreads as it falls, and keeps pouring until the whole screen above the black Work edge is blue; the black Work edge then arrives from below (the liquid edge).
+   It is driven by the visitor's scrolling through the pinned intro (p: 0 at the first scroll, 1 when the intro lets go), so the heart is on the screen the whole time. The blue has covered the whole screen at p = 1.
+   Every number below (how fast the front runs, how thick the stream is, how wide the front spreads, when the rest of the screen is filled) is a placeholder, not a decision. ── */
+const heartH=()=>parseFloat(stage.style.getPropertyValue("--hh"))||100;   /* the height of the heart on the screen (px) */
+/* 12 Nov: the pour is Demo P's, which is the one she likes ("i like demo P a lot"). Demo P's blend constant comes with it. */
+function po2K(){return Math.hypot(innerWidth,innerHeight)*.05}
+/* the pour is Demo R's own flow again (her words, 10 Nov session 5: "i want the same flow motion from before"; the waterfall photograph was about the heart, not about this).
+   The blue leaves the heart, runs down the screen with a front that spreads, and keeps pouring until it meets the black Work edge (the lava lamp is that border).
+   The only thing taken out of Demo R's version is the ball that scaled from the middle of the screen (E423, E438). Every number is a placeholder. */
+/* Demo P's pour, brought back on 12 Nov at her word ("i like demo P a lot", and her Demo P picks: PO2). It bursts out of the heart as she scrolls:
+   one growing mass, nine lumpy blobs riding round it at changing distances and sizes and weighted downward (1.15 below the heart against .9 above), and two drips
+   below. The shader welds all twelve, so the edge is liquid rather than a circle. It still ends at the lava-lamp border with the black ("it should still be the
+   lava lamp effect when it meet work section"). Every number is Demo P's, and every one of them is a placeholder. */
+function po2Balls(p,cx,cy,tm,W,H){const R=Math.hypot(W,H)*1.1,e=Math.pow(p,1.3),r0=R*e*1.15,B=[[cx,cy,r0]],s=Math.sin(Math.PI*clamp(p));
+ for(let i=0;i<9;i++){const a=i/9*Math.PI*2+.7*Math.sin(tm*.5+i*1.3),
+  dist=r0*(.75+.45*(.5+.5*Math.sin(tm*.8+i*2.1)))+R*.16*s*(i%3===0?1.4:.8),
+  rad=R*.1*(.35+.65*(.5+.5*Math.sin(tm*.7+i*1.9)))*(.15+s);
+  B.push([cx+Math.cos(a)*dist,cy+Math.sin(a)*dist*(a>0&&a<Math.PI?1.15:.9),rad])}
+ for(let i=0;i<2;i++)B.push([cx+(i?1:-1)*R*.05*s,cy+r0+R*.12*s*(1+i*.5),R*.07*s]);
+ return B}
+/* the water in the heart (her words, 10 Nov, session 5): "the blue should be OVER the bottom of the heart and as it flows out spreads in the heart until the
+   'water line' is level with the valley of the letter Y and/or top of the lower S curve". So a blue level, clipped to the heart's own shape, drawn on top of the
+   heart, rising to a level line as the pour starts. Where that line sits is read off the small s beside the name (the top of its lower curve); it is a placeholder. */
+function heartPathD(){return OPT.heart.v==="HT3"?GEO:CLASSIC}
+function heartWaterEl(){const svg=heart.querySelector("svg");if(!svg)return null;let r=svg.querySelector("#hwrect");
+ /* the water is the heart's own shape, filled AND stroked in the blue, drawn on top of the heart and cut off at the water line, so below that line the heart's
+    bottom is covered by the blue, outline and all (her words: "the blue should be OVER the bottom of the heart") */
+ if(!r){svg.insertAdjacentHTML("beforeend",'<defs><clipPath id="hwater" clipPathUnits="userSpaceOnUse"><rect id="hwrect" x="-6" y="24" width="36" height="0"/></clipPath></defs>'
+  +'<path id="hfill" d="'+heartPathD()+'" fill="#2448d8" stroke="#2448d8" stroke-width="2.6" stroke-linejoin="round" clip-path="url(#hwater)"/>');
+  r=svg.querySelector("#hwrect")}
+ const hp=svg.querySelector("#hfill");if(hp&&hp.getAttribute("d")!==heartPathD())hp.setAttribute("d",heartPathD());
+ return r}
+/* how wide the heart's own shape is at a height on the screen (px): measured on the heart's path, so the water leaving it is never wider than the heart
+   (her words, 10 Nov session 5: "WHY IS IT EXPANDING PAST THE FUCKING HEART", "it SHOULD FLOW AT THE SAME EDGES IN THE HEART") */
+let hwCache={k:"",v:0};
+function heartHalfWidthAt(yPx){const svg=heart.querySelector("svg"),p=svg&&svg.querySelector("#hfill");if(!p||!p.isPointInFill)return 0;
+ const hr=heart.getBoundingClientRect();if(hr.height<2)return 0;
+ const v=(yPx-hr.top)/hr.height*24,k=v.toFixed(2)+"|"+hr.width.toFixed(1)+"|"+OPT.heart.v;
+ if(k===hwCache.k)return hwCache.v;
+ const pt=svg.createSVGPoint();pt.y=v;let half=0;
+ for(let x=12;x>=0;x-=.25){pt.x=x;if(p.isPointInFill(pt)){half=12-x}else if(half)break}
+ const px=half/24*hr.width;hwCache={k,v:px};return px}
+function waterLine(){const s=$("#ks").getBoundingClientRect();return s.height>2?s.top+s.height*.55:0}   /* the top of the small s's lower curve: a placeholder */
+function heartWater(p){const r=heartWaterEl();if(!r)return;const hr=heart.getBoundingClientRect(),lvl=waterLine();
+ if(!(p>0)||hr.height<2||!lvl){r.setAttribute("height","0");return}
+ const full=clamp((lvl-hr.top)/hr.height),k=clamp(p/.06),v=24*(1-(1-full)*k);
+ r.setAttribute("y",v.toFixed(2));r.setAttribute("height",Math.max(0,24-v).toFixed(2))}
+/* the sheet of falling water: it hangs from the heart's point (ys), reaches down to the front (yf) and is wider the further it has fallen.
+   Nothing of it is a ball, so nothing ever bulges upward: the top of the blue is the heart, and the water only goes down (E501, "gravity").
+   The same maths is in the shader (dFall) so the picture and the page agree. Every number here is a placeholder. */
+function fallSDF(F,x,y){const u=clamp((y-F.ys)/Math.max(1,F.yf-F.ys));
+ const wob=1+.055*Math.sin(y*.012+F.t*1.7)+.035*Math.sin(y*.031-F.t*2.3+1.7);   /* the edges are liquid, not straight lines */
+ const hw=(F.rs+(F.rw-F.rs)*Math.pow(u,F.e))*wob;
+ const dx=Math.abs(x-F.cx)-hw,db=y-F.yf,dt=F.ys-y;
+ return Math.max(Math.hypot(Math.max(dx,0),Math.max(db,0))+Math.min(Math.max(dx,db),0),dt)}
+/* the exit (her photo and her words, 10 Nov session 5: "when it exits the heart it should look like its flowing out of the heart"): the sheet is as wide as the heart's
+   lower part and its top starts INSIDE the heart, so the heart hides where it begins and the water appears to pour over the heart's own bottom, as the water in her
+   photograph leaves the lip of the rock. It then falls, almost straight-sided at first, and spreads as it goes. Every number is a placeholder. */
+function po2Fall(p,cx,cy,tm,W,H){const hr=heart.getBoundingClientRect();
+ /* the water leaves the heart at the heart's own edges: it starts at the water line and is as wide as the heart is at that line, then expands DOWNWARD only
+    (her words, 10 Nov session 5: "it SHOULD FLOW AT THE SAME EDGES IN THE HEART", "THE BLUE EXPANDS DOWN (NOT FUCKING UP) UNTIL IT MEETS THE FUCKING WORK SECTION") */
+ const wl=waterLine(),ys=wl||(cy+heartH()*.1),rs=Math.max(6,heartHalfWidthAt(ys));   /* where it leaves the heart it is exactly as wide as the heart is there */
+ const pf=clamp((p-.03)/.72),yf=ys+(H*1.2-ys)*pf;   /* the front runs down the screen with the scrolling until the black Work edge meets it */
+ /* the sheet keeps spreading after the front has gone below the screen, and straightens as it fills, so by the end of the pour everything below the heart is blue
+    (the water fills the frame; it still never goes above the heart: E501, "The liquid does not go to the top"). The numbers are placeholders. */
+ const pw=clamp((p-.03)/.92);
+ /* it EXPANDS DOWN: the column keeps the width it leaves the heart with and grows longer down the screen until it meets the Work section.
+    It does not fan out sideways and it never grows upward (her words, 10 Nov session 5). */
+ /* it stays the heart's width where it leaves the heart and gets wider the further down it has run: the widening follows the front down the screen (pf),
+    so the screen is only full of blue when the front has reached the Work section. Placeholders. */
+ return {cx,ys,yf,rs,rw:rs+(W*.95-rs)*Math.pow(pf,1.6),e:1.45,t:tm,on:yf>ys+2}}
+function po2(p,cx,cy,tm,W,H){const B=po2Balls(p,cx,cy,tm,W,H),K=po2K();
+ const F={cx,ys:0,yf:0,rs:0,rw:0,e:1,t:tm,on:false};   /* the flow down the screen is scrapped (her words: "i want to scrap this") */
+ const sdf=(x,y)=>sdfBalls(B,K,x,y);
+ return {clip:"none",gl:{B,K,F},sdf,inside:(x,y)=>sdf(x,y)<0}}
+/* ── the Work bars push the blue back at the black edge (E391, E395, E396) ──
+   The edge is a row of EN columns across the screen. Each column holds how far the edge has been shoved up (px) and how fast it is moving. A bar that crosses the edge (or comes within a margin of it)
+   pushes the column up to the top of the bar; the push spreads to the neighbouring columns like a wave, and the edge then flows back down by itself (a damped spring, so it can slosh a little).
+   Only the edge zone is touched, and a bar that is wholly in the blue or wholly in the black pushes nothing. Every number is a placeholder (the strength steps are the "owpush" group). */
+const EN=128,EPAD=20;   /* columns; how far past each side of the screen they reach (px) */
+const EH={h:new Float32Array(EN),v:new Float32Array(EN),need:new Float32Array(EN),cf:new Float32Array(EN),lap:new Float32Array(EN),q:new Float32Array(EN),buf:new Uint8Array(EN),last:0,on:false,max:0,vw:1440};
+/* 12 Nov, her words: "the cursor ON the lava lamp edge will displace the fluid like the bars do", and she chose "It parts around the cursor".
+   So the cursor is a third force on the edge, beside the bars: the fluid lifts right where the cursor is and sags just either side of it, so it opens around the
+   cursor instead of only being pushed up. It only acts while the cursor is near the edge, and it fades with distance. Every number here is a placeholder. */
+const CUR={on:false,x:0,y:0};
+const CSIG=90,CPUSH=7200,CVR=120;   /* how wide the parting is, how hard it pushes, how far above and below the edge the cursor still reaches (px at 1440) */
+addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;CUR.on=true;CUR.x=e.clientX;CUR.y=e.clientY},{passive:true});
+addEventListener("pointerleave",()=>{CUR.on=false});
+const PSTEP={PS1:{m:14,c:140},PS2:{m:24,c:220},PS3:{m:36,c:320}};   /* margin the blue keeps from a bar, and the most the edge can be shoved (px at a 1440-wide screen) */
+const EWAVE=380,EK=58,EG=5.2,EB0=64,EVIS=1500;   /* wave speed (px/s), spring back, damping; EB0: the byte that means "no shove" in the texture; EVIS: how quickly a sharp kink in the edge smooths out (px*px/s) */
+const hAt=x=>{const u=(x+EPAD)/(EH.vw+2*EPAD)*(EN-1);if(u<=0)return EH.q[0];if(u>=EN-1)return EH.q[EN-1];const i=Math.floor(u),f=u-i;return EH.q[i]*(1-f)+EH.q[i+1]*f};
+/* the part of the vertical line at x that is inside a bar (a rotated box: centre cx,cy, angle a, half sizes hw,hh), as [top,bottom] or null */
+function barSpan(b,x){const cx=b[0],cy=b[1],c=Math.cos(b[2]),s=Math.sin(b[2]),dx=x-cx;let lo=-1e9,hi=1e9;
+ const lim=(A,B,H)=>{if(Math.abs(B)<1e-9){if(Math.abs(A)>H){lo=1;hi=0}return}let y1=(-H-A)/B,y2=(H-A)/B;if(y1>y2){const t=y1;y1=y2;y2=t}if(y1>lo)lo=y1;if(y2<hi)hi=y2};
+ lim(dx*c,s,b[3]);lim(-dx*s,c,b[4]);return lo<=hi?[cy+lo,cy+hi]:null}
+/* one step of the edge; returns what the shader needs, or null when nothing is shoved */
+function pushStep(g,vw,dtms){const f=g.f,ps=PSTEP[OPT.owpush.v],margin=ps.m*f,cap=ps.c*f,dx=(vw+2*EPAD)/(EN-1);EH.vw=vw;
+ const wb=wbox.getBoundingClientRect(),bl=[];
+ if(!reduce)bars.forEach(t=>{if(t.g&&t.el.classList.contains("on"))bl.push([wb.left+t.g.x,wb.top+t.g.y,t.g.a,t.g.hw+margin,t.g.hh+margin])});
+ /* the cursor parts the fluid where it sits on the edge: a lift right at the cursor and a sag just either side of it (12 Nov). It is a force, not a floor,
+    so the edge's own spring and wave carry it and it closes again by itself. */
+ const sig=CSIG*f,vr=CVR*f;let cOn=false,cpx=0,cpy=0;
+ if(CUR.on&&!reduce){cpx=CUR.x;cpy=CUR.y;const ye=owY(g,cpx);if(Math.abs(cpy-ye)<vr*1.8)cOn=true}
+ let any=false;
+ for(let i=0;i<EN;i++){const x=-EPAD+i*dx;let nd=0;
+  if(bl.length){const ye=owY(g,x);for(const b of bl){const iv=barSpan(b,x);if(iv&&iv[1]>ye&&iv[0]<ye&&ye-iv[0]>nd)nd=ye-iv[0]}}
+  EH.need[i]=Math.min(cap,nd);if(nd>0)any=true;
+  if(cOn){const u=(x-cpx)/sig,g2=Math.exp(-u*u),near=Math.exp(-Math.pow((cpy-owY(g,x))/vr,2));
+   EH.cf[i]=CPUSH*f*(1-2*u*u)*g2*near}   /* positive at the cursor, negative just either side: the fluid opens around it */
+  else EH.cf[i]=0}
+ if(!any&&!cOn&&EH.max<.05){if(EH.on){EH.h.fill(0);EH.v.fill(0);EH.q.fill(0);EH.on=false}EH.max=0;return null}
+ const dt=Math.min(Math.max(dtms,0),50)/1000,c2=Math.pow(EWAVE*f,2)/(dx*dx),vmax=1500*f,kv=EVIS*f*f/(dx*dx),hmax=Math.min(1/120,1.2/Math.sqrt(4*c2+EK),1/(EG+4*kv)),n=Math.min(60,Math.max(1,Math.ceil(dt/hmax))),h=dt/n,hm=cap*1.2,step=hm/(255-EB0),lo=-EB0*step,hi=(255-EB0)*step;   /* lo and hi: the most the texture can hold; the edge never goes past them, so the shader and the page agree. hmax: the longest time step that stays stable for this column spacing (a narrow screen has columns close together and needs shorter steps; a step longer than 1.2 over the fastest spring rate, or than 1 over the fastest damping rate, makes the edge shake itself apart) */
+ for(let s=0;s<n;s++){
+  for(let i=0;i<EN;i++){const vl=EH.v[i>0?i-1:0],vr=EH.v[i<EN-1?i+1:EN-1];EH.lap[i]=vl-2*EH.v[i]+vr}
+  for(let i=0;i<EN;i++){const l=EH.h[i>0?i-1:0],r=EH.h[i<EN-1?i+1:EN-1];EH.v[i]+=(c2*(l-2*EH.h[i]+r)-EK*EH.h[i]-EG*EH.v[i]+kv*EH.lap[i]+EH.cf[i])*h}
+  for(let i=0;i<EN;i++){let y=EH.h[i]+EH.v[i]*h;const nd=EH.need[i];if(y<nd){const need=Math.min(vmax,(nd-EH.h[i])/h);if(EH.v[i]<need)EH.v[i]=need;y=nd}if(y>hi){y=hi;if(EH.v[i]>0)EH.v[i]=0}else if(y<lo){y=lo;if(EH.v[i]<0)EH.v[i]=0}EH.h[i]=y}}
+ let mx=0;
+ for(let i=0;i<EN;i++){const a=Math.abs(EH.h[i]);if(a>mx)mx=a;const b=Math.max(0,Math.min(255,Math.round(EH.h[i]/step+EB0)));EH.buf[i]=b;EH.q[i]=(b-EB0)*step}
+ EH.max=mx;EH.on=true;return {k0:255*step,k1:-EB0*step,cap}}
+let gl=null,glc=null,glHT=null,glU={},po2state=0;
+const NBL=12;   /* the most blobs in any one set (the pour, the blue blobs, the black blobs) */
+const DEPTHN={DP1:1,DP2:2,DP3:3};   /* the depth look as the shader reads it */
+const GRAINK=.016;   /* grain in the shader; the colour below carries the average lift the CSS grain gives the plain blue (measured: +3.7, +7.2, +3.4 of 255, std about 1), so the two look the same */
+function po2init(){if(po2state)return po2state>0;po2state=-1;
+ try{glc=document.createElement("canvas");glc.setAttribute("aria-hidden","true");tl.insertBefore(glc,tl.firstChild);
+  gl=glc.getContext("webgl",{premultipliedAlpha:true,alpha:true,antialias:false});if(!gl)throw new Error("no webgl");
+  if(gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS)<64)throw new Error("too few fragment uniforms");
+  const pf=gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,gl.HIGH_FLOAT);if(!pf||pf.precision<1)throw new Error("no highp in fragment shaders");
+  const vs="attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}";
+  const dv=!!gl.getExtension("OES_standard_derivatives");
+  const fs=(dv?"#extension GL_OES_standard_derivatives : enable\n":"")+"precision highp float;uniform vec2 uRes;uniform float uDpr;uniform float uT;uniform vec3 uCol;uniform float uD;"+
+   "uniform vec4 uP[12];uniform float uKP;uniform float uPour;uniform vec4 uF0;uniform vec4 uF1;"+
+   "uniform float uEdge;uniform float uY0;uniform float uBand;uniform float uKE;uniform vec3 uW1;uniform vec3 uW2;uniform vec3 uW3;uniform vec3 uBb[12];uniform vec3 uBk[12];"+
+   "uniform sampler2D uHt;uniform float uHon;uniform vec2 uHk;"+
+   "float smn(float a,float b,float k){float h=max(k-abs(a-b),0.0)/k;return min(a,b)-h*h*k*0.25;}"+
+   "float smx(float a,float b,float k){return -smn(-a,-b,k);}"+"float dFall(vec2 p){float u=clamp((p.y-uF0.y)/max(1.0,uF0.z-uF0.y),0.0,1.0);float wob=1.0+0.055*sin(p.y*0.012+uF1.z*1.7)+0.035*sin(p.y*0.031-uF1.z*2.3+1.7);float hw=(uF0.w+(uF1.x-uF0.w)*pow(u,uF1.w))*wob;float dx=abs(p.x-uF0.x)-hw;float db=p.y-uF0.z;float dt=uF0.y-p.y;vec2 q=max(vec2(dx,db),0.0);return max(length(q)+min(max(dx,db),0.0),dt);}"+
+   "void main(){vec2 p=vec2(gl_FragCoord.x,uRes.y-gl_FragCoord.y)/uDpr;float d=-100000.0;"+
+   /* pe: the point as the edge sees it. Where a Work bar has shoved the edge up by h, the edge and its blobs are looked up h lower (E391, E395, E396); h comes from a one-row texture, one value per column across the screen */
+   "if(uEdge>0.5){vec2 pe=p;if(uHon>0.5){float su=((p.x+"+EPAD.toFixed(1)+")/(uRes.x/uDpr+"+(2*EPAD).toFixed(1)+")*"+(EN-1).toFixed(1)+"+0.5)/"+EN.toFixed(1)+";pe.y+=texture2D(uHt,vec2(su,0.5)).r*uHk.x+uHk.y;}"+
+    "float yi=uY0+uW1.x*sin(p.x*uW1.y+uW1.z)+uW2.x*sin(p.x*uW2.y+uW2.z)+uW3.x*sin(p.x*uW3.y+uW3.z);d=pe.y-yi;"+
+    "if(abs(pe.y-uY0)<uBand){float db=100000.0;float dk=100000.0;"+
+     "for(int i=0;i<12;i++){if(uBb[i].z>0.0){db=smn(db,length(pe-uBb[i].xy)-uBb[i].z,uKE);}if(uBk[i].z>0.0){dk=smn(dk,length(pe-uBk[i].xy)-uBk[i].z,uKE);}}"+
+     "d=smn(d,db,uKE);d=smx(d,-dk,uKE);}}"+
+   "if(uPour>0.5){float dp=100000.0;for(int i=0;i<12;i++){if(uP[i].z>0.0){vec2 c=uP[i].xy;if(uP[i].w>0.0){c.y=clamp(p.y,uP[i].y,uP[i].w);}dp=smn(dp,length(p-c)-uP[i].z,uKP);}}if(uF1.y>0.5){dp=smn(dp,dFall(p),uKP);}d=max(d,dp);}"+
+   "float a=1.0-smoothstep(-1.2,1.2,d);float rim=exp(d*0.035);vec2 q=p*uDpr/uRes;float sh=0.0;"+
+   "vec3 col=uCol+vec3(0.10,0.14,0.18)*rim*0.9*(0.5+0.5*sin(p.x*0.01+p.y*0.013+uT*1.3));"+
+   /* colour depth (E300, E303): 1 layered paper-wash tones, 2 raised (soft highlight and shadow), 3 shaded gradient with heavier grain. Every strength is a placeholder. */
+   "if(uD>0.5&&uD<1.5){float w1=0.5+0.5*sin(q.x*3.1+q.y*2.3+uT*0.12);float w2=0.5+0.5*sin(q.x*5.3-q.y*4.1-uT*0.09+1.7);float w3=0.5+0.5*sin(q.x*8.7+q.y*6.9+2.9+uT*0.07);"+
+    "col*=1.0+0.085*(smoothstep(0.42,0.58,w1)-0.5)+0.075*(0.5-smoothstep(0.45,0.55,w2));col+=vec3(0.02,0.03,0.05)*(smoothstep(0.5,0.62,w3)-0.4);}"+
+   "if(uD>1.5&&uD<2.5){col*=1.07-0.16*q.y-0.05*q.x;\n"+
+    "#ifdef GL_OES_standard_derivatives\n"+
+    "vec2 gn=vec2(dFdx(d),-dFdy(d));float gl2=length(gn);if(gl2>0.0001){vec2 n=gn/gl2;float f=dot(n,normalize(vec2(-0.6,-0.8)));float bv=1.0-smoothstep(0.0,24.0,-d);"+
+     "if(d<0.0){col+=bv*max(f,0.0)*vec3(0.14,0.16,0.20);col*=1.0-bv*max(-f,0.0)*0.28;}else{sh=exp(-d/14.0)*max(-f,0.0)*0.30*(1.0-smoothstep(0.0,50.0,d));}}\n"+
+    "#endif\n"+
+   "}"+
+   "if(uD>2.5){float g=dot(q-0.5,normalize(vec2(0.45,0.9)));col=mix(col*1.16+vec3(0.02,0.03,0.05),col*0.74,smoothstep(-0.45,0.45,g));}"+
+   "float gk=uD>2.5?0.040:"+GRAINK.toFixed(4)+";"+
+   "col+=(fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)-0.5)*gk;"+
+   "gl_FragColor=vec4(col*a,a+(1.0-a)*sh);}";
+  const mk=(t,src)=>{const sh=gl.createShader(t);gl.shaderSource(sh,src);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(sh));return sh};
+  const pr=gl.createProgram();gl.attachShader(pr,mk(gl.VERTEX_SHADER,vs));gl.attachShader(pr,mk(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(pr));gl.useProgram(pr);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);const loc=gl.getAttribLocation(pr,"a");gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  ["uRes","uDpr","uT","uCol","uD","uP","uKP","uPour","uF0","uF1","uEdge","uY0","uBand","uKE","uW1","uW2","uW3","uBb","uBk","uHt","uHon","uHk"].forEach(n=>glU[n]=gl.getUniformLocation(pr,n));
+  /* the shove of the edge: one row of bytes, one per column, filtered linearly so the edge stays smooth */
+  glHT=gl.createTexture();gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,glHT);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);gl.texImage2D(gl.TEXTURE_2D,0,gl.LUMINANCE,EN,1,0,gl.LUMINANCE,gl.UNSIGNED_BYTE,EH.buf);gl.uniform1i(glU.uHt,0);
+  po2state=1;return true}
+ catch(e){console.warn("WebGL unavailable (PO2 uses PO1 instead; the liquid edge has no blobs):",e.message);po2state=-1;if(glc){glc.remove();glc=null}gl=null;return false}}
+const gP=new Float32Array(NBL*4),gBb=new Float32Array(NBL*3),gBk=new Float32Array(NBL*3);
+function fillP(a,B){a.fill(0);for(let i=0;i<B.length&&i<NBL;i++){a[i*4]=B[i][0];a[i*4+1]=B[i][1];a[i*4+2]=Math.max(0,B[i][2]);a[i*4+3]=B[i][3]||0}}
+function fillArr(a,B){a.fill(0);for(let i=0;i<B.length&&i<NBL;i++){a[i*3]=B[i][0];a[i*3+1]=B[i][1];a[i*3+2]=Math.max(0,B[i][2])}}
+/* pour: {B,K} or null; edge: the geometry from owGeom() or null; all positions are in CSS pixels */
+function glDraw(pour,edge,tm){const dpr=Math.min(devicePixelRatio||1,1.5),Wd=Math.round(innerWidth*dpr),Hd=Math.round(innerHeight*dpr);if(glc.width!==Wd||glc.height!==Hd){glc.width=Wd;glc.height=Hd}
+ gl.viewport(0,0,Wd,Hd);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
+ gl.uniform2f(glU.uRes,Wd,Hd);gl.uniform1f(glU.uDpr,Wd/innerWidth);gl.uniform1f(glU.uT,tm);gl.uniform3f(glU.uCol,.156,.310,.860);gl.uniform1f(glU.uD,DEPTHN[OPT.depth.v]||2);
+ if(pour){fillP(gP,pour.B);gl.uniform4fv(glU.uP,gP);gl.uniform1f(glU.uKP,pour.K);gl.uniform1f(glU.uPour,1);
+  const F=pour.F;gl.uniform4f(glU.uF0,F.cx,F.ys,F.yf,F.rs);gl.uniform4f(glU.uF1,F.rw,F.on?1:0,F.t,F.e)}
+ else gl.uniform1f(glU.uPour,0);
+ if(edge){fillArr(gBb,edge.bb);fillArr(gBk,edge.bk);gl.uniform3fv(glU.uBb,gBb);gl.uniform3fv(glU.uBk,gBk);gl.uniform1f(glU.uEdge,1);gl.uniform1f(glU.uY0,edge.Y0);gl.uniform1f(glU.uBand,edge.band);gl.uniform1f(glU.uKE,edge.K);
+  gl.uniform3f(glU.uW1,edge.w[0],edge.k[0],edge.p[0]);gl.uniform3f(glU.uW2,edge.w[1],edge.k[1],edge.p[1]);gl.uniform3f(glU.uW3,edge.w[2],edge.k[2],edge.p[2]);
+  if(edge.hk){gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,glHT);gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);gl.texImage2D(gl.TEXTURE_2D,0,gl.LUMINANCE,EN,1,0,gl.LUMINANCE,gl.UNSIGNED_BYTE,EH.buf);gl.uniform1i(glU.uHt,0);gl.uniform2f(glU.uHk,edge.hk.k0,edge.hk.k1);gl.uniform1f(glU.uHon,1)}
+  else gl.uniform1f(glU.uHon,0)}
+ else{gl.uniform1f(glU.uEdge,0);gl.uniform1f(glU.uHon,0)}
+ gl.drawArrays(gl.TRIANGLES,0,3)}
+const effPo=()=>OPT.po.v==="PO2"&&!po2init()?"PO1":OPT.po.v;
+
+function pourShape(look,p,cx,cy,tm){const W=innerWidth,H=innerHeight;
+ if(look==="PO3")return po3(p,cx,cy,tm,W,H);
+ if(look==="PO2")return po2(p,cx,cy,tm,W,H);
+ const R=Math.hypot(W,H)*1.1,fn=RAD[look]||liquidR;
+ return {clip:polyStr(radPts(fn,cx,cy,p,R,tm)),inside:(x,y)=>Math.hypot(x-cx,y-cy)<fn(Math.atan2(y-cy,x-cx),p,R,tm)}}
+
+
+/* ── the liquid edge between the blue and the black (E269, E270). It sits just inside the top of the Work section and never stops moving.
+   Two looks to compare. Every number is a placeholder: sizes (px at a 1440-wide screen, scaled with the width), how far the blobs travel, how long a rise takes (seconds), the waves. ── */
+const OWL={
+ OW1:{nb:6,nk:6,r0:30,r1:62,K:110,db:150,dk:230,pmin:9,pmax:17,wa:[10,6,2.5],tail:true},    /* lava lamp: big slow blobs, wide soft necks; each blob trails a stretching tail back towards the edge, so it never looks like a hard ball (E411) */
+ OW2:{nb:11,nk:11,r0:9,r1:21,K:20,db:110,dk:170,pmin:4,pmax:9,wa:[8,5,3]}};      /* beads and droplets: many small ones, short necks */
+const OWK=[.0042,.011,.026],OWS=[.55,.8,1.3],OWP=[0,1.7,4.1],IOFF=36;   /* wave number, speed and phase of the 3 waves; IOFF: how far below the top of Work the edge sits (px at 1440) */
+const OSC={OS1:.75,OS2:.5,OS3:.3};   /* how strong the blobs and waves are, from the "lava-lamp blobs" group (Kelly: more subtle; how much is not chosen; placeholders) */
+const h01=(i,s,k)=>{const x=Math.sin((i+1)*127.1+(s+1)*311.7+k*74.7)*43758.5453;return x-Math.floor(x)};
+function owGeom(wr,vw,tm){const L=OWL[OPT.ow.v],f=clamp(vw/1440,.6,1.25),fs=f*OSC[OPT.owsub.v],Y0=wr.top+IOFF*f,wa=L.wa.map(a=>a*fs),K=L.K*fs,
+  band=(Math.max(L.db,L.dk)+L.r1*(L.tail?2.6:1.2))*fs+K+wa[0]+wa[1]+wa[2]+6,
+  g={Y0,band,K,f,w:wa,k:OWK,p:[OWS[0]*tm+OWP[0],-OWS[1]*tm+OWP[1],OWS[2]*tm+OWP[2]],bb:[],bk:[],blobs:true};
+ for(let s=0;s<2;s++){const n=s?L.nk:L.nb,dep=(s?L.dk:L.db)*fs,arr=s?g.bk:g.bb;   /* s=0: blue blobs sinking into the black; s=1: black blobs rising into the blue */
+  for(let i=0;i<n;i++){const r0=(L.r0+(L.r1-L.r0)*h01(i,s,2))*fs,per=L.pmin+(L.pmax-L.pmin)*h01(i,s,3),ph=h01(i,s,4)*6.2832,
+   u=.5+.5*Math.sin(tm*6.2832/per+ph),e=u*u*(3-2*u),x0=(i+.2+.6*h01(i,s,1))/n*vw+Math.sin(tm*.33+ph*1.7)*r0*.7,
+   r=r0*(1+.16*Math.sin(tm*.9+ph*2.3)+(L.tail?.07*Math.sin(tm*2.3+ph*4.1):0)),dy=r0*.2+(dep-r0*.2)*e,yh=Y0+(s?-dy:dy);
+   arr.push([x0,yh,r]);
+   /* E411 (she said the blobs look hard until they merge again): every blob has a second, smaller ball joined to it by the same soft join. While the blob is near the edge the second ball sits half-way back towards the edge,
+      so the blob hangs from a neck; as the blob gets further out the second ball slides round the blob and circles it slowly, so even a free blob is never a plain round ball. The body also wobbles a little faster than before.
+      All the sizes, distances and speeds are placeholders. */
+   if(L.tail){const w=1-clamp((e-.25)/.6),an=tm*.9+ph*5,rr=r*.74,tx=x0+Math.sin(tm*1.1+ph*2.7)*r*.3,ty=Y0+(yh-Y0)*.5,ox=x0+Math.cos(an)*r*1.0,oy=yh+Math.sin(an)*r*1.0;
+    arr.push([ox+(tx-ox)*w,oy+(ty-oy)*w,rr*(1+.3*w*(1-e))])}}}
+ return g}
+const owY=(g,x)=>g.Y0+g.w[0]*Math.sin(x*g.k[0]+g.p[0])+g.w[1]*Math.sin(x*g.k[1]+g.p[1])+g.w[2]*Math.sin(x*g.k[2]+g.p[2]);
+/* signed distance to the blue inside the edge: below 0 is blue (the same maths as the shader) */
+function owD(g,x,y){if(g.hf)y+=hAt(x);let d=y-owY(g,x);if(g.blobs&&Math.abs(y-g.Y0)<g.band){d=smin(d,sdfBalls(g.bb,g.K,x,y),g.K);d=smax(d,-sdfBalls(g.bk,g.K,x,y),g.K)}return d}
+/* without WebGL the edge is the wavy line only (no blobs) */
+function owPoly(g,vw){const pts=[];for(let x=-20;x<=vw+20;x+=12)pts.push([x,owY(g,x)-(g.hf?hAt(x):0)]);pts.push([vw+20,-30],[-20,-30]);return polyStr(pts)}
+
+/* ── the wipe, brought back on 12 Nov at her word: "I also want the wipe effect the Work bars have when the blue meets the black", and "Both" — the wipe AND the
+   lava lamp edge. The look is LQ2, "The blue pushed off": the blue stays liquid and GigBag's fall shoves it off the screen ahead of itself, with a bulge where the
+   bar is and a wobbling edge. SU3: once you have been in Work, the wipe follows your scroll both ways; the first one plays by itself as GigBag falls.
+   All of this is Demo P's, and every number in it is Demo P's placeholder. ── */
+const WTAIL=900;let wstate="blue",wRun=null,wpStore=0,wIn=false,lastWY=scrollY;
+function wipeOrigin(){const b=bars[0].el.getBoundingClientRect();return {x:(b.left+b.right)/2,y:(b.top+b.bottom)/2,left:bars[0].i%2===0}}
+const wpFwd=t=>t<TOPPLE?.22*Math.pow(t/TOPPLE,2):.22+.78*(1-Math.pow(1-clamp((t-TOPPLE)/WTAIL),2.2));
+function lq2Front(wp,g,vw,vh,tm){const dir=g.left?1:-1,from=g.left?-80:vw+80,to=g.left?vw+80:-80,xf=lerp(from,to,Math.pow(wp,.9)),
+  bulge=vw*.16*Math.sin(Math.PI*wp),A=16*(1-wp*.6)+4,sig=Math.max(90,vh*.22);
+ const f=y=>xf+dir*(bulge*Math.exp(-Math.pow((y-g.y)/sig,2))+A*Math.sin(y*.012+tm*2.1+wp*5)+A*.55*Math.sin(y*.029-tm*1.6+1.3));
+ const pts=[];for(let y=-30;y<=vh+30;y+=8)pts.push([f(y),y]);pts.push([dir>0?vw+120:-120,vh+30],[dir>0?vw+120:-120,-30]);
+ return {clip:polyStr(pts),inside:(x,y)=>dir*(x-f(y))>0}}
+function wipeProgress(wr,vh){
+ if(wRun){const t=performance.now()-wRun.t0;if(t>=wRun.dur){wpStore=wRun.dir>0?1:0;wRun=null;wstate=wpStore?"black":"blue";return wpStore}
+  wstate="running";return wRun.dir>0?(wRun.quick?easeIO(clamp(t/1100)):wpFwd(t)):1-easeIO(clamp(t/1100))}
+ if(barsLanded&&wIn){const p=clamp(1-wr.top/(vh*.9));wstate=p>=.999?"black":p<=0?"blue":"scrub";if(p>=.999)wpStore=1;else if(p<=0)wpStore=0;return p}
+ return wpStore}
+function wipeGo(dir,quick){if(reduce){setWipe(dir>0?"black":"blue");paintAll();return}
+ wRun={t0:performance.now(),dir,quick:!!quick,dur:dir>0?(quick?1100:TOPPLE+WTAIL):1100};wstate="running";paintAll()}
+function setWipe(s){wstate=s;wRun=null;wpStore=s==="black"?1:0}
+
+/* the page colour: everything above Graphic Work stays the Work ground (black on the dark skin, the light ground on the light skin, E192). The change towards the Contact colour starts when the top edge of the
+   Graphic Work bar (bar 05, the fifth) is 30% of the screen height down from the top of the screen (E402, E404) and is done when the middle of Contact is in the middle of the screen (E256, E307; the middle
+   of the screen is a placeholder). Once it has begun the colour stays: it never goes back, however far the visitor scrolls up (E405). The start is fixed now (GST); it is no longer a choice in the panel. */
+const RAMP1=.5,GST=.3;let lastQ="",qMax=0;
+function rampQ(vh){const wr=wbox.getBoundingClientRect(),cr=ct.getBoundingClientRect(),b=bars[4];const a=wr.top+b.planY+b.pad,c=cr.top+cr.height/2;const thr=vh*GST;return clamp((thr-a)/Math.max(1,(thr-vh*RAMP1)+(c-a)))}
+function rampSet(vh){const raw=rampQ(vh);if(raw>qMax)qMax=raw;const q=qMax,k=(q*100).toFixed(1),key=k+body.dataset.skin;if(key!==lastQ){lastQ=key;const v=rich(`color-mix(in oklch, var(--ctcol) ${k}%, var(--ground))`,q);tk.style.setProperty("--pagebg",v);work.style.setProperty("--pagebg",v);tk.style.setProperty("--q",q.toFixed(3))}return q}
+/* demo tooling: "Replay opening" and "Replay Work" start the colour again from the Work ground */
+function resetColour(){qMax=0;lastQ="";paintAll()}
+
+/* ── Kelly turns white exactly where the blue is (E390, E394) ──
+   A white copy of the name (#klw) lies on the real name. The outline of the blue over the name is found by marching squares on a grid of the same field the shader draws (dF: below 0 is blue);
+   the copy is clipped to the inside of that outline and the real name to everything outside it, so each letter is white where the blue is and its own colour elsewhere (the small s follows, E185). */
+function blueOutline(dF,L,T,R,B){
+ const M=24,S=3,K=3;   /* margin round the name, fine grid step, fine cells per block (px) */
+ const x0=L-M,y0=T-M,nx=Math.ceil((R-L+2*M)/S)+1,ny=Math.ceil((B-T+2*M)/S)+1,bx=Math.ceil((nx-1)/K),by=Math.ceil((ny-1)/K),cw=bx+1,cd=new Float32Array(cw*(by+1)),v=new Float32Array(nx*ny).fill(NaN);
+ let mn=1e9,mx=-1e9;
+ for(let j=0;j<=by;j++)for(let i=0;i<=bx;i++){const d=dF(x0+Math.min(i*K,nx-1)*S,y0+Math.min(j*K,ny-1)*S);cd[j*cw+i]=d;if(d<mn)mn=d;if(d>mx)mx=d}
+ if(mx<-7.5)return {all:true};
+ if(mn>7.5)return {none:true};
+ /* the field changes by at most 1 per px, so a block whose four corners agree and are further than half its diagonal from the edge has no edge in it */
+ const flat=[];
+ for(let j=0;j<by;j++)for(let i=0;i<bx;i++){const c0=cd[j*cw+i],c1=cd[j*cw+i+1],c2=cd[(j+1)*cw+i],c3=cd[(j+1)*cw+i+1];
+  const neg=c0<0&&c1<0&&c2<0&&c3<0,pos=c0>=0&&c1>=0&&c2>=0&&c3>=0;
+  if((neg&&Math.max(c0,c1,c2,c3)<-7.5)||(pos&&Math.min(c0,c1,c2,c3)>7.5)){flat.push([i,j,neg?-1e5:1e5]);continue}
+  for(let jj=j*K;jj<=Math.min(j*K+K,ny-1);jj++)for(let ii=i*K;ii<=Math.min(i*K+K,nx-1);ii++){const q=jj*nx+ii;if(v[q]!==v[q])v[q]=dF(x0+ii*S,y0+jj*S)}}
+ flat.forEach(([i,j,val])=>{for(let jj=j*K;jj<=Math.min(j*K+K,ny-1);jj++)for(let ii=i*K;ii<=Math.min(i*K+K,nx-1);ii++){const q=jj*nx+ii;if(v[q]!==v[q])v[q]=val}});
+ for(let i=0;i<nx;i++){v[i]=1e5;v[(ny-1)*nx+i]=1e5}for(let j=0;j<ny;j++){v[j*nx]=1e5;v[j*nx+nx-1]=1e5}   /* the border ring counts as outside, so every outline closes */
+ const pts=new Map(),adj=new Map();
+ const pt=id=>{let p=pts.get(id);if(p)return p;const k=id>>1,i=k%nx,j=(k-i)/nx,a=v[k],b=(id&1)?v[k+nx]:v[k+1],t=Math.max(0,Math.min(1,a/(a-b)));p=(id&1)?[x0+i*S,y0+(j+t)*S]:[x0+(i+t)*S,y0+j*S];pts.set(id,p);return p};
+ const link=(a,b)=>{(adj.get(a)||adj.set(a,[]).get(a)).push(b);(adj.get(b)||adj.set(b,[]).get(b)).push(a)};
+ for(let j=0;j<ny-1;j++)for(let i=0;i<nx-1;i++){const k=j*nx+i,a=v[k],b=v[k+1],c=v[k+nx+1],d=v[k+nx],m=(a<0?1:0)|(b<0?2:0)|(c<0?4:0)|(d<0?8:0);if(m===0||m===15)continue;
+  const Tp=2*k,Bt=2*(k+nx),Lf=2*k+1,Rt=2*(k+1)+1;
+  switch(m){case 1:case 14:link(Lf,Tp);break;case 2:case 13:link(Tp,Rt);break;case 3:case 12:link(Lf,Rt);break;case 4:case 11:link(Rt,Bt);break;case 6:case 9:link(Tp,Bt);break;case 7:case 8:link(Lf,Bt);break;
+   case 5:if((a+b+c+d)/4<0){link(Tp,Rt);link(Bt,Lf)}else{link(Lf,Tp);link(Rt,Bt)}break;
+   case 10:if((a+b+c+d)/4<0){link(Lf,Tp);link(Rt,Bt)}else{link(Tp,Rt);link(Bt,Lf)}break}}
+ if(!adj.size)return v[Math.floor(ny/2)*nx+Math.floor(nx/2)]<0?{all:true}:{none:true};
+ const seen=new Set();let path="";
+ for(const id of adj.keys()){if(seen.has(id))continue;const lp=[];let cur=id,prev=-1;
+  while(cur!==undefined&&!seen.has(cur)){seen.add(cur);lp.push(pt(cur));const nb=adj.get(cur),nxt=nb[0]!==prev?nb[0]:nb[1];prev=cur;cur=nxt}
+  if(lp.length>2)path+="M"+lp.map(p=>(p[0]-L).toFixed(1)+" "+(p[1]-T).toFixed(1)).join("L")+"Z"}
+ return path?{path}:{none:true}}
+let kwA="",kwB="",kwO="",kwV="";
+function kellyWhite(dF,on,vh){
+ const r=klw.getBoundingClientRect();let mode=0,pa="";
+ if(on&&r.width>2&&r.bottom>-30&&r.top<vh+30){const o=blueOutline(dF,r.left,r.top,r.right,r.bottom);if(o.all)mode=1;else if(o.path){mode=2;pa=o.path}}
+ const vis=mode?"visible":"hidden",ca=mode===2?`path(evenodd,"${pa}")`:"",cb=mode===2?`path(evenodd,"M-80 -80H${(r.width+80).toFixed(1)}V${(r.height+80).toFixed(1)}H-80Z${pa}")`:"",op=mode===1?"0":"";
+ if(vis!==kwV){klw.style.visibility=vis;kwV=vis}
+ if(ca!==kwA){klw.style.clipPath=ca;kwA=ca}
+ if(cb!==kwB){kl.style.clipPath=cb;kwB=cb}
+ if(op!==kwO){kl.style.opacity=op;kwO=op}}
+
+/* ── the compositor: one place decides what is on #tl and #tk, and where the blue is (for the white words and the menu icon) ── */
+const P={pin:0,q:0,blue:()=>false};
+let liqRaf=0,aInView=false;
+function liqLoop(){liqRaf=0;paintAll()}
+function aboutTick(){paintAll()}
+function paintAll(){
+ const vh=innerHeight,vw=innerWidth,tm=reduce?0:performance.now()/1000,r=about.getBoundingClientRect(),wr=work.getBoundingClientRect(),po=effPo(),glOk=po2state>0;
+ /* the pour follows the pinned intro (the heart stays put on the screen while the blue comes out of it); About then arrives over a screen that is already blue */
+ const tr=track.getBoundingClientRect(),tp=clamp(-tr.top/Math.max(1,tr.height-vh)),pin=reduce?(tp>.5?1:0):tp,q=rampSet(vh);P.pin=pin;P.q=q;
+ /* 12 Nov, her words: "lets del;ay the blue out of the heart until the user has scolled a bit more". Nothing of the blue happens for the first PDLY of the pinned
+    intro; after that the pour runs as before and is still finished when the intro lets go. PDLY is a placeholder. */
+ const pp=clamp((pin-PDLY)/(1-PDLY));P.pp=pp;
+ /* the intro rides up through that first stretch, so the page is already moving when the blue starts. DRIFT is a placeholder. */
+ {const k=clamp(pin/PDLY),e=1-Math.pow(1-k,2);stage.style.setProperty("--drift",(DRIFT*vh*e).toFixed(1)+"px")}
+ aInView=r.bottom>0&&r.top<vh;mb.classList.toggle("in",r.top<vh*.6);
+ const hr=heart.getBoundingClientRect(),hcx=hr.left+hr.width/2,hcy=hr.top+hr.height/2;
+ const g=owGeom(wr,vw,tm);g.blobs=glOk;
+ const sh=pp>0&&pp<1?pourShape(po,pp,hcx,hcy,tm):null;
+ /* the Work bars push the blue back at the edge (E391, E395, E396): step the shove, and let the edge zone reach as far up as it can now be pushed */
+ const nowT=performance.now(),dtms=EH.last?nowT-EH.last:16;EH.last=nowT;let hk=null;
+ if(g.Y0-g.band-PSTEP.PS3.c*g.f<vh&&g.Y0+g.band>0)hk=pushStep(g,vw,dtms);else if(EH.on){EH.h.fill(0);EH.v.fill(0);EH.q.fill(0);EH.on=false;EH.max=0}
+ if(hk){g.hf=EH;g.hk=hk;g.band+=hk.cap}
+ const edgeOn=g.Y0-g.band<vh,edgeSeen=g.Y0+g.band>0;   /* the edge is on the screen / the blue is not all above the screen */
+ /* the wipe (12 Nov): GigBag's fall shoves the blue off the screen, and once she has been in Work it follows her scroll both ways (SU3) */
+ if(wr.top<=0)wIn=true;
+ /* 12 Nov, her words: "the blue shouldnt come from the side.  it should come from above.  there was an option that was unclear and i think i chose the wrong one.
+    i just want the blue to come from above, from the heart... and when the user scrolls back up the blue retracts".
+    So the sideways front is gone. The blue comes out of the heart, fills downward, and its bottom is the lava-lamp edge at the top of Work: scrolling down
+    the edge rises and the blue retreats upward off the screen, scrolling up it comes back down. Nothing moves sideways. */
+ const fr=null;
+ const tlOn=pp>0&&edgeSeen,cv=glOk&&tlOn&&(po==="PO2"?pp>0:pp>=1),edgeDrawn=cv||pp>=1;
+ const blue=(x,y)=>tlOn&&(pp>=1||sh.inside(x,y))&&(!edgeDrawn||owD(g,x,y)<0);
+ P.blue=blue;
+ /* Kelly is white exactly where the blue is: the same field the shader draws, as a distance (below 0 is blue) */
+ const dF=(x,y)=>{let d=pp>=1?-1e5:(sh.sdf?sh.sdf(x,y):(sh.inside(x,y)?-1:1));if(edgeDrawn)d=Math.max(d,owD(g,x,y));return d};
+ /* 12 Nov, her words: "the blue that over the bottom of the heary needs to be removed". The heart keeps its own outline and nothing is painted over it. */
+ heartWater(0);
+ kellyWhite(dF,tlOn,vh);
+ tl.style.opacity=tlOn?1:0;tl.dataset.look=po;tl.classList.toggle("cv",cv);
+ if(tlOn){
+  if(cv){tl.style.clipPath=fr?fr.clip:"none";glDraw(pp<1?sh.gl:null,edgeOn?g:null,tm)}
+  else if(pp<1)tl.style.clipPath=sh.clip;
+  else tl.style.clipPath=fr?fr.clip:(edgeOn?owPoly(g,vw):"none")}
+ /* E448, E503: the top edge of the Graphic Work bar (bar 05) is where the colour change begins; above it nothing changes. The same edge the start (rampQ) and the
+    cursor colour switch (regCheck) use. The layer, the depth look and the cursor switch are all held below this line. */
+ const gwTop=wbox.getBoundingClientRect().top+bars[4].planY+bars[4].pad;
+ tk.style.setProperty("--gwy",(q>0?Math.max(0,gwTop):0).toFixed(1)+"px");
+ /* how long the run of stops is: the rest of the screen below that edge, so the change is a gradient and not a line (E509). A placeholder. */
+ tk.style.setProperty("--gwr",Math.max(220,(vh-clamp(gwTop,0,vh))*.8).toFixed(1)+"px");
+ tk.style.opacity=((pp>=1&&edgeOn)||q>0)?1:0;
+ /* Each word is white only where the blue actually is, so no word is ever white on the ground.
+    12 Nov, her words: "on the light skin the text in about stays off-white - it show go to the off black". A word that had scrolled off the top of the screen kept
+    the white it was given while it was on the blue, because it was only ever tested against the blue and never against whether it was on the screen at all. Now a
+    word that is not on the screen is never lit, so when About comes back on the light ground its words are the off-black again. */
+ const wc=b=>[(b.left+b.right)/2,(Math.max(b.top,0)+Math.min(b.bottom,vh))/2];
+ const litFor=el=>{const b=el.getBoundingClientRect();if(b.bottom<=0||b.top>=vh)return false;const c=wc(b);return !!blue(c[0],c[1])};
+ if(tlOn||P.wasOn){kwList.forEach(w=>w.classList.toggle("lit",litFor(w)))}else kwList.forEach(w=>w.classList.remove("lit"));
+ P.wasOn=tlOn;
+ const al=litFor(alink);alink.classList.toggle("lit",al);anote.classList.toggle("lit",al);
+ navColour(q,blue);
+ if(((pp>0&&pp<1)||(tlOn&&edgeOn&&!reduce))&&!liqRaf)liqRaf=requestAnimationFrame(liqLoop)}
+function navColour(q,blue){const y=60,x=innerWidth-40;let c="";
+ if(blue(x,y))c="#fff";
+ else if(q>.55)c=ct.style.getPropertyValue("--ink");
+ mb.style.setProperty("--navc",c)}
+
+/* ── About text: four kinetic / size options (E211), no stretch (E203) ── */
+const AP=[ap1,ap2];let aboutPlayed=false,aRaf=0,pmx=-1e4,pmy=-1e4,kwList=[];
+addEventListener("pointermove",e=>{pmx=e.clientX;pmy=e.clientY},{passive:true});
+function wordify(){AP.forEach(p=>{if(!p.dataset.src)p.dataset.src=p.textContent;p.innerHTML=p.dataset.src.split(" ").map(w=>`<span class="kw">${w}</span>`).join(" ")});kwList=$$(".kw")}
+function stopAboutLoop(){cancelAnimationFrame(aRaf);aRaf=0}
+function startAboutLoop(){if(aRaf||reduce)return;aRaf=requestAnimationFrame(aboutLoop)}
+function aboutLoop(now){aRaf=0;const m=OPT.atext.v;if(m!=="AK2"&&m!=="AK3")return;
+ if(aInView){const ab=about.getBoundingClientRect();kwList.forEach(w=>{
+  const cx=ab.left+w.offsetLeft+w.offsetWidth/2,cy=ab.top+w.offsetTop+w.offsetHeight*.55;let tgt=1;
+  if(m==="AK2"){const d=Math.hypot(cx-pmx,cy-pmy);tgt=1+.95*Math.exp(-(d*d)/(2*170*170))}
+  else tgt=1+.3*Math.sin(now*.0026-(cx*.0045+cy*.007));
+  const cur=w._s||1,nx=m==="AK2"?cur+(tgt-cur)*.16:tgt;w._s=nx;w.style.transform=Math.abs(nx-1)<.002?"":`scale(${nx.toFixed(3)})`})}
+ aRaf=requestAnimationFrame(aboutLoop)}
+function playAbout(){stopAboutLoop();wordify();const m=OPT.atext.v;aboutPlayed=true;
+ kwList.forEach(w=>{w._s=1;w.style.transform="";w.style.opacity=reduce?1:0});
+ alink.style.opacity=reduce?1:0;if(reduce)return;
+ const n=kwList.length;
+ kwList.forEach((w,i)=>{let kf,dur,delay,ease;
+  if(m==="AK1"){kf=[{transform:"scale(.15)",opacity:0},{transform:"scale(1.2)",opacity:1,offset:.62},{transform:"scale(1)",opacity:1}];dur=750;delay=i*48;ease="cubic-bezier(.3,1.3,.5,1)"}
+  else if(m==="AK4"){const sc=[.2,.35,2.4,3,.5,1.9,.28][Math.floor(Math.random()*7)];kf=[{transform:`scale(${sc})`,opacity:0},{transform:`scale(${sc>1?.82:1.25})`,opacity:1,offset:.55},{transform:"scale(1)",opacity:1}];dur=700;delay=Math.random()*750;ease="cubic-bezier(.34,1.5,.5,1)"}
+  else{kf=[{transform:"translateY(.5em)",opacity:0},{transform:"translateY(0)",opacity:1}];dur=700;delay=i*38;ease="cubic-bezier(.22,1,.36,1)"}
+  const an=w.animate(kf,{duration:dur,delay,easing:ease,fill:"both"});an.finished.then(()=>{w.style.opacity=1;w.style.transform="";an.cancel()},()=>{})});
+ setTimeout(()=>{alink.style.opacity=1},900+n*20);
+ if(m==="AK2"||m==="AK3")setTimeout(startAboutLoop,1300)}
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!aboutPlayed)playAbout()}),{threshold:.5}).observe(ap1);
+
+/* icon link to the About page (E203, E212) */
+const ICONS={
+ AI1:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>`,
+ AI2:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>`,
+ AI3:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>`,
+ AI4:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`};
+function renderAicon(){const s=ICONS[OPT.aicon.v];alink.innerHTML=`<span class="ico"><span>${s}</span><span aria-hidden="true">${s}</span></span>`}
+/* 12 Nov: the About page exists now, so the arrow simply opens it (E530). */
+
+/* ── nav icon (E199) and full-screen menu (E183) ── */
+const menu=$("#menu"),mnav=$("#mstage");
+function renderNav(){mb.innerHTML=`<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="nh" aria-hidden="true">${HEARTS[OPT.heart.v]}</span>`}
+let mEng=null,mRaf=0,mLinks=[],mMc=null;
+function stopMenuPhys(){cancelAnimationFrame(mRaf);if(mMc){dropMouse(mMc);mMc=null}if(mEng)Matter.Engine.clear(mEng);mEng=null}
+/* the links land on a floor that is lifted off the bottom of the screen (E249; 3 steps, placeholders) */
+function menuPhys(){stopMenuPhys();const stg=mnav;const links=$$("#mstage a");const W=stg.clientWidth,H=stg.clientHeight,lift=Math.round(H*MLF[OPT.mlift.v]);
+ if(!window.Matter||reduce){let y=H*.18;links.forEach(a=>{a.style.transform=`translate(${Math.max(16,W*.06)}px,${y}px)`;y+=a.offsetHeight});return}
+ const {Engine,Bodies,Composite}=Matter;mEng=Engine.create();mEng.gravity.y=1.2;mEng.positionIterations=10;
+ Composite.add(mEng.world,[Bodies.rectangle(W/2,H-lift+200,W*3,400,{isStatic:true}),Bodies.rectangle(-200,H/2,400,H*4,{isStatic:true}),Bodies.rectangle(W+200,H/2,400,H*4,{isStatic:true})]);
+ mLinks=links.map((a,i)=>{const bw=a.offsetWidth,bh=a.offsetHeight;const b=Bodies.rectangle(W*.08+bw/2+Math.random()*Math.max(1,W*.5-bw/2),-bh*(1+i*1.2),bw,bh,{chamfer:{radius:10},restitution:.25,friction:.6,angle:(Math.random()-.5)*.4});Composite.add(mEng.world,b);return {a,b,bw,bh}});
+ mMc=mkMouse(stg,mEng,.2);
+ let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;Engine.update(mEng,dt);mLinks.forEach(l=>{const p=l.b.position;l.a.style.transform=`translate(${p.x-l.bw/2}px,${p.y-l.bh/2}px) rotate(${l.b.angle}rad)`});mRaf=requestAnimationFrame(loop)};mRaf=requestAnimationFrame(loop)}
+function openMenu(){const r=mb.getBoundingClientRect();menu.style.setProperty("--mx",(r.left+r.width/2)+"px");menu.style.setProperty("--my",(r.top+r.height/2)+"px");menu.hidden=false;void menu.offsetWidth;menu.classList.add("open");mb.setAttribute("aria-expanded","true");
+ const phys=OPT.menu.v==="MN2";mnav.classList.toggle("phys",phys);
+ if(phys){$$("#mstage a").forEach(a=>a.style.transform="translate(-9999px,0)");setTimeout(menuPhys,250)}
+ else{$$("#mstage a").forEach((a,i)=>{a.style.transform="";a.firstElementChild.style.transitionDelay=(.25+i*.1)+"s"});mnav.classList.remove("on");requestAnimationFrame(()=>requestAnimationFrame(()=>mnav.classList.add("on")))}
+ setTimeout(()=>$("#menuClose").focus({preventScroll:true}),300)}
+function closeMenu(){menu.classList.remove("open");mb.setAttribute("aria-expanded","false");setTimeout(()=>{if(!menu.classList.contains("open")){menu.hidden=true;stopMenuPhys()}},800);mb.focus({preventScroll:true})}
+mb.addEventListener("click",openMenu);$("#menuClose").addEventListener("click",closeMenu);
+addEventListener("keydown",e=>{if(e.key==="Escape"&&menu.classList.contains("open"))closeMenu()});
+let mDown=null;mnav.addEventListener("pointerdown",e=>{mDown={x:e.clientX,y:e.clientY}});
+/* a link that points at a part of this page scrolls to it; one that points at another page opens it. A drag of a falling link is not a click. */
+$$("#mstage a").forEach(a=>a.addEventListener("click",e=>{
+ if(mDown&&Math.hypot(e.clientX-mDown.x,e.clientY-mDown.y)>6){e.preventDefault();return}
+ const id=a.getAttribute("href");
+ if(!id.startsWith("#"))return;
+ e.preventDefault();closeMenu();setTimeout(()=>document.querySelector(id).scrollIntoView({behavior:reduce?"auto":"smooth"}),350)}));
+
+/* ── Work: Demo L topple from the left and right, then a physics landing that is uneven (E214); GigBag on top (E215);
+   the bottom bar falls first (E216); plays once on arrival (E217); bars stay where they land (E193, E226).
+   Demo P: starts before the About arrow is visible (E251); one border all round, a gap and a slight tilt (E252, E253).
+   Demo Q: the wipe is gone (E269), no shake and no drop (E272, E273); the bars just fall as before.
+   Demo R, session 4: bars that finish toppling in the same frame now settle in the order they were dropped (a stalled frame used to put a lower bar on top of a higher one);
+   the second bar from the top, and GigBag after it, wait until their place is on the screen, so the last two bars always fall where the visitor can see them. ── */
+/* 12 Nov: each bar now opens its own page (E512, E528: clean folders). The addresses are relative, so they work on the live site and from the folder. */
+const PROJ=[["GigBag","Case study","gigbag"],["TitreLab","Lorem ipsum","titrelab"],["Formulation Suite","Lorem ipsum","formulation-suite"],["PhytoFoundry","Lorem ipsum","phytofoundry"],["Graphic Work","Placeholder","graphic-work"],["Product Labels","Placeholder","product-labels"]];
+const TOPPLE=750,STAGGER=560,WSTART=1.15;   /* placeholder timings, not decisions; WSTART: Work starts when the arrow is this far down the screen (in screens) */
+const BGAP={BG1:8,BG2:14,BG3:22},BTILT={TL1:.6,TL2:1.2,TL3:2},TPAT={TP1:[1,-1,1,-1,1,-1],TP2:[1,1,1,1,1,1],TP3:[.9,-.6,1,-.8,.5,-1]};
+let wEng=null,wRaf=0,bars=[],wStarted=false,wTimers=[],barsLanded=false,hovBar=null;
+PROJ.forEach(([n,k,slug],i)=>{const face=`<span class="i">${String(i+1).padStart(2,"0")}</span><h3>${n}</h3><span class="k">${k}</span>`;
+ const w=document.createElement("div");w.className="wbar";const a=document.createElement("a");a.href=`work/${slug}/`;a.className="frow";
+ a.innerHTML=`<span class="card"><span class="face front">${face}</span><span class="face back" aria-hidden="true">${face}</span></span>`;w.append(a);wbox.append(w);
+ bars.push({el:w,a,i,body:null,anim:null,landed:false,still:0,o:0,v:0,r:0,rv:0,planY:0,static:false,tilt:0,tf:0,ph:0,pad:0,bh:0,sk:0,skr:0,due:false,spawned:false,spawnT:0})});
+
+/* every bar's collision body is as tall as the bar plus the gap plus what its tilt takes up, so tilted bars never overlap */
+function sizeWork(){const bw=wbox.clientWidth||innerWidth,gap=BGAP[OPT.bgap.v],a=BTILT[OPT.btilt.v]*Math.PI/180,pat=TPAT[OPT.tpat.v];
+ bars.forEach((t,i)=>{t.el.style.width=Math.round(bw*.94)+"px";t.tilt=pat[i]*a});
+ bars.forEach(t=>{const bh=t.el.offsetHeight,e=t.el.offsetWidth/2*Math.abs(Math.tan(t.tilt));t.bh=bh;t.ph=bh+gap+2*e;t.pad=(t.ph-bh)/2});
+ const total=bars.reduce((s,t)=>s+t.ph,0),H=Math.round(total*1.06+Math.min(120,innerHeight*.12));wbox.style.height=H+"px";
+ let acc=H;for(let i=bars.length-1;i>=0;i--){acc-=bars[i].ph;bars[i].planY=acc}}
+function stackTop(H){let m=H;bars.forEach(t=>{if(t.body)m=Math.min(m,t.body.bounds.min.y)});return m}
+function spawnBar(t){const W=wbox.clientWidth;const bw=t.el.offsetWidth;const left=t.i%2===0;t.spawned=true;t.spawnT=performance.now();t.anim={t0:performance.now(),left,bw,px:left?3:W-bw-3};t.el.classList.add("on")}
+function settleBar(t){const H=wbox.clientHeight;const {bw,px}=t.anim;t.anim=null;t.el.style.transformOrigin="";const py=Math.min(t.planY,stackTop(H)-t.ph-2);const {Bodies,Composite,Body}=Matter;
+ t.body=Bodies.rectangle(px+bw/2,py+t.ph/2,bw,t.ph,{friction:.9,frictionStatic:1.2,restitution:.06,frictionAir:.012,density:.002,chamfer:{radius:4},angle:(Math.random()-.5)*.05});
+ Body.setVelocity(t.body,{x:(Math.random()-.5)*3,y:8+Math.random()*3});Body.setAngularVelocity(t.body,(Math.random()-.5)*.035);Composite.add(wEng.world,t.body)}
+function placeStatic(){sizeWork();bars.forEach(t=>{t.static=true;t.landed=true;t.anim=null;t.body=null;t.tf=1;t.el.classList.add("on")});barsLanded=true;drawW(1/60)}
+function drawW(dt){const W=wbox.clientWidth,H=wbox.clientHeight;
+ const one=t=>{
+  if(t.anim){const {t0,left,px}=t.anim;const py=Math.min(t.planY,stackTop(H)-t.ph-2)+t.pad;const k=clamp((performance.now()-t0)/TOPPLE);const ang=(left?-1:1)*(HALF-.12)*(1-k*k);
+   t.el.style.transformOrigin=left?"0% 100%":"100% 100%";t.el.style.transform=`translate(${px}px,${py}px) rotate(${ang}rad)`;
+   /* where the bar is, for the blue to be pushed back by it (E391): the middle of the bar, its angle and half sizes, in Work-box pixels; it turns about its bottom corner */
+   {const bw=t.anim.bw,bh=t.bh,ox=left?0:bw,c0x=left?bw/2:-bw/2,c0y=-bh/2,ca=Math.cos(ang),sa=Math.sin(ang);t.g={x:px+ox+c0x*ca-c0y*sa,y:py+bh+c0x*sa+c0y*ca,a:ang,hw:bw/2,hh:bh/2}}
+   if(k>=1)settleBar(t);return}
+  const bw=t.el.offsetWidth,bh=t.bh;let x,y,a;
+  if(t.body){x=t.body.position.x-bw/2;y=t.body.position.y-bh/2;a=t.body.angle}
+  else if(t.static){x=(W-bw)/2;y=t.planY+t.pad;a=0}
+  else{t.g=null;return}
+  t.tf=Math.min(1,t.tf+dt*3);   /* the tilt eases in after the bar lands */
+  /* water bob: a soft spring on top of where the bar landed (E226) */
+  t.v+=(-140*t.o-6*t.v)*dt;t.o=clamp(t.o+t.v*dt,-14,14);t.rv+=(-170*t.r-7*t.rv)*dt;t.r=clamp(t.r+t.rv*dt,-.03,.03);
+  const aa=a+t.tilt*easeIO(t.tf)+t.r;
+  t.el.style.transform=`translate(${(x+t.sk).toFixed(2)}px,${(y+t.o).toFixed(2)}px) rotate(${(aa+t.skr).toFixed(4)}rad)`;
+  t.g={x:x+t.sk+bw/2,y:y+t.o+bh/2,a:aa+t.skr,hw:bw/2,hh:bh/2};
+  };
+ if(OPT.bs.v==="BS2")bars.forEach(one);   /* BS2: as before this session (E399) */
+ else for(let n=bars.length-1;n>=0;n--)one(bars[n])}   /* BS1: the bar dropped first (the lowest) is handled first */
+function wLoop(now){const dt=Math.min(.05,(now-(wLoop.last||now))/1000);wLoop.last=now;pumpGate();
+ const r=wbox.getBoundingClientRect();const far=barsLanded&&(r.bottom<-300||r.top>innerHeight+300);
+ if(far)wLoop.acc=0;
+ else{if(wEng){wLoop.acc=(wLoop.acc||0)+dt;let n=0;while(wLoop.acc>=1/60&&n<4){Matter.Engine.update(wEng,1000/60);wLoop.acc-=1/60;n++}}   /* fixed step: a variable one makes a heavy stack shiver */
+  drawW(dt)}
+ wRaf=requestAnimationFrame(wLoop)}
+function barsClear(){bars.forEach(t=>{t.due=false;t.spawned=false;t.body=null;t.anim=null;t.static=false;t.landed=false;t.still=0;t.o=t.v=t.r=t.rv=0;t.tf=0;t.sk=t.skr=0;t.g=null;t.el.classList.remove("on","gone");t.a.classList.remove("flipped");t.el.style.transform=""})}
+/* BS1 (the current build): the bars drop on their timers, except the second from the top, which waits until its place is on the screen, and GigBag, which drops one beat after it (placeholder: GATE).
+   BS2 (as before this session): every bar drops on its timer only. Kelly asked to see both (E399); neither is chosen. In both, the "landed" flag is set the same time after the last bar drops. */
+const GATE=.9;
+const slotIn=t=>wbox.getBoundingClientRect().top+t.planY<innerHeight*GATE;
+function pumpGate(){if(!wStarted||!wEng)return;
+ bars.forEach(t=>{if(t.spawned||!t.due)return;
+  if(OPT.bs.v!=="BS2"){
+   if(t.i===0){const b=bars[1];if(!b.spawned||performance.now()-b.spawnT<STAGGER)return}
+   else if(t.i===1&&!slotIn(t))return}
+  spawnBar(t);
+  /* 12 Nov: GigBag no longer starts a sideways wipe. The blue leaves upward on its own as the Work section rises (see paintAll). */
+  if(t.i===0){wTimers.push(setTimeout(()=>{barsLanded=true;dropTick()},TOPPLE+1500))}})}
+function startWork(){cancelAnimationFrame(wRaf);wTimers.forEach(clearTimeout);wTimers=[];if(wEng&&window.Matter)Matter.Engine.clear(wEng);wEng=null;wStarted=true;barsLanded=false;wIn=false;sizeWork();
+ barsClear();setWipe("blue");dropReset();
+ if(!window.Matter||reduce){placeStatic();setWipe("black");wLoop.last=0;wRaf=requestAnimationFrame(wLoop);paintAll();return}
+ const {Engine,Bodies,Composite}=Matter;wEng=Engine.create();wEng.gravity.y=1.3;wEng.positionIterations=20;wEng.velocityIterations=14;wLoop.acc=0;
+ const W=wbox.clientWidth,H=wbox.clientHeight;
+ Composite.add(wEng.world,[Bodies.rectangle(W/2,H+200,W*4,400,{isStatic:true,friction:1}),Bodies.rectangle(-200,H/2,400,H*6,{isStatic:true}),Bodies.rectangle(W+200,H/2,400,H*6,{isStatic:true})]);
+ /* the bottom bar falls first; GigBag, on top, falls last (E216) */
+ [...bars].reverse().forEach((t,k)=>wTimers.push(setTimeout(()=>{t.due=true;pumpGate()},k*STAGGER+200)));   /* hover and replay wait until the last bar has had time to settle (see pumpGate) */
+ wLoop.last=0;wRaf=requestAnimationFrame(wLoop)}
+function resetWork(){wStarted=false;cancelAnimationFrame(wRaf);wTimers.forEach(clearTimeout);wTimers=[];if(wEng&&window.Matter)Matter.Engine.clear(wEng);wEng=null;barsLanded=false;wIn=false;
+ barsClear();setWipe("blue");dropReset();paintAll()}
+function replayWork(){resetWork();resetColour();sizeWork();jumpTo(wbox,()=>{if(!wStarted)startWork()})}
+
+/* water bob (E226): the cursor pushes a bar like something floating; the bars cannot be dragged or moved */
+function nudge(t,dv,drv){t.v=clamp(t.v+dv,-220,220);t.rv=clamp(t.rv+drv,-1.6,1.6)}
+let pmy2=0,pmx2=0;
+wbox.addEventListener("pointermove",e=>{if(e.pointerType==="touch"||!barsLanded||OPT.hov.v==="HV2"){pmx2=e.clientX;pmy2=e.clientY;return}
+ const el=e.target.closest(".wbar");const dy=e.clientY-pmy2,dx=e.clientX-pmx2;pmx2=e.clientX;pmy2=e.clientY;
+ const t=bars.find(b=>b.el===el);if(!t){hovBar=null;return}
+ const r=el.getBoundingClientRect(),relx=clamp((e.clientX-(r.left+r.width/2))/(r.width/2),-1,1);const enter=hovBar!==t;hovBar=t;const vy=clamp(dy,-40,40);
+ nudge(t,vy*2.5+(enter?55:0),relx*vy*.008+clamp(dx,-40,40)*.002);
+ bars.forEach(o=>{if(Math.abs(o.i-t.i)===1)nudge(o,(vy*2.5+(enter?55:0))*.3,0)})});
+wbox.addEventListener("pointerleave",()=>{hovBar=null});
+/* 12 Nov: with a mouse the bar is simply a link to its page (it has already flipped on hover). On a touch screen the first tap flips it and the second opens it. */
+bars.forEach(t=>t.a.addEventListener("click",e=>{
+ if(fine)return;
+ if(!barsLanded){e.preventDefault();return}
+ if(t.a.classList.contains("flipped"))return;
+ e.preventDefault();
+ if(OPT.hov.v!=="HV1")t.a.classList.add("flipped");
+ if(OPT.hov.v!=="HV2")nudge(t,90,.3)}));
+
+/* start Work before the About arrow is on the screen (E251) */
+function workTick(){const vh=innerHeight,ar=alink.getBoundingClientRect();
+ if(!wStarted&&ar.top<vh*WSTART)startWork()}
+/* 12 Nov: the origami folding engine and its paper drawing are gone with the cat ("i do not want the origami"). */
+
+/* ── Contact: CT6 colour switch kept (E173, E220, E245): each time the cursor enters or leaves the section the colour changes, through the gradient.
+   The Contact section has no colour of its own: the colour is the fixed #tk layer, so the section has no edge (E255, E256). ── */
+const STEPS=[0,.25,.5,.75,1];let csi=0,cdir=1;
+const stepCol=t=>mix(C.cob,C.sig,t);const stepInk=t=>t<.7?"#ffffff":"#111111";
+function ctPaint(){root.style.setProperty("--ctcol",stepCol(STEPS[csi]));ct.style.setProperty("--ink",stepInk(STEPS[csi]));paintAll()}
+function ctNext(x,y){let n=csi+cdir;if(n<0||n>=STEPS.length){cdir=-cdir;n=csi+cdir}
+ ink.classList.remove("grow");tk.style.setProperty("--next",rich(mix("var(--ground)",stepCol(STEPS[n]),P.q),P.q));tk.style.setProperty("--x",x+"px");tk.style.setProperty("--y",y+"px");tk.style.setProperty("--r","0px");void ink.offsetWidth;
+ ink.classList.add("grow");tk.style.setProperty("--r",Math.hypot(innerWidth,innerHeight)*1.05+"px");ct.style.setProperty("--ink",stepInk(STEPS[n]));
+ const done=()=>{csi=n;ctPaint();ink.classList.remove("grow");tk.style.setProperty("--r","0px")};clearTimeout(ctNext.t);ctNext.t=setTimeout(done,reduce?0:950)}
+/* Session 4 (E406, E409): the colour switch works over everything from the top edge of the Graphic Work bar down to the end of Contact, not only over Contact. Each time the cursor goes into or out of that
+   part of the page the colour changes. It is found from the pointer's position (the Work bars are in the way, so no one element covers it). A touch screen still uses a tap on Contact (unchanged). */
+let inReg=false,lpx=-1,lpy=-1;
+function regCheck(){if(lpx<0)return;const wr=work.getBoundingClientRect(),b=bars[4],top=wr.top+b.planY+b.pad,bot=ct.getBoundingClientRect().bottom,inside=lpy>=top&&lpy<=bot;
+ if(inside!==inReg){inReg=inside;ctNext(clamp(lpx,0,innerWidth),clamp(lpy,0,innerHeight))}}
+addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;lpx=e.clientX;lpy=e.clientY;regCheck()},{passive:true});
+addEventListener("scroll",regCheck,{passive:true});
+document.documentElement.addEventListener("pointerleave",e=>{if(e.pointerType!=="mouse"||!inReg)return;inReg=false;lpx=-1;ctNext(clamp(e.clientX,0,innerWidth),clamp(e.clientY,0,innerHeight))});
+ct.addEventListener("click",e=>{if(fine||e.target.closest("form,a,button,input,textarea,#formStage"))return;ctNext(e.clientX,e.clientY)});
+
+/* ── the form: fields draw themselves (F2, E174, E177, E179). It is written on the sheet the paper letter unfolds into (12 Nov, DK3). ── */
+const FORM=`<form class="cform" novalidate><label for="fn" data-t="Name"></label><input id="fn" type="text" autocomplete="name" aria-label="Name"><label for="fe" data-t="Email"></label><input id="fe" type="email" autocomplete="email" aria-label="Email"><label for="fm" data-t="Message"></label><textarea id="fm" rows="3" aria-label="Message"></textarea><button type="submit" class="btn"><span class="r"><span>Send</span><span aria-hidden="true">Send</span></span><span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></button><p class="formnote" aria-live="polite">Placeholder form: nothing is sent.</p></form><div class="clinks"><span>lorem@ipsum.com</span><a href="#contact"><span class="r"><span>LinkedIn ↗</span><span aria-hidden="true">LinkedIn ↗</span></span></a></div>`;
+let formShown=false,typeTimers=[];
+function buildForm(){const fs=$("#formStage");formShown=false;typeTimers.forEach(clearTimeout);typeTimers=[];fs.className="stagef";
+ fs.innerHTML=`<div class="sheet pre">${FORM}</div>`;fs.querySelectorAll("label[data-t]").forEach(l=>l.textContent="");
+ fs.querySelector("form").addEventListener("submit",e=>{e.preventDefault();const n=fs.querySelector(".formnote");if(n)n.textContent="Placeholder form: nothing was sent."})}
+function showForm(){if(formShown)return;formShown=true;const fs=$("#formStage");requestAnimationFrame(()=>requestAnimationFrame(()=>fs.classList.add("show")));
+ const ls=[...fs.querySelectorAll("label[data-t]")];ls.forEach((l,i)=>{const w=l.dataset.t;let k=0;l.textContent="";const ty=()=>{l.textContent=w.slice(0,++k);if(k<w.length)typeTimers.push(setTimeout(ty,55))};typeTimers.push(setTimeout(ty,reduce?0:250+i*400))});
+ fs.querySelectorAll("input,textarea").forEach((x,i)=>x.style.transitionDelay=(i*.4)+"s")}
+function hideForm(){if(!formShown)return;const fs=$("#formStage");if(fs.contains(document.activeElement))return;formShown=false;typeTimers.forEach(clearTimeout);typeTimers=[];fs.classList.remove("show");fs.querySelectorAll("label[data-t]").forEach(l=>l.textContent="")}
+
+/* ── the drop (E245, E246; her Demo P picks of 12 Nov: DK3 "Paper letter" and "have it drop and unfold to the form", DT2 "Follows the scroll and runs backwards") ──
+   As the last Work bar (06, Product Labels) comes up the screen it shakes and lets go of a paper letter. The letter falls to the middle of Contact and unfolds into
+   the sheet the email form is written on. One function, dropRender(p), draws it for any progress p from 0 to 1, and p is tied to the scroll, so scrolling back up
+   runs the whole thing backwards. This is Demo P's code; every number in it is Demo P's placeholder. ── */
+const dp={p:0,shown:false};
+const DROP_START=.9,DROP_SPAN=.75;   /* where the bar is on the screen when it starts, and how many screens of scrolling it takes */
+function dropGeom(){const b=bars[5],br=b.el.getBoundingClientRect(),st=$("#formStage .sheet");if(!st)return null;const sr=st.getBoundingClientRect();
+ return {x0:(br.left+br.right)/2+scrollX,y0:(br.top+br.bottom)/2+b.bh/2+scrollY,tx:sr.left+sr.width/2+scrollX,ty:sr.top+sr.height/2+scrollY,sw:sr.width,sh:sr.height}}
+function shakeBar(amp,ph){const b=bars[5];b.sk=Math.sin(ph*38)*amp*5;b.skr=Math.sin(ph*31+1)*amp*.012}
+function dropRender(p,geo){
+ if(p<=0||p>=1||!geo){dpObj.style.display="none";return}
+ const ow=104,oh=70,HA=.1,FB=.62;
+ let x=geo.x0,y=geo.y0,w=ow,h=oh,rot=0,sx=1,sy=1,flap=1,po=1;
+ if(p<HA){const u=easeIO(p/HA);sx=sy=.15+.85*u;y=geo.y0+oh*.3*u}
+ else if(p<FB){const u=(p-HA)/(FB-HA),y1=geo.y0+oh*.3;x=lerp(geo.x0,geo.tx,easeIO(u));y=lerp(y1,geo.ty,u*u);
+  const st=Math.sin(Math.PI*Math.min(1,u*1.15))*u;sy=1+.5*st;sx=1/Math.sqrt(sy);rot=Math.sin(u*5.5)*.55*(1-.5*u)}
+ else{const v=(p-FB)/(1-FB),ev=easeIO(v);x=geo.tx;y=geo.ty;w=lerp(ow,geo.sw,ev);h=lerp(oh,geo.sh,ev);flap=1-clamp(v*2);po=1-clamp((v-.4)*2.5);rot=0}
+ const s=dpObj.style;dpObj.className="k-paper";s.display="block";s.width=w.toFixed(1)+"px";s.height=h.toFixed(1)+"px";s.borderRadius="2px";s.background="#ffffff";
+ s.transform=`translate(${(x-w/2).toFixed(1)}px,${(y-h/2).toFixed(1)}px) rotate(${rot.toFixed(3)}rad) scale(${sx.toFixed(3)},${sy.toFixed(3)})`;s.setProperty("--fl",flap.toFixed(3));s.setProperty("--po",po.toFixed(3))}
+function dropReveal(on){const sh=$("#formStage .sheet");if(!sh)return;
+ if(on&&!dp.shown){dp.shown=true;sh.classList.remove("pre");showForm()}
+ else if(!on&&dp.shown){dp.shown=false;hideForm();if(!formShown)sh.classList.add("pre")}}
+function dropReset(){dp.p=0;dp.shown=false;if(dpObj)dpObj.style.display="none";if(bars[5]){bars[5].sk=0;bars[5].skr=0}
+ const sh=$("#formStage .sheet");if(sh){formShown=false;typeTimers.forEach(clearTimeout);typeTimers=[];$("#formStage").classList.remove("show");$("#formStage").querySelectorAll("label[data-t]").forEach(l=>l.textContent="");sh.classList.add("pre")}}
+function dropTick(){if(!barsLanded)return;const vh=innerHeight,br=bars[5].el.getBoundingClientRect(),geo=dropGeom();if(!geo)return;
+ if(reduce){if(br.top<vh*DROP_START)dropReveal(true);return}
+ const p=clamp((vh*DROP_START-br.top)/(vh*DROP_SPAN));dp.p=p;shakeBar(Math.sin(Math.PI*clamp(p/.18)),p*6);
+ dropRender(p,geo);dropReveal(p>=.995)}
+
+/* ── options (each choice jumps to the part of the page it affects: demo tooling only) ── */
+const chosen=new Set(EARLIER);   /* decided groups; a group still in the panel counts as chosen only after Kelly clicks it */
+function jumpTop(){if(scrollY>8)scrollTo({top:0,behavior:reduce?"auto":"smooth"})}
+function renderHint(){const h=$("#hint"),v=OPT.hint.v;h.innerHTML=v==="SH1"?`<span class="bob">Scroll</span>`:v==="SH2"?`<span class="bob" style="color:var(--text)">${ARROW}</span>`:v==="SH3"?`<span class="bob" style="width:26px;height:24px">${HEARTS[OPT.heart.v]}</span>`:""}
+function applySpc(){root.style.setProperty("--sp",SPC[OPT.spc.v])}
+/* demo tooling: put the page where the choice can be watched */
+function previewPour(){const vh=innerHeight,top=scrollY+about.getBoundingClientRect().top;scrollTo({top:Math.max(0,top-vh*1.02),behavior:"auto"});setTimeout(()=>scrollTo({top:Math.max(0,top-vh*.05),behavior:reduce?"auto":"smooth"}),180)}
+function previewOw(){const vh=innerHeight,top=scrollY+work.getBoundingClientRect().top;scrollTo({top:Math.max(0,top-vh*.45),behavior:reduce?"auto":"smooth"})}
+/* the bars' push on the blue is only seen while the bars fall: replay Work with the black edge in the middle of the screen */
+function previewPush(){resetWork();resetColour();sizeWork();const vh=innerHeight,top=scrollY+work.getBoundingClientRect().top;scrollTo({top:Math.max(0,top-vh*.4),behavior:reduce?"auto":"smooth"});setTimeout(()=>{if(!wStarted)startWork()},reduce?60:950)}
+function setOpt(k,v){OPT[k].v=v;chosen.add(k);syncOpts();
+ if(k==="hsize"||k==="ssize"||k==="sgap"||k==="size"){fitName();if(landed){heartAt(1);startPile()}jumpTop()}
+ else if(k==="hglow"||k==="glow"){setHeartGlow();jumpTop()}
+ else if(k==="heart"){heart.innerHTML=HEARTS[v];renderHint();renderNav();setHeartGlow();jumpTop()}
+ else if(k==="count"){if(landed)startPile();jumpTop()}
+ else if(k==="hint"){renderHint();jumpTop()}
+ else if(k==="po"){effPo();paintAll();previewPour()}
+ else if(k==="atext"){jumpTo(about,()=>playAbout())}
+ else if(k==="aicon"){renderAicon();jumpTo(about)}
+ else if(k==="ow"||k==="owsub"){paintAll();previewOw()}
+ else if(k==="owpush"){previewPush()}
+ else if(k==="wf"){if(landed)startPile();jumpTop()}
+ else if(k==="hov"){body.dataset.hov=v;bars.forEach(t=>t.a.classList.remove("flipped"));jumpTo(wbox)}
+ else if(k==="bgap"||k==="btilt"||k==="tpat"){replayWork()}
+ else if(k==="depth"){body.dataset.depth=v;lastQ="";paintAll()}
+ else if(k==="bs"){replayWork()}
+ else if(k==="spc"){applySpc();sizeWork();paintAll();jumpTop()}
+ else if(k==="menu"||k==="mlift"){if(menu.classList.contains("open")){closeMenu();setTimeout(openMenu,900)}else openMenu()}}
+
+function resetAbout(){stopAboutLoop();aboutPlayed=false;wordify();if(!reduce){kwList.forEach(w=>{w._s=1;w.style.transform="";w.style.opacity=0});alink.style.opacity=0}}
+
+/* loader (D3, full page, scroll locked: E163, E164); the heart starts as soon as the screen is open (E179) */
+function circlePts(r){const pts=[];for(let i=0;i<=48;i++){const a=i/48*Math.PI*2;pts.push(`${(50+Math.cos(a)*r).toFixed(2)}% ${(50+Math.sin(a)*r*innerWidth/innerHeight).toFixed(2)}%`)}return pts.join(", ")}
+function opening(){const L=$("#loader");L.classList.remove("done");L.style.clipPath="none";body.classList.add("locked");heart.style.opacity=0;landed=false;kl.classList.remove("landed");
+ if(reduce){L.classList.add("done");body.classList.remove("locked");flyHeart();return}
+ let t0=null;const hold=700,dur=1200;const step=now=>{if(!t0)t0=now;const e=now-t0-hold;if(e<0){requestAnimationFrame(step);return}const k=clamp(e/dur),ease=1-Math.pow(1-k,4);
+  L.style.clipPath=`polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, ${circlePts(ease*90)})`;if(k<1)requestAnimationFrame(step);else{L.classList.add("done");body.classList.remove("locked");flyHeart()}};requestAnimationFrame(step)}
+
+/* start */
+addEventListener("scroll",()=>{introTick();paintAll();workTick();dropTick()},{passive:true});
+let lw=innerWidth,lh=innerHeight,rzT=0;
+addEventListener("resize",()=>{fitName();if(landed)heartAt(1);paintAll();clearTimeout(rzT);rzT=setTimeout(()=>{
+ const wc=Math.abs(innerWidth-lw)>60,hc=Math.abs(innerHeight-lh)>120;
+ if(wc||hc){lw=innerWidth;lh=innerHeight;if(landed)startPile();if(wStarted){resetWork();sizeWork();workTick()}else sizeWork();paintAll()}},250)});
+body.dataset.hov=OPT.hov.v;body.dataset.depth=OPT.depth.v;applySpc();po2init();
+fitName();sizeWork();ctPaint();applySkin();syncOpts();heart.innerHTML=HEARTS[OPT.heart.v];renderHint();renderNav();renderAicon();buildForm();resetAbout();paintAll();opening();
+document.fonts&&document.fonts.ready.then(()=>{fitName();if(landed)heartAt(1);if(!wStarted)sizeWork();paintAll()});
+})();
+</script>
+</body>
+</html>
