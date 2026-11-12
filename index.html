@@ -68,47 +68,29 @@ body.locked{overflow:hidden}
 #loader{position:fixed;inset:0;z-index:300;background:var(--cobalt);pointer-events:none}
 #loader.done{display:none}
 
-/* nav icon: a hamburger that turns into the heart on hover (E199); hidden until About (E162) */
-#menuBtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(14px,env(safe-area-inset-right,0px));z-index:60;width:52px;height:52px;border-radius:50%;border:2px solid transparent;background:transparent;color:var(--navc,var(--text));display:grid;place-items:center;cursor:pointer;transform:scale(0) rotate(-90deg);transition:transform .6s var(--quint),color .4s;padding:0}
-#menuBtn.in{transform:none}
-#menuBtn .bars,#menuBtn .nh{grid-area:1/1;transition:transform .45s var(--quint),opacity .3s}
-#menuBtn .bars{display:grid;gap:5px}
-#menuBtn .bars i{display:block;width:26px;height:3px;background:currentColor;border-radius:2px}
-#menuBtn .nh{width:30px;height:28px;transform:scale(0) rotate(-30deg);opacity:0}
-#menuBtn .nh svg{width:30px;height:28px;display:block}
-#menuBtn:hover .bars,#menuBtn:focus-visible .bars{transform:scale(.2);opacity:0}
-#menuBtn:hover .nh,#menuBtn:focus-visible .nh{transform:none;opacity:1}
-#menuBtn:hover .nh svg{animation:hpulse .9s ease-in-out infinite}
+/* light / dark toggle at the top (E665, her words: "since there arent any external pages we can remove the hamburger menu.  we can put a
+   light/dark (use sun/moon icons) toggle at the top which fades when the user starts to scroll"). Her rulings of 12 Nov on its form:
+   top right, where the hamburger was; sun one side, moon the other, with a pill that slides between them; no words on the page until the
+   cursor is on an icon, and then only the word under the icon it is on; it fades out as she starts to scroll and fades back in at the top
+   of the page. Every size, distance and time below is a placeholder, not a decision. */
+#skinT{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(14px,env(safe-area-inset-right,0px));z-index:60;
+ display:flex;align-items:center;gap:9px;padding:9px 12px;border:2px solid transparent;border-radius:999px;background:transparent;
+ color:var(--text);cursor:pointer;transition:opacity .45s var(--quint),color .4s}
+#skinT.gone{opacity:0;pointer-events:none}
+#skinT .si{position:relative;display:grid;place-items:center;width:22px;height:22px}
+#skinT .si svg{width:20px;height:20px;display:block;opacity:.45;transition:opacity .3s}
+#skinT .si.on svg,#skinT .si:hover svg{opacity:1}
+#skinT .si b{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:6px;font:700 .6rem var(--head);letter-spacing:.12em;
+ text-transform:uppercase;opacity:0;transition:opacity .25s;white-space:nowrap;pointer-events:none}
+#skinT .si:hover b{opacity:1}
+#skinT .sw{width:34px;height:18px;border-radius:999px;border:2px solid currentColor;position:relative;flex:none}
+#skinT .sw i{position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:currentColor;transition:transform .35s var(--quint)}
+#skinT[aria-checked="true"] .sw i{transform:translateX(16px)}
 
-/* full-screen menu with huge links (E183); plain or falling and stacking (E198, E223) */
-#menu{position:fixed;inset:0;z-index:250;background:var(--cobalt);color:#fff;display:grid;align-content:center;clip-path:circle(0px at var(--mx,95%) var(--my,5%));transition:clip-path .8s var(--quint);visibility:hidden}
-#menu::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain);pointer-events:none}
-#menu[hidden]{display:none}
-#menu.open{clip-path:circle(150vmax at var(--mx,95%) var(--my,5%));visibility:visible}
-#menu nav{position:relative;z-index:1;display:grid;gap:0;padding-inline:clamp(16px,4vw,48px)}
-#menu nav a{color:#fff;text-decoration:none;font:900 clamp(3.4rem,14vw,11rem)/1 var(--head);letter-spacing:-.045em;justify-self:start}
-#menu nav a .r{line-height:1.02}
-#menu .mline > span{transition-duration:.9s}
-#menu nav.phys{position:absolute;inset:0;display:block;padding:0}
-#menu nav.phys a{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform;cursor:grab;user-select:none;padding:.02em .04em .08em;line-height:.9;overflow:visible;touch-action:pan-y}
-#menu nav.phys .mline > span{transform:none;transition:none}
-#menu nav:not(.phys) .mline{overflow:hidden;padding-bottom:.04em}
-#menu nav:not(.phys) .mline > span{display:block;transform:translateY(108%);transition:transform .9s var(--quint)}
-#menu nav:not(.phys).on .mline > span{transform:none}
-#menu .mline:hover .r > span:first-child,#menu .mline:focus-visible .r > span:first-child{transform:translateY(-100%)}
-#menu .mline:hover .r > span + span,#menu .mline:focus-visible .r > span + span{transform:none}
-#menuClose{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(14px,env(safe-area-inset-right,0px));z-index:2;width:52px;height:52px;border-radius:50%;border:2px solid #fff;background:transparent;color:#fff;font:800 1.4rem var(--head);cursor:pointer}
-/* light / dark lives in the open menu, in a section called Settings, as a toggle (10 Nov: "In the full-screen menu"; 12 Nov: "put light/dark in a section called
-   setting and it will be a toggle in the menu"). It replaces the one that was in the demo tray (E130, E520). */
-#mset{position:absolute;left:clamp(16px,4vw,48px);bottom:calc(clamp(20px,5vh,56px) + env(safe-area-inset-bottom,0px));z-index:3;display:grid;gap:10px;justify-items:start}
-.mslab{margin:0;font:600 .72rem var(--head);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62)}
-#skinSw{color:#fff;border-color:rgba(255,255,255,.55);padding-right:12px}
-#skinSw .si{width:18px;height:18px;display:block;flex:none}
-#skinSw svg{width:18px;height:18px;display:block}
-#skinSw .sw{width:36px;height:20px;border-radius:999px;border:2px solid rgba(255,255,255,.55);display:block;position:relative;flex:none;margin-left:4px}
-#skinSw .sw i{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .35s var(--quint)}
-#skinSw[aria-checked="true"] .sw{background:rgba(255,255,255,.22)}
-#skinSw[aria-checked="true"] .sw i{transform:translateX(16px)}
+/* 12 Nov (E665, E666): the full-screen menu is gone, and with it the falling-and-stacking menu links (MN2) and the Settings switch that
+   lived inside it. Her words on the links: "theres no point to it now that there arent pages.  just make the note and remove." The note is
+   in FOLLOW-UP.md. Nothing is lost: there are no other pages to reach, About opens from the arrow under the blurb, and light / dark is now
+   the toggle above. */
 
 /* intro */
 .track{position:relative;height:calc(100vh + 120vh * var(--sp))}
@@ -398,8 +380,13 @@ body[data-skin="dark"]{--box:#2a2b31}
 <div id="tl" aria-hidden="true"></div>
 <div id="tk" aria-hidden="true"><div class="inkclip"><div class="ink" id="ink"></div></div><div class="dp"></div></div>
 <div id="dropL" aria-hidden="true"><div id="dpObj"></div></div>
-<button type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"></button>
-<div id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden><button type="button" id="menuClose" aria-label="Close menu">✕</button><nav id="mstage" aria-label="Main"><a href="#work" class="mline"><span><span class="r"><span>Work</span><span aria-hidden="true">Work</span></span></span></a><a href="#about" data-panel="about" class="mline"><span><span class="r"><span>About</span><span aria-hidden="true">About</span></span></span></a><a href="#contact" class="mline"><span><span class="r"><span>Contact</span><span aria-hidden="true">Contact</span></span></span></a></nav><div id="mset"><p class="mslab">Settings</p><button type="button" class="btn" id="skinSw" role="switch" aria-checked="false"><span class="si" aria-hidden="true"></span><span class="r"><span class="sl1"></span><span class="sl2" aria-hidden="true"></span></span><span class="sw" aria-hidden="true"><i></i></span></button></div></div>
+<!-- light / dark, top right (E665). Clicking an icon sets that skin; clicking the track between them swaps. The word under an icon
+     shows only while the cursor is on that icon (12 Nov). The icons themselves are filled in by the script (SUN, MOON). -->
+<button type="button" id="skinT" role="switch" aria-checked="false" aria-label="Dark mode">
+ <span class="si" data-set="light"><span class="ic" aria-hidden="true"></span><b aria-hidden="true">Light</b></span>
+ <span class="sw" aria-hidden="true"><i></i></span>
+ <span class="si" data-set="dark"><span class="ic" aria-hidden="true"></span><b aria-hidden="true">Dark</b></span>
+</button>
 
 <main>
 <section class="track" id="introTrack" aria-label="Kelly loves">
@@ -598,8 +585,8 @@ const OPT={
  fb:{label:"Folding the paper back into the cat (E283: you asked to see both)",v:"FB1",o:{FB1:"Both: a button and a click on the paper",FB2:"The button only",FB3:"A click on the paper only"}},
  cface:{label:"The cat's face (not asked for; shown here as a choice only)",v:"CF2",o:{CF1:"Plain paper, no face",CF2:"A simple face (eyes, nose, whiskers)"}},
  cback:{label:"The back of the origami paper, what shows where a fold turns the paper over (E302: you asked to see options; this list is mine, none is chosen)",v:"CB1",o:{CB1:"Cobalt",CB2:"Signal",CB3:"Near-black (the dark ground)",CB4:"Cobalt to signal across the sheet (the heart's gradient)",CB5:"Deeper cream"}},
- menu:{label:"Menu links (E198, E223)",v:"MN2",o:{MN1:"Plain links",MN2:"Links fall and stack"}},
- mlift:{label:"Menu links: how high they rest: 3 steps (E245; placeholders)",v:"ML2",o:{ML1:"A little higher (12% of the screen)",ML2:"Higher (24%)",ML3:"Much higher (36%)"}},
+ /* 12 Nov (E666): the two menu-link groups (MN1/MN2, and how high they rest) are gone with the menu itself. Her words: "theres no point to
+    it now that there arent pages.  just make the note and remove." The note is in FOLLOW-UP.md. */
  spc:{label:"Space between all the sections: 3 steps (E245; placeholders)",v:"SP1",o:{SP1:"Tighter (x.75)",SP2:"Tight (x.5)",SP3:"Very tight (x.3)"}},   /* SP1: her Demo P picks, 12 Nov */
  size:{label:"Name size (E170, picked S2)",v:"S2",o:{S1:"About 80% of the width",S2:"About half the width"}},
  heart:{label:"Heart (E150, picked HT4)",v:"HT4",o:{HT1:"Classic, signal",HT2:"Classic, gradient",HT3:"Geometric, cobalt",HT4:"Outline, signal"}},
@@ -611,28 +598,30 @@ const OPT={
 const SECT=[["Intro: the words",["wf"]],["Work: the bars falling",["bs"]],["Contact: the origami cat",["cback"]]];
 /* decided: no longer in the panel, still applied. The first five were picked in earlier demos; the rest are Kelly's picks from the chat forms of 9–10 Nov (session 4):
    HS3 SS2 SG1 HG3 PO2 AK4 AI1 OW1 HV3 BG1 TL2 TP3 DP3 CH3 FB1 CF2 MN2 ML2 SP2, then OS1 (E400: "record OS1 as my choice"), PS2 (E410: "whatever it is now i like") and the colour-change start GS4 (E404: the top edge of Graphic Work at 30%) */
-const EARLIER=["size","heart","count","hint","glow","hsize","ssize","sgap","hglow","po","atext","aicon","ow","owsub","owpush","hov","bgap","btilt","tpat","depth","gs","chint","fb","cface","menu","mlift","spc"];
+const EARLIER=["size","heart","count","hint","glow","hsize","ssize","sgap","hglow","po","atext","aicon","ow","owsub","owpush","hov","bgap","btilt","tpat","depth","gs","chint","fb","cface","spc"];
 /* placeholder values behind the steps (none of these is a decision) */
 const LINE=.95;   /* the whole Kelly, heart and s line is about 5% smaller than in Demo Q (E308, E310) */
-const HSZ={HS1:1.3,HS2:1.6,HS3:2},SSZ={SS1:.78,SS2:.85,SS3:.92},SPC={SP1:.75,SP2:.5,SP3:.3},MLF={ML1:.12,ML2:.24,ML3:.36};
+const HSZ={HS1:1.3,HS2:1.6,HS3:2},SSZ={SS1:.78,SS2:.85,SS3:.92},SPC={SP1:.75,SP2:.5,SP3:.3};   /* MLF, how high the menu links rested, went with the menu (E666) */
 
 /* skin (E130) */
 const st={skin:"auto"};const mq=matchMedia("(prefers-color-scheme: dark)");
 const skin=()=>st.skin!=="auto"?st.skin:root.dataset.theme==="dark"?"dark":root.dataset.theme==="light"?"light":(mq.matches?"dark":"light");
 const inkEnd=()=>skin()==="dark"?"#f1f0ec":"#000000";
-/* the light / dark switch lives in the open menu (10 Nov: "In the full-screen menu"). The page still follows the device until someone uses it (E130). */
+/* 12 Nov (E665): light / dark is the toggle at the top right, sun one side and moon the other, and the full-screen menu it used to live in is
+   gone. The page still follows the device until someone uses the toggle (E130). Clicking an icon sets that skin, so the word under the sun
+   always means light and the word under the moon always means dark; clicking the track between them swaps. */
 const SUN=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>`;
 const MOON=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.9 6.9 0 0 0 10.2 10.2z"/></svg>`;
-const skinSw=$("#skinSw");
-function syncSkinSw(){if(!skinSw)return;const dark=skin()==="dark",next=dark?"Light":"Dark";
- skinSw.querySelector(".si").innerHTML=dark?SUN:MOON;
- skinSw.querySelector(".sl1").textContent=next+" mode";skinSw.querySelector(".sl2").textContent=next+" mode";
- skinSw.setAttribute("aria-checked",String(dark));
- skinSw.setAttribute("aria-label","Dark mode")}
-if(skinSw)skinSw.addEventListener("click",()=>{st.skin=skin()==="dark"?"light":"dark";applySkin()});
+const skinT=$("#skinT");
+if(skinT){const l=skinT.querySelector('[data-set="light"] .ic'),d=skinT.querySelector('[data-set="dark"] .ic');if(l)l.innerHTML=SUN;if(d)d.innerHTML=MOON}
+function syncSkinSw(){if(!skinT)return;const dark=skin()==="dark";
+ skinT.setAttribute("aria-checked",String(dark));
+ skinT.setAttribute("aria-label","Dark mode");
+ skinT.querySelectorAll(".si").forEach(s=>s.classList.toggle("on",(s.dataset.set==="dark")===dark))}
+if(skinT)skinT.addEventListener("click",e=>{const s=e.target.closest(".si");
+ st.skin=s?s.dataset.set:(skin()==="dark"?"light":"dark");applySkin()});
 function applySkin(){body.dataset.skin=skin();ctPaint();buildHgPrev();syncSkinSw()}
 mq.addEventListener("change",applySkin);new MutationObserver(applySkin).observe(root,{attributes:true,attributeFilter:["data-theme"]});
-$$(".tray [data-skin]").forEach(b=>b.addEventListener("click",()=>{st.skin=b.dataset.skin;applySkin()}));
 
 /* hearts */
 const CLASSIC="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z";
@@ -768,7 +757,7 @@ function introTick(){const r=track.getBoundingClientRect();const p=clamp(-r.top/
  if(eng&&!flyUp&&dy<-3&&p<.55&&r.bottom>0){const k=Math.min(1,-dy/60);items.forEach(t=>{if(t.body&&Math.random()<.6)Matter.Body.setVelocity(t.body,{x:t.body.velocity.x+(Math.random()-.5)*14*k,y:t.body.velocity.y-(6+Math.random()*12)*k})})}}
 
 /* shared elements */
-const about=$("#about"),tl=$("#tl"),tk=$("#tk"),ink=$("#ink"),mb=$("#menuBtn"),work=$("#work"),wbox=$("#wbox"),ct=$("#contact"),dpObj=$("#dpObj");
+const about=$("#about"),tl=$("#tl"),tk=$("#tk"),ink=$("#ink"),work=$("#work"),wbox=$("#wbox"),ct=$("#contact"),dpObj=$("#dpObj");
 const ap1=$("#ap1"),ap2=$("#ap2"),alink=$("#alink"),anote=$("#anote");
 
 /* jump to the part of the page a choice affects, then show it (demo tooling, not a design choice) */
@@ -1130,7 +1119,10 @@ function paintAll(){
  const pp=clamp((pin-PDLY)/(1-PDLY));P.pp=pp;
  /* the intro rides up through that first stretch, so the page is already moving when the blue starts. DRIFT is a placeholder. */
  {const k=clamp(pin/PDLY),e=1-Math.pow(1-k,2);stage.style.setProperty("--drift",(DRIFT*vh*e).toFixed(1)+"px")}
- aInView=r.bottom>0&&r.top<vh;mb.classList.toggle("in",r.top<vh*.6);
+ aInView=r.bottom>0&&r.top<vh;
+ /* 12 Nov (E665): the toggle "fades when the user starts to scroll", and she chose "Comes back at the top": it is there while the page is at
+    the top, fades out on the first scroll, and fades back in when she comes back to the top. FADET is a placeholder. */
+ if(skinT)skinT.classList.toggle("gone",scrollY>FADET);
  const hr=heart.getBoundingClientRect(),hcx=hr.left+hr.width/2,hcy=hr.top+hr.height/2;
  const g=owGeom(wr,vw,tm);g.blobs=glOk;
  const sh=pp>0&&pp<1?pourShape(po,pp,hcx,hcy,tm):null;
@@ -1175,12 +1167,13 @@ function paintAll(){
  if(tlOn||P.wasOn){kwList.forEach(w=>w.classList.toggle("lit",litFor(w)))}else kwList.forEach(w=>w.classList.remove("lit"));
  P.wasOn=tlOn;
  const al=litFor(alink);alink.classList.toggle("lit",al);anote.classList.toggle("lit",al);
- navColour(q,blue);
  if(((pp>0&&pp<1)||(tlOn&&edgeOn&&!reduce))&&!liqRaf)liqRaf=requestAnimationFrame(liqLoop)}
-function navColour(q,blue){const y=60,x=innerWidth-40;let c="";
- if(blue(x,y))c="#fff";
- else if(q>.55)c=ct.style.getPropertyValue("--ink");
- mb.style.setProperty("--navc",c)}
+/* how far she has to scroll before the toggle has faded out (px). A placeholder, not a decision. */
+const FADET=16;
+/* navColour went with the hamburger. It painted the nav icon white over the blue and the Contact ink lower down, because the icon lived
+   all the way down the page. The toggle only shows at the top (E665), where the ground is always the page ground, so it simply takes the
+   page's own ink. Found while checking this build: with navColour still running, the toggle came out white on the light skin's cream
+   ground at the top of the page, because the colour change never goes back (E405) and it kept handing the toggle the Contact ink. */
 
 /* ── About text: four kinetic / size options (E211), no stretch (E203) ── */
 const AP=[ap1,ap2];let aboutPlayed=false,aRaf=0,pmx=-1e4,pmy=-1e4,kwList=[];
@@ -1218,37 +1211,10 @@ function renderAicon(){const s=ICONS[OPT.aicon.v];alink.innerHTML=`<span class="
 /* 12 Nov (E612): there is no About page any more; the arrow opens About in place, with the same expand a project uses. */
 alink.addEventListener("click",e=>{e.preventDefault();panelOpen("about",alink)});
 
-/* ── nav icon (E199) and full-screen menu (E183) ── */
-const menu=$("#menu"),mnav=$("#mstage");
-function renderNav(){mb.innerHTML=`<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="nh" aria-hidden="true">${HEARTS[OPT.heart.v]}</span>`}
-let mEng=null,mRaf=0,mLinks=[],mMc=null;
-function stopMenuPhys(){cancelAnimationFrame(mRaf);if(mMc){dropMouse(mMc);mMc=null}if(mEng)Matter.Engine.clear(mEng);mEng=null}
-/* the links land on a floor that is lifted off the bottom of the screen (E249; 3 steps, placeholders) */
-function menuPhys(){stopMenuPhys();const stg=mnav;const links=$$("#mstage a");const W=stg.clientWidth,H=stg.clientHeight,lift=Math.round(H*MLF[OPT.mlift.v]);
- if(!window.Matter||reduce){let y=H*.18;links.forEach(a=>{a.style.transform=`translate(${Math.max(16,W*.06)}px,${y}px)`;y+=a.offsetHeight});return}
- const {Engine,Bodies,Composite}=Matter;mEng=Engine.create();mEng.gravity.y=1.2;mEng.positionIterations=10;
- Composite.add(mEng.world,[Bodies.rectangle(W/2,H-lift+200,W*3,400,{isStatic:true}),Bodies.rectangle(-200,H/2,400,H*4,{isStatic:true}),Bodies.rectangle(W+200,H/2,400,H*4,{isStatic:true})]);
- mLinks=links.map((a,i)=>{const bw=a.offsetWidth,bh=a.offsetHeight;const b=Bodies.rectangle(W*.08+bw/2+Math.random()*Math.max(1,W*.5-bw/2),-bh*(1+i*1.2),bw,bh,{chamfer:{radius:10},restitution:.25,friction:.6,angle:(Math.random()-.5)*.4});Composite.add(mEng.world,b);return {a,b,bw,bh}});
- mMc=mkMouse(stg,mEng,.2);
- let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;Engine.update(mEng,dt);mLinks.forEach(l=>{const p=l.b.position;l.a.style.transform=`translate(${p.x-l.bw/2}px,${p.y-l.bh/2}px) rotate(${l.b.angle}rad)`});mRaf=requestAnimationFrame(loop)};mRaf=requestAnimationFrame(loop)}
-function openMenu(){const r=mb.getBoundingClientRect();menu.style.setProperty("--mx",(r.left+r.width/2)+"px");menu.style.setProperty("--my",(r.top+r.height/2)+"px");menu.hidden=false;void menu.offsetWidth;menu.classList.add("open");mb.setAttribute("aria-expanded","true");
- const phys=OPT.menu.v==="MN2";mnav.classList.toggle("phys",phys);
- if(phys){$$("#mstage a").forEach(a=>a.style.transform="translate(-9999px,0)");setTimeout(menuPhys,250)}
- else{$$("#mstage a").forEach((a,i)=>{a.style.transform="";a.firstElementChild.style.transitionDelay=(.25+i*.1)+"s"});mnav.classList.remove("on");requestAnimationFrame(()=>requestAnimationFrame(()=>mnav.classList.add("on")))}
- setTimeout(()=>$("#menuClose").focus({preventScroll:true}),300)}
-function closeMenu(){menu.classList.remove("open");mb.setAttribute("aria-expanded","false");setTimeout(()=>{if(!menu.classList.contains("open")){menu.hidden=true;stopMenuPhys()}},800);mb.focus({preventScroll:true})}
-mb.addEventListener("click",openMenu);$("#menuClose").addEventListener("click",closeMenu);
-addEventListener("keydown",e=>{if(e.key==="Escape"&&menu.classList.contains("open"))closeMenu()});
-let mDown=null;mnav.addEventListener("pointerdown",e=>{mDown={x:e.clientX,y:e.clientY}});
-/* a link that points at a part of this page scrolls to it; one that points at another page opens it. A drag of a falling link is not a click. */
-$$("#mstage a").forEach(a=>a.addEventListener("click",e=>{
- if(mDown&&Math.hypot(e.clientX-mDown.x,e.clientY-mDown.y)>6){e.preventDefault();return}
- const id=a.getAttribute("href");
- /* 12 Nov: About carries data-panel and is handled by the panel's own listener below, which opens it in place.
-    Without this the link would ALSO scroll the page to the About section behind the panel. */
- if(a.dataset.panel)return;
- if(!id.startsWith("#"))return;
- e.preventDefault();closeMenu();setTimeout(()=>document.querySelector(id).scrollIntoView({behavior:reduce?"auto":"smooth"}),350)}));
+/* ── 12 Nov (E665, E666): the nav icon, the full-screen menu, its falling links and their physics are all gone. Her words: "since there
+   arent any external pages we can remove the hamburger menu", and on the links: "theres no point to it now that there arent pages.  just
+   make the note and remove." What used to live here: renderNav, openMenu, closeMenu, menuPhys, stopMenuPhys and the menu's link handlers.
+   The only control at the top now is the light / dark toggle (#skinT, above). ── */
 
 /* ── Work: Demo L topple from the left and right, then a physics landing that is uneven (E214); GigBag on top (E215);
    the bottom bar falls first (E216); plays once on arrival (E217); bars stay where they land (E193, E226).
@@ -1628,11 +1594,9 @@ function panelNext(slug){
   .then(()=>{pnBusy=false})}
 
 pclose.addEventListener("click",panelClose);
-addEventListener("keydown",e=>{if(e.key==="Escape"&&pnOpen&&!menu.classList.contains("open"))panelClose()});
-/* About in the full-screen menu opens the same panel (E612). The menu closes first, and the panel grows out of the
-   link that was pressed, so it comes from the thing she clicked, exactly as a Work bar's does. */
-mnav.addEventListener("click",e=>{const a=e.target.closest("[data-panel]");if(!a)return;e.preventDefault();
- closeMenu();setTimeout(()=>panelOpen(a.dataset.panel,a),reduce?0:420)});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&pnOpen)panelClose()});
+/* 12 Nov (E665): About used to be reachable from the full-screen menu as well. The menu is gone, so the arrow under the
+   blurb is the one route into it, and that is wired where the arrow is built (alink's own click handler). */
 panel.addEventListener("click",e=>{
  const nx=e.target.closest("[data-next]");if(nx){e.preventDefault();panelNext(nx.dataset.next);return}
  const a=e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href");
@@ -1651,7 +1615,7 @@ function previewPush(){resetWork();resetColour();sizeWork();const vh=innerHeight
 function setOpt(k,v){OPT[k].v=v;chosen.add(k);syncOpts();
  if(k==="hsize"||k==="ssize"||k==="sgap"||k==="size"){fitName();if(landed){heartAt(1);startPile()}jumpTop()}
  else if(k==="hglow"||k==="glow"){setHeartGlow();jumpTop()}
- else if(k==="heart"){heart.innerHTML=HEARTS[v];renderHint();renderNav();setHeartGlow();jumpTop()}
+ else if(k==="heart"){heart.innerHTML=HEARTS[v];renderHint();setHeartGlow();jumpTop()}
  else if(k==="count"){if(landed)startPile();jumpTop()}
  else if(k==="hint"){renderHint();jumpTop()}
  else if(k==="po"){effPo();paintAll();previewPour()}
@@ -1664,8 +1628,7 @@ function setOpt(k,v){OPT[k].v=v;chosen.add(k);syncOpts();
  else if(k==="bgap"||k==="btilt"||k==="tpat"){replayWork()}
  else if(k==="depth"){body.dataset.depth=v;lastQ="";paintAll()}
  else if(k==="bs"){replayWork()}
- else if(k==="spc"){applySpc();sizeWork();paintAll();jumpTop()}
- else if(k==="menu"||k==="mlift"){if(menu.classList.contains("open")){closeMenu();setTimeout(openMenu,900)}else openMenu()}}
+ else if(k==="spc"){applySpc();sizeWork();paintAll();jumpTop()}}
 
 function resetAbout(){stopAboutLoop();aboutPlayed=false;wordify();if(!reduce){kwList.forEach(w=>{w._s=1;w.style.transform="";w.style.opacity=0});alink.style.opacity=0}}
 
@@ -1683,7 +1646,7 @@ addEventListener("resize",()=>{fitName();if(landed)heartAt(1);paintAll();clearTi
  const wc=Math.abs(innerWidth-lw)>60,hc=Math.abs(innerHeight-lh)>120;
  if(wc||hc){lw=innerWidth;lh=innerHeight;if(landed)startPile();if(wStarted){resetWork();sizeWork();workTick()}else sizeWork();paintAll()}},250)});
 body.dataset.hov=OPT.hov.v;body.dataset.depth=OPT.depth.v;applySpc();po2init();
-fitName();sizeWork();ctPaint();applySkin();syncOpts();heart.innerHTML=HEARTS[OPT.heart.v];renderHint();renderNav();renderAicon();buildForm();resetAbout();paintAll();opening();
+fitName();sizeWork();ctPaint();applySkin();syncOpts();heart.innerHTML=HEARTS[OPT.heart.v];renderHint();renderAicon();buildForm();resetAbout();paintAll();opening();
 document.fonts&&document.fonts.ready.then(()=>{fitName();if(landed)heartAt(1);if(!wStarted)sizeWork();paintAll()});
 })();
 </script>
