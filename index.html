@@ -286,6 +286,92 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
 #panel .hgp svg{width:44px;height:40px;overflow:visible;filter:drop-shadow(0 0 5px var(--c)) drop-shadow(0 0 16px var(--c));animation:hpulse .9s ease-in-out infinite}
 #panel .hgp[aria-pressed="true"] svg{filter:drop-shadow(0 0 5px var(--c)) drop-shadow(0 0 16px var(--c)) drop-shadow(0 0 1px #000)}
 #copyOut{position:fixed;left:10px;right:10px;bottom:110px;z-index:210;min-height:140px;font:400 .85rem var(--body);padding:8px}
+
+/* ───── the panel a project or About opens into (12 Nov, E610: everything lives on the home page) ─────
+   Kelly chose two CodePens (E605, E611). Opening a project is rachsmith's "Expanding card page transition effect":
+   an empty block is placed exactly over the bar that was clicked, given that bar's own colour, and scaled to fill
+   the screen, so the bar reads as becoming the page; closing shrinks it back onto the bar. Going from one project
+   to the next is Podgro's "Page transition CSS3": a skewed slab sweeps in from the side, opens to the full width,
+   wobbles, and skews away again, with the content swapped while the screen is covered.
+   The styles below for .sec, .lab, .lede, .body, .rule, .pairs, .shots, .shot and .next are the pages' own, from
+   assets/site.css, so the content looks exactly as it did on them. Every number is a placeholder. */
+#cover{position:fixed;left:0;top:0;width:0;height:0;z-index:150;background:var(--ground);transform-origin:0 0;pointer-events:none;
+ transition:transform .55s var(--quint);will-change:transform}
+#cover.none{transition:none}
+#sweep{position:fixed;top:0;left:0;height:100%;width:30%;z-index:170;background:var(--cobalt);pointer-events:none;
+ transform:skewX(-5deg) translateX(-140%);will-change:transform;opacity:0}
+#sweep.run{animation:sweepGo 1.45s cubic-bezier(.5,0,.3,1) forwards}
+@keyframes sweepGo{
+  0%{opacity:1;transform:skewX(-5deg) translateX(-140%);width:30%}
+  26%{opacity:1;transform:skewX(4deg) translateX(0);width:100%;box-shadow:16px 0 40px rgba(0,0,0,.28)}
+  46%{opacity:1;transform:skewX(0deg) translateX(0);width:100%;box-shadow:16px 0 40px rgba(0,0,0,.28)}
+  62%{opacity:1;transform:skewX(2deg) translateX(0);width:100%;box-shadow:16px 0 40px rgba(0,0,0,.28)}
+  100%{opacity:1;transform:skewX(-6deg) translateX(118%);width:46%;box-shadow:none}}
+#opened{position:fixed;inset:0;z-index:160;background:var(--ground);color:var(--text);overflow:hidden auto;overscroll-behavior:contain;
+ opacity:0;visibility:hidden;transition:opacity .3s}
+#opened.on{opacity:1;visibility:visible}
+#opened::after{content:"";position:fixed;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain);pointer-events:none;z-index:3}
+#opened .pbar{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:16px;
+ padding:calc(env(safe-area-inset-top,0px) + 14px) max(14px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));
+ background:linear-gradient(var(--ground) 62%,transparent)}
+#opened .pclose{display:inline-flex;align-items:center;gap:10px;font:800 .95rem var(--head);color:inherit;background:transparent;
+ border:2px solid currentColor;border-radius:999px;padding:9px 18px 9px 14px;cursor:pointer}
+#opened .pclose:hover,#opened .pclose:focus-visible{color:var(--cobalt)}
+#opened .pclose .ba{display:block;width:17px;height:17px;overflow:hidden;position:relative;flex:none}
+#opened .pclose .ba svg{position:absolute;inset:0;width:17px;height:17px;transition:transform .45s var(--quint)}
+#opened .pclose .ba svg + svg{transform:translateX(130%)}
+#opened .pclose:hover .ba svg:first-child{transform:translateX(-130%)}
+#opened .pclose:hover .ba svg + svg{transform:none}
+#opened .pnum{font:600 .9rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+#opened .pbody{padding-bottom:clamp(40px,10vh,120px)}
+/* the title, in the pages' own markup so their falling-word physics runs here unchanged */
+.ptrack{position:relative;min-height:clamp(340px,52vh,660px);overflow:hidden}
+.pw{position:absolute;left:0;top:0;font:900 clamp(2.6rem,10.5vw,8.6rem)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;
+ user-select:none;z-index:2;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
+.pw.on{opacity:1}
+.pw .wi{display:block;-webkit-text-fill-color:transparent;background-image:var(--noise),linear-gradient(165deg,rgba(255,255,255,.46),rgba(255,255,255,0) 42%,rgba(0,0,0,.36)),linear-gradient(var(--wc,#000),var(--wc,#000));
+ background-blend-mode:soft-light,normal,normal;-webkit-background-clip:text;background-clip:text;padding:.06em .02em .18em;margin:-.06em -.02em -.18em}
+.pw.hot .wi{background-image:linear-gradient(100deg,var(--cobalt) 0%,var(--signal) 26%,var(--cobalt) 52%,var(--signal) 78%,var(--cobalt) 100%);
+ background-size:280% 100%;background-blend-mode:normal;animation:chame 13s linear infinite}
+.pw.flat{position:static;opacity:1;cursor:default}
+/* the page bodies' own styles, from assets/site.css */
+#opened .sec{padding-block:clamp(40px,8vh,96px)}
+#opened .lab{font:600 .8rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+#opened .lede{font:500 clamp(1.7rem,3.6vw,3.1rem)/1.2 var(--blurb);margin:0;max-width:24ch;letter-spacing:-.01em}
+#opened .body{font:300 clamp(1.02rem,1.25vw,1.22rem)/1.65 var(--body);max-width:62ch;margin:0}
+#opened .body + .body{margin-top:1.1em}
+#opened .kw{display:inline-block;will-change:transform}
+#opened .rule{height:2px;background:var(--rule);opacity:.18;border:0;margin:0}
+#opened .pairs{display:grid;gap:28px 48px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));margin:0}
+#opened .pairs dt{font:600 .8rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+#opened .pairs dd{margin:6px 0 0;font:400 1.05rem/1.5 var(--body)}
+#opened .shots{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+#opened .shot{aspect-ratio:16/10;background:var(--box,#d8d7d2);border:2px solid var(--rule);display:grid;place-items:center;color:var(--muted);
+ font:600 .78rem var(--head);letter-spacing:.14em;text-transform:uppercase;opacity:0;transform:translateY(28px);
+ transition:opacity .7s var(--quint),transform .7s var(--quint)}
+#opened .shot.in{opacity:1;transform:none}
+#opened .next{display:block;text-decoration:none;color:inherit;border-top:2px solid var(--rule);padding-block:clamp(28px,6vh,64px);cursor:pointer}
+#opened .next .lab{margin-bottom:10px}
+#opened .next h2{margin:-.04em -.02em -.16em;padding:.04em .02em .16em;font:900 clamp(2.2rem,8vw,6rem)/.95 var(--head);letter-spacing:-.04em;
+ -webkit-text-fill-color:transparent;background-image:linear-gradient(var(--text),var(--text));-webkit-background-clip:text;background-clip:text;background-size:100% 100%}
+#opened .next:hover h2,#opened .next:focus-visible h2{background-image:linear-gradient(100deg,var(--cobalt) 0%,var(--signal) 26%,var(--cobalt) 52%,var(--signal) 78%,var(--cobalt) 100%);
+ background-size:280% 100%;animation:chame 13s linear infinite}
+#opened .fstrip{border-top:2px solid var(--rule);padding-block:clamp(26px,5vh,54px);margin-top:clamp(20px,5vh,60px)}
+#opened .fstrip .in{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:baseline;justify-content:space-between}
+#opened .fstrip h2{margin:0;font:900 clamp(1.6rem,4.4vw,3rem)/1 var(--head);letter-spacing:-.03em}
+#opened .fstrip .lk{display:flex;gap:10px 26px;flex-wrap:wrap;font:700 1rem var(--head)}
+#opened .fstrip a{color:inherit;text-decoration:none;border-bottom:2px solid currentColor;cursor:pointer}
+#opened .pnav{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--rule)}
+#opened .pnav .next{border-top:0}
+#opened .pnav .next.prev{text-align:left}
+#opened .pnav .next.fwd{text-align:right}
+#opened .pnav .next.none{visibility:hidden}
+@media (max-width:720px){#opened .pnav{grid-template-columns:1fr;gap:0}
+ #opened .pnav .next.fwd{text-align:left;border-top:2px solid var(--rule)}
+ #opened .pnav .next.none{display:none}}
+body[data-skin="dark"]{--box:#2a2b31}
+:root{--box:#d8d7d2}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01s!important;animation:none!important}}
 </style>
 </head>
@@ -296,7 +382,7 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
 <div id="tk" aria-hidden="true"><div class="inkclip"><div class="ink" id="ink"></div></div><div class="dp"></div></div>
 <div id="dropL" aria-hidden="true"><div id="dpObj"></div></div>
 <button type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"></button>
-<div id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden><button type="button" id="menuClose" aria-label="Close menu">✕</button><nav id="mstage" aria-label="Main"><a href="#work" class="mline"><span><span class="r"><span>Work</span><span aria-hidden="true">Work</span></span></span></a><a href="about/" class="mline"><span><span class="r"><span>About</span><span aria-hidden="true">About</span></span></span></a><a href="contact/" class="mline"><span><span class="r"><span>Contact</span><span aria-hidden="true">Contact</span></span></span></a></nav><div id="mset"><p class="mslab">Settings</p><button type="button" class="btn" id="skinSw" role="switch" aria-checked="false"><span class="si" aria-hidden="true"></span><span class="r"><span class="sl1"></span><span class="sl2" aria-hidden="true"></span></span><span class="sw" aria-hidden="true"><i></i></span></button></div></div>
+<div id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden><button type="button" id="menuClose" aria-label="Close menu">✕</button><nav id="mstage" aria-label="Main"><a href="#work" class="mline"><span><span class="r"><span>Work</span><span aria-hidden="true">Work</span></span></span></a><a href="#about" data-panel="about" class="mline"><span><span class="r"><span>About</span><span aria-hidden="true">About</span></span></span></a><a href="#contact" class="mline"><span><span class="r"><span>Contact</span><span aria-hidden="true">Contact</span></span></span></a></nav><div id="mset"><p class="mslab">Settings</p><button type="button" class="btn" id="skinSw" role="switch" aria-checked="false"><span class="si" aria-hidden="true"></span><span class="r"><span class="sl1"></span><span class="sl2" aria-hidden="true"></span></span><span class="sw" aria-hidden="true"><i></i></span></button></div></div>
 
 <main>
 <section class="track" id="introTrack" aria-label="Kelly loves">
@@ -312,7 +398,7 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
   <div class="wrap">
     <p class="ap" id="ap1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
     <p class="ap" id="ap2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-    <a class="alink" id="alink" href="about/" aria-label="About"></a>
+    <a class="alink" id="alink" href="#about" aria-label="About"></a>
     <p class="anote" id="anote" aria-live="polite"></p>
   </div>
 </section>
@@ -326,6 +412,139 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
 </section>
 </main>
 
+<div id="cover" aria-hidden="true"></div>
+<div id="opened" role="dialog" aria-modal="true" aria-label="Project" aria-hidden="true">
+  <div class="pbar"><button type="button" class="pclose" id="pclose"></button><span class="pnum" id="ppnum"></span></div>
+  <div class="wrap pbody" id="pbody"></div>
+</div>
+<div id="sweep" aria-hidden="true"></div>
+
+<!-- The seven pages' own content, lifted from about/index.html and work/<project>/index.html before those files were
+     removed (12 Nov, E613: "remove them but can you use the code in the pages in the modals so you dont have to
+     rewrite code?"). Nothing here was rewritten: it is the pages' markup, with the next-project link turned into
+     a button the panel handles, because the pages it pointed at no longer exist. -->
+<template id="pg-gigbag"><div class="wrap">
+  <section class="sec">
+    <p class="lab">Overview</p>
+    <p class="lede" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">Problem and approach</p>
+    <p class="body" data-kin>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="body" data-kin>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">Screens</p>
+    <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div><div class="shot"><span>Screen 4</span></div></div>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">Outcome</p>
+    <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <a class="next" data-next="titrelab" href="#work">
+    <p class="lab">Next</p>
+    <h2>TitreLab</h2>
+  </a>
+</div></template>
+<template id="pg-titrelab"><div class="wrap">
+  <section class="sec">
+    <p class="lab">Overview</p>
+    <p class="lede" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">Problem and approach</p>
+    <p class="body" data-kin>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="body" data-kin>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">Screens</p>
+    <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div><div class="shot"><span>Screen 4</span></div></div>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">Outcome</p>
+    <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <a class="next" data-next="formulation-suite" href="#work">
+    <p class="lab">Next</p>
+    <h2>Formulation Suite</h2>
+  </a>
+</div></template>
+<template id="pg-formulation-suite"><div class="wrap">
+  <section class="sec">
+    <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <section class="sec">
+    <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div></div>
+  </section>
+  <a class="next" data-next="phytofoundry" href="#work">
+    <p class="lab">Next</p>
+    <h2>PhytoFoundry</h2>
+  </a>
+</div></template>
+<template id="pg-phytofoundry"><div class="wrap">
+  <section class="sec">
+    <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <section class="sec">
+    <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div></div>
+  </section>
+  <a class="next" data-next="graphic-work" href="#work">
+    <p class="lab">Next</p>
+    <h2>Graphic Work</h2>
+  </a>
+</div></template>
+<template id="pg-graphic-work"><div class="wrap">
+  <section class="sec">
+    <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <section class="sec">
+    <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div></div>
+  </section>
+  <a class="next" data-next="product-labels" href="#work">
+    <p class="lab">Next</p>
+    <h2>Product Labels</h2>
+  </a>
+</div></template>
+<template id="pg-product-labels"><div class="wrap">
+  <section class="sec">
+    <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <section class="sec">
+    <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div></div>
+  </section>
+  <a class="next" data-next="gigbag" href="#work">
+    <p class="lab">Next</p>
+    <h2>GigBag</h2>
+  </a>
+</div></template>
+<template id="pg-about"><div class="wrap">
+  <section class="sec">
+    <p class="lede" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">What I do</p>
+    <p class="body" data-kin>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <dl class="pairs">
+      <div><dt>Lorem</dt><dd>Ipsum dolor sit amet consectetur</dd></div>
+      <div><dt>Dolor</dt><dd>Adipiscing elit sed do eiusmod</dd></div>
+      <div><dt>Tempor</dt><dd>Incididunt ut labore et dolore</dd></div>
+      <div><dt>Aliqua</dt><dd>Ut enim ad minim veniam quis</dd></div>
+    </dl>
+  </section>
+  <hr class="rule">
+  <section class="sec">
+    <p class="lab">How I work</p>
+    <p class="body" data-kin>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </section>
+</div></template>
 <!-- E520: the demo tray, the options panel, the replay buttons and "Copy my picks" are gone from the live site. Every choice comes through the chat forms now. -->
 
 <script>
@@ -984,7 +1203,8 @@ const ICONS={
  AI3:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>`,
  AI4:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`};
 function renderAicon(){const s=ICONS[OPT.aicon.v];alink.innerHTML=`<span class="ico"><span>${s}</span><span aria-hidden="true">${s}</span></span>`}
-/* 12 Nov: the About page exists now, so the arrow simply opens it (E530). */
+/* 12 Nov (E612): there is no About page any more; the arrow opens About in place, with the same expand a project uses. */
+alink.addEventListener("click",e=>{e.preventDefault();panelOpen("about",alink)});
 
 /* ── nav icon (E199) and full-screen menu (E183) ── */
 const menu=$("#menu"),mnav=$("#mstage");
@@ -1021,13 +1241,14 @@ $$("#mstage a").forEach(a=>a.addEventListener("click",e=>{
    Demo Q: the wipe is gone (E269), no shake and no drop (E272, E273); the bars just fall as before.
    Demo R, session 4: bars that finish toppling in the same frame now settle in the order they were dropped (a stalled frame used to put a lower bar on top of a higher one);
    the second bar from the top, and GigBag after it, wait until their place is on the screen, so the last two bars always fall where the visitor can see them. ── */
-/* 12 Nov: each bar now opens its own page (E512, E528: clean folders). The addresses are relative, so they work on the live site and from the folder. */
+/* 12 Nov (E610): there are no project pages any more. A bar opens its project in place, over the home page, with the expand Kelly picked (E605, E611).
+   The href stays #work so the bar is still a real link if the script never runs. */
 const PROJ=[["GigBag","Case study","gigbag"],["TitreLab","Lorem ipsum","titrelab"],["Formulation Suite","Lorem ipsum","formulation-suite"],["PhytoFoundry","Lorem ipsum","phytofoundry"],["Graphic Work","Placeholder","graphic-work"],["Product Labels","Placeholder","product-labels"]];
 const TOPPLE=750,STAGGER=560,WSTART=1.15;   /* placeholder timings, not decisions; WSTART: Work starts when the arrow is this far down the screen (in screens) */
 const BGAP={BG1:8,BG2:14,BG3:22},BTILT={TL1:.6,TL2:1.2,TL3:2},TPAT={TP1:[1,-1,1,-1,1,-1],TP2:[1,1,1,1,1,1],TP3:[.9,-.6,1,-.8,.5,-1]};
 let wEng=null,wRaf=0,bars=[],wStarted=false,wTimers=[],barsLanded=false,hovBar=null;
 PROJ.forEach(([n,k,slug],i)=>{const face=`<span class="i">${String(i+1).padStart(2,"0")}</span><h3>${n}</h3><span class="k">${k}</span>`;
- const w=document.createElement("div");w.className="wbar";const a=document.createElement("a");a.href=`work/${slug}/`;a.className="frow";
+ const w=document.createElement("div");w.className="wbar";const a=document.createElement("a");a.href="#work";a.className="frow";a.dataset.slug=slug;
  a.innerHTML=`<span class="card"><span class="face front">${face}</span><span class="face back" aria-hidden="true">${face}</span></span>`;w.append(a);wbox.append(w);
  bars.push({el:w,a,i,body:null,anim:null,landed:false,still:0,o:0,v:0,r:0,rv:0,planY:0,static:false,tilt:0,tf:0,ph:0,pad:0,bh:0,sk:0,skr:0,due:false,spawned:false,spawnT:0})});
 
@@ -1106,11 +1327,13 @@ wbox.addEventListener("pointermove",e=>{if(e.pointerType==="touch"||!barsLanded|
  bars.forEach(o=>{if(Math.abs(o.i-t.i)===1)nudge(o,(vy*2.5+(enter?55:0))*.3,0)})});
 wbox.addEventListener("pointerleave",()=>{hovBar=null});
 /* 12 Nov: with a mouse the bar is simply a link to its page (it has already flipped on hover). On a touch screen the first tap flips it and the second opens it. */
+/* 12 Nov (E610, E611): a bar opens its project in place. With a mouse one click opens it, because the bar has already
+   flipped on hover. On a touch screen the first tap flips the bar and the second opens it, as before. */
 bars.forEach(t=>t.a.addEventListener("click",e=>{
- if(fine)return;
- if(!barsLanded){e.preventDefault();return}
- if(t.a.classList.contains("flipped"))return;
  e.preventDefault();
+ if(!barsLanded)return;
+ if(fine){panelOpen(t.a.dataset.slug,t.a);return}
+ if(t.a.classList.contains("flipped")){panelOpen(t.a.dataset.slug,t.a);return}
  if(OPT.hov.v!=="HV1")t.a.classList.add("flipped");
  if(OPT.hov.v!=="HV2")nudge(t,90,.3)}));
 
@@ -1177,6 +1400,166 @@ function dropTick(){if(!barsLanded)return;const vh=innerHeight,br=bars[5].el.get
  if(reduce){if(br.top<vh*DROP_START)dropReveal(true);return}
  const p=clamp((vh*DROP_START-br.top)/(vh*DROP_SPAN));dp.p=p;shakeBar(Math.sin(Math.PI*clamp(p/.18)),p*6);
  dropRender(p,geo);dropReveal(p>=.995)}
+
+
+/* ════════ a project or About opens in place, over the home page ════════
+   Kelly, 12 Nov (E610): "All on the home page" - no Work or Contact pages; a project opens in place and closing puts
+   her back where she was in the stack. (E612): About opens the same way. The two transitions are the CodePens she
+   chose (E605, E611):
+     opening  - rachsmith PWxoLN: an empty block is laid exactly over the bar that was clicked, in that bar's own
+                colour, then scaled to fill the screen, so the bar reads as becoming the page. Closing scales it back
+                down onto the bar, wherever the bar is by then.
+     next     - Podgro zvxoLN/zvvzeM: a skewed slab sweeps in, opens to the full width with a shadow, wobbles, and
+                skews away again; the content is swapped while the screen is covered.
+   The content is the pages' own markup, out of the templates above. Every number here is a placeholder. */
+const cover=$("#cover"),panel=$("#opened"),pbody=$("#pbody"),pclose=$("#pclose"),ppnum=$("#ppnum"),sweep=$("#sweep");
+const ARROWL=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>`;
+pclose.innerHTML=`<span class="ba" aria-hidden="true">${ARROWL}${ARROWL}</span><span class="r"><span>Back to Work</span><span aria-hidden="true">Back to Work</span></span>`;
+let pnOpen=null,pnBusy=false,pnScroll=0;
+
+/* rachsmith: put the cover exactly over the thing that was clicked, in its colour, then blow it up to the screen */
+function coverFrom(el){const r=el.getBoundingClientRect(),cs=getComputedStyle(el);
+ cover.classList.add("none");
+ cover.style.left=r.left+"px";cover.style.top=r.top+"px";cover.style.width=r.width+"px";cover.style.height=r.height+"px";
+ cover.style.background=cs.backgroundColor&&cs.backgroundColor!=="rgba(0, 0, 0, 0)"?cs.backgroundColor:getComputedStyle(body).backgroundColor;
+ cover.style.transform="none";void cover.offsetWidth;cover.classList.remove("none");return r}
+function coverOut(r){const sx=Math.max(1,(innerWidth+2)/Math.max(1,r.width)),sy=Math.max(1,(innerHeight+2)/Math.max(1,r.height));
+ cover.style.transform=`translate(${-r.left}px,${-r.top}px) scale(${sx},${sy})`}
+function coverBack(el){const r=el.getBoundingClientRect();
+ cover.classList.add("none");
+ const sx=Math.max(1,(innerWidth+2)/Math.max(1,r.width)),sy=Math.max(1,(innerHeight+2)/Math.max(1,r.height));
+ cover.style.left=r.left+"px";cover.style.top=r.top+"px";cover.style.width=r.width+"px";cover.style.height=r.height+"px";
+ cover.style.transform=`translate(${-r.left}px,${-r.top}px) scale(${sx},${sy})`;
+ void cover.offsetWidth;cover.classList.remove("none");
+ requestAnimationFrame(()=>{cover.style.transform="none"})}
+function coverHide(){cover.classList.add("none");cover.style.width="0px";cover.style.height="0px";cover.style.transform="none"}
+
+/* Podgro: the skewed slab sweeps across; swapBody runs while the screen is covered */
+function sweepOver(swapBody){return new Promise(res=>{
+ if(reduce){swapBody();res();return}
+ sweep.classList.remove("run");void sweep.offsetWidth;sweep.classList.add("run");
+ setTimeout(swapBody,520);
+ setTimeout(()=>{sweep.classList.remove("run");res()},1480)})}
+
+/* the title, in the pages' own .ptrack / .pw markup, with the pages' own physics */
+let tEng=null,tRaf=0,tItems=[],tTimers=[],tH=0;
+function tPaint(){tItems.forEach(t=>{if(!t.body)return;const yn=clamp(t.body.position.y/Math.max(1,tH));
+ const c=bandColour(yn),gy=yn<.5?Math.min(1,yn+GSTEP):Math.max(0,yn-GSTEP);
+ t.el.style.setProperty("--wc",c);t.el.style.setProperty("--glow",bandColour(gy))})}
+function titleStop(){cancelAnimationFrame(tRaf);tTimers.forEach(clearTimeout);tTimers=[];
+ if(tEng&&window.Matter)Matter.Engine.clear(tEng);tEng=null;tItems=[]}
+function titlePhys(){titleStop();const stg=panel.querySelector(".ptrack");if(!stg)return;
+ const words=[...panel.querySelectorAll(".pw")];if(!words.length)return;
+ if(!window.Matter||reduce){words.forEach(w=>{w.classList.add("on","flat");w.style.setProperty("--wc",bandColour(.5))});return}
+ const {Engine,Bodies,Composite,Body,Mouse,MouseConstraint,Events}=Matter;
+ const W=stg.clientWidth,H=tH=stg.clientHeight;
+ tEng=Engine.create();tEng.gravity.y=1.1;tEng.positionIterations=10;tEng.velocityIterations=8;
+ const wall=400;Composite.add(tEng.world,[Bodies.rectangle(W/2,H+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
+ tItems=words.map((el,i)=>({el,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null}));
+ const by=new Map();
+ /* each word drops into its own lane, so a two-word title always reads the right way round (E585) */
+ const tot=tItems.reduce((s,t)=>s+t.bw,0),gap=Math.max(10,Math.min(44,(W*.92-tot)/Math.max(1,tItems.length)));
+ let lane=Math.max(10,(W-tot-gap*(tItems.length-1))/2);
+ tItems.forEach(t=>{t.lane=lane+t.bw/2;lane+=t.bw+gap});
+ const drop=t=>{const x=Math.min(Math.max(t.lane+(Math.random()-.5)*gap*.5,t.bw/2),Math.max(t.bw/2,W-t.bw/2)),y0=-t.bh*1.3-Math.random()*H*.3;
+  t.body=Bodies.rectangle(x,y0,t.bw,t.bh,{chamfer:{radius:Math.min(8,t.bh*.12)},restitution:.2+Math.random()*.12,friction:.5,frictionAir:.008+Math.random()*.03,angle:(Math.random()-.5)*.5});
+  Body.setVelocity(t.body,{x:(Math.random()-.5)*2,y:Math.random()*4});by.set(t.body,t);Composite.add(tEng.world,t.body);t.el.classList.add("on")};
+ const mouse=Mouse.create(stg);["mousewheel","DOMMouseScroll","wheel"].forEach(ev=>mouse.element.removeEventListener(ev,mouse.mousewheel));
+ ["touchstart","touchmove","touchend"].forEach(ev=>{mouse.element.removeEventListener(ev,mouse.mousedown);mouse.element.removeEventListener(ev,mouse.mousemove);mouse.element.removeEventListener(ev,mouse.mouseup)});
+ const mc=MouseConstraint.create(tEng,{mouse,constraint:{stiffness:.2,render:{visible:false}}});Composite.add(tEng.world,mc);
+ Events.on(mc,"startdrag",e=>{const t=by.get(e.body);if(t)t.el.classList.add("hot")});
+ Events.on(mc,"enddrag",e=>{const t=by.get(e.body);if(t)setTimeout(()=>t.el.classList.remove("hot"),400)});
+ words.forEach(el=>{el.addEventListener("pointerenter",()=>el.classList.add("hot"));el.addEventListener("pointerleave",()=>el.classList.remove("hot"))});
+ tItems.forEach((t,i)=>tTimers.push(setTimeout(()=>drop(t),200+i*150+Math.random()*120)));
+ let last=performance.now();
+ const loop=now=>{const dt=Math.min(32,now-last);last=now;Engine.update(tEng,dt);
+  tItems.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`});
+  tPaint();tRaf=requestAnimationFrame(loop)};
+ tRaf=requestAnimationFrame(loop)}
+
+/* the text arrives word by word at different sizes (AK4), and the grey screens arrive as you reach them */
+let pIo=null,sIo=null;
+function panelKinetic(){
+ if(pIo)pIo.disconnect();
+ const ps=[...panel.querySelectorAll("[data-kin]")];
+ ps.forEach(p=>{p.dataset.src=p.dataset.src||p.textContent;p.removeAttribute("data-done");
+  p.innerHTML=p.dataset.src.split(" ").map(w=>`<span class="kw">${w}</span>`).join(" ")});
+ pIo=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting||e.target.dataset.done)return;e.target.dataset.done="1";
+  const ws=[...e.target.querySelectorAll(".kw")];
+  if(reduce){ws.forEach(w=>w.style.opacity=1);return}
+  ws.forEach(w=>{w.style.opacity=0;const sc=[.2,.35,2.4,3,.5,1.9,.28][Math.floor(Math.random()*7)];
+   const an=w.animate([{transform:`scale(${sc})`,opacity:0},{transform:`scale(${sc>1?.82:1.25})`,opacity:1,offset:.55},{transform:"scale(1)",opacity:1}],
+    {duration:700,delay:Math.random()*700,easing:"cubic-bezier(.34,1.5,.5,1)",fill:"both"});
+   an.finished.then(()=>{w.style.opacity=1;w.style.transform="";an.cancel()},()=>{})})}),{root:panel,threshold:.35});
+ ps.forEach(p=>pIo.observe(p))}
+function panelShots(){if(sIo)sIo.disconnect();
+ sIo=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");sIo.unobserve(e.target)}}),{root:panel,threshold:.2});
+ [...panel.querySelectorAll(".shot")].forEach((s,i)=>{s.classList.remove("in");s.style.transitionDelay=(i%3)*.09+"s";sIo.observe(s)})}
+
+/* fill the panel from a template: the title block, then that page's own body */
+function fillPanel(slug){
+ const tpl=$("#pg-"+slug);if(!tpl)return false;
+ const isWork=slug!=="about",i=PROJ.findIndex(p=>p[2]===slug);
+ const name=isWork?PROJ[i][0]:"About";
+ ppnum.textContent=isWork?String(i+1).padStart(2,"0"):"";
+ panel.setAttribute("aria-label",name);
+ const words=name.split(" ").map(w=>`<span class="pw"><span class="wi">${w}</span></span>`).join("");
+ pbody.innerHTML=`<section class="ptrack" aria-label="${name}">${words}</section>`+tpl.innerHTML;
+ /* 12 Nov, her words: "the modal should fill the screen and have a previous/next link with the corresponding project
+    title". The pages only ever carried a Next, so the pair is built here and each side names the project it goes to.
+    They wrap round the six, so there is never a dead end; About has neither. */
+ const nx=pbody.querySelector(".next");
+ if(nx){
+  if(!isWork)nx.remove();
+  else{
+   const n=PROJ.length,pv=(i-1+n)%n,nt=(i+1)%n;
+   const side=(cls,lab,k)=>`<a class="next ${cls}" data-next="${PROJ[k][2]}" href="#work"><p class="lab">${lab}</p><h2>${PROJ[k][0]}</h2></a>`;
+   const nav=document.createElement("nav");nav.className="pnav";nav.setAttribute("aria-label","Projects");
+   nav.innerHTML=side("prev","Previous",pv)+side("fwd","Next",nt);
+   nx.replaceWith(nav)}}
+ panel.scrollTop=0;
+ panelKinetic();panelShots();
+ requestAnimationFrame(()=>titlePhys());
+ return true}
+
+function panelOpen(slug,from){
+ if(pnBusy)return;pnBusy=true;
+ pnScroll=scrollY;pnOpen={slug,from};
+ const r=coverFrom(from);
+ requestAnimationFrame(()=>coverOut(r));
+ setTimeout(()=>{
+  fillPanel(slug);
+  panel.classList.add("on");panel.setAttribute("aria-hidden","false");body.classList.add("locked");
+  setTimeout(()=>{coverHide();pnBusy=false;pclose.focus({preventScroll:true})},80);
+ },reduce?0:540)}
+
+function panelClose(){
+ if(pnBusy||!pnOpen)return;pnBusy=true;
+ const from=pnOpen.from;
+ panel.classList.remove("on");panel.setAttribute("aria-hidden","true");
+ coverBack(from);
+ setTimeout(()=>{
+  coverHide();titleStop();pbody.innerHTML="";body.classList.remove("locked");
+  pnOpen=null;pnBusy=false;
+  if(from&&from.focus)from.focus({preventScroll:true});
+ },reduce?0:600)}
+
+/* next project: Podgro's sweep, content swapped while the screen is covered */
+function panelNext(slug){
+ if(pnBusy||!pnOpen)return;pnBusy=true;
+ sweepOver(()=>{const b=bars.find(x=>x.a.dataset.slug===slug);if(b)pnOpen={slug,from:b.a};fillPanel(slug)})
+  .then(()=>{pnBusy=false})}
+
+pclose.addEventListener("click",panelClose);
+addEventListener("keydown",e=>{if(e.key==="Escape"&&pnOpen&&!menu.classList.contains("open"))panelClose()});
+/* About in the full-screen menu opens the same panel (E612). The menu closes first, and the panel grows out of the
+   link that was pressed, so it comes from the thing she clicked, exactly as a Work bar's does. */
+mnav.addEventListener("click",e=>{const a=e.target.closest("[data-panel]");if(!a)return;e.preventDefault();
+ closeMenu();setTimeout(()=>panelOpen(a.dataset.panel,a),reduce?0:420)});
+panel.addEventListener("click",e=>{
+ const nx=e.target.closest("[data-next]");if(nx){e.preventDefault();panelNext(nx.dataset.next);return}
+ const a=e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href");
+ if(h==="#contact"||h==="#work"){e.preventDefault();panelClose();setTimeout(()=>{const t=$(h);if(t)t.scrollIntoView({behavior:reduce?"auto":"smooth"})},reduce?0:650)}});
 
 /* ── options (each choice jumps to the part of the page it affects: demo tooling only) ── */
 const chosen=new Set(EARLIER);   /* decided groups; a group still in the panel counts as chosen only after Kelly clicks it */
