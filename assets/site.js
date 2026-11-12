@@ -88,7 +88,12 @@ function titlePhys(){pStage=$(".ptrack");if(!pStage)return;
  const wall=400;Composite.add(pEng.world,[Bodies.rectangle(W/2,H+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
  pItems=words.map((el,i)=>({el,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null}));
  const by=new Map();
- const drop=t=>{const x=t.bw/2+Math.random()*Math.max(1,W-t.bw),y0=-t.bh*1.3-Math.random()*H*.3;
+ /* 12 Nov: each word drops into its own place along the line, so a two-word title always reads the right way round ("Graphic Work", never "Work Graphic").
+    It still falls, bounces and settles with real physics; only where it starts out is fixed. The spacing and the wobble are placeholders. */
+ const tot=pItems.reduce((s,t)=>s+t.bw,0),gap=Math.max(10,Math.min(44,(W*.92-tot)/Math.max(1,pItems.length)));
+ let lane=Math.max(10,(W-tot-gap*(pItems.length-1))/2);
+ pItems.forEach(t=>{t.lane=lane+t.bw/2;lane+=t.bw+gap});
+ const drop=t=>{const x=Math.min(Math.max(t.lane+(Math.random()-.5)*gap*.5,t.bw/2),Math.max(t.bw/2,W-t.bw/2)),y0=-t.bh*1.3-Math.random()*H*.3;
   t.body=Bodies.rectangle(x,y0,t.bw,t.bh,{chamfer:{radius:Math.min(8,t.bh*.12)},restitution:.2+Math.random()*.12,friction:.5,frictionAir:.008+Math.random()*.03,angle:(Math.random()-.5)*.5});
   Body.setVelocity(t.body,{x:(Math.random()-.5)*2,y:Math.random()*4});by.set(t.body,t);Composite.add(pEng.world,t.body);t.el.classList.add("on")};
  const mouse=Mouse.create(pStage);["mousewheel","DOMMouseScroll","wheel"].forEach(ev=>mouse.element.removeEventListener(ev,mouse.mousewheel));
