@@ -152,10 +152,10 @@ body.locked{overflow:hidden}
 #tl.cv{background:transparent}
 #tl.cv canvas{display:block}
 #tl.cv::after{display:none}
-/* E448, E503: the colour change exists ONLY from the top edge of the Graphic Work bar (bar 05) downward. Above that line (--gwy) this layer stays the Work ground,
+/* E448, E503, and 12 Nov: the colour change exists ONLY from the top edge of the bar she chose (TitreLab, bar 02) downward. Above that line (--gwy) this layer stays the Work ground,
    so the strips beside and between bars 01 to 04, the top of Work, About and the intro are not changed by it. The grain stays over the whole layer. */
 /* E509, her words: "it should be a gradient.  put more than one stop in it. it should be the off black until Graphic Work then it should transition to the changing color."
-   So the ground (off-black on the dark skin, off-white on the light skin) holds all the way down to the Graphic Work edge (--gwy), and from there runs through four stops
+   So the ground (off-black on the dark skin, off-white on the light skin) holds all the way down to that bar's edge (--gwy; the bar is TitreLab now, 12 Nov), and from there runs through four stops
    into the changing Contact colour (--pagebg) over --gwr pixels. No hard line anywhere. Both lengths are set in paintAll; --gwr is a placeholder. */
 #tk{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;background:linear-gradient(to bottom,
  var(--ground) 0,
@@ -251,7 +251,11 @@ body[data-hov="HV1"] .card{transform:none!important}
 .stagef.show .cform input,.stagef.show .cform textarea{background-size:100% 2px}
 .stagef.show .cform .btn,.stagef.show .clinks,.stagef.show .formnote{opacity:1;transform:none;transition-delay:1.6s}
 /* the paper letter itself: it lives above the sections and falls down the page (Demo P, E245, E246) */
-#dropL{position:absolute;left:0;top:0;width:100%;height:0;overflow:visible;z-index:55;pointer-events:none}
+/* 12 Nov, her note: "the envelope should be behind bar when it falls". #tk (the ground) is z-index 0 and #tl
+   (the blue) is 1; main is also 1 but later in the DOM, so it paints above both. At z-index 1 and placed
+   before main, the letter sits over the blue and the ground and under everything in main, so the Work bars
+   pass in front of it. The contact sheet it unfolds into is hidden until the fall ends, so nothing covers it there. */
+#dropL{position:absolute;left:0;top:0;width:100%;height:0;overflow:visible;z-index:1;pointer-events:none}
 #dpObj{position:absolute;left:0;top:0;display:none;background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.3);overflow:hidden;will-change:transform}
 #dpObj.k-paper::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom right,transparent 49.5%,#d9d6cd 50%) 0 0/100% 56% no-repeat,linear-gradient(to bottom left,transparent 49.5%,#e9e6df 50%) 0 0/100% 56% no-repeat;transform:scaleY(var(--fl,1));transform-origin:50% 0;z-index:1}
 #dpObj.k-paper::after{content:"";position:absolute;left:0;right:0;top:56%;bottom:0;background:linear-gradient(#f4f2ec,#fff);border-top:1px solid #cfcbc0;opacity:var(--po,1)}
@@ -507,11 +511,14 @@ body[data-skin="dark"]{--box:#2a2b31}
   <section class="sec">
     <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div></div>
   </section>
-  <a class="next" data-next="graphic-work" href="#work">
+  <a class="next" data-next="gigbag" href="#work">
     <p class="lab">Next</p>
-    <h2>Graphic Work</h2>
+    <h2>GigBag</h2>
   </a>
 </div></template>
+<!-- 12 Nov: these two left the Work stack ("leave the Work Section down to the 4 big projects") but their
+     content stays, because the skills map links to them ("the skills graph can link to the secondary pages").
+     They open in the same panel; they have no number and no Previous / Next, because they are not one of the four. -->
 <template id="pg-graphic-work"><div class="wrap">
   <section class="sec">
     <p class="body" data-kin>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -519,10 +526,6 @@ body[data-skin="dark"]{--box:#2a2b31}
   <section class="sec">
     <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div></div>
   </section>
-  <a class="next" data-next="product-labels" href="#work">
-    <p class="lab">Next</p>
-    <h2>Product Labels</h2>
-  </a>
 </div></template>
 <template id="pg-product-labels"><div class="wrap">
   <section class="sec">
@@ -531,10 +534,6 @@ body[data-skin="dark"]{--box:#2a2b31}
   <section class="sec">
     <div class="shots"><div class="shot"><span>Screen 1</span></div><div class="shot"><span>Screen 2</span></div><div class="shot"><span>Screen 3</span></div></div>
   </section>
-  <a class="next" data-next="gigbag" href="#work">
-    <p class="lab">Next</p>
-    <h2>GigBag</h2>
-  </a>
 </div></template>
 <template id="pg-about"><div class="wrap">
   <section class="sec">
@@ -1070,7 +1069,7 @@ function setWipe(s){wstate=s;wRun=null;wpStore=s==="black"?1:0}
    Graphic Work bar (bar 05, the fifth) is 30% of the screen height down from the top of the screen (E402, E404) and is done when the middle of Contact is in the middle of the screen (E256, E307; the middle
    of the screen is a placeholder). Once it has begun the colour stays: it never goes back, however far the visitor scrolls up (E405). The start is fixed now (GST); it is no longer a choice in the panel. */
 const RAMP1=.5,GST=.3;let lastQ="",qMax=0;
-function rampQ(vh){const wr=wbox.getBoundingClientRect(),cr=ct.getBoundingClientRect(),b=bars[4];const a=wr.top+b.planY+b.pad,c=cr.top+cr.height/2;const thr=vh*GST;return clamp((thr-a)/Math.max(1,(thr-vh*RAMP1)+(c-a)))}
+function rampQ(vh){const wr=wbox.getBoundingClientRect(),cr=ct.getBoundingClientRect(),b=gradBar();const a=wr.top+b.planY+b.pad,c=cr.top+cr.height/2;const thr=vh*GST;return clamp((thr-a)/Math.max(1,(thr-vh*RAMP1)+(c-a)))}
 function rampSet(vh){const raw=rampQ(vh);if(raw>qMax)qMax=raw;const q=qMax,k=(q*100).toFixed(1),key=k+body.dataset.skin;if(key!==lastQ){lastQ=key;const v=rich(`color-mix(in oklch, var(--ctcol) ${k}%, var(--ground))`,q);tk.style.setProperty("--pagebg",v);work.style.setProperty("--pagebg",v);tk.style.setProperty("--q",q.toFixed(3))}return q}
 /* demo tooling: "Replay opening" and "Replay Work" start the colour again from the Work ground */
 function resetColour(){qMax=0;lastQ="";paintAll()}
@@ -1160,9 +1159,9 @@ function paintAll(){
   if(cv){tl.style.clipPath=fr?fr.clip:"none";glDraw(pp<1?sh.gl:null,edgeOn?g:null,tm)}
   else if(pp<1)tl.style.clipPath=sh.clip;
   else tl.style.clipPath=fr?fr.clip:(edgeOn?owPoly(g,vw):"none")}
- /* E448, E503: the top edge of the Graphic Work bar (bar 05) is where the colour change begins; above it nothing changes. The same edge the start (rampQ) and the
+ /* E448, E503, and 12 Nov: the top edge of the bar she chose (TitreLab) is where the colour change begins; above it nothing changes. The same edge the start (rampQ) and the
     cursor colour switch (regCheck) use. The layer, the depth look and the cursor switch are all held below this line. */
- const gwTop=wbox.getBoundingClientRect().top+bars[4].planY+bars[4].pad;
+ const gb=gradBar(),gwTop=wbox.getBoundingClientRect().top+gb.planY+gb.pad;
  tk.style.setProperty("--gwy",(q>0?Math.max(0,gwTop):0).toFixed(1)+"px");
  /* how long the run of stops is: the rest of the screen below that edge, so the change is a gradient and not a line (E509). A placeholder. */
  tk.style.setProperty("--gwr",Math.max(220,(vh-clamp(gwTop,0,vh))*.8).toFixed(1)+"px");
@@ -1259,10 +1258,24 @@ $$("#mstage a").forEach(a=>a.addEventListener("click",e=>{
    the second bar from the top, and GigBag after it, wait until their place is on the screen, so the last two bars always fall where the visitor can see them. ── */
 /* 12 Nov (E610): there are no project pages any more. A bar opens its project in place, over the home page, with the expand Kelly picked (E605, E611).
    The href stays #work so the bar is still a real link if the script never runs. */
-const PROJ=[["GigBag","Case study","gigbag"],["TitreLab","Lorem ipsum","titrelab"],["Formulation Suite","Lorem ipsum","formulation-suite"],["PhytoFoundry","Lorem ipsum","phytofoundry"],["Graphic Work","Placeholder","graphic-work"],["Product Labels","Placeholder","product-labels"]];
+/* 12 Nov, her words: "leave the Work Section down to the 4 big projects (that are also the most recent)...
+   but the skills graph can link to the secondary pages". Graphic Work and Product Labels are out of the stack.
+   Formulation Suite's right-hand text carries the compliance labelling ("Fold it into Formulation Suite";
+   "could compliance labeling go there? I dont know that it needs its own section"). The other three keep the
+   text they already had. All four of these strings are still hers to settle. */
+const PROJ=[["GigBag","Case study","gigbag"],["TitreLab","Lorem ipsum","titrelab"],["Formulation Suite","Compliance labelling","formulation-suite"],["PhytoFoundry","Lorem ipsum","phytofoundry"]];
+/* not Work bars, but still pages the skills map opens (12 Nov: "the skills graph can link to the secondary pages").
+   A panel opened from here gets no number and no Previous / Next. */
+const SECOND=[["Graphic Work","graphic-work"],["Product Labels","product-labels"]];
 const TOPPLE=750,STAGGER=560,WSTART=1.15;   /* placeholder timings, not decisions; WSTART: Work starts when the arrow is this far down the screen (in screens) */
 const BGAP={BG1:8,BG2:14,BG3:22},BTILT={TL1:.6,TL2:1.2,TL3:2},TPAT={TP1:[1,-1,1,-1,1,-1],TP2:[1,1,1,1,1,1],TP3:[.9,-.6,1,-.8,.5,-1]};
 let wEng=null,wRaf=0,bars=[],wStarted=false,wTimers=[],barsLanded=false,hovBar=null;
+/* 12 Nov: Work is four bars now, so the two bars these were hard-wired to (05 Graphic Work and 06 Product
+   Labels) are gone. Asked where the colour change into Contact should begin instead, she chose TitreLab,
+   bar 02; that supersedes "Graphic Work" in E404 and E503. The paper letter still drops from the last bar. */
+const GRAD_SLUG="titrelab";
+const lastBar=()=>bars[bars.length-1];
+const gradBar=()=>{const i=PROJ.findIndex(p=>p[2]===GRAD_SLUG);return bars[i>=0?i:Math.max(0,bars.length-2)]};
 PROJ.forEach(([n,k,slug],i)=>{const face=`<span class="i">${String(i+1).padStart(2,"0")}</span><h3>${n}</h3><span class="k">${k}</span>`;
  const w=document.createElement("div");w.className="wbar";const a=document.createElement("a");a.href="#work";a.className="frow";a.dataset.slug=slug;
  a.innerHTML=`<span class="card"><span class="face front">${face}</span><span class="face back" aria-hidden="true">${face}</span></span>`;w.append(a);wbox.append(w);
@@ -1370,7 +1383,7 @@ function ctNext(x,y){let n=csi+cdir;if(n<0||n>=STEPS.length){cdir=-cdir;n=csi+cd
 /* Session 4 (E406, E409): the colour switch works over everything from the top edge of the Graphic Work bar down to the end of Contact, not only over Contact. Each time the cursor goes into or out of that
    part of the page the colour changes. It is found from the pointer's position (the Work bars are in the way, so no one element covers it). A touch screen still uses a tap on Contact (unchanged). */
 let inReg=false,lpx=-1,lpy=-1;
-function regCheck(){if(lpx<0)return;const wr=work.getBoundingClientRect(),b=bars[4],top=wr.top+b.planY+b.pad,bot=ct.getBoundingClientRect().bottom,inside=lpy>=top&&lpy<=bot;
+function regCheck(){if(lpx<0)return;const wr=work.getBoundingClientRect(),b=gradBar(),top=wr.top+b.planY+b.pad,bot=ct.getBoundingClientRect().bottom,inside=lpy>=top&&lpy<=bot;
  if(inside!==inReg){inReg=inside;ctNext(clamp(lpx,0,innerWidth),clamp(lpy,0,innerHeight))}}
 addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;lpx=e.clientX;lpy=e.clientY;regCheck()},{passive:true});
 addEventListener("scroll",regCheck,{passive:true});
@@ -1428,30 +1441,37 @@ function showForm(){if(formShown)return;formShown=true;const fs=$("#formStage");
 function hideForm(){if(!formShown)return;const fs=$("#formStage");if(fs.contains(document.activeElement))return;formShown=false;typeTimers.forEach(clearTimeout);typeTimers=[];fs.classList.remove("show");fs.querySelectorAll("label[data-t]").forEach(l=>l.textContent="")}
 
 /* ── the drop (E245, E246; her Demo P picks of 12 Nov: DK3 "Paper letter" and "have it drop and unfold to the form", DT2 "Follows the scroll and runs backwards") ──
-   As the last Work bar (06, Product Labels) comes up the screen it shakes and lets go of a paper letter. The letter falls to the middle of Contact and unfolds into
+   As the last Work bar comes up the screen it shakes and lets go of a paper letter. The letter falls to the middle of Contact and unfolds into
    the sheet the email form is written on. One function, dropRender(p), draws it for any progress p from 0 to 1, and p is tied to the scroll, so scrolling back up
    runs the whole thing backwards. This is Demo P's code; every number in it is Demo P's placeholder. ── */
 const dp={p:0,shown:false};
-const DROP_START=.9,DROP_SPAN=.75;   /* where the bar is on the screen when it starts, and how many screens of scrolling it takes */
-function dropGeom(){const b=bars[5],br=b.el.getBoundingClientRect(),st=$("#formStage .sheet");if(!st)return null;const sr=st.getBoundingClientRect();
+const DROP_START=.5,DROP_SPAN=.35;   /* 12 Nov, her note: "wait until the last bar is about halfway up the page" - it starts when the
+                                        bar's top edge is half way up the screen (it was .9, barely clear of the bottom). DROP_SPAN is how many
+                                        screens of scrolling the whole fall takes: it came down from .75 with the start, so the fall still FINISHES
+                                        where it always did, with the bar's top edge about .15 of a screen down. Left at .75 the letter never
+                                        reached the end of its fall before the page ran out, so the form never appeared. Both are placeholders. */
+function dropGeom(){const b=lastBar(),br=b.el.getBoundingClientRect(),st=$("#formStage .sheet");if(!st)return null;const sr=st.getBoundingClientRect();
  return {x0:(br.left+br.right)/2+scrollX,y0:(br.top+br.bottom)/2+b.bh/2+scrollY,tx:sr.left+sr.width/2+scrollX,ty:sr.top+sr.height/2+scrollY,sw:sr.width,sh:sr.height}}
-function shakeBar(amp,ph){const b=bars[5];b.sk=Math.sin(ph*38)*amp*5;b.skr=Math.sin(ph*31+1)*amp*.012}
+function shakeBar(amp,ph){const b=lastBar();b.sk=Math.sin(ph*38)*amp*5;b.skr=Math.sin(ph*31+1)*amp*.012}
 function dropRender(p,geo){
  if(p<=0||p>=1||!geo){dpObj.style.display="none";return}
- const ow=104,oh=70,HA=.1,FB=.62;
+ /* 12 Nov, her words: "make the envelope itself get bigger as it falls". GROW is how much bigger it is by the
+    time it reaches Contact, before it opens out into the sheet. It is a placeholder, not a decision. */
+ const ow=104,oh=70,HA=.1,FB=.62,GROW=1.9;
  let x=geo.x0,y=geo.y0,w=ow,h=oh,rot=0,sx=1,sy=1,flap=1,po=1;
  if(p<HA){const u=easeIO(p/HA);sx=sy=.15+.85*u;y=geo.y0+oh*.3*u}
  else if(p<FB){const u=(p-HA)/(FB-HA),y1=geo.y0+oh*.3;x=lerp(geo.x0,geo.tx,easeIO(u));y=lerp(y1,geo.ty,u*u);
+  const gw=1+(GROW-1)*easeIO(u);w=ow*gw;h=oh*gw;   /* it grows as it falls (12 Nov) */
   const st=Math.sin(Math.PI*Math.min(1,u*1.15))*u;sy=1+.5*st;sx=1/Math.sqrt(sy);rot=Math.sin(u*5.5)*.55*(1-.5*u)}
- else{const v=(p-FB)/(1-FB),ev=easeIO(v);x=geo.tx;y=geo.ty;w=lerp(ow,geo.sw,ev);h=lerp(oh,geo.sh,ev);flap=1-clamp(v*2);po=1-clamp((v-.4)*2.5);rot=0}
+ else{const v=(p-FB)/(1-FB),ev=easeIO(v);x=geo.tx;y=geo.ty;w=lerp(ow*GROW,geo.sw,ev);h=lerp(oh*GROW,geo.sh,ev);   /* it opens out from the size it grew to, not from its first size */flap=1-clamp(v*2);po=1-clamp((v-.4)*2.5);rot=0}
  const s=dpObj.style;dpObj.className="k-paper";s.display="block";s.width=w.toFixed(1)+"px";s.height=h.toFixed(1)+"px";s.borderRadius="2px";s.background="#ffffff";
  s.transform=`translate(${(x-w/2).toFixed(1)}px,${(y-h/2).toFixed(1)}px) rotate(${rot.toFixed(3)}rad) scale(${sx.toFixed(3)},${sy.toFixed(3)})`;s.setProperty("--fl",flap.toFixed(3));s.setProperty("--po",po.toFixed(3))}
 function dropReveal(on){const sh=$("#formStage .sheet");if(!sh)return;
  if(on&&!dp.shown){dp.shown=true;sh.classList.remove("pre");showForm()}
  else if(!on&&dp.shown){dp.shown=false;hideForm();if(!formShown)sh.classList.add("pre")}}
-function dropReset(){dp.p=0;dp.shown=false;if(dpObj)dpObj.style.display="none";if(bars[5]){bars[5].sk=0;bars[5].skr=0}
+function dropReset(){dp.p=0;dp.shown=false;if(dpObj)dpObj.style.display="none";{const lb=lastBar();if(lb){lb.sk=0;lb.skr=0}}
  const sh=$("#formStage .sheet");if(sh){formShown=false;typeTimers.forEach(clearTimeout);typeTimers=[];$("#formStage").classList.remove("show");$("#formStage").querySelectorAll("label[data-t]").forEach(l=>l.textContent="");sh.classList.add("pre")}}
-function dropTick(){if(!barsLanded)return;const vh=innerHeight,br=bars[5].el.getBoundingClientRect(),geo=dropGeom();if(!geo)return;
+function dropTick(){if(!barsLanded)return;const vh=innerHeight,br=lastBar().el.getBoundingClientRect(),geo=dropGeom();if(!geo)return;
  if(reduce){if(br.top<vh*DROP_START)dropReveal(true);return}
  const p=clamp((vh*DROP_START-br.top)/(vh*DROP_SPAN));dp.p=p;shakeBar(Math.sin(Math.PI*clamp(p/.18)),p*6);
  dropRender(p,geo);dropReveal(p>=.995)}
@@ -1554,8 +1574,10 @@ function panelShots(){if(sIo)sIo.disconnect();
 /* fill the panel from a template: the title block, then that page's own body */
 function fillPanel(slug){
  const tpl=$("#pg-"+slug);if(!tpl)return false;
- const isWork=slug!=="about",i=PROJ.findIndex(p=>p[2]===slug);
- const name=isWork?PROJ[i][0]:"About";
+ const i=PROJ.findIndex(p=>p[2]===slug);
+ const isWork=i>=0;                                   /* one of the four: it gets a number and a Previous / Next */
+ const sec=SECOND.find(p=>p[1]===slug);               /* a secondary page the map opens: neither */
+ const name=isWork?PROJ[i][0]:sec?sec[0]:"About";
  ppnum.textContent=isWork?String(i+1).padStart(2,"0"):"";
  panel.setAttribute("aria-label",name);
  const words=name.split(" ").map(w=>`<span class="pw"><span class="wi">${w}</span></span>`).join("");
