@@ -221,12 +221,25 @@ body[data-hov="HV1"] .card{transform:none!important}
 #tk .ink.grow{transition:clip-path .9s var(--quint)}
 .ct .wrap{position:relative;z-index:2;display:grid;justify-items:center;width:100%}
 /* 12 Nov: the origami cat is gone ("i do not want the origami"). A paper letter drops from the last Work bar and unfolds into this sheet (DK3, DT2). Demo P's markup. */
-.stagef{position:relative;width:min(100%,640px);filter:drop-shadow(0 14px 16px rgba(0,0,0,.28))}
+/* 12 Nov: she liked Formspree's Creative Request Form and asked for a short brief, with the letter made bigger to
+   hold it ("Make the letter bigger"). The paper still drops and unfolds into this sheet; the sheet is simply larger,
+   and the form inside it is two columns on a wide screen and one on a phone. Every size here is a placeholder. */
+.stagef{position:relative;width:min(100%,880px);filter:drop-shadow(0 14px 16px rgba(0,0,0,.28))}
 /* 12 Nov, her words: "please put the same border on the contact form as the wokr bars". The sheet is white, so it takes the border a white bar takes:
    2px of the off-black, the same width and the same ink rule as the Work bars (E416, E417). */
 .sheet{background:#fff;color:#111;width:100%;padding:clamp(22px,4vw,40px);position:relative;will-change:transform,clip-path;border:2px solid var(--Dg)}
 .sheet.pre{visibility:hidden}
-.cform{display:grid;gap:4px}
+.cform{display:grid;grid-template-columns:1fr;gap:2px 30px}
+@media (min-width:720px){.cform{grid-template-columns:1fr 1fr}}
+.cform .f{display:grid;min-width:0}
+.cform .wide{grid-column:1/-1}
+.cform select{width:100%;border:0;border-bottom:2px solid transparent;font:400 1.05rem var(--body);padding:8px 0;
+ background:linear-gradient(#000,#000) left bottom/0% 2px no-repeat;color:#111;border-radius:0;appearance:none;
+ transition:background-size .7s var(--quint);cursor:pointer}
+.stagef.show .cform select{background-size:100% 2px}
+.cform select:focus{outline:none;border-bottom-color:#111}
+/* the thank-you that replaces the fields once the message has gone (E627) */
+.tyk{font:900 clamp(1.6rem,3.4vw,2.6rem)/1.05 var(--head);letter-spacing:-.03em;margin:0 0 .35em;color:#111}
 .cform label{font:600 .78rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:10px;min-height:1.2em}
 .cform input,.cform textarea{width:100%;border:0;border-bottom:2px solid transparent;font:400 1.05rem var(--body);padding:8px 0;background:linear-gradient(#000,#000) left bottom/0% 2px no-repeat;color:#111;border-radius:0;transition:background-size .7s var(--quint)}
 .cform textarea{resize:none}
@@ -1232,6 +1245,9 @@ let mDown=null;mnav.addEventListener("pointerdown",e=>{mDown={x:e.clientX,y:e.cl
 $$("#mstage a").forEach(a=>a.addEventListener("click",e=>{
  if(mDown&&Math.hypot(e.clientX-mDown.x,e.clientY-mDown.y)>6){e.preventDefault();return}
  const id=a.getAttribute("href");
+ /* 12 Nov: About carries data-panel and is handled by the panel's own listener below, which opens it in place.
+    Without this the link would ALSO scroll the page to the About section behind the panel. */
+ if(a.dataset.panel)return;
  if(!id.startsWith("#"))return;
  e.preventDefault();closeMenu();setTimeout(()=>document.querySelector(id).scrollIntoView({behavior:reduce?"auto":"smooth"}),350)}));
 
@@ -1362,11 +1378,50 @@ document.documentElement.addEventListener("pointerleave",e=>{if(e.pointerType!==
 ct.addEventListener("click",e=>{if(fine||e.target.closest("form,a,button,input,textarea,#formStage"))return;ctNext(e.clientX,e.clientY)});
 
 /* ── the form: fields draw themselves (F2, E174, E177, E179). It is written on the sheet the paper letter unfolds into (12 Nov, DK3). ── */
-const FORM=`<form class="cform" novalidate><label for="fn" data-t="Name"></label><input id="fn" type="text" autocomplete="name" aria-label="Name"><label for="fe" data-t="Email"></label><input id="fe" type="email" autocomplete="email" aria-label="Email"><label for="fm" data-t="Message"></label><textarea id="fm" rows="3" aria-label="Message"></textarea><button type="submit" class="btn"><span class="r"><span>Send</span><span aria-hidden="true">Send</span></span><span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></button><p class="formnote" aria-live="polite">Placeholder form: nothing is sent.</p></form><div class="clinks"><span>lorem@ipsum.com</span><a href="#contact"><span class="r"><span>LinkedIn ↗</span><span aria-hidden="true">LinkedIn ↗</span></span></a></div>`;
+const FS_ENDPOINT="https://formspree.io/f/xqpqaqzp";   /* the form she created on her own Formspree account, "Kelly Loves To Code" */
+const WORK_TYPES=["Fractional CTO engagement","Product or platform build","Design and brand","Something else"];
+/* the short brief (her pick): name, email, type of work, description, deadline, budget. The labels still type
+   themselves on arrival (F2). Every field carries a name, which is how Formspree reads a submission. */
+const FORM=`<form class="cform" action="${FS_ENDPOINT}" method="POST" novalidate>`
++`<div class="f"><label for="fn" data-t="Name"></label><input id="fn" name="name" type="text" autocomplete="name" aria-label="Name" required></div>`
++`<div class="f"><label for="fe" data-t="Email"></label><input id="fe" name="email" type="email" autocomplete="email" aria-label="Email" required></div>`
++`<div class="f"><label for="ft" data-t="Type of work"></label><select id="ft" name="type" aria-label="Type of work" required>`
++`<option value="" selected></option>`+WORK_TYPES.map(t=>`<option value="${t}">${t}</option>`).join("")+`</select></div>`
++`<div class="f"><label for="fd" data-t="Deadline"></label><input id="fd" name="deadline" type="text" aria-label="Deadline" placeholder="" required></div>`
++`<div class="f"><label for="fb" data-t="Budget (if any)"></label><input id="fb" name="budget" type="text" aria-label="Budget"></div>`
++`<div class="f wide"><label for="fm" data-t="What you need"></label><textarea id="fm" name="message" rows="4" aria-label="What you need" maxlength="2000" required></textarea></div>`
++`<div class="f wide"><button type="submit" class="btn"><span class="r"><span>Send</span><span aria-hidden="true">Send</span></span><span class="ar" aria-hidden="true"><i>\u2192</i><i>\u2192</i></span></button>`
++`<p class="formnote" aria-live="polite"></p></div>`
++`</form><div class="clinks"><span>lorem@ipsum.com</span><a href="#contact"><span class="r"><span>LinkedIn \u2197</span><span aria-hidden="true">LinkedIn \u2197</span></span></a></div>`;
 let formShown=false,typeTimers=[];
 function buildForm(){const fs=$("#formStage");formShown=false;typeTimers.forEach(clearTimeout);typeTimers=[];fs.className="stagef";
  fs.innerHTML=`<div class="sheet pre">${FORM}</div>`;fs.querySelectorAll("label[data-t]").forEach(l=>l.textContent="");
- fs.querySelector("form").addEventListener("submit",e=>{e.preventDefault();const n=fs.querySelector(".formnote");if(n)n.textContent="Placeholder form: nothing was sent."})}
+ fs.querySelector("form").addEventListener("submit",onSend)}
+/* E627, her words: "Stay on the page". The message is posted in the background with a plain fetch - no library, no
+   new dependency - and nothing about the page reloads or resets. On success the fields give way to a thank-you in
+   the same sheet; on a failure the note says so and everything she typed is still there to send again. */
+async function onSend(e){
+ e.preventDefault();
+ const f=e.currentTarget,fs=$("#formStage"),note=f.querySelector(".formnote"),btn=f.querySelector("button[type=submit]");
+ const say=t=>{if(note)note.textContent=t};
+ const data=new FormData(f);
+ const val=k=>String(data.get(k)||"").trim();
+ const name=val("name"),email=val("email"),type=val("type"),msg=val("message"),dl=val("deadline");
+ if(!name||!email||!type||!msg||!dl){say("Please fill in your name, your email, the type of work, a deadline and what you need.");return}
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say("That email address does not look right.");return}
+ btn.disabled=true;say("Sending\u2026");
+ try{
+  const r=await fetch(f.action,{method:"POST",body:data,headers:{Accept:"application/json"}});
+  if(r.ok){thanks(name);return}
+  let why="";try{const j=await r.json();if(j&&j.errors)why=j.errors.map(x=>x.message).filter(Boolean).join(", ")}catch(_){}
+  say(why||"That did not send. Please try again, or email me directly.");btn.disabled=false;
+ }catch(_){
+  say("That did not send \u2014 you may be offline. Nothing is lost; try again in a moment.");btn.disabled=false}
+}
+function thanks(name){const sh=$("#formStage .sheet");if(!sh)return;
+ const first=name.split(/\s+/)[0];
+ sh.innerHTML=`<p class="tyk">Thank you${first?", "+first:""}.</p>`
+  +`<p class="formnote">Your message is on its way. I will reply to the address you gave.</p>`;}
 function showForm(){if(formShown)return;formShown=true;const fs=$("#formStage");requestAnimationFrame(()=>requestAnimationFrame(()=>fs.classList.add("show")));
  const ls=[...fs.querySelectorAll("label[data-t]")];ls.forEach((l,i)=>{const w=l.dataset.t;let k=0;l.textContent="";const ty=()=>{l.textContent=w.slice(0,++k);if(k<w.length)typeTimers.push(setTimeout(ty,55))};typeTimers.push(setTimeout(ty,reduce?0:250+i*400))});
  fs.querySelectorAll("input,textarea").forEach((x,i)=>x.style.transitionDelay=(i*.4)+"s")}
