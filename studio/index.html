@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&family=Gabarito:wght@400..800&family=Lexend:wght@300..600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&family=Gabarito:wght@400..800&family=Lexend:wght@300..700&display=swap">
 <style>
 /* THE HOME PAGE of kellylovestocode.com, rebuilt 19 Nov 2026 to the look of the "Polished Current Sample" Kelly picked:
    Figtree for headings, Gabarito for the About text and ledes, Lexend for body text; paper and charcoal; light only.
@@ -91,7 +91,7 @@ body.locked{overflow:hidden}
 /* ── About: the charcoal band ── */
 .aboutband{background:var(--char);color:var(--onchar);position:relative;z-index:1}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
-.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.65 var(--blurb);margin:0}
+.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.85 var(--blurb);margin:0}
 .aboutband.pre .roll{opacity:0}
 /* the arrow: on hover or focus it turns into the heart once, then back to the arrow (her words: "onHover: heart then arrow again") */
 .arrow{width:56px;height:56px;border:1.5px solid var(--onchar);border-radius:50%;display:grid;place-items:center;color:var(--onchar);background:linear-gradient(150deg,rgba(255,255,255,.2),rgba(255,255,255,0) 55%,rgba(0,0,0,.2)),#c03221;text-decoration:none;margin-top:8px;transition:border-color .2s}
@@ -114,9 +114,9 @@ body.locked{overflow:hidden}
 #opened[data-p="formulation-suite"],.wipe[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
 #opened[data-p="phytofoundry"],.wipe[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
 #opened[data-p="gigbag"],#opened[data-p="titrelab"],#opened[data-p="formulation-suite"],#opened[data-p="phytofoundry"]{--p-bar:3px solid var(--p-base);--p-mark:block;--p-lede:4px solid var(--p-acc);--p-ledepad:clamp(12px,2vw,20px)}
-.proj .i{grid-row:1;grid-column:1;font:600 1.0625rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
-.proj h3{grid-row:1;grid-column:2;font:900 clamp(1.75rem,1.05rem + 3.4vw,4rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
-.proj .k{grid-row:1;grid-column:3;font:500 .875rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char));white-space:nowrap}
+.proj .i{grid-row:1;grid-column:1;font:800 1.1875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
+.proj h3{grid-row:1;grid-column:2;font:900 clamp(1.625rem,.95rem + 3vw,3.5rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
+.proj .k{grid-row:1;grid-column:3;font:700 .875rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char));white-space:nowrap}
 /* the teaser under each project name, with clear room above it */
 .proj .t{grid-row:2;grid-column:2;margin:clamp(10px,1.4vw,16px) 0 0;max-width:62ch;font:400 clamp(.9375rem,.88rem + .25vw,1.0625rem)/1.55 var(--body);color:var(--muted)}
 .proj:hover,.proj:focus-visible{background:var(--c-fill,var(--char));color:var(--fill-ink)}
@@ -141,11 +141,11 @@ body.locked{overflow:hidden}
 .contact{background:var(--char);color:var(--onchar);margin-top:clamp(40px,7vw,88px)}
 .contact > .wrap{padding-top:clamp(40px,7vw,88px);padding-bottom:calc(clamp(40px,7vw,88px) + env(safe-area-inset-bottom,0px))}
 .sheet{background:#fff;color:var(--char);padding:clamp(20px,4vw,40px)}
-.cform{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 30px}
+.cform{display:grid;grid-template-columns:minmax(0,1fr);gap:20px 30px}
 @media (min-width:720px){.cform{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .cform .f{display:grid;min-width:0}
 .cform .wide{grid-column:1/-1}
-.cform label{font:600 .75rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
+.cform label{font:600 .875rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .cform input,.cform textarea,.cform select{width:100%;min-width:0;border:0;border-bottom:2px solid var(--char);border-radius:0;background:transparent;color:var(--char);font:400 1rem var(--body);padding:8px 0}
 .cform select{-webkit-appearance:none;appearance:none;padding-right:24px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2316171b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 4px center/12px 8px no-repeat}
 .cform textarea{resize:vertical;min-height:7.5em}
@@ -726,16 +726,17 @@ function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimat
 /* ── Work rows: Kelly's try-out (19 Nov) of the subtle first chameleon on the filled bar. While a mouse or pen hovers a row, its fill drifts
    a little toward one of the project's own darker palette colours and back toward the other, and a soft patch slides across it the other way.
    Off for touch, off with reduced motion, and it stops the moment the row is clicked, so the wipe takes over cleanly.
+   Then (19 Nov) Kelly asked for the intro's previous, stronger version on the bars instead: a bigger drift and the intro's wider, solid-middled patch.
    Tune here: ROW_T is how far the fill drifts, ROW_P how far the patch does (shares of the way to each palette colour). ── */
 {const PAL={gigbag:["#94180a","#8c3f3f"],titrelab:["#0a5373","#3b464a"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
- const ROW_T=.25,ROW_P=.5;
+ const ROW_T=.5,ROW_P=1;
  if(!reduce)$$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(!pal)return;
   const c=swayState();let r=0,base="";
   const shade=o=>o<0?mix(base,pal[0],-o):o>0?mix(base,pal[1],o):base;
   const clear=()=>{cancelAnimationFrame(r);r=0;c.on=false;c.a=0;c.last=0;row.style.backgroundColor="";row.style.backgroundImage=""};
   const tick=now=>{if(!c.on||wiping||panel.classList.contains("on")){clear();return}
    const a=swayA(c,now),u=swayU(c,now);row.style.backgroundColor=shade(a*ROW_T*u);
-   row.style.backgroundImage=`radial-gradient(ellipse 40% 140% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${shade(-a*ROW_P*u)},transparent 75%)`;
+   row.style.backgroundImage=`radial-gradient(ellipse 75% 130% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${shade(-a*ROW_P*u)} 30%,transparent 85%)`;
    r=requestAnimationFrame(tick)};
   row.addEventListener("pointerenter",e=>{if(e.pointerType==="touch")return;base=getComputedStyle(row).getPropertyValue("--c-fill").trim();if(!base)return;
    c.on=true;c.t0=performance.now();if(!r)r=requestAnimationFrame(tick)});
