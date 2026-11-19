@@ -212,6 +212,27 @@ body.locked{overflow:hidden}
 .study .pairs{display:grid;gap:20px 32px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:0}
 .study .pairs dt{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .study .pairs dd{margin:4px 0 0;font:400 .9375rem/1.5 var(--body)}
+/* the GigBag page (19 Nov): logo beside the overview, the four products as a tracklist, the calls as a list, the stack as a row, and a walkthrough ask */
+.study .gb-ov{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(16px,3vw,32px);align-items:start}
+.study .gb-logo{display:block;width:clamp(64px,9vw,104px);height:auto;aspect-ratio:1}
+.study .tracks{list-style:none;margin:0;padding:0;display:grid;gap:20px 24px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:560px){.study .tracks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.study .tracks{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.study .tracks li{min-width:0;border-top:3px solid var(--p-base,var(--char));padding-top:14px}
+.study .tracks .no{display:block;font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-acc,var(--muted))}
+.study .tracks h4{font:800 1.125rem/1.25 var(--head);letter-spacing:-.01em;margin:6px 0}
+.study .tracks p{margin:0;font:400 .9375rem/1.55 var(--body)}
+.study .tracks .soon{border-top-style:dashed}
+.study .tracks .soon h4{color:var(--p-meta,var(--muted))}
+.study .calls{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.study .calls li{padding-left:16px;border-left:2px solid var(--p-acc,var(--char))}
+.study .calls b{display:block;font:700 1rem/1.35 var(--head);margin-bottom:2px}
+.study .stack{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.study .stack li{font:600 .8125rem/1 var(--head);padding:8px 12px;border:2px solid var(--p-acc,var(--char))}
+.study .bul{margin:0;padding-left:1.1em}
+.study .bul li{margin:0 0 .5em}
+.study .gb-ask .btn{--c-fill:#c03221;background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
+.study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
 .pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--p-base,var(--char));margin-top:clamp(24px,4vw,48px)}
 .pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
 .pnav button.fwd{text-align:right;justify-items:end}
@@ -222,6 +243,7 @@ body.locked{overflow:hidden}
 @media (max-width:640px){
  .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-row:3;grid-column:2;text-align:left;margin-top:10px}
  .study .grid{grid-template-columns:minmax(0,1fr)}
+ .study .gb-ov{grid-template-columns:minmax(0,1fr)}
  .pnav{grid-template-columns:minmax(0,1fr)}.pnav button.fwd{text-align:left;justify-items:start;border-top:1px solid var(--rule)}
 }
 /* ── the skill map in the expanded About: arcs from 640px up, a list on phones ── */
@@ -366,12 +388,35 @@ svg.tight .om-node .om-meta{font-size:12px}
 </div>
 
 <!-- each page's own content. Section headers are .sh and take the project's colour. -->
+<!-- GigBag (19 Nov, Kelly's approved plan): nothing about the unreleased fourth product, no figures, no screens. Wording kept to what the
+     GigBag disclosure boundaries allow; the licensing call is worded generally on purpose. -->
 <template id="pg-gigbag"><div class="grid">
-  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">GigBag is a New York music platform I co-founded and built as CTO and sole developer. I took it from zero to closed beta on my own: four products in one consumer platform. They are Profiles &amp; Discovery, a gear marketplace, session booking and Demo Radio, a human-curated, algorithm-free station for unreleased original music.</p></div>
+  <div class="wide gb-ov"><img class="gb-logo" src="/assets/gigbag-mark.png" width="180" height="180" alt="GigBag logo" decoding="async"><div><h3 class="sh">Overview</h3><p class="lede">GigBag is a New York music platform I co-founded and built as CTO and sole developer. I took it from zero to closed beta on my own: four products in one platform for artists, fans and the businesses around them.</p></div></div>
+  <div class="wide"><h3 class="sh">Tracklist</h3><ol class="tracks">
+    <li><span class="no">Track 01</span><h4>Profiles &amp; Discovery</h4><p>Profiles that connect artists with each other, their fans and the businesses that hire them.</p></li>
+    <li><span class="no">Track 02</span><h4>Gear marketplace</h4><p>A marketplace made for buying and selling music gear.</p></li>
+    <li><span class="no">Track 03</span><h4>Session booking</h4><p>Book studios and session players directly, all in one place.</p></li>
+    <li class="soon"><span class="no">Track 04</span><h4>Unreleased</h4><p>Track four is still in the studio. I'll play it for you when it drops.</p></li>
+  </ol></div>
   <div><h3 class="sh">Problem and approach</h3>
-    <p>Four products is a lot of ground for one engineer, so the platform runs on a small, dependable stack: Next.js on Vercel, Supabase and Postgres, Stripe and Resend. Access is role-based and enforced in Postgres with row-level security. Business accounts are multi-tenant, with team permission levels. Scheduled jobs and transactional email, authenticated with SPF, DKIM and DMARC, keep it running without anyone watching.</p>
-    <p>The harder work was the decisions. I kept the platform out of the payment path for gigs and sessions, and used Stripe Connect only for the marketplace and studio bookings, because holding other people's money is a liability and money-transmission question, not a feature. Artists license their music directly when they submit it, with consent, warranty and indemnity, and that evidence is kept even after the audio is deleted. Licensing was designed into the data model, not bolted on. Legal review ran alongside launch instead of blocking it: the policies went live marked provisional, pending attorney review. Paid tiers open the door rather than close it. Any artist can post to and browse the collaboration board for free, and only replying to a response needs a paid tier.</p></div>
-  <div><h3 class="sh">Outcome</h3><p>A four-product platform, designed, built and shipped by one engineer, now in closed beta. What I bring to a client is the reasoning behind it: where to draw the line on liability, how to design licensing into the data model, and how to keep a build moving while legal and commercial questions are still open. For serious prospects, I can show a live demo and walk through the architecture under NDA.</p></div>
+    <p>Four products is a lot of ground for one engineer. The harder work was the decisions.</p>
+    <ul class="calls">
+      <li><b>Out of the payment path.</b> I kept the platform out of the payment path for gigs and sessions, and used Stripe Connect only for the marketplace and studio bookings. Holding other people's money is a liability and money-transmission question, not a feature.</li>
+      <li><b>Licensing in the data model.</b> Rights and consent are captured with warranty and indemnity when content comes in, and that evidence is kept even after the content is deleted. Licensing was designed in, not bolted on.</li>
+      <li><b>Legal alongside launch.</b> The policies went live marked provisional, pending attorney review, so legal review ran alongside launch instead of blocking it.</li>
+      <li><b>Paid tiers open the door.</b> Any artist can post to and browse the collaboration board for free. Only replying to a response needs a paid tier.</li>
+    </ul></div>
+  <div><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul>
+    <ul class="bul">
+      <li>Role-based access, enforced in Postgres with row-level security</li>
+      <li>Multi-tenant business accounts with team permission levels</li>
+      <li>Consent and attestation records kept as evidence</li>
+      <li>Scheduled jobs, and transactional email authenticated with SPF, DKIM and DMARC</li>
+      <li>Built with Claude Code, with hooks and guards that keep the work verified and permission-first</li>
+    </ul></div>
+  <div><h3 class="sh">Outcome</h3><p>A four-product platform, designed, built and shipped by one engineer, now in closed beta. What I bring to a client is the reasoning behind it: where to draw the line on liability, how to design licensing into the data model, and how to keep a build moving while legal and commercial questions are still open.</p></div>
+  <div class="gb-ask"><h3 class="sh">Walkthrough</h3><p>There's a lot more under the hood than I can put on a public page. Once we've signed an NDA, I'd love to walk you through GigBag properly: the architecture, the trade-offs and the calls I'd make again.</p><button type="button" class="btn" data-contact>Ask for a walkthrough <span aria-hidden="true">→</span></button></div>
 </div></template>
 <template id="pg-titrelab"><div class="grid">
   <div class="wide"><h3 class="sh">Overview</h3><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
@@ -708,7 +753,7 @@ function initMap(root){
 
 const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Lorem ipsum"]];
 const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
-let openFrom=null,scrollBack=0;
+let openFrom=null,scrollBack=0,goContact=false;   /* goContact: the GigBag walkthrough button closes the panel onto the contact form */
 function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
  const i=PROJ.findIndex(p=>p[1]===slug),isWork=i>=0;
  panel.dataset.p=slug;
@@ -743,6 +788,7 @@ function closePanel(){if(!panel.classList.contains("on")||wiping)return;
  if(reduce||!wipe.animate||!PROJ.some(x=>x[1]===slug)){hidePanel();return}
  runWipe("back",WIPE_FROM[slug],hidePanel)}
 function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;if(mapKill){mapKill();mapKill=null}pbody.innerHTML="";
+ if(goContact){goContact=false;openFrom=null;const ct=$("#contact"),f=$("#fn");if(ct)ct.scrollIntoView({block:"start"});if(f)f.focus({preventScroll:true});return}
  if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
 /* ── Work rows: Kelly's try-out (19 Nov) of the subtle first chameleon on the filled bar. While a mouse or pen hovers a row, its fill drifts
@@ -768,7 +814,8 @@ const chamFill=(el,pal,stopOnClick)=>{if(reduce)return;
  $$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(pal)chamFill(row,pal,true)})}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
 pclose.addEventListener("click",closePanel);
-panel.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
+panel.addEventListener("click",e=>{if(e.target.closest("[data-contact]")){if(!wiping){goContact=true;closePanel()}return}
+ const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
 addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
  if(e.key==="Escape"){closePanel();return}
  /* keep Tab inside the panel */
