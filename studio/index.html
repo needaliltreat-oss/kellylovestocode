@@ -102,10 +102,10 @@ body.locked{overflow:hidden}
 [data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-fill:var(--fs-fill)}
 [data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-fill:var(--pf-fill)}
 /* Project page palettes (Kelly, 19 Nov): base = bar and rules, meta = number, meta line, Previous/Next, sh = section headers, acc = lede line, screen frames, link underline. A page without one keeps the neutral look. */
-#opened[data-p="gigbag"]{--p-base:#c03221;--p-meta:#8c3f3f;--p-sh:#450b04;--p-acc:#94180a}
-#opened[data-p="titrelab"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
-#opened[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
-#opened[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
+#opened[data-p="gigbag"],.wipe[data-p="gigbag"]{--p-base:#c03221;--p-meta:#8c3f3f;--p-sh:#450b04;--p-acc:#94180a}
+#opened[data-p="titrelab"],.wipe[data-p="titrelab"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
+#opened[data-p="formulation-suite"],.wipe[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
+#opened[data-p="phytofoundry"],.wipe[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
 #opened[data-p="gigbag"],#opened[data-p="titrelab"],#opened[data-p="formulation-suite"],#opened[data-p="phytofoundry"]{--p-bar:3px solid var(--p-base);--p-mark:block;--p-lede:4px solid var(--p-acc);--p-ledepad:clamp(12px,2vw,20px)}
 .proj .i{font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
 .proj h3{font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
@@ -159,6 +159,9 @@ body.locked{overflow:hidden}
 /* ── the panel About and each project open into, in the sample's case-study layout ── */
 #opened{position:fixed;inset:0;z-index:100;background:var(--paper);color:var(--char);overflow:hidden auto;overscroll-behavior:contain;visibility:hidden}
 #opened.on{visibility:visible}
+/* the wipe: a skewed sheet that sweeps across, covers the page while a section opens under it, then sweeps back. Never takes clicks. */
+.wipe{position:fixed;top:0;bottom:0;left:-10vh;width:calc(100vw + 20vh);z-index:110;background:var(--p-base,var(--char));pointer-events:none;visibility:hidden;transform:translateX(-100%) skewX(-5deg);will-change:transform}
+.wipe.run{visibility:visible}
 #opened .pbar{position:sticky;top:0;z-index:2;background:var(--paper);border-bottom:var(--p-bar,1px solid var(--rule));padding-top:env(safe-area-inset-top,0px)}
 #opened .pbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
 .pclose{display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);color:inherit;background:transparent;border:0;padding:6px 0;cursor:pointer}
@@ -251,6 +254,7 @@ body.locked{overflow:hidden}
 </section>
 </main>
 
+<div class="wipe" id="wipe" aria-hidden="true"></div>
 <div id="opened" role="dialog" aria-modal="true" aria-labelledby="ptitle" aria-hidden="true">
   <div class="pbar"><div class="wrap"><button type="button" class="pclose" id="pclose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span id="pcloseT">Back to Work</span></button><span class="pnum" id="ppnum"></span></div></div>
   <article class="study wrap"><span class="mark" aria-hidden="true"></span><h2 id="ptitle"></h2><p class="meta" id="pmeta"></p><div id="pbody"></div></article>
@@ -414,15 +418,11 @@ function introTick(){const r=track.getBoundingClientRect(),p=clamp(-r.top/Math.m
 /* ── Built with: open the < > once when the bar first comes fully into view, so touch screens see it too ── */
 {const el=$("#built");if(!reduce&&"IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();setTimeout(()=>{el.classList.add("peek");setTimeout(()=>el.classList.remove("peek"),1400)},300)}},{threshold:.9});io.observe(el)}}
 
-/* ── the panel: About and each project open over the page.
-   TEMPORARY switch for Kelly to compare: ?t=a fade and rise (the default), ?t=b fade and settle. Remove the one she does not pick.
-   With reduced motion both become a short fade with no movement. ── */
-const TR=new URLSearchParams(location.search).get("t")==="b"?"b":"a";
-const OPEN_FX={a:{from:"translateY(16px)",ms:250,ease:"cubic-bezier(.2,.7,.2,1)"},b:{from:"scale(1.015)",ms:320,ease:"cubic-bezier(.22,1,.36,1)"}}[TR];
-function reveal(el){if(!el.animate)return;el.getAnimations().forEach(x=>x.cancel());
- const fx=reduce?[{opacity:0},{opacity:1}]:[{opacity:0,transform:OPEN_FX.from},{opacity:1,transform:"none"}];
- el.classList.add("in");const an=el.animate(fx,{duration:reduce?150:OPEN_FX.ms,easing:OPEN_FX.ease});
- const done=()=>el.classList.remove("in");an.finished.then(done,done)}
+/* ── the panel: About and each project open over the page behind a wipe.
+   The wipe sweeps in from the left (380ms), holds while the page is swapped underneath (120ms), then sweeps back out (400ms): 900ms in all.
+   Its colour is the project's base colour, or charcoal for About. With reduced motion it is a 150ms fade instead. ── */
+const WIPE_IN=380,WIPE_HOLD=120,WIPE_OUT=400,WIPE_EASE="cubic-bezier(.7,0,.3,1)";
+function fade(el){if(!el.animate)return;el.getAnimations().forEach(x=>x.cancel());el.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}
 const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Lorem ipsum"]];
 const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
 let openFrom=null,scrollBack=0;
@@ -439,10 +439,20 @@ function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
   nav.innerHTML=`<button type="button" class="prev" data-go="${pv[1]}"><span class="lab">Previous</span><span class="nm">${pv[0]}</span></button><button type="button" class="fwd" data-go="${nx[1]}"><span class="lab">Next</span><span class="nm">${nx[0]}</span></button>`;
   pbody.append(nav)}
  panel.scrollTop=0;return true}
-function openPanel(slug,from){if(!fill(slug))return;openFrom=from||openFrom;
- if(!panel.classList.contains("on")){scrollBack=scrollY;panel.classList.add("on");panel.setAttribute("aria-hidden","false");body.classList.add("locked");main.inert=true;reveal(panel)}else reveal(pbody)
- pclose.focus({preventScroll:true})}
-function closePanel(){if(!panel.classList.contains("on"))return;[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel());el.classList.remove("in")});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;pbody.innerHTML="";
+function showPanel(slug,from){if(!fill(slug))return false;openFrom=from||openFrom;
+ const was=panel.classList.contains("on");
+ if(!was){scrollBack=scrollY;panel.classList.add("on");panel.setAttribute("aria-hidden","false");body.classList.add("locked");main.inert=true}
+ pclose.focus({preventScroll:true});return was?pbody:panel}
+const wipe=$("#wipe");let wiping=false;
+function openPanel(slug,from){if(wiping||!$("#pg-"+slug))return;
+ if(reduce||!wipe.animate){const el=showPanel(slug,from);if(el)fade(el);return}
+ wiping=true;wipe.dataset.p=slug;wipe.classList.add("run");
+ const sweep=(k,ms,delay=0)=>wipe.animate(k,{duration:ms,delay,easing:WIPE_EASE,fill:"forwards"}).finished.catch(()=>{});
+ const OFF="translateX(-100%) skewX(-5deg)",ON="translateX(0) skewX(0deg)";
+ sweep([{transform:OFF},{transform:ON}],WIPE_IN)
+  .then(()=>{showPanel(slug,from);return sweep([{transform:ON},{transform:OFF}],WIPE_OUT,WIPE_HOLD)})
+  .then(()=>{wipe.getAnimations().forEach(x=>x.cancel());wipe.classList.remove("run");wiping=false})}
+function closePanel(){if(!panel.classList.contains("on")||wiping)return;[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;pbody.innerHTML="";
  if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
