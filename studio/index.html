@@ -220,31 +220,38 @@ body.locked{overflow:hidden}
 @media (min-width:1000px){.study .tracks{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .study .tracks li{min-width:0;border-top:3px solid var(--p-base,var(--char));padding-top:14px}
 .study .tracks .no{display:block;font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-acc,var(--muted))}
-.study .tracks h4{font:800 1.125rem/1.25 var(--head);letter-spacing:-.01em;margin:6px 0}
-.study .tracks p{margin:0;font:400 .9375rem/1.55 var(--body)}
+.study .tracks h4{font:800 1.25rem/1.25 var(--head);letter-spacing:-.01em;margin:6px 0 8px}
+.study .tracks p{margin:0;line-height:1.6}
 .study .tracks .soon{border-top-style:dashed}
 .study .tracks .soon h4{color:var(--p-meta,var(--muted))}
-.study .calls{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.study .calls{list-style:none;margin:0;padding:0;display:grid;gap:24px}
 .study .calls li{padding-left:16px;border-left:2px solid var(--p-acc,var(--char))}
-.study .calls b{display:block;font:700 1rem/1.35 var(--head);margin-bottom:2px}
+.study .calls h4{font:800 1.25rem/1.25 var(--head);letter-spacing:-.01em;margin:0 0 6px}
 .study .stack{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 /* Stack chips light up the lines they power (Kelly, 19 Nov): hover or focus previews, a click, tap or Enter keeps it lit until pressed again */
 .study .stack li{display:flex}
-.study .stack button{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font:600 .8125rem/1 var(--head);color:var(--char);background:transparent;border:2px solid var(--p-acc,var(--char));border-radius:0;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .2s,border-color .2s,color .2s}
-@media (hover:hover){.study .stack button:hover{border-color:var(--p-base,var(--char))}}
+.study .stack button{--c-fill:var(--p-base,var(--char));display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font:700 .875rem/1 var(--head);color:var(--char);background:transparent;border:2px solid var(--p-acc,var(--char));border-radius:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* mouse or pen hover (.hov, set with the highlight below): the chip fills with the project colour and runs the Work bars' chameleon (chamFill, wired up in fill()) */
+.study .stack button.hov{background-color:var(--c-fill);border-color:var(--c-fill);color:#fff}
 .study .stack button[aria-pressed="true"]{background:var(--p-base,var(--char));border-color:var(--p-base,var(--char));color:#fff}
-.study .gb-hint{margin:-6px 0 14px;font:500 .8125rem/1.4 var(--body);color:var(--muted)}
+.study .gb-hint{margin:-4px 0 16px;font:400 .9375rem/1.5 var(--body);color:var(--muted)}
 .study .gb-stack .bul li{transition:opacity .2s,color .2s}
-.study .gb-stack.hl .bul li{opacity:.45}
-.study .gb-stack.hl .bul li.hit{opacity:1;color:var(--p-sh,var(--char))}
+.study .gb-stack.hl .bul li{opacity:.5}
+.study .gb-stack.hl .bul li.hit{opacity:1;color:var(--p-sh,var(--char));font-weight:700}
 .study .gb-stack.hl .bul li.hit::marker{color:var(--p-base,currentColor)}
-@media (prefers-reduced-motion:reduce){.study .stack button,.study .gb-stack .bul li{transition:none}}
+@media (prefers-reduced-motion:reduce){.study .gb-stack .bul li{transition:none}}
 .study .bul{margin:0;padding-left:1.1em}
-.study .bul li{margin:0 0 .5em}
+.study .bul li{margin:0 0 .6em}
 .study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
-#opened[data-p="gigbag"] .sh{font:800 clamp(1.25rem,1.1rem + .6vw,1.625rem)/1.2 var(--head);letter-spacing:.04em;margin:0 0 14px}
+#opened[data-p="gigbag"] .sh{font:800 clamp(1.5rem,1.3rem + .8vw,1.875rem)/1.2 var(--head);letter-spacing:.04em;margin:0 0 16px}
+/* GigBag body text (Kelly, 19 Nov: the light 300 was hard to read): regular weight, a touch larger. Scale on this page:
+   title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
+#opened[data-p="gigbag"] #pbody{font-weight:400;font-size:1.0625rem;line-height:1.7}
+#opened[data-p="gigbag"] #pbody :is(p,li){text-wrap:pretty}
+#opened[data-p="gigbag"] .meta{font-weight:600}
+#opened[data-p="gigbag"] .grid{row-gap:clamp(40px,6vw,64px)}
 .pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--p-base,var(--char));margin-top:clamp(24px,4vw,48px)}
 .pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
 .pnav button.fwd{text-align:right;justify-items:end}
@@ -413,10 +420,10 @@ svg.tight .om-node .om-meta{font-size:12px}
   <div><h3 class="sh">Problem and approach</h3>
     <p>Four products is a lot of ground for one engineer. The harder work was the decisions.</p>
     <ul class="calls">
-      <li><b>Out of the payment path.</b> I kept the platform out of the payment path for gigs and sessions, and used Stripe Connect only for the marketplace and studio bookings. Holding other people's money is a liability and money-transmission question, not a feature.</li>
-      <li><b>Licensing in the data model.</b> Rights and consent are captured with warranty and indemnity when content comes in, and that evidence is kept even after the content is deleted. Licensing was designed in, not bolted on.</li>
-      <li><b>Legal alongside launch.</b> The policies went live marked provisional, pending attorney review, so legal review ran alongside launch instead of blocking it.</li>
-      <li><b>Paid tiers open the door.</b> Any artist can post to and browse the collaboration board for free. Only replying to a response needs a paid tier.</li>
+      <li><h4>Out of the payment path</h4>I kept the platform out of the payment path for gigs and sessions, and used Stripe Connect only for the marketplace and studio bookings. Holding other people's money is a liability and money-transmission question, not a feature.</li>
+      <li><h4>Licensing in the data model</h4>Rights and consent are captured with warranty and indemnity when content comes in, and that evidence is kept even after the content is deleted. Licensing was designed in, not bolted on.</li>
+      <li><h4>Legal alongside launch</h4>The policies went live marked provisional, pending attorney review, so legal review ran alongside launch instead of blocking it.</li>
+      <li><h4>Paid tiers open the door</h4>Any artist can post to and browse the collaboration board for free. Only replying to a response needs a paid tier.</li>
     </ul></div>
   <div class="gb-stack"><h3 class="sh">Stack and security</h3>
     <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="nextjs" aria-pressed="false">Next.js</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="stripe" aria-pressed="false">Stripe</button></li><li><button type="button" data-tool="resend" aria-pressed="false">Resend</button></li></ul>
@@ -778,6 +785,7 @@ function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
  pcloseT.textContent=isWork?"Back to Work":"Back";
  if(mapKill){mapKill();mapKill=null}
  pbody.innerHTML=tpl.innerHTML;
+ if(PAL[slug])pbody.querySelectorAll(".stack button").forEach(b=>chamFill(b,PAL[slug],false,true));
  if(slug==="about")mapKill=initMap(pbody.querySelector(".om-wrap"));
  if(isWork){const n=PROJ.length,pv=PROJ[(i-1+n)%n],nx=PROJ[(i+1)%n];
   const nav=document.createElement("nav");nav.className="pnav";nav.setAttribute("aria-label","Projects");
@@ -814,19 +822,19 @@ function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimat
 const ROW_T=.5,ROW_P=1;
 /* chamFill(el, [toward one way, toward the other], stopOnClick): the bar version of the chameleon on any filled element. Its fill is read from
    --c-fill when the pointer arrives. Mouse and pen only, nothing with reduced motion. The Send button in the contact form uses it too. */
-const chamFill=(el,pal,stopOnClick)=>{if(reduce)return;
+const chamFill=(el,pal,stopOnClick,inPanel)=>{if(reduce)return;
  const c=swayState();let r=0,base="";
  const shade=o=>o<0?mix(base,pal[0],-o):o>0?mix(base,pal[1],o):base;
  const clear=()=>{cancelAnimationFrame(r);r=0;c.on=false;c.a=0;c.last=0;el.style.backgroundColor="";el.style.backgroundImage=""};
- const tick=now=>{if(!c.on||wiping||panel.classList.contains("on")){clear();return}
+ const tick=now=>{if(!c.on||wiping||(!inPanel&&panel.classList.contains("on"))){clear();return}
   const a=swayA(c,now),u=swayU(c,now);el.style.backgroundColor=shade(a*ROW_T*u);
   el.style.backgroundImage=`radial-gradient(ellipse 75% 130% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${shade(-a*ROW_P*u)} 30%,transparent 85%)`;
   r=requestAnimationFrame(tick)};
  el.addEventListener("pointerenter",e=>{if(e.pointerType==="touch")return;base=getComputedStyle(el).getPropertyValue("--c-fill").trim();if(!base)return;
   c.on=true;c.t0=performance.now();if(!r)r=requestAnimationFrame(tick)});
  el.addEventListener("pointerleave",clear);if(stopOnClick)el.addEventListener("click",clear)};
-{const PAL={gigbag:["#0a5373","#3b464a"],titrelab:["#94180a","#8c3f3f"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
- $$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(pal)chamFill(row,pal,true)})}
+const PAL={gigbag:["#0a5373","#3b464a"],titrelab:["#94180a","#8c3f3f"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
+$$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(pal)chamFill(row,pal,true)});
 /* GigBag stack: a tool lights up the lines it powers. Hover (mouse or pen) and keyboard focus preview it; a click, tap, Enter or Space pins it
    (aria-pressed) until pressed again, and leaving goes back to the pinned one. Only a pin is announced, so hovering stays quiet for screen readers. */
 {const hl=(box,k,say)=>{let n=0;box.querySelectorAll(".bul li").forEach(li=>{const hit=!!k&&(li.dataset.k||"").split(" ").includes(k);li.classList.toggle("hit",hit);if(hit)n++});
@@ -836,8 +844,8 @@ const chamFill=(el,pal,stopOnClick)=>{if(reduce)return;
  const back=box=>hl(box,box.dataset.pin||"",false);
  pbody.addEventListener("click",e=>{const [b,box]=tool(e);if(!b)return;const k=box.dataset.pin===b.dataset.tool?"":b.dataset.tool;box.dataset.pin=k;
   box.querySelectorAll("[data-tool]").forEach(x=>x.setAttribute("aria-pressed",String(!!k&&x===b)));hl(box,k,true)});
- pbody.addEventListener("pointerover",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b)hl(box,b.dataset.tool,false)});
- pbody.addEventListener("pointerout",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b&&!b.contains(e.relatedTarget))back(box)});
+ pbody.addEventListener("pointerover",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b){b.classList.add("hov");hl(box,b.dataset.tool,false)}});
+ pbody.addEventListener("pointerout",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b&&!b.contains(e.relatedTarget)){b.classList.remove("hov");back(box)}});
  pbody.addEventListener("focusin",e=>{const [b,box]=tool(e);if(b&&b.matches(":focus-visible"))hl(box,b.dataset.tool,false)});
  pbody.addEventListener("focusout",e=>{const [b,box]=tool(e);if(b)back(box)})}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
