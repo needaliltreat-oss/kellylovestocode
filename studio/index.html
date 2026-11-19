@@ -65,16 +65,18 @@ body.locked{overflow:hidden}
 .heart{position:absolute;left:0;top:0;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);z-index:5;will-change:transform;pointer-events:none;opacity:0;color:#c03221}
 .heart svg{width:100%;height:100%;display:block;overflow:visible;transition:scale .22s cubic-bezier(.3,1.4,.5,1)}
 .heart.shake svg,.heart.knock svg{animation:shake .6s ease-out}
-.heart.live{pointer-events:auto;cursor:pointer}
+.heart.live{pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* no rim (Kelly, 19 Nov): the shine and the chameleon patch are masked to the heart's full outline, stroke included, so no plain edge reads as a border.
+   Their gradients keep the old box-relative placement through gradientTransform (the path's box: 1.239,4.157, 21.523 × 17.143). */
 /* hover (or a tap, which toggles it): the heart grows a little and takes the chameleon (it runs in the script) */
-.heart.live.pulse svg{scale:1.16}
-@media (hover:hover){.heart.live:hover svg{scale:1.16}}
+.heart.live.pulse svg{scale:1.18}
+@media (hover:hover){.heart.live:hover svg{scale:1.18}}
 @keyframes shake{20%{transform:rotate(-8deg) scale(1.08)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(1deg)}100%{transform:none}}
 .word{position:absolute;left:0;top:0;font:900 var(--word)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;user-select:none;-webkit-user-select:none;z-index:4;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
 .word.on{opacity:1}
 .word .wi{display:block;transition:scale .2s cubic-bezier(.3,1.4,.5,1)}
 /* hover or tap: the word grows a little and takes the chameleon (it runs in the script). The shake is kept for holding a word to throw it. */
-.word.hot .wi{scale:1.16}
+.word.hot .wi{scale:1.18}
 /* the chameleon paints inside the letters; the padding, taken back by the margin, keeps the tall letters inside the painted box */
 .word.cham .wi{-webkit-text-fill-color:transparent;background-color:currentColor;-webkit-background-clip:text;background-clip:text;padding:.2em .08em;margin:-.2em -.08em}
 .word.held .wi{animation:wshake var(--skd,.45s) ease-in-out infinite}
@@ -112,9 +114,9 @@ body.locked{overflow:hidden}
 #opened[data-p="formulation-suite"],.wipe[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
 #opened[data-p="phytofoundry"],.wipe[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
 #opened[data-p="gigbag"],#opened[data-p="titrelab"],#opened[data-p="formulation-suite"],#opened[data-p="phytofoundry"]{--p-bar:3px solid var(--p-base);--p-mark:block;--p-lede:4px solid var(--p-acc);--p-ledepad:clamp(12px,2vw,20px)}
-.proj .i{grid-row:1;grid-column:1;font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
-.proj h3{grid-row:1;grid-column:2;font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
-.proj .k{grid-row:1;grid-column:3;font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char));white-space:nowrap}
+.proj .i{grid-row:1;grid-column:1;font:600 1.0625rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
+.proj h3{grid-row:1;grid-column:2;font:900 clamp(1.75rem,1.05rem + 3.4vw,4rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
+.proj .k{grid-row:1;grid-column:3;font:500 .875rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char));white-space:nowrap}
 /* the teaser under each project name, with clear room above it */
 .proj .t{grid-row:2;grid-column:2;margin:clamp(10px,1.4vw,16px) 0 0;max-width:62ch;font:400 clamp(.9375rem,.88rem + .25vw,1.0625rem)/1.55 var(--body);color:var(--muted)}
 .proj:hover,.proj:focus-visible{background:var(--c-fill,var(--char));color:var(--fill-ink)}
@@ -289,7 +291,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 <section class="track" id="introTrack" aria-label="Kelly loves">
   <div class="sticky" id="stage">
     <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span class="sr">loves</span></h1>
-    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient><radialGradient id="hch" cx=".85" cy=".6" r=".75"><stop offset=".3" stop-color="#c03221"/><stop offset="1" stop-color="#c03221" stop-opacity="0"/></radialGradient></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path class="hch" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hch)" opacity="0"/><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hgl)"/></svg></div>
+    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(21.523 0 0 17.143 1.239 4.157)"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient><radialGradient id="hch" cx=".85" cy=".6" r=".8" gradientUnits="userSpaceOnUse" gradientTransform="matrix(21.523 0 0 17.143 1.239 4.157)"><stop offset=".35" stop-color="#c03221"/><stop offset="1" stop-color="#c03221" stop-opacity="0"/></radialGradient><mask id="hm" maskUnits="userSpaceOnUse" x="-2" y="1" width="28" height="24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="#fff" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/></mask></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><rect class="hch" x="-2" y="1" width="28" height="24" fill="url(#hch)" mask="url(#hm)" opacity="0"/><rect x="-2" y="1" width="28" height="24" fill="url(#hgl)" mask="url(#hm)"/></svg></div>
     <div class="hint" id="hint" aria-hidden="true"><span class="bob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg></span></div>
     <p class="sub" id="sub"><b>Kelly Burgess</b> · Fractional CTO</p>
   </div>
@@ -411,10 +413,11 @@ const bandColour=yn=>yn<=0?W0:yn>=1?W1:mix(W0,W1,yn);
    moves between two steps below and two steps above the word's own spot, and the patch the other way round, so the two meet and cross.
    Kelly, 19 Nov: "make the chameleon effect a bit more dramatic". Steps went from .07 to .10 of the gradient, the text from one step to two either way,
    the patch from 50% to 75% of the word with a solid middle, and the hover size from 1.1 to 1.16.
+   Then "a tiny bit more": steps .10 to .115, the patch to 80% with a wider solid middle, the hover size to 1.18.
    The patch is painted inside the letters (background-clip:text) rather than as a blurred multiply overlay, so it stays on the word over the light
    paper and costs no blur filter on phones. When the pointer leaves it fades back to the word's own colour.
    Tune here: CH_STEP is one step as a share of the whole gradient, CH_HALF one drift across in ms. Reduced motion: no drift, only the size change. */
-const CH_STEP=.10,CH_HALF=2500,CH_IN=220,CH_OUT=320,TAP_HOLD=1600;
+const CH_STEP=.115,CH_HALF=2500,CH_IN=220,CH_OUT=320,TAP_HOLD=1600;
 const swayState=()=>({on:false,a:0,t0:0,last:0});
 /* how far the effect is faded in (0 to 1) */
 function swayA(c,now){const dt=Math.min(64,now-(c.last||now));c.last=now;
@@ -498,7 +501,7 @@ function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Co
  const draw=(now=performance.now())=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
   const yn=p.y/H,a=swayA(t.ch,now);
   if(a>0){const u=swayU(t.ch,now),pc=bandColour(yn-a*2*CH_STEP*u);t.el.style.color=bandColour(yn+a*2*CH_STEP*u);
-   t.wi.style.backgroundImage=`radial-gradient(ellipse 75% 130% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${pc} 30%,transparent 85%)`;
+   t.wi.style.backgroundImage=`radial-gradient(ellipse 80% 140% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${pc} 35%,transparent 88%)`;
    if(!t.cham){t.cham=true;t.el.classList.add("cham")}}
   else{t.el.style.color=bandColour(yn);if(t.cham){t.cham=false;t.el.classList.remove("cham");t.wi.style.backgroundImage=""}}});
  const holdShake=()=>items.forEach(t=>{if(!t.drag||!t.h0)return;const h=holdK(t.h0);t.el.style.setProperty("--sk",(1+(SHAKE_MAX-1)*h).toFixed(2));t.el.style.setProperty("--skd",(.45-.3*h).toFixed(3)+"s")});
@@ -720,6 +723,23 @@ function closePanel(){if(!panel.classList.contains("on")||wiping)return;
 function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;if(mapKill){mapKill();mapKill=null}pbody.innerHTML="";
  if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
+/* ── Work rows: Kelly's try-out (19 Nov) of the subtle first chameleon on the filled bar. While a mouse or pen hovers a row, its fill drifts
+   a little toward one of the project's own darker palette colours and back toward the other, and a soft patch slides across it the other way.
+   Off for touch, off with reduced motion, and it stops the moment the row is clicked, so the wipe takes over cleanly.
+   Tune here: ROW_T is how far the fill drifts, ROW_P how far the patch does (shares of the way to each palette colour). ── */
+{const PAL={gigbag:["#94180a","#8c3f3f"],titrelab:["#0a5373","#3b464a"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
+ const ROW_T=.25,ROW_P=.5;
+ if(!reduce)$$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(!pal)return;
+  const c=swayState();let r=0,base="";
+  const shade=o=>o<0?mix(base,pal[0],-o):o>0?mix(base,pal[1],o):base;
+  const clear=()=>{cancelAnimationFrame(r);r=0;c.on=false;c.a=0;c.last=0;row.style.backgroundColor="";row.style.backgroundImage=""};
+  const tick=now=>{if(!c.on||wiping||panel.classList.contains("on")){clear();return}
+   const a=swayA(c,now),u=swayU(c,now);row.style.backgroundColor=shade(a*ROW_T*u);
+   row.style.backgroundImage=`radial-gradient(ellipse 40% 140% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${shade(-a*ROW_P*u)},transparent 75%)`;
+   r=requestAnimationFrame(tick)};
+  row.addEventListener("pointerenter",e=>{if(e.pointerType==="touch")return;base=getComputedStyle(row).getPropertyValue("--c-fill").trim();if(!base)return;
+   c.on=true;c.t0=performance.now();if(!r)r=requestAnimationFrame(tick)});
+  row.addEventListener("pointerleave",clear);row.addEventListener("click",clear)})}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
 pclose.addEventListener("click",closePanel);
 panel.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
