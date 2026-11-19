@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kelly Burgess — Fractional CTO</title>
 <meta name="description" content="Kelly Burgess, fractional CTO. Selected work and contact.">
-<meta name="theme-color" content="#16171b">
+<meta name="theme-color" content="#f1f0ec">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="canonical" href="https://kellylovestocode.com/">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -52,7 +52,13 @@
   --out:cubic-bezier(.16,1,.3,1); --quint:cubic-bezier(.22,1,.36,1);
   --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --ground:var(--Lg); --text:#111111; --kelly:#000000; --muted:#5b5b60; --rule:var(--Dg); --bar:#000000; --barText:#ffffff; --barEdge:var(--Lg); --line:#d3d2cc;
-  --word:clamp(2.47rem,8.55vw,7.125rem); --sp:.75; --ssz:.7;
+  --word:clamp(2.1rem,5.6vw,4.75rem); --sp:.5; --ssz:.7;
+  /* 19 Nov, her words: "the font is massive on a computer. I want to lower all font sizes". One scale for the whole site; each step grows with the screen and stops at a cap. */
+  --fs-label:.75rem; --fs-small:.875rem; --fs-body:1rem;
+  --fs-lead:clamp(1.25rem,1rem + 1vw,1.75rem);      /* About strip, panel lede */
+  --fs-h3:clamp(1.5rem,1rem + 2.2vw,3rem);          /* Work bar names */
+  --fs-h2:clamp(1.6rem,1.1rem + 2.6vw,3.25rem);     /* Next project, footer strip, thank-you */
+  --fs-display:clamp(2.25rem,1.4rem + 4.4vw,5rem);  /* panel title words */
   --dhi:rgba(255,255,255,.7); --dsh:rgba(0,0,0,.32); --dts:0 0 0 transparent; --g1:.38; --g2:.14;
 }
 body[data-skin="dark"]{--ground:var(--Dg);--text:#f1f0ec;--kelly:#f1f0ec;--muted:#a4a4a8;--rule:#f1f0ec;--bar:#ffffff;--barText:#000000;--barEdge:var(--Dg);--line:#37383e;--dhi:rgba(255,255,255,.16);--dsh:rgba(0,0,0,.72);--g1:.10;--g2:.45;color-scheme:dark}
@@ -163,7 +169,7 @@ body.locked{overflow:hidden}
 #tk::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain)}
 main,section{position:relative;z-index:1}
 .about{min-height:calc(110vh * var(--sp));display:grid;align-content:center;justify-items:start;padding-block:calc(clamp(60px,14vh,160px) * var(--sp))}
-.ap{font:500 clamp(2.4rem,6.6vw,5.25rem)/1.12 var(--blurb);margin:0;max-width:22ch;letter-spacing:-.01em;transition:color .4s}
+.ap{font:500 var(--fs-lead)/1.4 var(--blurb);margin:0;max-width:34ch;letter-spacing:-.01em;transition:color .4s}
 .ap + .ap{margin-top:.6em}
 .lit{color:#fff}
 .kw{display:inline-block;transform-origin:50% 80%;will-change:transform;transition:color .3s}
@@ -188,24 +194,24 @@ main,section{position:relative;z-index:1}
 .frow{display:block;position:relative;text-decoration:none;color:inherit;perspective:1400px}
 .card{display:block;position:relative;transform-style:preserve-3d;transition:transform .7s var(--quint)}
 /* 12 Nov, her words: "there can be more padding on the work bars, they seem kinda thin". The bars are taller; the stack and the physics follow the new height by themselves. Placeholders. */
-.face{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;align-items:center;gap:16px;padding:clamp(16px,3.2vh,42px) max(16px,env(safe-area-inset-right,0px)) clamp(16px,3.2vh,42px) max(16px,env(safe-area-inset-left,0px));backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--ground);border:2px solid var(--rule)}
+.face{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;align-items:center;gap:16px;padding:clamp(14px,2.2vh,28px) max(clamp(16px,2vw,28px),env(safe-area-inset-right,0px)) clamp(14px,2.2vh,28px) max(clamp(16px,2vw,28px),env(safe-area-inset-left,0px));backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--ground);border:2px solid var(--rule)}
 /* 12 Nov, her words: "the work bars - the dark bars need to have the same border as the white ones do (except of course they are light, even on the flip)".
    The flipped face used to take an off-black border whatever colour it was, so a dark bar had a border you could not see. Now the border is always the opposite
    ink to the face it sits on, at the same 2px: an off-white border on a dark bar, an off-black border on a white one, on both skins and on both faces (E416, E417). */
 .face.back{position:absolute;inset:0;transform:rotateX(180deg);background:var(--bar);color:var(--barText);border-color:var(--barEdge)}
 .frow:hover .card,.frow:focus-visible .card,.frow.flipped .card{transform:rotateX(180deg)}
 body[data-hov="HV1"] .card{transform:none!important}
-.face .i{font:600 .9rem var(--head)}
+.face .i{font:600 var(--fs-small) var(--head)}
 /* the chameleon on the Work bar names (8 Nov, C1: "colour slides across the letters"; 12 Nov she put it here, on the page titles and on the next-project name).
    Off hover the letters keep the face's own ink, through a flat gradient of currentColor; on hover the two burst colours slide across them. Speed and width are placeholders. */
 /* the box the colour is clipped to has to be taller than the line box, or it cuts the tails off the g and the y (12 Nov: "the lowercase g in GigBag are cut off").
    The padding is taken straight back off as margin, so nothing moves. */
-.face h3{margin:-.04em -.02em -.16em;font:900 clamp(2rem,min(8vw,8.8vh),6.5rem)/.95 var(--head);letter-spacing:-.04em;min-width:0;overflow-wrap:anywhere;padding:.04em .02em .16em;
+.face h3{margin:-.04em -.02em -.16em;font:900 var(--fs-h3)/.95 var(--head);letter-spacing:-.035em;min-width:0;overflow-wrap:anywhere;padding:.04em .02em .16em;
  -webkit-text-fill-color:transparent;background-image:linear-gradient(currentColor,currentColor);-webkit-background-clip:text;background-clip:text;background-size:100% 100%}
 @keyframes chame{from{background-position:140% 0}to{background-position:-140% 0}}
 .frow:hover .face h3,.frow:focus-visible .face h3{background-image:linear-gradient(100deg,var(--cobalt) 0%,var(--signal) 26%,var(--cobalt) 52%,var(--signal) 78%,var(--cobalt) 100%);
  background-size:280% 100%;animation:chame 13s linear infinite}   /* 12 Nov: "slow the chameleon effect waaaay dpown", then "slow the chameleon down a tad more" — 13s a pass, a placeholder */
-.face .k{font:500 .9rem var(--body);text-align:right;text-transform:uppercase}
+.face .k{font:500 var(--fs-label) var(--body);letter-spacing:.06em;text-align:right;text-transform:uppercase}
 @media (max-width:640px){.face{grid-template-columns:2rem minmax(0,1fr)}.face .k{grid-column:2;text-align:left}}
 
 /* Contact: CT6 colour switch kept (E173, E220). The origami cat sits here (E277, E278); clicking it unfolds the paper into the email form (E279–E283). */
@@ -228,19 +234,19 @@ body[data-hov="HV1"] .card{transform:none!important}
 @media (min-width:720px){.cform{grid-template-columns:1fr 1fr}}
 .cform .f{display:grid;min-width:0}
 .cform .wide{grid-column:1/-1}
-.cform select{width:100%;border:0;border-bottom:2px solid transparent;font:400 1.05rem var(--body);padding:8px 0;
+.cform select{width:100%;border:0;border-bottom:2px solid transparent;font:400 var(--fs-body) var(--body);padding:8px 0;
  background:linear-gradient(#000,#000) left bottom/0% 2px no-repeat;color:#111;border-radius:0;appearance:none;
  transition:background-size .7s var(--quint);cursor:pointer}
 .stagef.show .cform select{background-size:100% 2px}
 .cform select:focus{outline:none;border-bottom-color:#111}
 /* the thank-you that replaces the fields once the message has gone (E627) */
-.tyk{font:900 clamp(1.6rem,3.4vw,2.6rem)/1.05 var(--head);letter-spacing:-.03em;margin:0 0 .35em;color:#111}
-.cform label{font:600 .78rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:10px;min-height:1.2em}
-.cform input,.cform textarea{width:100%;border:0;border-bottom:2px solid transparent;font:400 1.05rem var(--body);padding:8px 0;background:linear-gradient(#000,#000) left bottom/0% 2px no-repeat;color:#111;border-radius:0;transition:background-size .7s var(--quint)}
+.tyk{font:900 var(--fs-h2)/1.05 var(--head);letter-spacing:-.03em;margin:0 0 .35em;color:#111}
+.cform label{font:600 var(--fs-label) var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:10px;min-height:1.2em}
+.cform input,.cform textarea{width:100%;border:0;border-bottom:2px solid transparent;font:400 var(--fs-body) var(--body);padding:8px 0;background:linear-gradient(#000,#000) left bottom/0% 2px no-repeat;color:#111;border-radius:0;transition:background-size .7s var(--quint)}
 .cform textarea{resize:none}
 .cform .btn{justify-self:start;margin-top:16px;background:#111;color:#fff;border-color:#111}
 .formnote{font:400 .85rem var(--body);color:#555;margin:6px 0 0}
-.clinks{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:14px;font:700 1rem var(--head)}
+.clinks{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:14px;font:700 var(--fs-small) var(--head)}
 .clinks a{color:inherit;text-decoration:none;border-bottom:2px solid currentColor}
 .sheet .cform .btn,.sheet .clinks,.sheet .formnote{opacity:0;transform:translateY(10px);transition:opacity .5s,transform .6s var(--quint)}
 .stagef.show .cform input,.stagef.show .cform textarea{background-size:100% 2px}
@@ -337,8 +343,8 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
 #opened .pnum{font:600 .9rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 #opened .pbody{padding-bottom:clamp(40px,10vh,120px)}
 /* the title, in the pages' own markup so their falling-word physics runs here unchanged */
-.ptrack{position:relative;min-height:clamp(340px,52vh,660px);overflow:hidden}
-.pw{position:absolute;left:0;top:0;font:900 clamp(2.6rem,10.5vw,8.6rem)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;
+.ptrack{position:relative;min-height:clamp(240px,36vh,440px);overflow:hidden}
+.pw{position:absolute;left:0;top:0;font:900 var(--fs-display)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;
  user-select:none;z-index:2;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
 .pw.on{opacity:1}
 .pw .wi{display:block;-webkit-text-fill-color:transparent;background-image:var(--noise),linear-gradient(165deg,rgba(255,255,255,.46),rgba(255,255,255,0) 42%,rgba(0,0,0,.36)),linear-gradient(var(--wc,#000),var(--wc,#000));
@@ -347,16 +353,16 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
  background-size:280% 100%;background-blend-mode:normal;animation:chame 13s linear infinite}
 .pw.flat{position:static;opacity:1;cursor:default}
 /* the page bodies' own styles, from the old shared stylesheet (since removed) */
-#opened .sec{padding-block:clamp(40px,8vh,96px)}
+#opened .sec{padding-block:clamp(32px,6vh,72px)}
 #opened .lab{font:600 .8rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
-#opened .lede{font:500 clamp(1.7rem,3.6vw,3.1rem)/1.2 var(--blurb);margin:0;max-width:24ch;letter-spacing:-.01em}
-#opened .body{font:300 clamp(1.02rem,1.25vw,1.22rem)/1.65 var(--body);max-width:62ch;margin:0}
+#opened .lede{font:500 var(--fs-lead)/1.4 var(--blurb);margin:0;max-width:34ch;letter-spacing:-.01em}
+#opened .body{font:300 var(--fs-body)/1.7 var(--body);max-width:62ch;margin:0}
 #opened .body + .body{margin-top:1.1em}
 #opened .kw{display:inline-block;will-change:transform}
 #opened .rule{height:2px;background:var(--rule);opacity:.18;border:0;margin:0}
 #opened .pairs{display:grid;gap:28px 48px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));margin:0}
 #opened .pairs dt{font:600 .8rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-#opened .pairs dd{margin:6px 0 0;font:400 1.05rem/1.5 var(--body)}
+#opened .pairs dd{margin:6px 0 0;font:400 var(--fs-body)/1.5 var(--body)}
 #opened .shots{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
 #opened .shot{aspect-ratio:16/10;background:var(--box,#d8d7d2);border:2px solid var(--rule);display:grid;place-items:center;color:var(--muted);
  font:600 .78rem var(--head);letter-spacing:.14em;text-transform:uppercase;opacity:0;transform:translateY(28px);
@@ -364,14 +370,14 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
 #opened .shot.in{opacity:1;transform:none}
 #opened .next{display:block;text-decoration:none;color:inherit;border-top:2px solid var(--rule);padding-block:clamp(28px,6vh,64px);cursor:pointer}
 #opened .next .lab{margin-bottom:10px}
-#opened .next h2{margin:-.04em -.02em -.16em;padding:.04em .02em .16em;font:900 clamp(2.2rem,8vw,6rem)/.95 var(--head);letter-spacing:-.04em;
+#opened .next h2{margin:-.04em -.02em -.16em;padding:.04em .02em .16em;font:900 var(--fs-h2)/.95 var(--head);letter-spacing:-.035em;
  -webkit-text-fill-color:transparent;background-image:linear-gradient(var(--text),var(--text));-webkit-background-clip:text;background-clip:text;background-size:100% 100%}
 #opened .next:hover h2,#opened .next:focus-visible h2{background-image:linear-gradient(100deg,var(--cobalt) 0%,var(--signal) 26%,var(--cobalt) 52%,var(--signal) 78%,var(--cobalt) 100%);
  background-size:280% 100%;animation:chame 13s linear infinite}
 #opened .fstrip{border-top:2px solid var(--rule);padding-block:clamp(26px,5vh,54px);margin-top:clamp(20px,5vh,60px)}
 #opened .fstrip .in{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:baseline;justify-content:space-between}
-#opened .fstrip h2{margin:0;font:900 clamp(1.6rem,4.4vw,3rem)/1 var(--head);letter-spacing:-.03em}
-#opened .fstrip .lk{display:flex;gap:10px 26px;flex-wrap:wrap;font:700 1rem var(--head)}
+#opened .fstrip h2{margin:0;font:900 var(--fs-h2)/1 var(--head);letter-spacing:-.03em}
+#opened .fstrip .lk{display:flex;gap:10px 26px;flex-wrap:wrap;font:700 var(--fs-small) var(--head)}
 #opened .fstrip a{color:inherit;text-decoration:none;border-bottom:2px solid currentColor;cursor:pointer}
 #opened .pnav{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--rule)}
 #opened .pnav .next{border-top:0}
@@ -387,7 +393,7 @@ body[data-skin="dark"]{--box:#2a2b31}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01s!important;animation:none!important}}
 </style>
 </head>
-<body>
+<body data-skin="light">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="kgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2448d8"/><stop offset="1" stop-color="#ff6a2b"/></linearGradient></defs></svg>
 <div id="loader" class="g" aria-hidden="true"></div>
 <div id="tl" aria-hidden="true"></div>
@@ -597,7 +603,7 @@ const OPT={
  cback:{label:"The back of the origami paper, what shows where a fold turns the paper over (E302: you asked to see options; this list is mine, none is chosen)",v:"CB1",o:{CB1:"Cobalt",CB2:"Signal",CB3:"Near-black (the dark ground)",CB4:"Cobalt to signal across the sheet (the heart's gradient)",CB5:"Deeper cream"}},
  /* 12 Nov (E666): the two menu-link groups (MN1/MN2, and how high they rest) are gone with the menu itself. Her words: "theres no point to
     it now that there arent pages.  just make the note and remove." The note is in FOLLOW-UP.md. */
- spc:{label:"Space between all the sections: 3 steps (E245; placeholders)",v:"SP1",o:{SP1:"Tighter (x.75)",SP2:"Tight (x.5)",SP3:"Very tight (x.3)"}},   /* SP1: her Demo P picks, 12 Nov */
+ spc:{label:"Space between all the sections: 3 steps (E245; placeholders)",v:"SP2",o:{SP1:"Tighter (x.75)",SP2:"Tight (x.5)",SP3:"Very tight (x.3)"}},   /* SP1: her Demo P picks, 12 Nov */
  size:{label:"Name size (E170, picked S2)",v:"S2",o:{S1:"About 80% of the width",S2:"About half the width"}},
  heart:{label:"Heart (E150, picked HT4)",v:"HT4",o:{HT1:"Classic, signal",HT2:"Classic, gradient",HT3:"Geometric, cobalt",HT4:"Outline, signal"}},
  count:{label:"Words (E151, picked W14)",v:"W14",o:{W14:"14 words",W8:"8 words"}},
@@ -614,7 +620,8 @@ const LINE=.95;   /* the whole Kelly, heart and s line is about 5% smaller than 
 const HSZ={HS1:1.3,HS2:1.6,HS3:2},SSZ={SS1:.78,SS2:.85,SS3:.92},SPC={SP1:.75,SP2:.5,SP3:.3};   /* MLF, how high the menu links rested, went with the menu (E666) */
 
 /* skin (E130) */
-const st={skin:"auto"};const mq=matchMedia("(prefers-color-scheme: dark)");
+const st={skin:"light"};   /* 19 Nov, her words: "I'd like to start out on a light screen". The toggle still switches. */
+const mq=matchMedia("(prefers-color-scheme: dark)");
 const skin=()=>st.skin!=="auto"?st.skin:root.dataset.theme==="dark"?"dark":root.dataset.theme==="light"?"light":(mq.matches?"dark":"light");
 const inkEnd=()=>skin()==="dark"?"#f1f0ec":"#000000";
 /* 12 Nov (E665): light / dark is the toggle at the top right, sun one side and moon the other, and the full-screen menu it used to live in is
@@ -630,7 +637,7 @@ function syncSkinSw(){if(!skinT)return;const dark=skin()==="dark";
  skinT.querySelectorAll(".si").forEach(s=>s.classList.toggle("on",(s.dataset.set==="dark")===dark))}
 if(skinT)skinT.addEventListener("click",e=>{const s=e.target.closest(".si");
  st.skin=s?s.dataset.set:(skin()==="dark"?"light":"dark");applySkin()});
-function applySkin(){body.dataset.skin=skin();ctPaint();buildHgPrev();syncSkinSw()}
+function applySkin(){body.dataset.skin=skin();{const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=skin()==="dark"?"#16171b":"#f1f0ec"}ctPaint();buildHgPrev();syncSkinSw()}
 mq.addEventListener("change",applySkin);new MutationObserver(applySkin).observe(root,{attributes:true,attributeFilter:["data-theme"]});
 
 /* hearts */
@@ -649,7 +656,8 @@ const stage=$("#stage"),kl=$("#kl"),klw=$("#klw"),heart=$("#heart"),hgap=$("#hga
 new MutationObserver(()=>klw.classList.toggle("landed",kl.classList.contains("landed"))).observe(kl,{attributes:true,attributeFilter:["class"]});
 const SG={SG1:.03,SG2:.0936,SG3:.2};
 function measure(t,css){const p=document.createElement("span");p.style.cssText="position:absolute;visibility:hidden;white-space:nowrap;"+css;p.textContent=t;body.append(p);const w=p.getBoundingClientRect().width;p.remove();return w}
-function fitName(){const W=stage.clientWidth;const target=OPT.size.v==="S1"?.8:.5;const sg=SG[OPT.sgap.v],hk=HSZ[OPT.hsize.v],ss=SSZ[OPT.ssize.v];
+function fitName(){const W=stage.clientWidth;const target=OPT.size.v==="S1"?.8:.5-.12*clamp((W-700)/740);   /* 19 Nov: smaller on a computer ("the font is massive"); unchanged on a phone */
+const sg=SG[OPT.sgap.v],hk=HSZ[OPT.hsize.v],ss=SSZ[OPT.ssize.v];
  root.style.setProperty("--ssz",ss);
  const nw=measure("Kelly","font:900 100px/1 Figtree,system-ui,sans-serif;letter-spacing:-.045em"),sw=measure("s",`font:900 ${100*ss}px/1 Figtree,system-ui,sans-serif`);
  const hh=1.12*.74*100*hk,hw=hh*1.1,gaps=8+sg*100;const fs=100*LINE*target*W/(nw+gaps+hw+sw);
@@ -1257,14 +1265,17 @@ PROJ.forEach(([n,k,slug],i)=>{const face=`<span class="i">${String(i+1).padStart
  a.innerHTML=`<span class="card"><span class="face front">${face}</span><span class="face back" aria-hidden="true">${face}</span></span>`;w.append(a);wbox.append(w);
  bars.push({el:w,a,i,body:null,anim:null,landed:false,still:0,o:0,v:0,r:0,rv:0,planY:0,static:false,tilt:0,tf:0,ph:0,pad:0,bh:0,sk:0,skr:0,due:false,spawned:false,spawnT:0})});
 
+/* 19 Nov, her words: "The work bars are still clipped". The bars used to be 94% of the width and dropped 3px from either edge, so a tilted
+   corner ran off the screen. Now every bar keeps a side margin (BM) inside the walls, and the walls sit at that margin. */
+const BM=()=>Math.round(clamp(innerWidth*.03,14,40));
 /* every bar's collision body is as tall as the bar plus the gap plus what its tilt takes up, so tilted bars never overlap */
-function sizeWork(){const bw=wbox.clientWidth||innerWidth,gap=BGAP[OPT.bgap.v],a=BTILT[OPT.btilt.v]*Math.PI/180,pat=TPAT[OPT.tpat.v];
- bars.forEach((t,i)=>{t.el.style.width=Math.round(bw*.94)+"px";t.tilt=pat[i]*a});
+function sizeWork(){const bw=(wbox.clientWidth||innerWidth)-2*BM()-Math.round((wbox.clientWidth||innerWidth)*.04),gap=BGAP[OPT.bgap.v],a=BTILT[OPT.btilt.v]*Math.PI/180,pat=TPAT[OPT.tpat.v];
+ bars.forEach((t,i)=>{t.el.style.width=Math.round(bw)+"px";t.tilt=pat[i]*a});
  bars.forEach(t=>{const bh=t.el.offsetHeight,e=t.el.offsetWidth/2*Math.abs(Math.tan(t.tilt));t.bh=bh;t.ph=bh+gap+2*e;t.pad=(t.ph-bh)/2});
  const total=bars.reduce((s,t)=>s+t.ph,0),H=Math.round(total*1.06+Math.min(120,innerHeight*.12));wbox.style.height=H+"px";
  let acc=H;for(let i=bars.length-1;i>=0;i--){acc-=bars[i].ph;bars[i].planY=acc}}
 function stackTop(H){let m=H;bars.forEach(t=>{if(t.body)m=Math.min(m,t.body.bounds.min.y)});return m}
-function spawnBar(t){const W=wbox.clientWidth;const bw=t.el.offsetWidth;const left=t.i%2===0;t.spawned=true;t.spawnT=performance.now();t.anim={t0:performance.now(),left,bw,px:left?3:W-bw-3};t.el.classList.add("on")}
+function spawnBar(t){const W=wbox.clientWidth;const bw=t.el.offsetWidth;const left=t.i%2===0;t.spawned=true;t.spawnT=performance.now();t.anim={t0:performance.now(),left,bw,px:left?BM():W-bw-BM()};t.el.classList.add("on")}
 function settleBar(t){const H=wbox.clientHeight;const {bw,px}=t.anim;t.anim=null;t.el.style.transformOrigin="";const py=Math.min(t.planY,stackTop(H)-t.ph-2);const {Bodies,Composite,Body}=Matter;
  t.body=Bodies.rectangle(px+bw/2,py+t.ph/2,bw,t.ph,{friction:.9,frictionStatic:1.2,restitution:.06,frictionAir:.012,density:.002,chamfer:{radius:4},angle:(Math.random()-.5)*.05});
  Body.setVelocity(t.body,{x:(Math.random()-.5)*3,y:8+Math.random()*3});Body.setAngularVelocity(t.body,(Math.random()-.5)*.035);Composite.add(wEng.world,t.body)}
@@ -1313,7 +1324,7 @@ function startWork(){cancelAnimationFrame(wRaf);wTimers.forEach(clearTimeout);wT
  if(!window.Matter||reduce){placeStatic();setWipe("black");wLoop.last=0;wRaf=requestAnimationFrame(wLoop);paintAll();return}
  const {Engine,Bodies,Composite}=Matter;wEng=Engine.create();wEng.gravity.y=1.3;wEng.positionIterations=20;wEng.velocityIterations=14;wLoop.acc=0;
  const W=wbox.clientWidth,H=wbox.clientHeight;
- Composite.add(wEng.world,[Bodies.rectangle(W/2,H+200,W*4,400,{isStatic:true,friction:1}),Bodies.rectangle(-200,H/2,400,H*6,{isStatic:true}),Bodies.rectangle(W+200,H/2,400,H*6,{isStatic:true})]);
+ const m=BM()-2;Composite.add(wEng.world,[Bodies.rectangle(W/2,H+200,W*4,400,{isStatic:true,friction:1}),Bodies.rectangle(m-200,H/2,400,H*6,{isStatic:true}),Bodies.rectangle(W-m+200,H/2,400,H*6,{isStatic:true})]);
  /* the bottom bar falls first; GigBag, on top, falls last (E216) */
  [...bars].reverse().forEach((t,k)=>wTimers.push(setTimeout(()=>{t.due=true;pumpGate()},k*STAGGER+200)));   /* hover and replay wait until the last bar has had time to settle (see pumpGate) */
  wLoop.last=0;wRaf=requestAnimationFrame(wLoop)}
@@ -1352,7 +1363,8 @@ function workTick(){const vh=innerHeight,ar=alink.getBoundingClientRect();
 const STEPS=[0,.25,.5,.75,1];let csi=0,cdir=1;
 const stepCol=t=>mix(C.cob,C.sig,t);const stepInk=t=>t<.7?"#ffffff":"#111111";
 function ctPaint(){root.style.setProperty("--ctcol",stepCol(STEPS[csi]));ct.style.setProperty("--ink",stepInk(STEPS[csi]));paintAll()}
-function ctNext(x,y){let n=csi+cdir;if(n<0||n>=STEPS.length){cdir=-cdir;n=csi+cdir}
+let ctLast=0;
+function ctNext(x,y){ctLast=performance.now();let n=csi+cdir;if(n<0||n>=STEPS.length){cdir=-cdir;n=csi+cdir}
  ink.classList.remove("grow");tk.style.setProperty("--next",rich(mix("var(--ground)",stepCol(STEPS[n]),P.q),P.q));tk.style.setProperty("--x",x+"px");tk.style.setProperty("--y",y+"px");tk.style.setProperty("--r","0px");void ink.offsetWidth;
  ink.classList.add("grow");tk.style.setProperty("--r",Math.hypot(innerWidth,innerHeight)*1.05+"px");ct.style.setProperty("--ink",stepInk(STEPS[n]));
  const done=()=>{csi=n;ctPaint();ink.classList.remove("grow");tk.style.setProperty("--r","0px")};clearTimeout(ctNext.t);ctNext.t=setTimeout(done,reduce?0:950)}
@@ -1365,6 +1377,12 @@ addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;lpx=e.clien
 addEventListener("scroll",regCheck,{passive:true});
 document.documentElement.addEventListener("pointerleave",e=>{if(e.pointerType!=="mouse"||!inReg)return;inReg=false;lpx=-1;ctNext(clamp(e.clientX,0,innerWidth),clamp(e.clientY,0,innerHeight))});
 ct.addEventListener("click",e=>{if(fine||e.target.closest("form,a,button,input,textarea,#formStage"))return;ctNext(e.clientX,e.clientY)});
+/* 19 Nov, her words: "the color change should happen any time the user leaves that surface i.e. the contact form, a work bar".
+   With a mouse, leaving any Work bar (once the bars have landed) or the Contact form sheet now changes the colour as well. A leave that comes
+   within a moment of another change (leaving a bar straight into the Contact area, say) is one change, not two. */
+function surfaceLeft(e){if(e.pointerType!=="mouse"||performance.now()-ctLast<400)return;ctNext(clamp(e.clientX,0,innerWidth),clamp(e.clientY,0,innerHeight))}
+bars.forEach(t=>t.el.addEventListener("pointerleave",e=>{if(barsLanded)surfaceLeft(e)}));
+ct.addEventListener("pointerout",e=>{const sh=e.target.closest&&e.target.closest("#formStage .sheet");if(sh&&!sh.contains(e.relatedTarget))surfaceLeft(e)});
 
 /* ── the form: fields draw themselves (F2, E174, E177, E179). It is written on the sheet the paper letter unfolds into (12 Nov, DK3). ── */
 const FS_ENDPOINT="https://formspree.io/f/xqpqaqzp";   /* the form she created on her own Formspree account, "Kelly Loves To Code" */
