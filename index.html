@@ -7,10 +7,23 @@
 <meta name="description" content="Kelly Burgess, fractional CTO. Selected work and contact.">
 <meta name="theme-color" content="#16171b">
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="canonical" href="https://kellylovestocode.com/">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kellylovestocode.com/">
+<meta property="og:site_name" content="Kelly Loves To Code">
+<meta property="og:title" content="Kelly Burgess — Fractional CTO">
+<meta property="og:description" content="Kelly Burgess, fractional CTO. Selected work and contact.">
+<meta property="og:image" content="https://kellylovestocode.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kelly, with an orange heart, on a light background">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&family=Gabarito:wght@400..800&family=Lexend:wght@300..600&display=swap">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <style>
 /* THE HOME PAGE of kellylovestocode.com, 12 Nov 2026. Built from Demo S, which came from Demo R. Demo P, Demo R and Demo S are untouched.
    Her Demo P picks of 12 Nov are built in: the blue out of the heart is Demo P's (one mass, nine lumpy blobs, two drips), the wipe is back as LQ2 "the blue pushed off"
@@ -293,7 +306,7 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
    to the next is Podgro's "Page transition CSS3": a skewed slab sweeps in from the side, opens to the full width,
    wobbles, and skews away again, with the content swapped while the screen is covered.
    The styles below for .sec, .lab, .lede, .body, .rule, .pairs, .shots, .shot and .next are the pages' own, from
-   assets/site.css, so the content looks exactly as it did on them. Every number is a placeholder. */
+   the old shared stylesheet (since removed), so the content looks exactly as it did on them. Every number is a placeholder. */
 #cover{position:fixed;left:0;top:0;width:0;height:0;z-index:150;background:var(--ground);transform-origin:0 0;pointer-events:none;
  transition:transform .55s var(--quint);will-change:transform}
 #cover.none{transition:none}
@@ -333,7 +346,7 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
 .pw.hot .wi{background-image:linear-gradient(100deg,var(--cobalt) 0%,var(--signal) 26%,var(--cobalt) 52%,var(--signal) 78%,var(--cobalt) 100%);
  background-size:280% 100%;background-blend-mode:normal;animation:chame 13s linear infinite}
 .pw.flat{position:static;opacity:1;cursor:default}
-/* the page bodies' own styles, from assets/site.css */
+/* the page bodies' own styles, from the old shared stylesheet (since removed) */
 #opened .sec{padding-block:clamp(40px,8vh,96px)}
 #opened .lab{font:600 .8rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
 #opened .lede{font:500 clamp(1.7rem,3.6vw,3.1rem)/1.2 var(--blurb);margin:0;max-width:24ch;letter-spacing:-.01em}
@@ -541,6 +554,8 @@ body[data-skin="dark"]{--box:#2a2b31}
 </div></template>
 <!-- E520: the demo tray, the options panel, the replay buttons and "Copy my picks" are gone from the live site. Every choice comes through the chat forms now. -->
 
+<!-- matter.js loads here, just before the script that uses it, so the page above is not held up waiting for the CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script>
 (()=>{
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],root=document.documentElement,body=document.body;
