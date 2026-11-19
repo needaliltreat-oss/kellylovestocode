@@ -198,11 +198,12 @@ body.locked{overflow:hidden}
 .study{padding-block:clamp(40px,7vw,88px)}
 .study h2{font:900 clamp(2rem,1.3rem + 3vw,4rem)/.95 var(--head);letter-spacing:-.04em;margin:0 0 6px;overflow-wrap:anywhere}
 .study .mark{display:var(--p-mark,none);width:56px;height:8px;background:var(--p-base);margin:0 0 18px}
-.study .meta{font:500 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-meta,var(--muted));margin:0 0 clamp(24px,4vw,40px)}
+.study .meta{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-meta,var(--muted));margin:0 0 clamp(24px,4vw,40px)}
 .study .meta:empty{display:none}
-.study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
+.study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,64px) clamp(20px,4vw,56px)}
 .study .grid > *{min-width:0}
-.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-sh,var(--c,var(--muted)));margin:0 0 10px}
+/* section titles: one treatment on every panel; the colour is the page's own --p-sh, charcoal on the About (Kelly, 19 Nov) */
+.study .sh{font:800 clamp(1.5rem,1.3rem + .8vw,1.875rem)/1.2 var(--head);letter-spacing:.04em;text-transform:uppercase;color:var(--p-sh,var(--char));margin:0 0 16px}
 .study p{margin:0 0 1.1em;max-width:62ch}
 .study .lede{font:500 clamp(1.15rem,1rem + .7vw,1.5rem)/1.45 var(--blurb);border-left:var(--p-lede,none);padding-left:var(--p-ledepad,0)}
 .study .wide{grid-column:1/-1}
@@ -246,15 +247,10 @@ body.locked{overflow:hidden}
 .study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
-:is(#opened[data-p="gigbag"],#opened[data-p="about"]) .sh{font:800 clamp(1.5rem,1.3rem + .8vw,1.875rem)/1.2 var(--head);letter-spacing:.04em;margin:0 0 16px}
-/* GigBag body text: regular weight (site-wide) and a touch larger. Scale on this page:
+/* panel body text, shared by every project page and the About (Kelly, 19 Nov: the light 300 was hard to read; all projects match GigBag). Scale:
    title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
-:is(#opened[data-p="gigbag"],#opened[data-p="about"]) #pbody{font-size:1.0625rem;line-height:1.7}
-:is(#opened[data-p="gigbag"],#opened[data-p="about"]) #pbody :is(p,li){text-wrap:pretty}
-#opened[data-p="gigbag"] .meta{font-weight:600}
-:is(#opened[data-p="gigbag"],#opened[data-p="about"]) .grid{row-gap:clamp(40px,6vw,64px)}
-/* the expanded About takes the same section titles (Kelly, 19 Nov); it has no project palette, so its titles are charcoal */
-#opened[data-p="about"] .sh{color:var(--char)}
+#pbody{font-size:1.0625rem;line-height:1.7}
+#pbody :is(p,li){text-wrap:pretty}
 .pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--p-base,var(--char));margin-top:clamp(24px,4vw,48px)}
 .pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
 .pnav button.fwd{text-align:right;justify-items:end}
@@ -788,7 +784,8 @@ function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
  pcloseT.textContent=isWork?"Back to Work":"Back";
  if(mapKill){mapKill();mapKill=null}
  pbody.innerHTML=tpl.innerHTML;
- if(PAL[slug])pbody.querySelectorAll(".stack button").forEach(b=>chamFill(b,PAL[slug],false,true));
+ if(PAL[slug]){pbody.querySelectorAll(".stack button").forEach(b=>chamFill(b,PAL[slug],false,true));
+  pbody.querySelectorAll(".gb-ask .btn").forEach(b=>chamFill(b,PAL[slug],true,true))}
  if(slug==="about")mapKill=initMap(pbody.querySelector(".om-wrap"));
  if(isWork){const n=PROJ.length,pv=PROJ[(i-1+n)%n],nx=PROJ[(i+1)%n];
   const nav=document.createElement("nav");nav.className="pnav";nav.setAttribute("aria-label","Projects");
