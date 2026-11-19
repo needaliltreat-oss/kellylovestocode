@@ -285,14 +285,15 @@ body.locked{overflow:hidden}
 .om-chart svg{display:block;width:100%;height:auto;overflow:visible;touch-action:manipulation}
 .om-arc{fill:none;stroke:var(--char);stroke-width:1.5;stroke-opacity:.5;transition:stroke-opacity .25s,stroke-width .25s}
 .om-arc.dim{stroke-opacity:.1}
-.om-arc.hot{stroke:var(--pc);stroke-opacity:1;stroke-width:2.5}
+/* the About is greyscale (Kelly, 19 Nov): the map's project squares, swatches and lit arcs are charcoal, not project colours */
+.om-arc.hot{stroke:var(--char);stroke-opacity:1;stroke-width:2.5}
 .om-node{cursor:pointer;outline:none}
 .om-hit{fill:transparent}
 .om-row{fill:var(--char);fill-opacity:0;transition:fill-opacity .2s}
 .om-node.sel .om-row{fill-opacity:.07}
 .om-node:focus-visible .om-row{stroke:var(--signal);stroke-width:2}
 .om-mk{fill:var(--paper);stroke:var(--char);stroke-width:2;transition:opacity .25s}
-.om-node.project .om-mk{fill:var(--pc);stroke:var(--pc)}
+.om-node.project .om-mk{fill:var(--char);stroke:var(--char)}
 .om-node.cap.hot .om-mk,.om-node.cap.sel .om-mk{fill:var(--char)}
 .om-node text{fill:var(--char);font:500 15px var(--head);dominant-baseline:middle}
 .om-node.project text{font-weight:700}
@@ -307,7 +308,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 .om-kind{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .study .om-ev .om-empty{margin-top:8px;color:var(--muted);font:400 .9375rem/1.5 var(--body)}
 .om-h{display:flex;align-items:center;gap:10px;font:800 1.5rem/1.15 var(--head);letter-spacing:-.02em;margin:4px 0 0}
-.om-sw{display:inline-block;flex:none;width:12px;height:12px;background:var(--pc);vertical-align:-.05em;margin-right:8px}
+.om-sw{display:inline-block;flex:none;width:12px;height:12px;background:var(--char);vertical-align:-.05em;margin-right:8px}
 .om-h .om-sw{margin-right:0}
 .study .om-ev .om-sum{margin-top:8px;font:400 .9375rem/1.5 var(--body)}
 .study .om-ev .om-stack{margin-top:6px;font:400 .875rem var(--body);color:var(--muted)}
@@ -692,7 +693,6 @@ function initMap(root){
  [...OM_P.map(p=>({...p,type:"project"})),...OM_C.map(c=>({...c,type:"cap"}))].forEach(n=>{
   const count=n.type==="project"?capsOf(n.id).length:projsOf(n.id).length;
   const g=mk("g",{class:`om-node ${n.type}`,role:"button",tabindex:"-1","aria-pressed":"false","aria-label":n.type==="project"?`${n.name}, project, proves ${count} capabilit${count===1?"y":"ies"}`:`${n.name}, capability, shown in ${count} project${count===1?"":"s"}`});
-  if(n.col)g.style.setProperty("--pc",n.col);
   const row=mk("rect",{class:"om-row"}),hit=mk("rect",{class:"om-hit"});
   const mark=n.type==="project"?mk("rect",{class:"om-mk",width:12,height:12,x:-6,y:-6}):mk("circle",{class:"om-mk",r:6});
   const t=mk("text",{x:16,"aria-hidden":"true"}),m=mk("text",{class:"om-meta","aria-hidden":"true"});
@@ -702,7 +702,7 @@ function initMap(root){
   g.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"){st.hover=n.id;paint()}});
   g.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse"){st.hover=null;paint()}});
   g.addEventListener("keydown",onKey);g.addEventListener("focus",()=>{focusId=n.id})});
- const arcs=[];OM_C.forEach(c=>Object.keys(c.ev).forEach(p=>{const path=mk("path",{class:"om-arc"});path.style.setProperty("--pc",P[p].col);gA.append(path);arcs.push({p,c:c.id,path})}));
+ const arcs=[];OM_C.forEach(c=>Object.keys(c.ev).forEach(p=>{const path=mk("path",{class:"om-arc"});gA.append(path);arcs.push({p,c:c.id,path})}));
  let geo={W:600,axis:300,rowH:42,top:28,gap:38,labelW:260,narrow:false},navOrder=[],focusId=null,raf=0;
  function order(){const r=R(),role=OM_R.find(x=>x.id===st.role);
   const caps=r?[...role.caps,...OM_C.filter(c=>!r.has(c.id)).map(c=>c.id)]:OM_C.map(c=>c.id);
@@ -738,23 +738,23 @@ function initMap(root){
   arcs.forEach(a=>{const hot=F&&(a.p===F||a.c===F);a.path.classList.toggle("hot",!!hot);a.path.classList.toggle("dim",F?!hot:r?!r.has(a.c):false)});
   nodes.forEach((n,id)=>{let dim=false;if(F)dim=id!==F&&!nb.has(id);else if(r)dim=n.type==="cap"?!r.has(id):!capsOf(id).some(c=>r.has(c.id));
    n.g.classList.toggle("dim",dim);n.g.classList.toggle("hot",!!F&&(id===F||nb.has(id))&&id!==st.sel);n.g.classList.toggle("sel",id===st.sel);n.g.setAttribute("aria-pressed",String(id===st.sel))})}
- const sw=col=>`<i class="om-sw" style="--pc:${col}" aria-hidden="true"></i>`;
+ const sw=()=>`<i class="om-sw" aria-hidden="true"></i>`;
  function renderEv(){const id=st.sel,r=R();
   if(!id){ev.innerHTML=`<p class="om-kind">Evidence</p><p class="om-empty">Select a project or a capability to see what proves it.</p>`;return}
   if(P[id]){const p=P[id],caps=capsOf(id).sort((a,b)=>r?r.has(b.id)-r.has(a.id):0);
-   ev.innerHTML=`<p class="om-kind">Project</p><h4 class="om-h">${sw(p.col)}${esc(p.name)}</h4><p class="om-sum">${esc(p.sum)}</p>${p.stack?`<p class="om-stack">${esc(p.stack)}</p>`:""}
+   ev.innerHTML=`<p class="om-kind">Project</p><h4 class="om-h">${sw()}${esc(p.name)}</h4><p class="om-sum">${esc(p.sum)}</p>${p.stack?`<p class="om-stack">${esc(p.stack)}</p>`:""}
     <ul class="om-evl">${caps.map(c=>`<li><button type="button" data-sel="${c.id}">${esc(c.name)}</button><ul>${c.ev[id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}</ul>
     <p class="om-more"><button type="button" data-go="${p.id}">Open the ${esc(p.name)} project <span aria-hidden="true">→</span></button></p>`}
   else{const c=C[id];
    ev.innerHTML=`<p class="om-kind">Capability</p><h4 class="om-h">${esc(c.name)}</h4>
-    <ul class="om-evl">${projsOf(id).map(p=>`<li><button type="button" data-sel="${p.id}">${sw(p.col)}${esc(p.name)}</button><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}
+    <ul class="om-evl">${projsOf(id).map(p=>`<li><button type="button" data-sel="${p.id}">${sw()}${esc(p.name)}</button><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}
     ${c.gen?`<li><span class="om-evh">Across my career</span><ul>${c.gen.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`:""}</ul>
     ${r?`<p class="om-rel">${r.has(id)?"Applies to the selected role.":"Not a focus for the selected role."}</p>`:""}`}
   ev.querySelectorAll("[data-sel]").forEach(b=>b.addEventListener("click",()=>{select(b.dataset.sel,true);nodes.get(b.dataset.sel).g.focus()}))}
  /* phones: the same facts as a list, the selected role's capabilities first */
  function renderList(){const r=R(),ids=order().caps;
   list.innerHTML=ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);
-   return `<li class="om-li${dim?" dim":""}"><h4>${esc(c.name)}${dim?`<span class="om-nf"> · not a focus for this role</span>`:""}</h4><ul>${projsOf(cid).map(p=>`<li><b>${sw(p.col)}${esc(p.name)}</b> ${c.ev[p.id].map(esc).join("; ")}</li>`).join("")}${c.gen?`<li class="om-gen"><b>Across my career</b> ${c.gen.map(esc).join("; ")}</li>`:""}</ul></li>`}).join("")}
+   return `<li class="om-li${dim?" dim":""}"><h4>${esc(c.name)}${dim?`<span class="om-nf"> · not a focus for this role</span>`:""}</h4><ul>${projsOf(cid).map(p=>`<li><b>${sw()}${esc(p.name)}</b> ${c.ev[p.id].map(esc).join("; ")}</li>`).join("")}${c.gen?`<li class="om-gen"><b>Across my career</b> ${c.gen.map(esc).join("; ")}</li>`:""}</ul></li>`}).join("")}
  table.innerHTML=`<caption class="vh">Capabilities by project, with the evidence for each</caption>
   <thead><tr><th scope="col">Capability</th>${OM_P.map(p=>`<th scope="col">${esc(p.name)}</th>`).join("")}</tr></thead>
   <tbody>${OM_C.map(c=>`<tr><th scope="row">${esc(c.name)}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`).join("")}</tbody>`;
