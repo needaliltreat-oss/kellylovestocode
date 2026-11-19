@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kelly Burgess — Fractional CTO</title>
+<meta name="description" content="Kelly Burgess, fractional CTO. Selected work and contact.">
+<meta name="theme-color" content="#f1f0ec">
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kellylovestocode.com/studio/">
+<meta property="og:site_name" content="Kelly Loves To Code">
+<meta property="og:title" content="Kelly Burgess — Fractional CTO">
+<meta property="og:description" content="Kelly Burgess, fractional CTO. Selected work and contact.">
+<meta property="og:image" content="https://kellylovestocode.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kelly, with an orange heart, on a light background">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&family=Gabarito:wght@400..800&family=Lexend:wght@300..600&display=swap">
+<style>
+/* THE HOME PAGE of kellylovestocode.com, rebuilt 19 Nov 2026 to the look of the "Polished Current Sample" Kelly picked:
+   Figtree for headings, Gabarito for the About text and ledes, Lexend for body text; paper and charcoal; light only.
+   Kept, her words: "I would keep the intro of falling words but scrap the other animations and transitions."
+   The falling words keep the blue to orange gradient. Work is the Index layout in her Coolors colours (brick, blue, grape, olive).
+   No open transition yet: About and the projects open at once until she picks one. */
+:root{
+  --paper:#f1f0ec; --char:#16171b; --signal:#ff6a2b; --muted:#5b5b60; --rule:#d3d2cc; --onchar:#f1f0ec; --onmuted:#a4a4a8;
+  /* Kelly's Coolors colours. First value: small text on the paper. Second: the hover fill, with white text on it.
+     Brick and grape are her exact hexes. Blue and olive are deepened just enough for small text (all pass WCAG AA). */
+  --gb:#c03221; --gb-fill:#c03221;
+  --tl:#38748c; --tl-fill:#38748c;
+  --fs:#483a58; --fs-fill:#483a58;
+  --pf:#66721c; --pf-fill:#707d1e;
+  --fill-ink:#ffffff;
+  --head:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --blurb:"Gabarito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --word:clamp(2.1rem,5.6vw,4.75rem);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--char);font:300 1rem/1.7 var(--body);overflow-x:hidden}
+body.locked{overflow:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+
+/* ── intro: "Kelly ♥s" with the falling words (kept as it was) ── */
+.track{position:relative;height:160vh;height:160svh}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.kl{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);margin:0;display:flex;align-items:baseline;font:900 var(--ksz,12vw)/1 var(--head);letter-spacing:-.045em;color:var(--char);z-index:3;white-space:nowrap}
+.hgap{display:inline-block;align-self:center;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);margin-left:.08em;margin-block:calc((var(--ksz,12vw) - var(--hh) * 1px) / 2)}
+.kl .s{font-size:calc(var(--ssz,.78) * 1em);letter-spacing:0;margin-left:calc(var(--sg,0) * 1px);opacity:0;transition:opacity .5s}
+.kl.landed .s{opacity:1}
+.kl.knock{animation:klknock .7s ease-out}
+@keyframes klknock{0%,100%{transform:translate(-50%,-50%)}14%{transform:translate(-50%,-50%) rotate(-1.1deg) translateX(-7px)}32%{transform:translate(-50%,-50%) rotate(.9deg) translateX(6px)}52%{transform:translate(-50%,-50%) rotate(-.6deg) translateX(-4px)}74%{transform:translate(-50%,-50%) rotate(.3deg) translateX(2px)}}
+.heart{position:absolute;left:0;top:0;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);z-index:5;will-change:transform;pointer-events:none;opacity:0}
+.heart svg{width:100%;height:100%;display:block;overflow:visible}
+.heart.shake svg,.heart.knock svg{animation:shake .6s ease-out}
+.heart.live{pointer-events:auto;cursor:pointer}
+.heart.live:hover svg,.heart.live.pulse svg{animation:hpulse .9s ease-in-out infinite;filter:drop-shadow(0 0 6px var(--hglow)) drop-shadow(0 0 22px var(--hglow))}
+@keyframes hpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes shake{20%{transform:rotate(-8deg) scale(1.08)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(1deg)}100%{transform:none}}
+.word{position:absolute;left:0;top:0;font:900 var(--word)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;user-select:none;-webkit-user-select:none;z-index:4;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
+.word.on{opacity:1}
+.word .wi{display:block}
+.word.hot .wi{animation:wshake var(--skd,.45s) ease-in-out infinite;text-shadow:0 0 .12em var(--glow),0 0 .45em var(--glow),0 0 .9em var(--glow)}
+@keyframes wshake{0%,100%{transform:none}25%{transform:rotate(calc(var(--sk,1) * -3deg)) translateX(calc(var(--sk,1) * -.02em))}75%{transform:rotate(calc(var(--sk,1) * 3deg)) translateX(calc(var(--sk,1) * .02em))}}
+.hint{position:absolute;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:3;color:var(--char);opacity:0;transition:opacity .4s}
+.hint .bob{display:block;animation:bob 1.6s ease-in-out infinite}
+.hint svg{width:22px;height:22px;display:block}
+@keyframes bob{50%{transform:translateY(8px)}}
+.sub{position:absolute;left:50%;bottom:calc(28px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:3;margin:0;white-space:nowrap;font:600 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sub b{color:var(--char);font-weight:800}
+
+/* ── About: the charcoal band ── */
+.aboutband{background:var(--char);color:var(--onchar);position:relative;z-index:1}
+.aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
+.aboutband small{font:400 .75rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--onmuted)}
+.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.4 var(--blurb);margin:0;max-width:34ch}
+/* the arrow: on hover or focus it turns into the heart once, then back to the arrow (her words: "onHover: heart then arrow again") */
+.arrow{width:56px;height:56px;border:1.5px solid var(--onchar);border-radius:50%;display:grid;place-items:center;color:var(--onchar);text-decoration:none;margin-top:8px;transition:border-color .2s,color .2s}
+.arrow:hover,.arrow:focus-visible{border-color:var(--signal);color:var(--signal)}
+.arrow .ico{position:relative;width:22px;height:22px;overflow:hidden}
+.arrow .ico > svg{position:absolute;inset:0;width:22px;height:22px}
+.arrow .ico .ah{transform:translate(-110%,110%)}
+
+/* ── Work: the Index layout Kelly picked. Small labels in each project's colour; on hover the row fills with the project colour and all its text turns white. ── */
+.work{padding-block:clamp(40px,7vw,88px)}
+.index{border-top:1px solid var(--char)}
+.proj{display:grid;grid-template-columns:3.2rem minmax(0,1fr) auto;gap:4px 20px;align-items:baseline;padding:clamp(16px,2.6vw,28px) clamp(10px,1.6vw,20px);border-bottom:1px solid var(--char);text-decoration:none;color:var(--char);min-width:0}
+[data-open="gigbag"],#opened[data-p="gigbag"]{--c:var(--gb);--c-fill:var(--gb-fill)}
+[data-open="titrelab"],#opened[data-p="titrelab"]{--c:var(--tl);--c-fill:var(--tl-fill)}
+[data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-fill:var(--fs-fill)}
+[data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-fill:var(--pf-fill)}
+.proj .i{font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
+.proj h3{font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
+.proj .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char))}
+.proj .go{grid-column:2;font:500 .875rem var(--body);color:var(--c,var(--char));visibility:hidden}
+.proj:hover,.proj:focus-visible{background:var(--c-fill,var(--char));color:var(--fill-ink)}
+.proj:hover :is(.i,.k,.go),.proj:focus-visible :is(.i,.k,.go){color:var(--fill-ink)}
+.proj:hover .go,.proj:focus-visible .go{visibility:visible}
+.proj:focus-visible{outline-offset:4px}
+
+/* ── Built with: full width; the < > opens on hover, focus, or once when it first comes into view ── */
+.proof{border-top:2px solid var(--char);border-bottom:2px solid var(--char)}
+.proof .wrap{padding-block:22px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
+.proof h2{font:800 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0}
+.proof ul{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0;padding:0;font:500 .9375rem var(--body)}
+.proof li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:.12em}
+.bicon{width:34px;height:20px;flex:none;overflow:visible;margin-right:-14px}
+.bicon .br{fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.bicon .ht{fill:var(--signal);transform-box:fill-box;transform-origin:50% 60%;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.proof:hover .bicon .l,.proof:focus-within .bicon .l,.proof.peek .bicon .l{transform:translateX(-4px)}
+.proof:hover .bicon .r,.proof:focus-within .bicon .r,.proof.peek .bicon .r{transform:translateX(4px)}
+.proof:hover .bicon .ht,.proof:focus-within .bicon .ht,.proof.peek .bicon .ht{transform:scale(1)}
+
+/* ── Contact: the form, below the Built with bar ── */
+.contact{padding-block:clamp(40px,7vw,88px)}
+.contact h2{font:800 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px}
+.sheet{border:2px solid var(--char);background:var(--paper);padding:clamp(20px,4vw,40px);max-width:880px}
+.cform{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 30px}
+@media (min-width:720px){.cform{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.cform .f{display:grid;min-width:0}
+.cform .wide{grid-column:1/-1}
+.cform label{font:600 .75rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
+.cform input,.cform textarea,.cform select{width:100%;min-width:0;border:0;border-bottom:2px solid var(--char);border-radius:0;background:transparent;color:var(--char);font:400 1rem var(--body);padding:8px 0}
+.cform select{-webkit-appearance:none;appearance:none;padding-right:24px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2316171b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 4px center/12px 8px no-repeat}
+.cform textarea{resize:vertical;min-height:7.5em}
+.cform input:focus,.cform textarea:focus,.cform select:focus{outline:none;border-bottom-color:var(--signal)}
+.btn{justify-self:start;margin-top:20px;display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);background:var(--char);color:var(--onchar);border:2px solid var(--char);padding:12px 22px;cursor:pointer;border-radius:0}
+.btn:hover{background:var(--paper);color:var(--char)}
+.btn:disabled{opacity:.6;cursor:default}
+.formnote{font:400 .875rem var(--body);color:var(--muted);margin:8px 0 0;min-height:1.4em}
+.tyk{font:900 clamp(1.6rem,1.1rem + 2.6vw,3.25rem)/1 var(--head);letter-spacing:-.03em;margin:0}
+.clinks{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;font:600 .875rem var(--head)}
+.clinks a{color:inherit;text-decoration:none;border-bottom:2px solid currentColor}
+
+/* ── the panel About and each project open into, in the sample's case-study layout ── */
+#opened{position:fixed;inset:0;z-index:100;background:var(--paper);color:var(--char);overflow:hidden auto;overscroll-behavior:contain;visibility:hidden}
+#opened.on{visibility:visible}
+#opened .pbar{position:sticky;top:0;z-index:2;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+#opened .pbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.pclose{display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);color:inherit;background:transparent;border:0;padding:6px 0;cursor:pointer}
+.pclose svg{width:17px;height:17px}
+.pclose:hover{color:var(--muted)}
+.pnum{font:600 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.study{padding-block:clamp(40px,7vw,88px)}
+.study h2{font:900 clamp(2rem,1.3rem + 3vw,4rem)/.95 var(--head);letter-spacing:-.04em;margin:0 0 6px;overflow-wrap:anywhere}
+.study .meta{font:500 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 clamp(24px,4vw,40px)}
+.study .meta:empty{display:none}
+.study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
+.study .grid > *{min-width:0}
+.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--c,var(--muted));margin:0 0 10px}
+.study p{margin:0 0 1.1em;max-width:62ch}
+.study .lede{font:500 clamp(1.15rem,1rem + .7vw,1.5rem)/1.45 var(--blurb)}
+.study .wide{grid-column:1/-1}
+.study .shots{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.study .shot{aspect-ratio:16/10;max-width:100%;border:2px solid var(--char);display:grid;place-items:center;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+.study .pairs{display:grid;gap:20px 32px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:0}
+.study .pairs dt{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.study .pairs dd{margin:4px 0 0;font:400 .9375rem/1.5 var(--body)}
+.pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--char);margin-top:clamp(24px,4vw,48px)}
+.pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
+.pnav button.fwd{text-align:right;justify-items:end}
+.pnav .lab{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pnav .nm{font:900 clamp(1.5rem,1rem + 2.2vw,3rem)/.95 var(--head);letter-spacing:-.035em;overflow-wrap:anywhere}
+.pnav button:hover .nm{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:.12em}
+
+@media (max-width:640px){
+ .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-column:2;text-align:left}
+ .study .grid{grid-template-columns:minmax(0,1fr)}
+ .pnav{grid-template-columns:minmax(0,1fr)}.pnav button.fwd{text-align:left;justify-items:start;border-top:1px solid var(--rule)}
+}
+@media (prefers-reduced-motion:reduce){
+ .arrow,.bicon .br,.bicon .ht{transition:none}
+ .hint .bob,.heart.live:hover svg,.heart.live.pulse svg{animation:none}
+}
+</style>
+</head>
+<body>
+<main id="main">
+<section class="track" id="introTrack" aria-label="Kelly loves">
+  <div class="sticky" id="stage">
+    <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span class="sr">loves</span></h1>
+    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="none" stroke="#ff6a2b" stroke-width="2.6" stroke-linejoin="round"/></svg></div>
+    <div class="hint" id="hint" aria-hidden="true"><span class="bob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg></span></div>
+    <p class="sub" id="sub"><b>Kelly Burgess</b> · Fractional CTO</p>
+  </div>
+</section>
+
+<section class="aboutband" id="about" aria-labelledby="aboutH">
+  <div class="wrap">
+    <small id="aboutH">About</small>
+    <p>I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO: I come in, make the technical calls and build what needs building.</p>
+    <p>Most recently I co-founded GigBag and built it as CTO and sole developer, taking four products from zero to closed beta. Before that I ran Take Me To Your Pixel, my own web design studio, where I took clients from a napkin sketch to a launched site, and I led a platform rebuild as UX architect for Carolinas AGC. My first leadership role was VP of Technology at Step Up 4 Learning, where I ran the platform and the development team behind an online writing program.</p>
+    <p>I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
+    <a class="arrow" id="alink" href="#about" data-open="about" aria-label="More about Kelly"><span class="ico" aria-hidden="true"><svg class="aa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg><svg class="ah" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="none" stroke="#ff6a2b" stroke-width="2.4" stroke-linejoin="round"/></svg></span></a>
+  </div>
+</section>
+
+<section class="work wrap" id="work" aria-label="Selected work">
+  <div class="index">
+    <a class="proj" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><span class="k">Case study</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="titrelab"><span class="i">02</span><h3>TitreLab</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="formulation-suite"><span class="i">03</span><h3>Formulation Suite</h3><span class="k">Compliance labelling</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="phytofoundry"><span class="i">04</span><h3>PhytoFoundry</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
+  </div>
+</section>
+
+<section class="proof" id="built" aria-labelledby="builtH">
+  <div class="wrap"><svg class="bicon" viewBox="0 0 34 20" aria-hidden="true"><path class="br l" d="M8 3 2 10l6 7"/><path class="br r" d="M26 3l6 7-6 7"/><g transform="translate(11.6 4.4) scale(.45)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg><h2 id="builtH">Built with</h2><ul><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul></div>
+</section>
+
+<section class="contact wrap" id="contact" aria-labelledby="contactH">
+  <h2 id="contactH">Contact</h2>
+  <div class="sheet" id="sheet">
+    <!-- the form she created on her own Formspree account, "Kelly Loves To Code". Posted in the background so the page stays put. -->
+    <form class="cform" id="cform" action="https://formspree.io/f/xqpqaqzp" method="POST" novalidate>
+      <div class="f"><label for="fn">Name</label><input id="fn" name="name" type="text" autocomplete="name" required></div>
+      <div class="f"><label for="fe">Email</label><input id="fe" name="email" type="email" autocomplete="email" required></div>
+      <div class="f"><label for="ft">Type of work</label><select id="ft" name="type" required><option value="" selected></option><option>Fractional CTO engagement</option><option>Product or platform build</option><option>Design and brand</option><option>Something else</option></select></div>
+      <div class="f"><label for="fd">Deadline</label><input id="fd" name="deadline" type="text" required></div>
+      <div class="f"><label for="fb">Budget (if any)</label><input id="fb" name="budget" type="text"></div>
+      <div class="f wide"><label for="fm">What you need</label><textarea id="fm" name="message" rows="4" maxlength="2000" required></textarea></div>
+      <div class="f wide"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button><p class="formnote" id="fnote" aria-live="polite"></p></div>
+    </form>
+  </div>
+  <div class="clinks"><span>lorem@ipsum.com</span><a href="#contact">LinkedIn ↗</a></div>
+</section>
+</main>
+
+<div id="opened" role="dialog" aria-modal="true" aria-labelledby="ptitle" aria-hidden="true">
+  <div class="pbar"><div class="wrap"><button type="button" class="pclose" id="pclose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span id="pcloseT">Back to Work</span></button><span class="pnum" id="ppnum"></span></div></div>
+  <article class="study wrap"><h2 id="ptitle"></h2><p class="meta" id="pmeta"></p><div id="pbody"></div></article>
+</div>
+
+<!-- each page's own content. Section headers are .sh and take the project's colour. -->
+<template id="pg-gigbag"><div class="grid">
+  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">GigBag is a New York music platform I co-founded and built as CTO and sole developer. I took it from zero to closed beta on my own: four products in one consumer platform. They are Profiles &amp; Discovery, a gear marketplace, session booking and Demo Radio, a human-curated, algorithm-free station for unreleased original music.</p></div>
+  <div><h3 class="sh">Problem and approach</h3>
+    <p>Four products is a lot of ground for one engineer, so the platform runs on a small, dependable stack: Next.js on Vercel, Supabase and Postgres, Stripe and Resend. Access is role-based and enforced in Postgres with row-level security. Business accounts are multi-tenant, with team permission levels. Scheduled jobs and transactional email, authenticated with SPF, DKIM and DMARC, keep it running without anyone watching.</p>
+    <p>The harder work was the decisions. I kept the platform out of the payment path for gigs and sessions, and used Stripe Connect only for the marketplace and studio bookings, because holding other people's money is a liability and money-transmission question, not a feature. Artists license their music directly when they submit it, with consent, warranty and indemnity, and that evidence is kept even after the audio is deleted. Licensing was designed into the data model, not bolted on. Legal review ran alongside launch instead of blocking it: the policies went live marked provisional, pending attorney review. Paid tiers open the door rather than close it. Any artist can post to and browse the collaboration board for free, and only replying to a response needs a paid tier.</p></div>
+  <div><h3 class="sh">Outcome</h3><p>A four-product platform, designed, built and shipped by one engineer, now in closed beta. What I bring to a client is the reasoning behind it: where to draw the line on liability, how to design licensing into the data model, and how to keep a build moving while legal and commercial questions are still open. For serious prospects, I can show a live demo and walk through the architecture under NDA.</p></div>
+</div></template>
+<template id="pg-titrelab"><div class="grid">
+  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div><h3 class="sh">Problem and approach</h3>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></div>
+  <div><h3 class="sh">Outcome</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div><div class="shot">Screen 4</div></div></div>
+</div></template>
+<template id="pg-formulation-suite"><div class="grid">
+  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide"><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div></div></div>
+</div></template>
+<template id="pg-phytofoundry"><div class="grid">
+  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide"><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div></div></div>
+</div></template>
+<template id="pg-about"><div class="grid">
+  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div><h3 class="sh">What I do</h3>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <dl class="pairs">
+      <div><dt>Lorem</dt><dd>Ipsum dolor sit amet consectetur</dd></div>
+      <div><dt>Dolor</dt><dd>Adipiscing elit sed do eiusmod</dd></div>
+      <div><dt>Tempor</dt><dd>Incididunt ut labore et dolore</dd></div>
+      <div><dt>Aliqua</dt><dd>Ut enim ad minim veniam quis</dd></div>
+    </dl></div>
+  <div><h3 class="sh">How I work</h3>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+</div></template>
+
+<!-- matter.js drives the falling words only; it loads just before the script that uses it -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],root=document.documentElement,body=document.body;
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+
+/* the gradient on the falling words: blue at the top of the screen to orange at the bottom (Kelly's pick 3, kept at full colour;
+   the orange end is a touch deeper so every step stays at least 3:1 on the paper, WCAG AA for large text) */
+const W0="#2448d8",W1="#e95609",GSTEP=.22;
+const mix=(a,b,t)=>`color-mix(in oklch, ${b} ${Math.round(clamp(t)*100)}%, ${a})`;
+const bandColour=yn=>yn<=0?W0:yn>=1?W1:mix(W0,W1,yn);
+
+/* ── intro sizing: "Kelly ♥s" centred, the heart twice the name's x-height, the small s .78 of the name ── */
+const stage=$("#stage"),kl=$("#kl"),heart=$("#heart"),hgap=$("#hgap"),track=$("#introTrack"),hint=$("#hint"),sub=$("#sub");
+const SG=.03,HK=2,SS=.78,LINE=.95;
+function measure(t,css){const p=document.createElement("span");p.style.cssText="position:absolute;visibility:hidden;white-space:nowrap;"+css;p.textContent=t;body.append(p);const w=p.getBoundingClientRect().width;p.remove();return w}
+function fitName(){const W=stage.clientWidth,target=.5-.12*clamp((W-700)/740);
+ root.style.setProperty("--ssz",SS);
+ const nw=measure("Kelly","font:900 100px/1 Figtree,system-ui,sans-serif;letter-spacing:-.045em"),sw=measure("s",`font:900 ${100*SS}px/1 Figtree,system-ui,sans-serif`);
+ const hh=1.12*.74*100*HK,hw=hh*1.1,gaps=8+SG*100,fs=100*LINE*target*W/(nw+gaps+hw+sw),s=fs/100;
+ kl.style.setProperty("--ksz",fs+"px");kl.style.setProperty("--sg",(SG*fs).toFixed(2));
+ stage.style.setProperty("--hh",(hh*s).toFixed(1));stage.style.setProperty("--hw",(hw*s).toFixed(1))}
+
+/* ── the heart flies in by itself, lands, shakes, then the words fall ── */
+let landed=false,heartRaf=0;
+function heartAt(t){const sr=stage.getBoundingClientRect(),gr=hgap.getBoundingClientRect();const ex=gr.left-sr.left,ey=gr.top-sr.top;const sx=sr.width*.95,sy=-sr.height*.25,cx=sr.width*.9,cy=sr.height*.95;const u=1-t;
+ const x=u*u*sx+2*u*t*cx+t*t*ex,y=u*u*sy+2*u*t*cy+t*t*ey;heart.style.transform=`translate(${x}px,${y}px) rotate(${(1-t)*-420}deg) scale(${.35+.65*t})`;heart.style.opacity=t>0?1:0}
+function flyHeart(){cancelAnimationFrame(heartRaf);landed=false;kl.classList.remove("landed");heart.classList.remove("live","shake");if(reduce){heartAt(1);land();return}
+ let t0=null;const dur=1300;const step=now=>{if(!t0)t0=now;const k=clamp((now-t0)/dur);heartAt(1-Math.pow(1-k,3));if(k<1)heartRaf=requestAnimationFrame(step);else land()};heartRaf=requestAnimationFrame(step)}
+function land(){landed=true;heart.classList.remove("shake");void heart.offsetWidth;heart.classList.add("shake","live");kl.classList.add("landed");heart.style.setProperty("--hglow",bandColour(.44));setTimeout(startPile,reduce?0:280)}
+heart.addEventListener("click",()=>heart.classList.toggle("pulse"));
+
+/* ── the words: the screen is the box, its bottom is the floor; the name, the heart, the s and the name line under it are surfaces ── */
+const WORDS=["Code","CSS","Delivery","Lorem","Ipsum","Dolor","Sit","Amet","Consectetur","Adipiscing","Elit","Tempor","Magna","Aliqua"];
+/* hold a word to shoot it: it shakes harder the longer it is held (hardest at 3 seconds) and flies the way the cursor was moving, or straight up */
+const HOLD_MAX=3000,SHOT_MIN=10,SHOT_MAX=32,SHAKE_MAX=3.6,CV_STILL=.08;
+let cvx=0,cvy=0,clx=0,cly=0,clt=0;
+addEventListener("pointermove",e=>{const now=performance.now();if(clt){const dt=Math.max(10,now-clt),a=.45;cvx=cvx*(1-a)+((e.clientX-clx)/dt)*a;cvy=cvy*(1-a)+((e.clientY-cly)/dt)*a}clx=e.clientX;cly=e.clientY;clt=now},{passive:true});
+const holdK=t0=>clamp((performance.now()-t0)/HOLD_MAX);
+let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,flyUp=false,driftT=0,knockT=0,W0w=0,H0=0,nameBodies=[];
+function stopPile(){cancelAnimationFrame(raf);timers.forEach(clearTimeout);timers=[];clearInterval(driftT);clearInterval(knockT);[kl,heart].forEach(e=>e.classList.remove("knock"));
+ items.forEach(t=>t.el.remove());items=[];if(mc){dropMouse(mc);mc=null}if(eng&&window.Matter)Matter.Engine.clear(eng);eng=null;ceiling=null;nameBodies=[]}
+function rectBody(el,opt){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();return Matter.Bodies.rectangle(r.left-s.left+r.width/2,r.top-s.top+r.height/2,Math.max(4,r.width),Math.max(4,r.height),Object.assign({isStatic:true},opt||{}))}
+function setCeiling(on){if(!eng)return;if(on&&!ceiling){ceiling=Matter.Bodies.rectangle(W0w/2,-200,W0w*3,400,{isStatic:true});Matter.Composite.add(eng.world,ceiling)}if(!on&&ceiling){Matter.Composite.remove(eng.world,ceiling);ceiling=null}}
+function mkMouse(el,e){const {Mouse,MouseConstraint,Composite}=Matter;const mouse=Mouse.create(el);["mousewheel","DOMMouseScroll","wheel"].forEach(ev=>mouse.element.removeEventListener(ev,mouse.mousewheel));
+ /* touch scrolls the page; the words are picked up with a mouse or pen */
+ ["touchstart","touchmove","touchend"].forEach(ev=>{mouse.element.removeEventListener(ev,mouse.mousedown);mouse.element.removeEventListener(ev,mouse.mousemove);mouse.element.removeEventListener(ev,mouse.mouseup)});
+ const m=MouseConstraint.create(e,{mouse,constraint:{stiffness:.2,render:{visible:false}}});Composite.add(e.world,m);return m}
+function dropMouse(c){const m=c.mouse,el=m&&m.element;if(!el)return;["mousemove","mousedown","mouseup"].forEach(ev=>el.removeEventListener(ev,m[ev]))}
+function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Composite,Events,Body}=Matter;
+ const W=W0w=stage.clientWidth,H=H0=stage.clientHeight;eng=Engine.create();eng.gravity.y=flyUp?-1.4:1.1;eng.positionIterations=10;eng.velocityIterations=8;
+ const wall=400;Composite.add(eng.world,[Bodies.rectangle(W/2,H+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
+ nameBodies=[rectBody($("#kname"),{chamfer:{radius:12}}),rectBody(hgap,{chamfer:{radius:20}}),rectBody($("#ks"))];
+ Composite.add(eng.world,[...nameBodies,rectBody(sub)]);
+ WORDS.forEach((w,i)=>{const el=document.createElement("span");el.className="word";el.setAttribute("aria-hidden","true");el.innerHTML=`<span class="wi">${w}</span>`;stage.append(el);
+  const t={el,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null};items.push(t);
+  el.addEventListener("pointerenter",()=>el.classList.add("hot"));el.addEventListener("pointerleave",()=>{if(!t.drag)el.classList.remove("hot")})});
+ mc=mkMouse(stage,eng);
+ const by=new Map();
+ Events.on(mc,"startdrag",e=>{const t=by.get(e.body);if(t){t.drag=true;t.h0=performance.now();t.el.classList.add("hot")}});
+ Events.on(mc,"enddrag",e=>{const t=by.get(e.body);if(!t)return;t.drag=false;
+  const h=t.h0?holdK(t.h0):0;t.h0=0;t.el.style.removeProperty("--sk");t.el.style.removeProperty("--skd");
+  const sp=SHOT_MIN+(SHOT_MAX-SHOT_MIN)*Math.pow(h,.85),m=Math.hypot(cvx,cvy);
+  const dx=m>CV_STILL?cvx/m:0,dy=m>CV_STILL?cvy/m:-1,b=t.body;
+  requestAnimationFrame(()=>{if(!b||!eng)return;Body.setVelocity(b,{x:dx*sp,y:dy*sp});Body.setAngularVelocity(b,(Math.random()-.5)*.6)});
+  t.el.classList.add("hot");setTimeout(()=>{if(!t.drag)t.el.classList.remove("hot")},500)});
+ const drop=t=>{const x=t.bw/2+Math.random()*Math.max(1,W-t.bw);const y0=-t.bh*1.3-Math.random()*H*.35;
+  t.body=Bodies.rectangle(x,y0,t.bw,t.bh,{chamfer:{radius:Math.min(8,t.bh*.12)},restitution:.25+Math.random()*.15,friction:.5,frictionAir:.006+Math.random()*.04,angle:(Math.random()-.5)*.7});
+  Body.setVelocity(t.body,{x:(Math.random()-.5)*2,y:Math.random()*4});by.set(t.body,t);Composite.add(eng.world,t.body);t.el.classList.add("on")};
+ /* each word takes the colour of where it sits; its glow is one step along the gradient from it */
+ const draw=()=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
+  const yn=p.y/H,gy=yn<.5?Math.min(1,yn+GSTEP):Math.max(0,yn-GSTEP);t.el.style.color=bandColour(yn);t.el.style.setProperty("--glow",bandColour(gy))});
+ const holdShake=()=>items.forEach(t=>{if(!t.drag||!t.h0)return;const h=holdK(t.h0);t.el.style.setProperty("--sk",(1+(SHAKE_MAX-1)*h).toFixed(2));t.el.style.setProperty("--skd",(.45-.3*h).toFixed(3)+"s")});
+ if(reduce){items.forEach(drop);setCeiling(true);for(let k=0;k<900;k++)Engine.update(eng,1000/60);draw();return}
+ items.forEach((t,i)=>timers.push(setTimeout(()=>drop(t),i*170+Math.random()*140)));
+ timers.push(setTimeout(()=>{if(!flyUp)setCeiling(true)},items.length*170+1600));
+ /* a resting word now and then shifts a little, so the pile never looks frozen */
+ driftT=setInterval(()=>{if(!eng||flyUp)return;items.forEach(t=>{if(t.body&&t.body.speed<.4&&!t.drag&&Math.random()<.35){Body.applyForce(t.body,{x:t.body.position.x+(Math.random()-.5)*t.bw*.4,y:t.body.position.y},{x:(Math.random()-.5)*.0016*t.body.mass,y:-.0022*t.body.mass})}})},2600);
+ /* if words are left sitting on the name, every 30 seconds the name shakes and throws them: three kicks, left, right, left */
+ const sitsOnName=t=>{const b=t.body;if(!b||t.drag)return false;
+  return nameBodies.some(nb=>b.bounds.max.y>=nb.bounds.min.y-3&&b.bounds.max.y<=nb.bounds.min.y+Math.max(18,t.bh*.6)&&b.bounds.max.x>nb.bounds.min.x&&b.bounds.min.x<nb.bounds.max.x)};
+ knockT=setInterval(()=>{if(!eng||flyUp)return;const hit=items.filter(sitsOnName);if(!hit.length)return;
+  [kl,heart].forEach(e=>{e.classList.remove("knock");void e.offsetWidth;e.classList.add("knock")});
+  const kick=(dir,k)=>hit.forEach(t=>{const b=t.body;if(!b||t.drag)return;
+   Body.setVelocity(b,{x:b.velocity.x+dir*(3.4+Math.random()*2.6)*k,y:b.velocity.y-(1.8+Math.random()*2.2)*k});
+   Body.setAngularVelocity(b,b.angularVelocity+(Math.random()-.5)*.14*k)});
+  kick(-1,1);timers.push(setTimeout(()=>kick(1,.75),150));timers.push(setTimeout(()=>kick(-1,.45),330));
+  setTimeout(()=>[kl,heart].forEach(e=>e.classList.remove("knock")),800)},30000);
+ let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;holdShake();Engine.update(eng,dt);draw();raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
+
+/* the words fly up as About arrives; coming back, the visitor breaks through them */
+function setFly(up){if(up===flyUp)return;flyUp=up;if(!eng)return;const B=Matter.Body;
+ if(up){setCeiling(false);eng.gravity.y=-1.4;items.forEach(t=>{if(t.body)B.setVelocity(t.body,{x:t.body.velocity.x,y:-6-Math.random()*6})})}
+ else{eng.gravity.y=1.1;items.forEach(t=>{if(!t.body)return;if(t.body.position.y<t.bh)B.setPosition(t.body,{x:t.bw/2+Math.random()*Math.max(1,W0w-t.bw),y:H0*(.12+Math.random()*.35)});
+  const a=Math.random()*Math.PI*2,v=14+Math.random()*16;B.setVelocity(t.body,{x:Math.cos(a)*v,y:Math.sin(a)*v-6});B.setAngularVelocity(t.body,(Math.random()-.5)*.5)});setCeiling(true)}}
+let lastY=scrollY,restoring=false;   /* restoring: focus going back to the opener after the panel closes, which should not replay the arrow */
+function introTick(){const r=track.getBoundingClientRect(),p=clamp(-r.top/Math.max(1,r.height-innerHeight)),dy=scrollY-lastY;lastY=scrollY;
+ hint.style.opacity=p>.03||!landed?0:1;
+ setFly(p>.55);
+ /* scrolling up through a pile that is still in the box knocks the words about */
+ if(eng&&!flyUp&&dy<-3&&p<.55&&r.bottom>0){const k=Math.min(1,-dy/60);items.forEach(t=>{if(t.body&&Math.random()<.6)Matter.Body.setVelocity(t.body,{x:t.body.velocity.x+(Math.random()-.5)*14*k,y:t.body.velocity.y-(6+Math.random()*12)*k})})}}
+
+/* ── About arrow: on hover or focus it turns into the heart once, then back to the arrow. No loop; no swap with reduced motion. ── */
+{const a=$("#alink"),aa=a.querySelector(".aa"),ah=a.querySelector(".ah");let busy=false,armed=true;
+ const OUT="translate(110%,-110%)",IN="translate(-110%,110%)",E="cubic-bezier(.22,1,.36,1)";
+ const mv=(el,from,to,delay)=>el.animate([{transform:from},{transform:to}],{duration:280,delay,easing:E,fill:"forwards"});
+ const play=()=>{if(reduce||busy||!armed||!a.animate)return;busy=true;armed=false;
+  [aa,ah].forEach(el=>el.getAnimations().forEach(x=>x.cancel()));
+  mv(aa,"none",OUT,0);mv(ah,IN,"none",60);
+  mv(ah,"none",OUT,900);const back=mv(aa,IN,"none",960);
+  back.finished.then(()=>{busy=false},()=>{busy=false})};
+ a.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"||e.pointerType==="pen")play()});a.addEventListener("focus",()=>{if(!restoring&&a.matches(":focus-visible"))play()});
+ a.addEventListener("pointerleave",()=>{armed=true});a.addEventListener("blur",()=>{armed=true})}
+
+/* ── Built with: open the < > once when the bar first comes fully into view, so touch screens see it too ── */
+{const el=$("#built");if(!reduce&&"IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();setTimeout(()=>{el.classList.add("peek");setTimeout(()=>el.classList.remove("peek"),1400)},300)}},{threshold:.9});io.observe(el)}}
+
+/* ── the panel: About and each project open over the page, at once (no transition until Kelly picks one) ── */
+const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Lorem ipsum"]];
+const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
+let openFrom=null,scrollBack=0;
+function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
+ const i=PROJ.findIndex(p=>p[1]===slug),isWork=i>=0;
+ panel.dataset.p=slug;
+ ptitle.textContent=isWork?PROJ[i][0]:"About";
+ pmeta.textContent=isWork?String(i+1).padStart(2,"0")+" · "+PROJ[i][2]:"";
+ ppnum.textContent=isWork?String(i+1).padStart(2,"0"):"";
+ pcloseT.textContent=isWork?"Back to Work":"Back";
+ pbody.innerHTML=tpl.innerHTML;
+ if(isWork){const n=PROJ.length,pv=PROJ[(i-1+n)%n],nx=PROJ[(i+1)%n];
+  const nav=document.createElement("nav");nav.className="pnav";nav.setAttribute("aria-label","Projects");
+  nav.innerHTML=`<button type="button" class="prev" data-go="${pv[1]}"><span class="lab">Previous</span><span class="nm">${pv[0]}</span></button><button type="button" class="fwd" data-go="${nx[1]}"><span class="lab">Next</span><span class="nm">${nx[0]}</span></button>`;
+  pbody.append(nav)}
+ panel.scrollTop=0;return true}
+function openPanel(slug,from){if(!fill(slug))return;openFrom=from||openFrom;
+ if(!panel.classList.contains("on")){scrollBack=scrollY;panel.classList.add("on");panel.setAttribute("aria-hidden","false");body.classList.add("locked");main.inert=true}
+ pclose.focus({preventScroll:true})}
+function closePanel(){if(!panel.classList.contains("on"))return;panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;pbody.innerHTML="";
+ if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
+ restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
+$$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
+pclose.addEventListener("click",closePanel);
+panel.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
+addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
+ if(e.key==="Escape"){closePanel();return}
+ /* keep Tab inside the panel */
+ if(e.key==="Tab"){const f=[...panel.querySelectorAll("button,a[href],input,select,textarea,[tabindex]:not([tabindex='-1'])")].filter(x=>!x.disabled&&x.offsetParent!==null);if(!f.length)return;
+  const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
+
+/* ── the form: posted in the background with a plain fetch, so nothing on the page reloads ── */
+const form=$("#cform"),note=$("#fnote");
+form.addEventListener("submit",async e=>{e.preventDefault();
+ const btn=form.querySelector("button[type=submit]"),say=t=>{note.textContent=t};
+ const data=new FormData(form),val=k=>String(data.get(k)||"").trim();
+ const name=val("name"),email=val("email");
+ if(!name||!email||!val("type")||!val("message")||!val("deadline")){say("Please fill in your name, your email, the type of work, a deadline and what you need.");return}
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say("That email address does not look right.");return}
+ btn.disabled=true;say("Sending…");
+ try{const r=await fetch(form.action,{method:"POST",body:data,headers:{Accept:"application/json"}});
+  if(r.ok){const first=name.split(/\s+/)[0];$("#sheet").innerHTML=`<p class="tyk">Thank you, ${first.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}.</p><p class="formnote">Your message is on its way. I will reply to the address you gave.</p>`;return}
+  let why="";try{const j=await r.json();if(j&&j.errors)why=j.errors.map(x=>x.message).filter(Boolean).join(", ")}catch(_){}
+  say(why||"That did not send. Please try again, or email me directly.");btn.disabled=false}
+ catch(_){say("That did not send. You may be offline; nothing is lost, so try again in a moment.");btn.disabled=false}});
+
+/* ── start ── */
+addEventListener("scroll",introTick,{passive:true});
+let lw=innerWidth,lh=innerHeight,rzT=0;
+addEventListener("resize",()=>{fitName();if(landed)heartAt(1);clearTimeout(rzT);rzT=setTimeout(()=>{
+ if(Math.abs(innerWidth-lw)>60||Math.abs(innerHeight-lh)>120){lw=innerWidth;lh=innerHeight;if(landed)startPile()}},250)});
+fitName();
+let started=false;const go=()=>{if(started)return;started=true;fitName();flyHeart()};
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(go,go);
+setTimeout(go,1500);
+})();
+</script>
+</body>
+</html>
