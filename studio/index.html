@@ -62,17 +62,22 @@ body.locked{overflow:hidden}
 .kl.landed .s{opacity:1}
 .kl.knock{animation:klknock .7s ease-out}
 @keyframes klknock{0%,100%{transform:translate(-50%,-50%)}14%{transform:translate(-50%,-50%) rotate(-1.1deg) translateX(-7px)}32%{transform:translate(-50%,-50%) rotate(.9deg) translateX(6px)}52%{transform:translate(-50%,-50%) rotate(-.6deg) translateX(-4px)}74%{transform:translate(-50%,-50%) rotate(.3deg) translateX(2px)}}
-.heart{position:absolute;left:0;top:0;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);z-index:5;will-change:transform;pointer-events:none;opacity:0}
-.heart svg{width:100%;height:100%;display:block;overflow:visible}
+.heart{position:absolute;left:0;top:0;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);z-index:5;will-change:transform;pointer-events:none;opacity:0;color:#c03221}
+.heart svg{width:100%;height:100%;display:block;overflow:visible;transition:scale .22s cubic-bezier(.3,1.4,.5,1)}
 .heart.shake svg,.heart.knock svg{animation:shake .6s ease-out}
 .heart.live{pointer-events:auto;cursor:pointer}
-.heart.live:hover svg,.heart.live.pulse svg{animation:hpulse .9s ease-in-out infinite;filter:drop-shadow(0 0 6px var(--hglow)) drop-shadow(0 0 22px var(--hglow))}
-@keyframes hpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+/* hover (or a tap, which toggles it): the heart grows a little and takes the chameleon (it runs in the script) */
+.heart.live.pulse svg{scale:1.1}
+@media (hover:hover){.heart.live:hover svg{scale:1.1}}
 @keyframes shake{20%{transform:rotate(-8deg) scale(1.08)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(1deg)}100%{transform:none}}
 .word{position:absolute;left:0;top:0;font:900 var(--word)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;user-select:none;-webkit-user-select:none;z-index:4;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
 .word.on{opacity:1}
-.word .wi{display:block}
-.word.hot .wi{animation:wshake var(--skd,.45s) ease-in-out infinite;text-shadow:0 0 .12em var(--glow),0 0 .45em var(--glow),0 0 .9em var(--glow)}
+.word .wi{display:block;transition:scale .2s cubic-bezier(.3,1.4,.5,1)}
+/* hover or tap: the word grows a little and takes the chameleon (it runs in the script). The shake is kept for holding a word to throw it. */
+.word.hot .wi{scale:1.1}
+/* the chameleon paints inside the letters; the padding, taken back by the margin, keeps the tall letters inside the painted box */
+.word.cham .wi{-webkit-text-fill-color:transparent;background-color:currentColor;-webkit-background-clip:text;background-clip:text;padding:.2em .08em;margin:-.2em -.08em}
+.word.held .wi{animation:wshake var(--skd,.45s) ease-in-out infinite}
 @keyframes wshake{0%,100%{transform:none}25%{transform:rotate(calc(var(--sk,1) * -3deg)) translateX(calc(var(--sk,1) * -.02em))}75%{transform:rotate(calc(var(--sk,1) * 3deg)) translateX(calc(var(--sk,1) * .02em))}}
 .hint{position:absolute;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:3;color:var(--char);opacity:0;transition:opacity .4s}
 .hint .bob{display:block;animation:bob 1.6s ease-in-out infinite}
@@ -84,8 +89,7 @@ body.locked{overflow:hidden}
 /* ── About: the charcoal band ── */
 .aboutband{background:var(--char);color:var(--onchar);position:relative;z-index:1}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
-.aboutband small{font:400 .75rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--onmuted)}
-.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.4 var(--blurb);margin:0}
+.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.65 var(--blurb);margin:0}
 .aboutband.pre .roll{opacity:0}
 /* the arrow: on hover or focus it turns into the heart once, then back to the arrow (her words: "onHover: heart then arrow again") */
 .arrow{width:56px;height:56px;border:1.5px solid var(--onchar);border-radius:50%;display:grid;place-items:center;color:var(--onchar);background:linear-gradient(150deg,rgba(255,255,255,.2),rgba(255,255,255,0) 55%,rgba(0,0,0,.2)),#c03221;text-decoration:none;margin-top:8px;transition:border-color .2s}
@@ -108,18 +112,18 @@ body.locked{overflow:hidden}
 #opened[data-p="formulation-suite"],.wipe[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
 #opened[data-p="phytofoundry"],.wipe[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
 #opened[data-p="gigbag"],#opened[data-p="titrelab"],#opened[data-p="formulation-suite"],#opened[data-p="phytofoundry"]{--p-bar:3px solid var(--p-base);--p-mark:block;--p-lede:4px solid var(--p-acc);--p-ledepad:clamp(12px,2vw,20px)}
-.proj .i{font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
-.proj h3{font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
-.proj .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char))}
-.proj .go{grid-column:2;font:500 .875rem var(--body);color:var(--c,var(--char));visibility:hidden}
+.proj .i{grid-row:1;grid-column:1;font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
+.proj h3{grid-row:1;grid-column:2;font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
+.proj .k{grid-row:1;grid-column:3;font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char));white-space:nowrap}
+/* the teaser under each project name, with clear room above it */
+.proj .t{grid-row:2;grid-column:2;margin:clamp(10px,1.4vw,16px) 0 0;max-width:62ch;font:400 clamp(.9375rem,.88rem + .25vw,1.0625rem)/1.55 var(--body);color:var(--muted)}
 .proj:hover,.proj:focus-visible{background:var(--c-fill,var(--char));color:var(--fill-ink)}
-.proj:hover :is(.i,.k,.go),.proj:focus-visible :is(.i,.k,.go){color:var(--fill-ink)}
-.proj:hover .go,.proj:focus-visible .go{visibility:visible}
+.proj:hover :is(.i,.k,.t),.proj:focus-visible :is(.i,.k,.t){color:var(--fill-ink)}
 .proj:focus-visible{outline-offset:4px}
 
 /* ── Built with: full width; the < > opens on hover, focus, or once when it first comes into view ── */
-.proof{border-top:2px solid var(--char);border-bottom:2px solid var(--char)}
-.proof .wrap{padding-block:26px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center;justify-content:center;text-align:center}
+/* the bar runs the same width as About's text and the Work list */
+.proof .bar{border-top:2px solid var(--char);border-bottom:2px solid var(--char);padding:26px 12px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center;justify-content:center;text-align:center}
 .proof h2{font:800 .9375rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0}
 .proof ul{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 26px;list-style:none;margin:0;padding:0;font:500 1.0625rem var(--body)}
 .proof li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#c03221;margin-right:8px;vertical-align:.12em}
@@ -131,10 +135,10 @@ body.locked{overflow:hidden}
 .proof:hover .bicon .ht,.proof:focus-within .bicon .ht,.proof.peek .bicon .ht{transform:scale(1)}
 .bicon .ht.gl{fill:url(#bgl)}
 
-/* ── Contact: the form, below the Built with bar ── */
-.contact{padding-block:clamp(40px,7vw,88px)}
-.contact h2{font:800 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px}
-.sheet{border:2px solid var(--char);background:var(--paper);padding:clamp(20px,4vw,40px);max-width:880px}
+/* ── Contact: a charcoal band below the Built with bar, with a white form the same width as About and Work ── */
+.contact{background:var(--char);color:var(--onchar);margin-top:clamp(40px,7vw,88px)}
+.contact > .wrap{padding-top:clamp(40px,7vw,88px);padding-bottom:calc(clamp(40px,7vw,88px) + env(safe-area-inset-bottom,0px))}
+.sheet{background:#fff;color:var(--char);padding:clamp(20px,4vw,40px)}
 .cform{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 30px}
 @media (min-width:720px){.cform{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .cform .f{display:grid;min-width:0}
@@ -145,7 +149,7 @@ body.locked{overflow:hidden}
 .cform textarea{resize:vertical;min-height:7.5em}
 .cform input:focus,.cform textarea:focus,.cform select:focus{outline:none;border-bottom-color:var(--signal)}
 .btn{justify-self:start;margin-top:20px;display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);background:var(--char);color:var(--onchar);border:2px solid var(--char);padding:12px 22px;cursor:pointer;border-radius:0}
-.btn:hover{background:var(--paper);color:var(--char)}
+.btn:hover{background:#fff;color:var(--char)}
 .btn:disabled{opacity:.6;cursor:default}
 .cform .opt{font-weight:400;letter-spacing:.04em;text-transform:none}
 .cform .ferr{font:500 .8125rem/1.4 var(--body);color:var(--char);margin:6px 0 0}
@@ -194,7 +198,7 @@ body.locked{overflow:hidden}
 .pnav button:hover .nm{text-decoration:underline;text-decoration-color:var(--p-acc,currentColor);text-decoration-thickness:3px;text-underline-offset:.12em}
 
 @media (max-width:640px){
- .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-column:2;text-align:left}
+ .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-row:3;grid-column:2;text-align:left;margin-top:10px}
  .study .grid{grid-template-columns:minmax(0,1fr)}
  .pnav{grid-template-columns:minmax(0,1fr)}.pnav button.fwd{text-align:left;justify-items:start;border-top:1px solid var(--rule)}
 }
@@ -275,8 +279,8 @@ svg.tight .om-node .om-meta{font-size:12px}
 @media (max-width:639px){.om-chart,.om-ev,.om-data{display:none}.om-list{display:block}.om-cap .w{display:none}.om-cap .n{display:inline}}
 @media (prefers-reduced-motion:reduce){.om-arc,.om-row,.om-mk{transition:none}}
 @media (prefers-reduced-motion:reduce){
- .arrow,.bicon .br,.bicon .ht{transition:none}
- .hint .bob,.heart.live:hover svg,.heart.live.pulse svg{animation:none}
+ .arrow,.bicon .br,.bicon .ht,.word .wi,.heart svg{transition:none}
+ .hint .bob,.word.held .wi{animation:none}
 }
 </style>
 </head>
@@ -285,15 +289,14 @@ svg.tight .om-node .om-meta{font-size:12px}
 <section class="track" id="introTrack" aria-label="Kelly loves">
   <div class="sticky" id="stage">
     <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span class="sr">loves</span></h1>
-    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="#c03221" stroke="#c03221" stroke-width="2.6" stroke-linejoin="round"/><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hgl)"/></svg></div>
+    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient><radialGradient id="hch" cx=".85" cy=".6" r=".6"><stop offset="0" stop-color="#c03221"/><stop offset="1" stop-color="#c03221" stop-opacity="0"/></radialGradient></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path class="hch" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hch)" opacity="0"/><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hgl)"/></svg></div>
     <div class="hint" id="hint" aria-hidden="true"><span class="bob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg></span></div>
     <p class="sub" id="sub"><b>Kelly Burgess</b> · Fractional CTO</p>
   </div>
 </section>
 
-<section class="aboutband" id="about" aria-labelledby="aboutH">
+<section class="aboutband" id="about" aria-label="About">
   <div class="wrap">
-    <small id="aboutH" class="roll">About</small>
     <p class="roll">I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO: I come in, make the technical calls and build what needs building.</p>
     <p class="roll">I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
     <a class="arrow roll" id="alink" href="#about" data-open="about" aria-label="More about Kelly"><span class="ico" aria-hidden="true"><svg class="aa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg><svg class="ah" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></span></a>
@@ -302,19 +305,19 @@ svg.tight .om-node .om-meta{font-size:12px}
 
 <section class="work wrap" id="work" aria-label="Selected work">
   <div class="index">
-    <a class="proj" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><span class="k">Case study</span><span class="go" aria-hidden="true">View project →</span></a>
-    <a class="proj" href="#work" data-open="titrelab"><span class="i">02</span><h3>TitreLab</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
-    <a class="proj" href="#work" data-open="formulation-suite"><span class="i">03</span><h3>Formulation Suite</h3><span class="k">Compliance labelling</span><span class="go" aria-hidden="true">View project →</span></a>
-    <a class="proj" href="#work" data-open="phytofoundry"><span class="i">04</span><h3>PhytoFoundry</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><p class="t">A New York music platform I co-founded and built as CTO and sole developer, taking four products from zero to closed beta on my own.</p><span class="k">View project</span></a>
+    <a class="proj" href="#work" data-open="titrelab"><span class="i">02</span><h3>TitreLab</h3><p class="t">A potency, formulation and labeling app for small-batch cannabis makers, with 705 automated tests and row-level security on every table.</p><span class="k">View project</span></a>
+    <a class="proj" href="#work" data-open="formulation-suite"><span class="i">03</span><h3>Formulation Suite</h3><p class="t">Formulation, costing and market-ready ingredient lists built into TitreLab, with label rules written for eight markets plus a general default.</p><span class="k">View project</span></a>
+    <a class="proj" href="#work" data-open="phytofoundry"><span class="i">04</span><h3>PhytoFoundry</h3><p class="t">An interactive botanical reference, one plant to a plate, each one carrying its science and its sources.</p><span class="k">View project</span></a>
   </div>
 </section>
 
-<section class="proof" id="built" aria-labelledby="builtH">
-  <div class="wrap"><svg class="bicon" viewBox="0 0 34 20" aria-hidden="true"><defs><linearGradient id="bgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs><path class="br l" d="M8 3 2 10l6 7"/><path class="br r" d="M26 3l6 7-6 7"/><g transform="translate(11.6 4.4) scale(.45)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/><path class="ht gl" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg><h2 id="builtH">Built with</h2><ul><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul></div>
+<section class="proof wrap" id="built" aria-labelledby="builtH">
+  <div class="bar"><svg class="bicon" viewBox="0 0 34 20" aria-hidden="true"><defs><linearGradient id="bgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs><path class="br l" d="M8 3 2 10l6 7"/><path class="br r" d="M26 3l6 7-6 7"/><g transform="translate(11.6 4.4) scale(.45)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/><path class="ht gl" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg><h2 id="builtH">Built with</h2><ul><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul></div>
 </section>
 
-<section class="contact wrap" id="contact" aria-labelledby="contactH">
-  <h2 id="contactH">Contact</h2>
+<section class="contact" id="contact" aria-label="Contact">
+ <div class="wrap">
   <div class="sheet" id="sheet">
     <!-- PLACEHOLDER: this form sends nothing yet. There is no action and no network call; the submit handler only checks the fields.
          Wire it to the form service Kelly picks, then remove the "Preview only" tag and the placeholder note. -->
@@ -328,6 +331,7 @@ svg.tight .om-node .om-meta{font-size:12px}
     </form>
   </div>
   <div class="clinks"><span>lorem@ipsum.com</span><a href="#contact">LinkedIn ↗</a></div>
+ </div>
 </section>
 </main>
 
@@ -398,9 +402,23 @@ const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 
 /* the gradient on the falling words: blue at the top of the screen to orange at the bottom (Kelly's pick 3, kept at full colour;
    the orange end is a touch deeper so every step stays at least 3:1 on the paper, WCAG AA for large text) */
-const W0="#2448d8",W1="#e95609",GSTEP=.22;
+const W0="#2448d8",W1="#e95609",HEART="#c03221";
 const mix=(a,b,t)=>`color-mix(in oklch, ${b} ${Math.round(clamp(t)*100)}%, ${a})`;
 const bandColour=yn=>yn<=0?W0:yn>=1?W1:mix(W0,W1,yn);
+
+/* the hover "chameleon", after the CodePen Kelly sent: the text colour drifts slowly between two close colours while a soft patch of colour
+   slides across the letters. Kelly's limit: "only two colors either way from wherever the word lands on the gradient scale", so the text
+   moves between one step below and one step above the word's own spot, and the patch between two steps either side, the other way round.
+   The patch is painted inside the letters (background-clip:text) rather than as a blurred multiply overlay, so it stays on the word over the light
+   paper and costs no blur filter on phones. When the pointer leaves it fades back to the word's own colour.
+   Tune here: CH_STEP is one step as a share of the whole gradient, CH_HALF one drift across in ms. Reduced motion: no drift, only the size change. */
+const CH_STEP=.07,CH_HALF=2500,CH_IN=220,CH_OUT=320,TAP_HOLD=1600;
+const swayState=()=>({on:false,a:0,t0:0,last:0});
+/* how far the effect is faded in (0 to 1) */
+function swayA(c,now){const dt=Math.min(64,now-(c.last||now));c.last=now;
+ c.a=c.on?Math.min(1,c.a+dt/CH_IN):Math.max(0,c.a-dt/CH_OUT);return reduce?0:c.a}
+/* where the drift is, from -1 to 1 and back, at an even pace like the CodePen's linear alternate */
+const swayU=(c,now)=>{const k=((now-c.t0)/CH_HALF)%2;return (k<1?k:2-k)*2-1};
 
 /* ── intro sizing: "Kelly ♥s" centred, the heart twice the name's x-height, the small s .78 of the name ── */
 const stage=$("#stage"),kl=$("#kl"),heart=$("#heart"),hgap=$("#hgap"),track=$("#introTrack"),hint=$("#hint"),sub=$("#sub");
@@ -419,17 +437,29 @@ function heartAt(t){const sr=stage.getBoundingClientRect(),gr=hgap.getBoundingCl
  const x=u*u*sx+2*u*t*cx+t*t*ex,y=u*u*sy+2*u*t*cy+t*t*ey;heart.style.transform=`translate(${x}px,${y}px) rotate(${(1-t)*-420}deg) scale(${.35+.65*t})`;heart.style.opacity=t>0?1:0}
 function flyHeart(){cancelAnimationFrame(heartRaf);landed=false;kl.classList.remove("landed");heart.classList.remove("live","shake");if(reduce){heartAt(1);land();return}
  let t0=null;const dur=1300;const step=now=>{if(!t0)t0=now;const k=clamp((now-t0)/dur);heartAt(1-Math.pow(1-k,3));if(k<1)heartRaf=requestAnimationFrame(step);else land()};heartRaf=requestAnimationFrame(step)}
-function land(){landed=true;heart.classList.remove("shake");void heart.offsetWidth;heart.classList.add("shake","live");kl.classList.add("landed");heart.style.setProperty("--hglow",bandColour(.44));setTimeout(startPile,reduce?0:280)}
-heart.addEventListener("click",()=>heart.classList.toggle("pulse"));
+function land(){landed=true;heart.classList.remove("shake");void heart.offsetWidth;heart.classList.add("shake","live");kl.classList.add("landed");setTimeout(startPile,reduce?0:280)}
+/* the heart's hover: mouse or pen hover, or a tap or click, which toggles it */
+{const hc=swayState(),hp=heart.querySelector(".hch"),hg=heart.querySelector("#hch"),hs=[...hg.querySelectorAll("stop")];let hr=0;
+ /* the heart has no spot on the gradient, so its steps lean its brick red toward the blue end one way and the orange end the other */
+ const shade=o=>o<0?mix(HEART,W0,-o):o>0?mix(HEART,W1,o):HEART;
+ const tick=now=>{const a=swayA(hc,now),u=swayU(hc,now);
+  if(a>0){heart.style.color=shade(a*CH_STEP*u);const pc=shade(-a*2*CH_STEP*u);hs.forEach(x=>x.style.stopColor=pc);hg.setAttribute("cx",(.85-.7*(u+1)/2).toFixed(3));hp.setAttribute("opacity",a.toFixed(3))}
+  else{heart.style.color="";hp.setAttribute("opacity","0")}
+  if(hc.on||hc.a>0)hr=requestAnimationFrame(tick);else{hr=0;hc.last=0}};
+ const hot=on=>{if(on&&!hc.on)hc.t0=performance.now();hc.on=on;if(!reduce&&!hr)hr=requestAnimationFrame(tick)};
+ heart.addEventListener("pointerenter",e=>{if(e.pointerType!=="touch")hot(true)});
+ heart.addEventListener("pointerleave",e=>{if(e.pointerType!=="touch")hot(heart.classList.contains("pulse"))});
+ heart.addEventListener("click",()=>{heart.classList.toggle("pulse");hot(heart.classList.contains("pulse")||heart.matches(":hover"))})}
 
 /* ── the words: the screen is the box, its bottom is the floor; the name, the heart, the s and the name line under it are surfaces ── */
-const WORDS=["Code","CSS","Delivery","Lorem","Ipsum","Dolor","Sit","Amet","Consectetur","Adipiscing","Elit","Tempor","Magna","Aliqua"];
+/* DRAFT for Kelly's approval: her current skills, weighted to fractional CTO and senior full-stack roles */
+const WORDS=["Code","Leadership","Architecture","React","Next.js","TypeScript","Postgres","Supabase","Stripe","Security","Testing","Accessibility","AI builds","Shipping"];
 /* hold a word to shoot it: it shakes harder the longer it is held (hardest at 3 seconds) and flies the way the cursor was moving, or straight up */
 const HOLD_MAX=3000,SHOT_MIN=10,SHOT_MAX=32,SHAKE_MAX=3.6,CV_STILL=.08;
 let cvx=0,cvy=0,clx=0,cly=0,clt=0;
 addEventListener("pointermove",e=>{const now=performance.now();if(clt){const dt=Math.max(10,now-clt),a=.45;cvx=cvx*(1-a)+((e.clientX-clx)/dt)*a;cvy=cvy*(1-a)+((e.clientY-cly)/dt)*a}clx=e.clientX;cly=e.clientY;clt=now},{passive:true});
 const holdK=t0=>clamp((performance.now()-t0)/HOLD_MAX);
-let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,flyUp=false,driftT=0,knockT=0,W0w=0,H0=0,nameBodies=[];
+let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,driftT=0,knockT=0,W0w=0,H0=0,nameBodies=[];
 function stopPile(){cancelAnimationFrame(raf);timers.forEach(clearTimeout);timers=[];clearInterval(driftT);clearInterval(knockT);[kl,heart].forEach(e=>e.classList.remove("knock"));
  items.forEach(t=>t.el.remove());items=[];if(mc){dropMouse(mc);mc=null}if(eng&&window.Matter)Matter.Engine.clear(eng);eng=null;ceiling=null;nameBodies=[]}
 function rectBody(el,opt){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();return Matter.Bodies.rectangle(r.left-s.left+r.width/2,r.top-s.top+r.height/2,Math.max(4,r.width),Math.max(4,r.height),Object.assign({isStatic:true},opt||{}))}
@@ -440,57 +470,61 @@ function mkMouse(el,e){const {Mouse,MouseConstraint,Composite}=Matter;const mous
  const m=MouseConstraint.create(e,{mouse,constraint:{stiffness:.2,render:{visible:false}}});Composite.add(e.world,m);return m}
 function dropMouse(c){const m=c.mouse,el=m&&m.element;if(!el)return;["mousemove","mousedown","mouseup"].forEach(ev=>el.removeEventListener(ev,m[ev]))}
 function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Composite,Events,Body}=Matter;
- const W=W0w=stage.clientWidth,H=H0=stage.clientHeight;eng=Engine.create();eng.gravity.y=flyUp?-1.4:1.1;eng.positionIterations=10;eng.velocityIterations=8;
+ const W=W0w=stage.clientWidth,H=H0=stage.clientHeight;eng=Engine.create();eng.gravity.y=1.1;eng.positionIterations=10;eng.velocityIterations=8;
  const wall=400;Composite.add(eng.world,[Bodies.rectangle(W/2,H+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
  nameBodies=[rectBody($("#kname"),{chamfer:{radius:12}}),rectBody(hgap,{chamfer:{radius:20}}),rectBody($("#ks"))];
  Composite.add(eng.world,[...nameBodies,rectBody(sub)]);
  WORDS.forEach((w,i)=>{const el=document.createElement("span");el.className="word";el.setAttribute("aria-hidden","true");el.innerHTML=`<span class="wi">${w}</span>`;stage.append(el);
-  const t={el,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null};items.push(t);
-  el.addEventListener("pointerenter",()=>el.classList.add("hot"));el.addEventListener("pointerleave",()=>{if(!t.drag)el.classList.remove("hot")})});
+  const t={el,wi:el.firstChild,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null,ch:swayState(),tap:0,cham:false};items.push(t);
+  /* hover with a mouse or pen; on a touch screen a tap shows it for a moment (touch still scrolls the page) */
+  el.addEventListener("pointerenter",e=>{if(e.pointerType!=="touch")hotWord(t,true)});
+  el.addEventListener("pointerleave",e=>{if(e.pointerType!=="touch"&&!t.drag)hotWord(t,false)});
+  el.addEventListener("pointerdown",e=>{if(e.pointerType!=="touch")return;hotWord(t,true);clearTimeout(t.tap);t.tap=setTimeout(()=>{if(!t.drag)hotWord(t,false)},TAP_HOLD)})});
  mc=mkMouse(stage,eng);
  const by=new Map();
- Events.on(mc,"startdrag",e=>{const t=by.get(e.body);if(t){t.drag=true;t.h0=performance.now();t.el.classList.add("hot")}});
- Events.on(mc,"enddrag",e=>{const t=by.get(e.body);if(!t)return;t.drag=false;
+ Events.on(mc,"startdrag",e=>{const t=by.get(e.body);if(t){t.drag=true;t.h0=performance.now();hotWord(t,true);t.el.classList.add("held")}});
+ Events.on(mc,"enddrag",e=>{const t=by.get(e.body);if(!t)return;t.drag=false;t.el.classList.remove("held");
   const h=t.h0?holdK(t.h0):0;t.h0=0;t.el.style.removeProperty("--sk");t.el.style.removeProperty("--skd");
   const sp=SHOT_MIN+(SHOT_MAX-SHOT_MIN)*Math.pow(h,.85),m=Math.hypot(cvx,cvy);
   const dx=m>CV_STILL?cvx/m:0,dy=m>CV_STILL?cvy/m:-1,b=t.body;
   requestAnimationFrame(()=>{if(!b||!eng)return;Body.setVelocity(b,{x:dx*sp,y:dy*sp});Body.setAngularVelocity(b,(Math.random()-.5)*.6)});
-  t.el.classList.add("hot");setTimeout(()=>{if(!t.drag)t.el.classList.remove("hot")},500)});
+  setTimeout(()=>{if(!t.drag)hotWord(t,false)},500)});
  const drop=t=>{const x=t.bw/2+Math.random()*Math.max(1,W-t.bw);const y0=-t.bh*1.3-Math.random()*H*.35;
   t.body=Bodies.rectangle(x,y0,t.bw,t.bh,{chamfer:{radius:Math.min(8,t.bh*.12)},restitution:.25+Math.random()*.15,friction:.5,frictionAir:.006+Math.random()*.04,angle:(Math.random()-.5)*.7});
   Body.setVelocity(t.body,{x:(Math.random()-.5)*2,y:Math.random()*4});by.set(t.body,t);Composite.add(eng.world,t.body);t.el.classList.add("on")};
- /* each word takes the colour of where it sits; its glow is one step along the gradient from it */
- const draw=()=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
-  const yn=p.y/H,gy=yn<.5?Math.min(1,yn+GSTEP):Math.max(0,yn-GSTEP);t.el.style.color=bandColour(yn);t.el.style.setProperty("--glow",bandColour(gy))});
+ /* each word takes the colour of where it sits; while hovered it drifts up to two steps either way from there */
+ const draw=(now=performance.now())=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
+  const yn=p.y/H,a=swayA(t.ch,now);
+  if(a>0){const u=swayU(t.ch,now);t.el.style.color=bandColour(yn+a*CH_STEP*u);
+   t.wi.style.backgroundImage=`radial-gradient(ellipse 50% 95% at ${(85-70*(u+1)/2).toFixed(1)}% 62%,${bandColour(yn-a*2*CH_STEP*u)},transparent 75%)`;
+   if(!t.cham){t.cham=true;t.el.classList.add("cham")}}
+  else{t.el.style.color=bandColour(yn);if(t.cham){t.cham=false;t.el.classList.remove("cham");t.wi.style.backgroundImage=""}}});
  const holdShake=()=>items.forEach(t=>{if(!t.drag||!t.h0)return;const h=holdK(t.h0);t.el.style.setProperty("--sk",(1+(SHAKE_MAX-1)*h).toFixed(2));t.el.style.setProperty("--skd",(.45-.3*h).toFixed(3)+"s")});
- if(reduce){items.forEach(drop);setCeiling(true);for(let k=0;k<900;k++)Engine.update(eng,1000/60);draw();return}
+ /* reduced motion: settle the pile at once, then close the lid (closing it first would trap the words that start above the screen) */
+ if(reduce){items.forEach(drop);for(let k=0;k<900;k++)Engine.update(eng,1000/60);setCeiling(true);draw();return}
  items.forEach((t,i)=>timers.push(setTimeout(()=>drop(t),i*170+Math.random()*140)));
- timers.push(setTimeout(()=>{if(!flyUp)setCeiling(true)},items.length*170+1600));
+ timers.push(setTimeout(()=>setCeiling(true),items.length*170+1600));
  /* a resting word now and then shifts a little, so the pile never looks frozen */
- driftT=setInterval(()=>{if(!eng||flyUp)return;items.forEach(t=>{if(t.body&&t.body.speed<.4&&!t.drag&&Math.random()<.35){Body.applyForce(t.body,{x:t.body.position.x+(Math.random()-.5)*t.bw*.4,y:t.body.position.y},{x:(Math.random()-.5)*.0016*t.body.mass,y:-.0022*t.body.mass})}})},2600);
+ driftT=setInterval(()=>{if(!eng)return;items.forEach(t=>{if(t.body&&t.body.speed<.4&&!t.drag&&Math.random()<.35){Body.applyForce(t.body,{x:t.body.position.x+(Math.random()-.5)*t.bw*.4,y:t.body.position.y},{x:(Math.random()-.5)*.0016*t.body.mass,y:-.0022*t.body.mass})}})},2600);
  /* if words are left sitting on the name, every 30 seconds the name shakes and throws them: three kicks, left, right, left */
  const sitsOnName=t=>{const b=t.body;if(!b||t.drag)return false;
   return nameBodies.some(nb=>b.bounds.max.y>=nb.bounds.min.y-3&&b.bounds.max.y<=nb.bounds.min.y+Math.max(18,t.bh*.6)&&b.bounds.max.x>nb.bounds.min.x&&b.bounds.min.x<nb.bounds.max.x)};
- knockT=setInterval(()=>{if(!eng||flyUp)return;const hit=items.filter(sitsOnName);if(!hit.length)return;
+ knockT=setInterval(()=>{if(!eng)return;const hit=items.filter(sitsOnName);if(!hit.length)return;
   [kl,heart].forEach(e=>{e.classList.remove("knock");void e.offsetWidth;e.classList.add("knock")});
   const kick=(dir,k)=>hit.forEach(t=>{const b=t.body;if(!b||t.drag)return;
    Body.setVelocity(b,{x:b.velocity.x+dir*(3.4+Math.random()*2.6)*k,y:b.velocity.y-(1.8+Math.random()*2.2)*k});
    Body.setAngularVelocity(b,b.angularVelocity+(Math.random()-.5)*.14*k)});
   kick(-1,1);timers.push(setTimeout(()=>kick(1,.75),150));timers.push(setTimeout(()=>kick(-1,.45),330));
   setTimeout(()=>[kl,heart].forEach(e=>e.classList.remove("knock")),800)},30000);
- let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;holdShake();Engine.update(eng,dt);draw();raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
+ let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;holdShake();Engine.update(eng,dt);draw(now);raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
 
-/* the words fly up as About arrives; coming back, the visitor breaks through them */
-function setFly(up){if(up===flyUp)return;flyUp=up;if(!eng)return;const B=Matter.Body;
- if(up){setCeiling(false);eng.gravity.y=-1.4;items.forEach(t=>{if(t.body)B.setVelocity(t.body,{x:t.body.velocity.x,y:-6-Math.random()*6})})}
- else{eng.gravity.y=1.1;items.forEach(t=>{if(!t.body)return;if(t.body.position.y<t.bh)B.setPosition(t.body,{x:t.bw/2+Math.random()*Math.max(1,W0w-t.bw),y:H0*(.12+Math.random()*.35)});
-  const a=Math.random()*Math.PI*2,v=14+Math.random()*16;B.setVelocity(t.body,{x:Math.cos(a)*v,y:Math.sin(a)*v-6});B.setAngularVelocity(t.body,(Math.random()-.5)*.5)});setCeiling(true)}}
+/* the words stay in the pile when the visitor scrolls on to About (Kelly, 19 Nov: "Keep the words there when you scroll away") */
+function hotWord(t,on){if(on&&!t.ch.on)t.ch.t0=performance.now();t.ch.on=on;t.el.classList.toggle("hot",on)}
 let lastY=scrollY,restoring=false;   /* restoring: focus going back to the opener after the panel closes, which should not replay the arrow */
 function introTick(){const r=track.getBoundingClientRect(),p=clamp(-r.top/Math.max(1,r.height-innerHeight)),dy=scrollY-lastY;lastY=scrollY;
  hint.style.opacity=p>.03||!landed?0:1;
- setFly(p>.55);
  /* scrolling up through a pile that is still in the box knocks the words about */
- if(eng&&!flyUp&&dy<-3&&p<.55&&r.bottom>0){const k=Math.min(1,-dy/60);items.forEach(t=>{if(t.body&&Math.random()<.6)Matter.Body.setVelocity(t.body,{x:t.body.velocity.x+(Math.random()-.5)*14*k,y:t.body.velocity.y-(6+Math.random()*12)*k})})}}
+ if(eng&&dy<-3&&p<.55&&r.bottom>0){const k=Math.min(1,-dy/60);items.forEach(t=>{if(t.body&&Math.random()<.6)Matter.Body.setVelocity(t.body,{x:t.body.velocity.x+(Math.random()-.5)*14*k,y:t.body.velocity.y-(6+Math.random()*12)*k})})}}
 
 /* ── About arrow: on hover or focus it turns into the heart once, then back to the arrow. No loop; no swap with reduced motion. ── */
 {const a=$("#alink"),aa=a.querySelector(".aa"),ah=a.querySelector(".ah");let busy=false,armed=true;
