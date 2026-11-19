@@ -28,14 +28,14 @@
 /* THE HOME PAGE of kellylovestocode.com, rebuilt 19 Nov 2026 to the look of the "Polished Current Sample" Kelly picked:
    Figtree for headings, Gabarito for the About text and ledes, Lexend for body text; paper and charcoal; light only.
    Kept, her words: "I would keep the intro of falling words but scrap the other animations and transitions."
-   The falling words keep the blue to orange gradient. Work is the Index layout in her Coolors colours (brick, blue, grape, olive).
+   The falling words keep the blue to orange gradient. Work is the Index layout in her Coolors colours (GigBag blue, TitreLab brick, grape, olive; GigBag and TitreLab swapped 19 Nov because the brick fought the red in the GigBag logo).
    No open transition yet: About and the projects open at once until she picks one. */
 :root{
   --paper:#f1f0ec; --char:#16171b; --signal:#ff6a2b; --muted:#5b5b60; --rule:#d3d2cc; --onchar:#f1f0ec; --onmuted:#a4a4a8;
   /* Kelly's Coolors colours. First value: small text on the paper. Second: the hover fill, with white text on it.
      Brick and grape are her exact hexes. Blue and olive are deepened just enough for small text (all pass WCAG AA). */
-  --gb:#c03221; --gb-fill:#c03221;
-  --tl:#38748c; --tl-fill:#38748c;
+  --gb:#38748c; --gb-fill:#38748c;
+  --tl:#c03221; --tl-fill:#c03221;
   --fs:#483a58; --fs-fill:#483a58;
   --pf:#66721c; --pf-fill:#707d1e;
   --fill-ink:#ffffff;
@@ -109,9 +109,8 @@ body.locked{overflow:hidden}
 [data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-fill:var(--fs-fill)}
 [data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-fill:var(--pf-fill)}
 /* Project page palettes (Kelly, 19 Nov): base = bar and rules, meta = number, meta line, Previous/Next, sh = section headers, acc = lede line, screen frames, link underline. A page without one keeps the neutral look. */
-/* GigBag tries the blue/teal (Kelly, 19 Nov: the brick fought the red in the logo). Page and its wipe only; the Work bar, PAL and the site's brick accents are unchanged until she decides. */
 #opened[data-p="gigbag"],.wipe[data-p="gigbag"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
-#opened[data-p="titrelab"],.wipe[data-p="titrelab"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
+#opened[data-p="titrelab"],.wipe[data-p="titrelab"]{--p-base:#c03221;--p-meta:#8c3f3f;--p-sh:#450b04;--p-acc:#94180a}
 #opened[data-p="formulation-suite"],.wipe[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
 #opened[data-p="phytofoundry"],.wipe[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
 #opened[data-p="gigbag"],#opened[data-p="titrelab"],#opened[data-p="formulation-suite"],#opened[data-p="phytofoundry"]{--p-bar:3px solid var(--p-base);--p-mark:block;--p-lede:4px solid var(--p-acc);--p-ledepad:clamp(12px,2vw,20px)}
@@ -229,7 +228,17 @@ body.locked{overflow:hidden}
 .study .calls li{padding-left:16px;border-left:2px solid var(--p-acc,var(--char))}
 .study .calls b{display:block;font:700 1rem/1.35 var(--head);margin-bottom:2px}
 .study .stack{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.study .stack li{font:600 .8125rem/1 var(--head);padding:8px 12px;border:2px solid var(--p-acc,var(--char))}
+/* Stack chips light up the lines they power (Kelly, 19 Nov): hover or focus previews, a click, tap or Enter keeps it lit until pressed again */
+.study .stack li{display:flex}
+.study .stack button{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font:600 .8125rem/1 var(--head);color:var(--char);background:transparent;border:2px solid var(--p-acc,var(--char));border-radius:0;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .2s,border-color .2s,color .2s}
+@media (hover:hover){.study .stack button:hover{border-color:var(--p-base,var(--char))}}
+.study .stack button[aria-pressed="true"]{background:var(--p-base,var(--char));border-color:var(--p-base,var(--char));color:#fff}
+.study .gb-hint{margin:-6px 0 14px;font:500 .8125rem/1.4 var(--body);color:var(--muted)}
+.study .gb-stack .bul li{transition:opacity .2s,color .2s}
+.study .gb-stack.hl .bul li{opacity:.45}
+.study .gb-stack.hl .bul li.hit{opacity:1;color:var(--p-sh,var(--char))}
+.study .gb-stack.hl .bul li.hit::marker{color:var(--p-base,currentColor)}
+@media (prefers-reduced-motion:reduce){.study .stack button,.study .gb-stack .bul li{transition:none}}
 .study .bul{margin:0;padding-left:1.1em}
 .study .bul li{margin:0 0 .5em}
 .study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
@@ -409,15 +418,18 @@ svg.tight .om-node .om-meta{font-size:12px}
       <li><b>Legal alongside launch.</b> The policies went live marked provisional, pending attorney review, so legal review ran alongside launch instead of blocking it.</li>
       <li><b>Paid tiers open the door.</b> Any artist can post to and browse the collaboration board for free. Only replying to a response needs a paid tier.</li>
     </ul></div>
-  <div><h3 class="sh">Stack and security</h3>
-    <ul class="stack" aria-label="Stack"><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul>
+  <div class="gb-stack"><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="nextjs" aria-pressed="false">Next.js</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="stripe" aria-pressed="false">Stripe</button></li><li><button type="button" data-tool="resend" aria-pressed="false">Resend</button></li></ul>
+    <p class="gb-hint">Pick a tool to see what it powers.</p>
     <ul class="bul">
-      <li>Role-based access, enforced in Postgres with row-level security</li>
-      <li>Multi-tenant business accounts with team permission levels</li>
-      <li>Consent and attestation records kept as evidence</li>
-      <li>Scheduled jobs, and transactional email authenticated with SPF, DKIM and DMARC</li>
+      <li data-k="nextjs vercel">The app runs on Next.js, deployed on Vercel</li>
+      <li data-k="supabase postgres">Role-based access, enforced in Postgres with row-level security</li>
+      <li data-k="supabase postgres">Multi-tenant business accounts with team permission levels</li>
+      <li data-k="supabase postgres">Consent and attestation records kept as evidence</li>
+      <li data-k="stripe">Payments through Stripe Connect, for the marketplace and studio bookings only</li>
+      <li data-k="resend">Scheduled jobs, and transactional email authenticated with SPF, DKIM and DMARC</li>
       <li>Built with Claude Code, with hooks and guards that keep the work verified and permission-first</li>
-    </ul></div>
+    </ul><p class="vh gb-live" aria-live="polite"></p></div>
   <div><h3 class="sh">Outcome</h3><p>A four-product platform, designed, built and shipped by one engineer, now in closed beta. What I bring to a client is the reasoning behind it: where to draw the line on liability, how to design licensing into the data model, and how to keep a build moving while legal and commercial questions are still open.</p></div>
   <div class="gb-ask"><h3 class="sh">Walkthrough</h3><p>There's a lot more under the hood than I can put on a public page. Once we've signed an NDA, I'd love to walk you through GigBag properly: the architecture, the trade-offs and the calls I'd make again.</p><button type="button" class="btn" data-contact>Ask for a walkthrough <span aria-hidden="true">→</span></button></div>
 </div></template>
@@ -635,8 +647,8 @@ function fade(el){if(!el.animate)return;el.getAnimations().forEach(x=>x.cancel()
 /* ── the skill map, "Where my work overlaps", built inside the expanded About each time it opens.
    Facts follow the corrected lines in the Portfolio drafts doc. Arcs on wider screens, a plain list on phones. ── */
 const OM_P=[
- {id:"gigbag",name:"GigBag",col:"#c03221",sum:"Co-founder, CTO and sole developer. Four products taken solo from zero to closed beta, built with Claude Code."},
- {id:"titrelab",name:"TitreLab",col:"#38748c",sum:"A cannabis tincture and potency app for makers.",stack:"React, Vite, Supabase, Vercel"},
+ {id:"gigbag",name:"GigBag",col:"#38748c",sum:"Co-founder, CTO and sole developer. Four products taken solo from zero to closed beta, built with Claude Code."},
+ {id:"titrelab",name:"TitreLab",col:"#c03221",sum:"A cannabis tincture and potency app for makers.",stack:"React, Vite, Supabase, Vercel"},
  {id:"formulation-suite",name:"Formulation Suite",col:"#483a58",sum:"Multi-cannabinoid calculator and recipe builder."},
  {id:"phytofoundry",name:"PhytoFoundry",col:"#707d1e",sum:"An interactive botanical reference, one plant to a plate."}];
 const OM_C=[
@@ -813,8 +825,21 @@ const chamFill=(el,pal,stopOnClick)=>{if(reduce)return;
  el.addEventListener("pointerenter",e=>{if(e.pointerType==="touch")return;base=getComputedStyle(el).getPropertyValue("--c-fill").trim();if(!base)return;
   c.on=true;c.t0=performance.now();if(!r)r=requestAnimationFrame(tick)});
  el.addEventListener("pointerleave",clear);if(stopOnClick)el.addEventListener("click",clear)};
-{const PAL={gigbag:["#94180a","#8c3f3f"],titrelab:["#0a5373","#3b464a"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
+{const PAL={gigbag:["#0a5373","#3b464a"],titrelab:["#94180a","#8c3f3f"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
  $$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(pal)chamFill(row,pal,true)})}
+/* GigBag stack: a tool lights up the lines it powers. Hover (mouse or pen) and keyboard focus preview it; a click, tap, Enter or Space pins it
+   (aria-pressed) until pressed again, and leaving goes back to the pinned one. Only a pin is announced, so hovering stays quiet for screen readers. */
+{const hl=(box,k,say)=>{let n=0;box.querySelectorAll(".bul li").forEach(li=>{const hit=!!k&&(li.dataset.k||"").split(" ").includes(k);li.classList.toggle("hit",hit);if(hit)n++});
+  box.classList.toggle("hl",!!k);if(!say)return;const lv=box.querySelector(".gb-live"),b=k&&box.querySelector(`[data-tool="${k}"]`);
+  if(lv)lv.textContent=b?`${b.textContent}: ${n} ${n===1?"line":"lines"} highlighted`:"Highlight cleared"};
+ const tool=e=>{const b=e.target.closest&&e.target.closest("[data-tool]");return b?[b,b.closest(".gb-stack")]:[]};
+ const back=box=>hl(box,box.dataset.pin||"",false);
+ pbody.addEventListener("click",e=>{const [b,box]=tool(e);if(!b)return;const k=box.dataset.pin===b.dataset.tool?"":b.dataset.tool;box.dataset.pin=k;
+  box.querySelectorAll("[data-tool]").forEach(x=>x.setAttribute("aria-pressed",String(!!k&&x===b)));hl(box,k,true)});
+ pbody.addEventListener("pointerover",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b)hl(box,b.dataset.tool,false)});
+ pbody.addEventListener("pointerout",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b&&!b.contains(e.relatedTarget))back(box)});
+ pbody.addEventListener("focusin",e=>{const [b,box]=tool(e);if(b&&b.matches(":focus-visible"))hl(box,b.dataset.tool,false)});
+ pbody.addEventListener("focusout",e=>{const [b,box]=tool(e);if(b)back(box)})}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
 pclose.addEventListener("click",closePanel);
 panel.addEventListener("click",e=>{if(e.target.closest("[data-contact]")){if(!wiping){goContact=true;closePanel()}return}
