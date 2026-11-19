@@ -420,7 +420,7 @@ body[data-skin="dark"]{--box:#2a2b31}
 </style>
 </head>
 <body data-skin="light">
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="kgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16171b"/><stop offset="1" stop-color="#ff6a2b"/></linearGradient></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="kgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2448d8"/><stop offset="1" stop-color="#ff6a2b"/></linearGradient></defs></svg>
 <div id="loader" class="g" aria-hidden="true"></div>
 <div id="tl" aria-hidden="true"></div>
 <div id="tk" aria-hidden="true"><div class="inkclip"><div class="ink" id="ink"></div></div><div class="dp"></div></div>
@@ -446,8 +446,9 @@ body[data-skin="dark"]{--box:#2a2b31}
 <section class="about" id="about" aria-label="About">
   <div class="dots" aria-hidden="true"><!-- ANIM-2 --><i style="right:12%;top:22%;--d:9px;--t:12s;--x:-14px"></i><i style="right:24%;top:58%;--d:6px;--t:9s;--w:-3s;--x:12px"></i><i style="right:7%;top:74%;--d:11px;--t:14s;--w:-6s;--x:-8px"></i><i style="right:34%;top:14%;--d:5px;--t:10s;--w:-2s;--x:9px"></i></div>
   <div class="wrap">
-    <p class="ap" id="ap1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
-    <p class="ap" id="ap2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+    <p class="ap" id="ap1">I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO: I come in, make the technical calls and build what needs building.</p>
+    <p class="ap" id="ap2">Most recently I co-founded GigBag and built it as CTO and sole developer, taking four products from zero to closed beta. Before that I ran Take Me To Your Pixel, my own web design studio, where I took clients from a napkin sketch to a launched site, and I led a platform rebuild as UX architect for Carolinas AGC. My first leadership role was VP of Technology at Step Up 4 Learning, where I ran the platform and the development team behind an online writing program.</p>
+    <p class="ap" id="ap3">I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
     <svg class="aline" id="aline" viewBox="0 0 340 26" aria-hidden="true"><!-- ANIM-1 --><path class="ln" pathLength="1" d="M2 15c40-9 70 7 110 0s70-9 110 0 50 6 86-2"/><g transform="translate(314 2) scale(.9)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg>
     <a class="alink" id="alink" href="#about" aria-label="About"></a>
     <p class="anote" id="anote" aria-live="polite"></p>
@@ -601,10 +602,12 @@ const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t;
 const easeIO=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 const easeOutBack=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
 /* 19 Nov: charcoal replaces the blue (Kelly: "I like 3, so lets polish whats here. I also like the charcoal").
-   cob is the colour of the pour, the Work edge and the Contact colour's starting point; lo is the top of the falling words' colour scale.
-   On the dark skin the ground is already charcoal, so the pour is a lighter graphite there and the words start from a light grey (both set in applySkin). */
-const C={cob:"#16171b",sig:"#ff6a2b",lo:"#16171b"};
-const SKINCOL={light:{cob:"#16171b",lo:"#16171b"},dark:{cob:"#34363e",lo:"#c9c9cc"}};
+   cob is the colour of the pour and the Work edge; g0 to sig is the gradient (falling words, Contact steps, heart options).
+   On the dark skin the ground is already charcoal, so the pour is a lighter graphite there (set in applySkin). */
+const C={cob:"#16171b",sig:"#ff6a2b",g0:"#2448d8",w0:"#2448d8",w1:"#e95609"};   /* g0: 19 Nov, Kelly picked "blue to orange" for the gradient (the site's only colour), so the gradient runs g0 to sig at full colour in both skins; the pour stays charcoal */
+/* w0/w1: the ends of the gradient for the falling words, which are text on the page ground. Same blue to orange, nudged in lightness only where needed so every
+   step stays at least 3:1 (WCAG AA for large text): on the cream ground the orange end is a touch deeper, on the charcoal ground the blue end a touch lighter. */
+const SKINCOL={light:{cob:"#16171b",w0:"#2448d8",w1:"#e95609"},dark:{cob:"#34363e",w0:"#4a7aff",w1:"#ff6a2b"}};
 const rgbF=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255);
 const mix=(a,b,t)=>`color-mix(in oklch, ${b} ${Math.round(clamp(t)*100)}%, ${a})`;
 /* the light skin's colours looked washed out (E413). On the light skin only, the Contact colour (the page colour and the colour that grows from the cursor) is made richer: the chroma is multiplied by RICH (a placeholder, not a decision)
@@ -680,7 +683,7 @@ mq.addEventListener("change",applySkin);new MutationObserver(applySkin).observe(
 const CLASSIC="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z";
 const GEO="M12 21.5 2.7 12.2a5.6 5.6 0 0 1 7.9-7.9L12 5.7l1.4-1.4a5.6 5.6 0 0 1 7.9 7.9Z";
 const HEARTS={HT1:`<svg viewBox="0 0 24 24"><path d="${CLASSIC}" fill="#ff6a2b"/></svg>`,HT2:`<svg viewBox="0 0 24 24"><path d="${CLASSIC}" fill="url(#kgrad)"/></svg>`,HT3:`<svg viewBox="0 0 24 24"><path d="${GEO}" fill="#2448d8"/></svg>`,HT4:`<svg viewBox="0 0 24 24"><path d="${CLASSIC}" fill="none" stroke="#ff6a2b" stroke-width="2.6" stroke-linejoin="round"/></svg>`};
-const HEART_OWN={HT1:C.sig,HT2:C.cob,HT3:C.cob,HT4:C.sig};
+const HEART_OWN={HT1:C.sig,HT2:C.g0,HT3:C.g0,HT4:C.sig};
 const ARROW=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg>`;
 
 /* E520: the options panel and the demo tray are not on the live site. The settings above are the page's settings; nothing here builds a control for them. */
@@ -706,7 +709,7 @@ function heartAt(t){const sr=stage.getBoundingClientRect(),gr=hgap.getBoundingCl
 function flyHeart(){cancelAnimationFrame(heartRaf);landed=false;kl.classList.remove("landed");heart.classList.remove("live","shake");if(reduce){heartT=1;heartAt(1);land();return}
  let t0=null;const dur=1300;const step=now=>{if(!t0)t0=now;const k=clamp((now-t0)/dur);heartT=1-Math.pow(1-k,3);heartAt(heartT);if(k<1)heartRaf=requestAnimationFrame(step);else land()};heartRaf=requestAnimationFrame(step)}
 function land(){landed=true;heart.classList.remove("shake");void heart.offsetWidth;heart.classList.add("shake","live");kl.classList.add("landed");setHeartGlow();setTimeout(startPile,reduce?0:280)}
-function glowFor(v){let c=HEART_OWN[OPT.heart.v];if(v==="HG2")c=C.sig;if(v==="HG3")c=OPT.glow.v==="G2"?C.sig:OPT.glow.v==="G3"?C.cob:bandColour(.44);return c}
+function glowFor(v){let c=HEART_OWN[OPT.heart.v];if(v==="HG2")c=C.sig;if(v==="HG3")c=OPT.glow.v==="G2"?C.sig:OPT.glow.v==="G3"?C.g0:bandColour(.44);return c}
 function setHeartGlow(){heart.style.setProperty("--hglow",glowFor(OPT.hglow.v));buildHgPrev()}
 function buildHgPrev(){const host=$("#hgPrev");if(!host)return;host.innerHTML="";["HG1","HG2","HG3"].forEach(id=>{const b=document.createElement("button");b.type="button";b.className="hgp";b.dataset.k="hglow";b.dataset.v=id;b.style.setProperty("--c",glowFor(id));b.setAttribute("aria-pressed",String(OPT.hglow.v===id));b.innerHTML=`${HEARTS[OPT.heart.v]}<span>${id}</span>`;b.addEventListener("click",()=>setOpt("hglow",id));host.append(b)})}
 heart.addEventListener("click",()=>{heart.classList.toggle("pulse")});
@@ -726,7 +729,7 @@ const holdK=t0=>clamp((performance.now()-t0)/HOLD_MAX);
 let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,flyUp=false,drift=0,knockT=0,W0=0,H0=0,nameBodies=[];
 /* the falling words run through the colour scale they rest on: cobalt at the top to signal orange at the bottom (W4, E128). There is no white and no black in it at all,
    and it ends in the signal orange (her words, 10 Nov session 5: "there should BE NO WHITE IN THE GRADIENT OF THE WORDS", "IT ENDS IN THE GODDAMN SIGNAL ORANGE"). */
-function bandColour(yn){return yn<=0?C.lo:yn>=1?C.sig:mix(C.lo,C.sig,yn)}
+function bandColour(yn){return yn<=0?C.w0:yn>=1?C.w1:mix(C.w0,C.w1,yn)}
 function stopPile(){cancelAnimationFrame(raf);timers.forEach(clearTimeout);timers=[];clearInterval(drift);clearInterval(knockT);[kl,klw,heart].forEach(e=>e&&e.classList.remove("knock"));items.forEach(t=>t.el.remove());items=[];if(mc){dropMouse(mc);mc=null}if(eng)Matter.Engine.clear(eng);eng=null;ceiling=null}
 function rectBody(el,opt){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();return Matter.Bodies.rectangle(r.left-s.left+r.width/2,r.top-s.top+r.height/2,Math.max(4,r.width),Math.max(4,r.height),Object.assign({isStatic:true},opt||{}))}
 function setCeiling(on){if(!eng)return;if(on&&!ceiling){ceiling=Matter.Bodies.rectangle(W0/2,-200,W0*3,400,{isStatic:true});Matter.Composite.add(eng.world,ceiling)}if(!on&&ceiling){Matter.Composite.remove(eng.world,ceiling);ceiling=null}}
@@ -772,7 +775,7 @@ function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Co
   /* her words, 10 Nov: "make the glow either one color above or below it on the gradient" — so the halo is a step along the scale from the word's own colour,
      towards the far end, never the same colour as the letters. GSTEP is a placeholder. */
   const yn=p.y/H,c=bandColour(yn),gy=yn<.5?Math.min(1,yn+GSTEP):Math.max(0,yn-GSTEP);
-  t.el.style.color=c;t.el.style.setProperty("--wc",c);t.el.style.setProperty("--glow",OPT.glow.v==="G2"?C.sig:OPT.glow.v==="G3"?C.cob:bandColour(gy))});
+  t.el.style.color=c;t.el.style.setProperty("--wc",c);t.el.style.setProperty("--glow",OPT.glow.v==="G2"?C.sig:OPT.glow.v==="G3"?C.g0:bandColour(gy))});
  /* while a word is held, the shake grows with the hold (E451); the amounts are placeholders */
  const holdShake=()=>items.forEach(t=>{if(!t.drag||!t.h0)return;const h=holdK(t.h0);t.el.style.setProperty("--sk",(1+(SHAKE_MAX-1)*h).toFixed(2));t.el.style.setProperty("--skd",(.45-.3*h).toFixed(3)+"s")});
  if(reduce){items.forEach(drop);setCeiling(true);for(let k=0;k<900;k++){nudgeOff();spreadOut();Engine.update(eng,1000/60)}draw();return}
@@ -812,7 +815,7 @@ function introTick(){const r=track.getBoundingClientRect();const p=clamp(-r.top/
 
 /* shared elements */
 const about=$("#about"),tl=$("#tl"),tk=$("#tk"),ink=$("#ink"),work=$("#work"),wbox=$("#wbox"),ct=$("#contact"),dpObj=$("#dpObj");
-const ap1=$("#ap1"),ap2=$("#ap2"),alink=$("#alink"),anote=$("#anote");
+const ap1=$("#ap1"),ap2=$("#ap2"),ap3=$("#ap3"),alink=$("#alink"),anote=$("#anote");
 
 /* jump to the part of the page a choice affects, then show it (demo tooling, not a design choice) */
 function jumpTo(el,then){const r=el.getBoundingClientRect(),vh=innerHeight;const inView=r.top<vh*.6&&r.bottom>vh*.3;
@@ -1231,7 +1234,7 @@ const FADET=16;
    ground at the top of the page, because the colour change never goes back (E405) and it kept handing the toggle the Contact ink. */
 
 /* ── About text: four kinetic / size options (E211), no stretch (E203) ── */
-const AP=[ap1,ap2];let aboutPlayed=false,aRaf=0,pmx=-1e4,pmy=-1e4,kwList=[];
+const AP=[ap1,ap2,ap3];let aboutPlayed=false,aRaf=0,pmx=-1e4,pmy=-1e4,kwList=[];
 addEventListener("pointermove",e=>{pmx=e.clientX;pmy=e.clientY},{passive:true});
 function wordify(){AP.forEach(p=>{if(!p.dataset.src)p.dataset.src=p.textContent;p.innerHTML=p.dataset.src.split(" ").map(w=>`<span class="kw">${w}</span>`).join(" ")});kwList=$$(".kw")}
 function stopAboutLoop(){cancelAnimationFrame(aRaf);aRaf=0}
@@ -1402,7 +1405,9 @@ function workTick(){const vh=innerHeight,ar=alink.getBoundingClientRect();
 /* ── Contact: CT6 colour switch kept (E173, E220, E245): each time the cursor enters or leaves the section the colour changes, through the gradient.
    The Contact section has no colour of its own: the colour is the fixed #tk layer, so the section has no edge (E255, E256). ── */
 const STEPS=[0,.25,.5,.75,1];let csi=0,cdir=1;
-const stepCol=t=>mix(C.cob,C.sig,t);const stepInk=t=>t<.7?"#ffffff":"#111111";
+/* text on each step, picked by contrast (WCAG AA): #2448d8 7.0:1 white, #8340d5 5.7:1 white, #c13db0 4.6:1 white, #ed4879 5.2:1 near-black, #ff6a2b 6.6:1 near-black */
+const STEPINK=["#ffffff","#ffffff","#ffffff","#111111","#111111"];
+const stepCol=t=>mix(C.g0,C.sig,t);const stepInk=t=>STEPINK[Math.max(0,STEPS.indexOf(t))];
 function ctPaint(){root.style.setProperty("--ctcol",stepCol(STEPS[csi]));ct.style.setProperty("--ink",stepInk(STEPS[csi]));paintAll()}
 let ctLast=0;
 function ctNext(x,y){ctLast=performance.now();let n=csi+cdir;if(n<0||n>=STEPS.length){cdir=-cdir;n=csi+cdir}
