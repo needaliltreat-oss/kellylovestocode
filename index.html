@@ -28,15 +28,17 @@
 /* THE HOME PAGE of kellylovestocode.com, rebuilt 19 Nov 2026 to the look of the "Polished Current Sample" Kelly picked:
    Figtree for headings, Gabarito for the About text and ledes, Lexend for body text; paper and charcoal; light only.
    Kept, her words: "I would keep the intro of falling words but scrap the other animations and transitions."
-   The falling words keep the blue to orange gradient. The Work bars are neutral charcoal until she picks the project colours.
+   The falling words keep the blue to orange gradient. Work is the Index layout in her Coolors colours (brick, blue, grape, olive).
    No open transition yet: About and the projects open at once until she picks one. */
 :root{
   --paper:#f1f0ec; --char:#16171b; --signal:#ff6a2b; --muted:#5b5b60; --rule:#d3d2cc; --onchar:#f1f0ec; --onmuted:#a4a4a8;
-  /* project colours, the Print shop palette: fill (hovered bar), ink (text on the fill), shade (resting number and descriptor, section headers; 4.6:1 or more on paper) */
-  --gb:#ad472e; --gb-ink:#f1f0ec; --gb-sh:#963118;
-  --tl:#2750a2; --tl-ink:#f1f0ec; --tl-sh:#133c8b;
-  --fs:#93640c; --fs-ink:#f1f0ec; --fs-sh:#785214;
-  --pf:#567428; --pf-ink:#f1f0ec; --pf-sh:#43600e;
+  /* Kelly's Coolors colours. First value: small text on the paper. Second: the hover fill, with white text on it.
+     Brick and grape are her exact hexes. Blue and olive are deepened just enough for small text (all pass WCAG AA). */
+  --gb:#c03221; --gb-fill:#c03221;
+  --tl:#38748c; --tl-fill:#38748c;
+  --fs:#483a58; --fs-fill:#483a58;
+  --pf:#66721c; --pf-fill:#707d1e;
+  --fill-ink:#ffffff;
   --head:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
   --blurb:"Gabarito",system-ui,-apple-system,"Segoe UI",sans-serif;
   --body:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -91,24 +93,22 @@ body.locked{overflow:hidden}
 .arrow .ico > svg{position:absolute;inset:0;width:22px;height:22px}
 .arrow .ico .ah{transform:translate(-110%,110%)}
 
-/* ── Work: four static bars with the sample's slight tilt ── */
-.work{padding-block:clamp(40px,7vw,88px);overflow-x:clip}
-.bars{display:grid;gap:12px}
-.bar{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--paper);border:2px solid var(--char);padding:clamp(14px,2.2vw,26px) clamp(16px,2vw,28px);text-decoration:none;color:var(--char)}
-[data-open="gigbag"],#opened[data-p="gigbag"]{--c:var(--gb);--c-ink:var(--gb-ink);--c-sh:var(--gb-sh)}
-[data-open="titrelab"],#opened[data-p="titrelab"]{--c:var(--tl);--c-ink:var(--tl-ink);--c-sh:var(--tl-sh)}
-[data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-ink:var(--fs-ink);--c-sh:var(--fs-sh)}
-[data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-ink:var(--pf-ink);--c-sh:var(--pf-sh)}
-.bar:nth-child(1){transform:rotate(.7deg);margin-right:4%}
-.bar:nth-child(2){transform:rotate(-.5deg);margin-left:4%}
-.bar:nth-child(3){transform:rotate(.4deg);margin-right:4%}
-.bar:nth-child(4){transform:rotate(-.7deg);margin-left:4%}
-.bar .i{font:600 .875rem var(--head);color:var(--c-sh,var(--char))}
-.bar h3{font:900 clamp(1.5rem,1rem + 2.2vw,3rem)/.95 var(--head);letter-spacing:-.035em;margin:0;overflow-wrap:anywhere}
-.bar .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c-sh,var(--char))}
-.bar:hover,.bar:focus-visible{background:var(--c,var(--char));border-color:var(--c,var(--char));color:var(--c-ink,var(--onchar))}
-.bar:hover .i,.bar:hover .k,.bar:focus-visible .i,.bar:focus-visible .k{color:var(--c-ink,var(--onchar))}
-.bar:focus-visible{outline-offset:4px}
+/* ── Work: the Index layout Kelly picked. Small labels in each project's colour; on hover the row fills with the project colour and all its text turns white. ── */
+.work{padding-block:clamp(40px,7vw,88px)}
+.index{border-top:1px solid var(--char)}
+.proj{display:grid;grid-template-columns:3.2rem minmax(0,1fr) auto;gap:4px 20px;align-items:baseline;padding:clamp(16px,2.6vw,28px) clamp(10px,1.6vw,20px);border-bottom:1px solid var(--char);text-decoration:none;color:var(--char);min-width:0}
+[data-open="gigbag"],#opened[data-p="gigbag"]{--c:var(--gb);--c-fill:var(--gb-fill)}
+[data-open="titrelab"],#opened[data-p="titrelab"]{--c:var(--tl);--c-fill:var(--tl-fill)}
+[data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-fill:var(--fs-fill)}
+[data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-fill:var(--pf-fill)}
+.proj .i{font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
+.proj h3{font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
+.proj .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char))}
+.proj .go{grid-column:2;font:500 .875rem var(--body);color:var(--c,var(--char));visibility:hidden}
+.proj:hover,.proj:focus-visible{background:var(--c-fill,var(--char));color:var(--fill-ink)}
+.proj:hover :is(.i,.k,.go),.proj:focus-visible :is(.i,.k,.go){color:var(--fill-ink)}
+.proj:hover .go,.proj:focus-visible .go{visibility:visible}
+.proj:focus-visible{outline-offset:4px}
 
 /* ── Built with: full width; the < > opens on hover, focus, or once when it first comes into view ── */
 .proof{border-top:2px solid var(--char);border-bottom:2px solid var(--char)}
@@ -123,7 +123,7 @@ body.locked{overflow:hidden}
 .proof:hover .bicon .r,.proof:focus-within .bicon .r,.proof.peek .bicon .r{transform:translateX(4px)}
 .proof:hover .bicon .ht,.proof:focus-within .bicon .ht,.proof.peek .bicon .ht{transform:scale(1)}
 
-/* ── Contact: the form, below the Built with bar, with the bars' border ── */
+/* ── Contact: the form, below the Built with bar ── */
 .contact{padding-block:clamp(40px,7vw,88px)}
 .contact h2{font:800 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px}
 .sheet{border:2px solid var(--char);background:var(--paper);padding:clamp(20px,4vw,40px);max-width:880px}
@@ -159,7 +159,7 @@ body.locked{overflow:hidden}
 .study .meta:empty{display:none}
 .study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
 .study .grid > *{min-width:0}
-.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--c-sh,var(--muted));margin:0 0 10px}
+.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--c,var(--muted));margin:0 0 10px}
 .study p{margin:0 0 1.1em;max-width:62ch}
 .study .lede{font:500 clamp(1.15rem,1rem + .7vw,1.5rem)/1.45 var(--blurb)}
 .study .wide{grid-column:1/-1}
@@ -176,8 +176,7 @@ body.locked{overflow:hidden}
 .pnav button:hover .nm{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:.12em}
 
 @media (max-width:640px){
- .bar{grid-template-columns:2rem minmax(0,1fr)}.bar .k{grid-column:2;text-align:left}
- .bar:nth-child(odd){margin-right:2%}.bar:nth-child(even){margin-left:2%}
+ .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-column:2;text-align:left}
  .study .grid{grid-template-columns:minmax(0,1fr)}
  .pnav{grid-template-columns:minmax(0,1fr)}.pnav button.fwd{text-align:left;justify-items:start;border-top:1px solid var(--rule)}
 }
@@ -209,11 +208,11 @@ body.locked{overflow:hidden}
 </section>
 
 <section class="work wrap" id="work" aria-label="Selected work">
-  <div class="bars">
-    <a class="bar" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><span class="k">Case study</span></a>
-    <a class="bar" href="#work" data-open="titrelab"><span class="i">02</span><h3>TitreLab</h3><span class="k">Lorem ipsum</span></a>
-    <a class="bar" href="#work" data-open="formulation-suite"><span class="i">03</span><h3>Formulation Suite</h3><span class="k">Compliance labelling</span></a>
-    <a class="bar" href="#work" data-open="phytofoundry"><span class="i">04</span><h3>PhytoFoundry</h3><span class="k">Lorem ipsum</span></a>
+  <div class="index">
+    <a class="proj" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><span class="k">Case study</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="titrelab"><span class="i">02</span><h3>TitreLab</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="formulation-suite"><span class="i">03</span><h3>Formulation Suite</h3><span class="k">Compliance labelling</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="phytofoundry"><span class="i">04</span><h3>PhytoFoundry</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
   </div>
 </section>
 
@@ -244,7 +243,7 @@ body.locked{overflow:hidden}
   <article class="study wrap"><h2 id="ptitle"></h2><p class="meta" id="pmeta"></p><div id="pbody"></div></article>
 </div>
 
-<!-- each page's own content. Section headers are .sh, so the project colour can reach them once Kelly picks one. -->
+<!-- each page's own content. Section headers are .sh and take the project's colour. -->
 <template id="pg-gigbag"><div class="grid">
   <div class="wide"><h3 class="sh">Overview</h3><p class="lede">GigBag is a New York music platform I co-founded and built as CTO and sole developer. I took it from zero to closed beta on my own: four products in one consumer platform. They are Profiles &amp; Discovery, a gear marketplace, session booking and Demo Radio, a human-curated, algorithm-free station for unreleased original music.</p></div>
   <div><h3 class="sh">Problem and approach</h3>
@@ -427,7 +426,7 @@ function closePanel(){if(!panel.classList.contains("on"))return;panel.classList.
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
 pclose.addEventListener("click",closePanel);
-panel.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const bar=$(`.bar[data-open="${g.dataset.go}"]`);openFrom=bar||openFrom;openPanel(g.dataset.go)});
+panel.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
 addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
  if(e.key==="Escape"){closePanel();return}
  /* keep Tab inside the panel */
