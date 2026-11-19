@@ -149,14 +149,26 @@ body.locked{overflow:hidden}
 .cform input,.cform textarea,.cform select{width:100%;min-width:0;border:0;border-bottom:2px solid var(--char);border-radius:0;background:transparent;color:var(--char);font:400 1rem var(--body);padding:8px 0}
 .cform select{-webkit-appearance:none;appearance:none;padding-right:24px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2316171b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 4px center/12px 8px no-repeat}
 .cform textarea{resize:vertical;min-height:7.5em}
-.cform input:focus,.cform textarea:focus,.cform select:focus{outline:none;border-bottom-color:var(--signal)}
+/* the underline draws in from the left when a field is selected (Kelly, 19 Nov), like the old letter form's lines.
+   Both lines are background layers (a border would paint over the drawn one): --ul is the resting charcoal line, dashed when the field has an error,
+   and the orange line grows to --ul-on over it. Forced-colours mode drops backgrounds, so it gets a plain border back below. */
+.cform input,.cform textarea,.cform select{--ul:linear-gradient(var(--char),var(--char));--ul-on:0%;border-bottom:0;padding-bottom:10px;
+ transition:background-size .7s cubic-bezier(.22,1,.36,1)}
+.cform [aria-invalid="true"]{--ul:repeating-linear-gradient(90deg,var(--char) 0 6px,transparent 6px 10px)}
+.cform input,.cform textarea{background:linear-gradient(var(--signal),var(--signal)) left bottom/var(--ul-on) 2px no-repeat,var(--ul) left bottom/100% 2px no-repeat}
+.cform select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2316171b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 4px center/12px 8px no-repeat,linear-gradient(var(--signal),var(--signal)) left bottom/var(--ul-on) 2px no-repeat,var(--ul) left bottom/100% 2px no-repeat}
+.cform :is(input,textarea,select):focus{outline:none;--ul-on:100%}
+@media (forced-colors:active){.cform input,.cform textarea,.cform select{border-bottom:2px solid CanvasText;padding-bottom:8px}}
+/* required: a small brick heart in place of the asterisk; screen readers hear "required" from the field itself */
+.cform .req{display:inline-block;width:.8em;height:.8em;margin-left:.35em;vertical-align:-.05em;color:#c03221}
+.cform .req svg{display:block;width:100%;height:100%}
 .btn{justify-self:start;margin-top:20px;display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);background:var(--char);color:var(--onchar);border:2px solid var(--char);padding:12px 22px;cursor:pointer;border-radius:0}
 .btn:hover{background:#fff;color:var(--char)}
 .btn:disabled{opacity:.6;cursor:default}
 .cform .opt{font-weight:400;letter-spacing:.04em;text-transform:none}
 .cform .ferr{font:500 .8125rem/1.4 var(--body);color:var(--char);margin:6px 0 0}
 .cform .ferr:empty{display:none}
-.cform [aria-invalid="true"]{border-bottom-style:dashed}
+
 .cform .send{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:20px}
 .cform .send .btn{margin-top:0}
 /* Send: brick, with the Work bars' hover drift (run in the script); hover keeps the brick instead of turning white */
@@ -287,7 +299,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 .om-none{color:var(--muted)}
 @media (min-width:1000px){.om{grid-template-columns:minmax(0,1fr) 300px}.om-ev{position:sticky;top:96px;align-self:start}}
 @media (max-width:639px){.om-chart,.om-ev,.om-data{display:none}.om-list{display:block}.om-cap .w{display:none}.om-cap .n{display:inline}}
-@media (prefers-reduced-motion:reduce){.om-arc,.om-row,.om-mk{transition:none}}
+@media (prefers-reduced-motion:reduce){.om-arc,.om-row,.om-mk{transition:none}.cform input,.cform textarea,.cform select{transition:none}}
 @media (prefers-reduced-motion:reduce){
  .arrow,.bicon .br,.bicon .ht,.word .wi,.heart svg{transition:none}
  .hint .bob,.word.held .wi{animation:none}
@@ -332,12 +344,12 @@ svg.tight .om-node .om-meta{font-size:12px}
     <!-- PLACEHOLDER: this form sends nothing yet. There is no action and no network call; the submit handler only checks the fields.
          Wire it to the form service Kelly picks, then remove the "Preview only" tag and the placeholder note. -->
     <form class="cform" id="cform" novalidate>
-      <div class="f"><label for="fn">Name</label><input id="fn" name="name" type="text" autocomplete="name" required aria-describedby="fn-e"><p class="ferr" id="fn-e"></p></div>
-      <div class="f"><label for="fe">Email</label><input id="fe" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="fe-e"><p class="ferr" id="fe-e"></p></div>
+      <div class="f"><label for="fn">Name<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fn" name="name" type="text" autocomplete="name" required aria-describedby="fn-e"><p class="ferr" id="fn-e"></p></div>
+      <div class="f"><label for="fe">Email<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fe" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="fe-e"><p class="ferr" id="fe-e"></p></div>
       <div class="f"><label for="fc">Company <span class="opt">(optional)</span></label><input id="fc" name="company" type="text" autocomplete="organization"></div>
-      <div class="f"><label for="ft">What you need</label><select id="ft" name="need" required aria-describedby="ft-e"><option value="" selected>Choose one</option><option>Fractional CTO</option><option>Advisory</option><option>Build</option><option>Other</option></select><p class="ferr" id="ft-e"></p></div>
-      <div class="f wide" id="fo-w" hidden><label for="fo">Tell me what you need</label><input id="fo" name="need_other" type="text" maxlength="200" aria-describedby="fo-e"><p class="ferr" id="fo-e"></p></div>
-      <div class="f wide"><label for="fm">Message</label><textarea id="fm" name="message" rows="4" maxlength="2000" required aria-describedby="fm-e"></textarea><p class="ferr" id="fm-e"></p></div>
+      <div class="f"><label for="ft">What you need <span class="opt">(optional)</span></label><select id="ft" name="need"><option value="" selected>Choose one</option><option>Fractional CTO</option><option>Advisory</option><option>Build</option><option>Other</option></select></div>
+      <div class="f wide" id="fo-w" hidden><label for="fo">Tell me what you need<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fo" name="need_other" type="text" maxlength="200" aria-describedby="fo-e"><p class="ferr" id="fo-e"></p></div>
+      <div class="f wide"><label for="fm">Message<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><textarea id="fm" name="message" rows="4" maxlength="2000" required aria-describedby="fm-e"></textarea><p class="ferr" id="fm-e"></p></div>
       <div class="hp" aria-hidden="true"><label for="fw">Website</label><input id="fw" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <div class="f wide"><div class="send"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button><span class="ph">Preview only · not sending yet</span></div><p class="formnote" id="fnote" role="status"></p></div>
     </form>
@@ -767,7 +779,6 @@ addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
 {const form=$("#cform"),note=$("#fnote"),need=$("#ft"),otherW=$("#fo-w"),other=$("#fo"),trap=$("#fw");
  const RULES={fn:v=>v?"":"Please add your name.",
   fe:v=>!v?"Please add your email.":/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?"":"That email address does not look right.",
-  ft:v=>v?"":"Please choose what you need.",
   fo:v=>otherW.hidden||v?"":"Please tell me what you need.",
   fm:v=>v?"":"Please add a short message."};
  const check=id=>{const el=$("#"+id),msg=RULES[id](el.value.trim());el.setAttribute("aria-invalid",msg?"true":"false");$("#"+id+"-e").textContent=msg;return !msg};
