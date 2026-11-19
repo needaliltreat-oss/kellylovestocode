@@ -246,13 +246,15 @@ body.locked{overflow:hidden}
 .study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
-#opened[data-p="gigbag"] .sh{font:800 clamp(1.5rem,1.3rem + .8vw,1.875rem)/1.2 var(--head);letter-spacing:.04em;margin:0 0 16px}
+:is(#opened[data-p="gigbag"],#opened[data-p="about"]) .sh{font:800 clamp(1.5rem,1.3rem + .8vw,1.875rem)/1.2 var(--head);letter-spacing:.04em;margin:0 0 16px}
 /* GigBag body text: regular weight (site-wide) and a touch larger. Scale on this page:
    title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
-#opened[data-p="gigbag"] #pbody{font-size:1.0625rem;line-height:1.7}
-#opened[data-p="gigbag"] #pbody :is(p,li){text-wrap:pretty}
+:is(#opened[data-p="gigbag"],#opened[data-p="about"]) #pbody{font-size:1.0625rem;line-height:1.7}
+:is(#opened[data-p="gigbag"],#opened[data-p="about"]) #pbody :is(p,li){text-wrap:pretty}
 #opened[data-p="gigbag"] .meta{font-weight:600}
-#opened[data-p="gigbag"] .grid{row-gap:clamp(40px,6vw,64px)}
+:is(#opened[data-p="gigbag"],#opened[data-p="about"]) .grid{row-gap:clamp(40px,6vw,64px)}
+/* the expanded About takes the same section titles (Kelly, 19 Nov); it has no project palette, so its titles are charcoal */
+#opened[data-p="about"] .sh{color:var(--char)}
 .pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--p-base,var(--char));margin-top:clamp(24px,4vw,48px)}
 .pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
 .pnav button.fwd{text-align:right;justify-items:end}
