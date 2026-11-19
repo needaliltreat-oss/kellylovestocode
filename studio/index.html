@@ -197,6 +197,82 @@ body.locked{overflow:hidden}
  .study .grid{grid-template-columns:minmax(0,1fr)}
  .pnav{grid-template-columns:minmax(0,1fr)}.pnav button.fwd{text-align:left;justify-items:start;border-top:1px solid var(--rule)}
 }
+/* ── the skill map in the expanded About: arcs from 640px up, a list on phones ── */
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.study .om-wrap{margin-top:clamp(16px,3vw,32px);border-top:2px solid var(--char);padding-top:clamp(20px,3vw,32px)}
+.study .om-cap{font:400 .9375rem/1.5 var(--body);color:var(--muted);margin:0 0 20px}
+.om-cap .n{display:none}
+.om{display:grid;grid-template-columns:minmax(0,1fr);gap:20px 40px}
+.om-roles,.om-why,.om-list,.om-data{grid-column:1/-1}
+.om-roles{border:0;margin:0;padding:0;min-width:0}
+.om-roles legend{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding:0}
+.om-rl{display:flex;flex-wrap:wrap;gap:8px}
+.om-rl label{position:relative}
+.om-rl input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+.om-rl span{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1.5px solid var(--char);background:var(--paper);color:var(--char);font:600 .875rem var(--head);cursor:pointer}
+.om-rl input:hover+span{background:var(--rule)}
+.om-rl input:checked+span{background:var(--char);color:var(--onchar)}
+.om-rl input:focus-visible+span{outline:2px solid var(--signal);outline-offset:3px}
+.study .om-why{font:400 .9375rem/1.5 var(--body);color:var(--muted);margin:-8px 0 0;min-height:1.5em;max-width:62ch}
+.om-chart{position:relative;min-width:0}
+.om-chart svg{display:block;width:100%;height:auto;overflow:visible;touch-action:manipulation}
+.om-arc{fill:none;stroke:var(--char);stroke-width:1.5;stroke-opacity:.5;transition:stroke-opacity .25s,stroke-width .25s}
+.om-arc.dim{stroke-opacity:.1}
+.om-arc.hot{stroke:var(--pc);stroke-opacity:1;stroke-width:2.5}
+.om-node{cursor:pointer;outline:none}
+.om-hit{fill:transparent}
+.om-row{fill:var(--char);fill-opacity:0;transition:fill-opacity .2s}
+.om-node.sel .om-row{fill-opacity:.07}
+.om-node:focus-visible .om-row{stroke:var(--signal);stroke-width:2}
+.om-mk{fill:var(--paper);stroke:var(--char);stroke-width:2;transition:opacity .25s}
+.om-node.project .om-mk{fill:var(--pc);stroke:var(--pc)}
+.om-node.cap.hot .om-mk,.om-node.cap.sel .om-mk{fill:var(--char)}
+.om-node text{fill:var(--char);font:500 15px var(--head);dominant-baseline:middle}
+.om-node.project text{font-weight:700}
+.om-node .om-meta{fill:var(--muted);font:400 13px var(--body)}
+.om-node.dim text{fill:var(--muted)}
+.om-node.dim .om-mk{opacity:.35}
+svg.tight .om-node text{font-size:13.5px}
+svg.tight .om-node .om-meta{font-size:12px}
+.om-grp{fill:var(--muted);font:600 11px var(--head);letter-spacing:.14em;text-transform:uppercase;text-anchor:end}
+.om-ev{border-top:2px solid var(--char);padding-top:14px;min-width:0}
+.study .om-ev p{margin:0}
+.om-kind{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.study .om-ev .om-empty{margin-top:8px;color:var(--muted);font:400 .9375rem/1.5 var(--body)}
+.om-h{display:flex;align-items:center;gap:10px;font:800 1.5rem/1.15 var(--head);letter-spacing:-.02em;margin:4px 0 0}
+.om-sw{display:inline-block;flex:none;width:12px;height:12px;background:var(--pc);vertical-align:-.05em;margin-right:8px}
+.om-h .om-sw{margin-right:0}
+.study .om-ev .om-sum{margin-top:8px;font:400 .9375rem/1.5 var(--body)}
+.study .om-ev .om-stack{margin-top:6px;font:400 .875rem var(--body);color:var(--muted)}
+.om-evl{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:12px}
+.om-evl>li>button,.om-evh{all:unset;display:inline-flex;align-items:center;min-height:32px;font:700 .9375rem var(--head);color:var(--char);cursor:pointer}
+.om-evh{cursor:default}
+.om-evl>li>button:hover{text-decoration:underline;text-underline-offset:3px}
+.om-evl>li>button:focus-visible,.om-more button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.om-evl ul{margin:2px 0 0;padding-left:18px;font:400 .875rem/1.5 var(--body)}
+.study .om-ev .om-rel{margin-top:14px;font:400 .875rem var(--body);color:var(--muted)}
+.study .om-ev .om-more{margin-top:16px}
+.om-more button{all:unset;display:inline-flex;align-items:center;gap:6px;min-height:40px;font:700 .9375rem var(--head);color:var(--char);border-bottom:2px solid currentColor;cursor:pointer}
+.om-list{display:none;list-style:none;margin:0;padding:0;border-top:1px solid var(--char)}
+.om-li{padding:14px 0;border-bottom:1px solid var(--rule)}
+.om-li h4{font:700 1rem var(--head);margin:0 0 6px}
+.om-li ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font:400 .875rem/1.5 var(--body)}
+.om-li b{font:700 .875rem var(--head)}
+.om-li.dim h4,.om-li.dim li{color:var(--muted)}
+.om-nf{font-weight:400}
+.om-data summary{font:700 .875rem var(--head);cursor:pointer;min-height:40px;display:flex;align-items:center}
+.om-data summary:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.om-tw{overflow-x:auto}
+.om-data table{border-collapse:collapse;width:100%;min-width:640px;font:400 .875rem/1.45 var(--body);margin-top:8px}
+.om-data th,.om-data td{text-align:left;vertical-align:top;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.om-data thead th{font:600 .75rem var(--head);letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--char)}
+.om-data tbody th{font:700 .875rem var(--head)}
+.om-data ul{margin:0;padding-left:16px}
+.om-gen{display:block;font:400 .8125rem/1.4 var(--body);color:var(--muted);margin-top:4px}
+.om-none{color:var(--muted)}
+@media (min-width:1000px){.om{grid-template-columns:minmax(0,1fr) 300px}.om-ev{position:sticky;top:96px;align-self:start}}
+@media (max-width:639px){.om-chart,.om-ev,.om-data{display:none}.om-list{display:block}.om-cap .w{display:none}.om-cap .n{display:inline}}
+@media (prefers-reduced-motion:reduce){.om-arc,.om-row,.om-mk{transition:none}}
 @media (prefers-reduced-motion:reduce){
  .arrow,.bicon .br,.bicon .ht{transition:none}
  .hint .bob,.heart.live:hover svg,.heart.live.pulse svg{animation:none}
@@ -297,6 +373,18 @@ body.locked{overflow:hidden}
   <div><h3 class="sh">How I work</h3>
     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide om-wrap">
+    <h3 class="sh" id="omT">Where my work overlaps</h3>
+    <p class="om-cap" id="omC"><span class="w">Each arc links a project to a capability it proves. Select any name for the evidence.</span><span class="n">Each capability with the projects that prove it.</span></p>
+    <div class="om">
+      <fieldset class="om-roles"><legend>Show what applies to</legend><div class="om-rl"></div></fieldset>
+      <p class="om-why" aria-live="polite"></p>
+      <div class="om-chart"></div>
+      <aside class="om-ev" aria-live="polite" aria-label="Evidence"></aside>
+      <ul class="om-list" aria-labelledby="omT"></ul>
+      <details class="om-data"><summary>View as a table</summary><div class="om-tw"><table></table></div></details>
+    </div>
+  </div>
 </div></template>
 
 <!-- matter.js drives the falling words only; it loads just before the script that uses it -->
@@ -434,6 +522,128 @@ const WIPE_IN=380,WIPE_HOLD=120,WIPE_OUT=400,WIPE_EASE="cubic-bezier(.7,0,.3,1)"
 const L_=["translateX(-100%) skewX(-5deg)","translateX(0) skewX(0deg)"];
 const WIPE_FROM={gigbag:L_,titrelab:["translateY(-100%) skewY(-3deg)","translateY(0) skewY(0deg)"],"formulation-suite":["translateX(100%) skewX(5deg)","translateX(0) skewX(0deg)"],phytofoundry:["translateY(100%) skewY(3deg)","translateY(0) skewY(0deg)"],about:L_};
 function fade(el){if(!el.animate)return;el.getAnimations().forEach(x=>x.cancel());el.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}
+/* ── the skill map, "Where my work overlaps", built inside the expanded About each time it opens.
+   Facts follow the corrected lines in the Portfolio drafts doc. Arcs on wider screens, a plain list on phones. ── */
+const OM_P=[
+ {id:"gigbag",name:"GigBag",col:"#c03221",sum:"Co-founder, CTO and sole developer. Four products taken solo from zero to closed beta, built with Claude Code."},
+ {id:"titrelab",name:"TitreLab",col:"#38748c",sum:"A cannabis tincture and potency app for makers.",stack:"React, Vite, Supabase, Vercel"},
+ {id:"formulation-suite",name:"Formulation Suite",col:"#483a58",sum:"Multi-cannabinoid calculator and recipe builder."},
+ {id:"phytofoundry",name:"PhytoFoundry",col:"#707d1e",sum:"An interactive botanical reference, one plant to a plate."}];
+const OM_C=[
+ {id:"lead",name:"Technical leadership",gen:["Building for the web since 2001; VP of Technology at Step Up 4 Learning, 2002 to 2007, leading the development team"],ev:{gigbag:["Co-founder, CTO and sole developer"]}},
+ {id:"pay",name:"Payments",ev:{gigbag:["Stripe Connect for the marketplace and studio bookings, with the platform kept out of the payment path"]}},
+ {id:"data",name:"Data and security",ev:{titrelab:["Supabase row-level security","Tested migrations with constraints"]}},
+ {id:"quality",name:"Quality and accessibility",ev:{titrelab:["705 automated tests, all passing","Contrast measured at 5.40:1 minimum, light and dark"]}},
+ {id:"domain",name:"Cannabis and cosmetics markets",ev:{titrelab:["Tincture and potency app for cannabis makers"],"formulation-suite":["Label rules for eight markets plus a general default","INCI names and allergen declarations","Multi-cannabinoid calculator"]}},
+ {id:"delivery",name:"Product delivery",ev:{gigbag:["Full platform, sole developer"],titrelab:["Plan limits enforced in Postgres as well as the app","Installs on a phone"],"formulation-suite":["Recipe builder","Cost and inventory tracking","Label generator"]}},
+ {id:"design",name:"Design systems and illustration",ev:{phytofoundry:["One art direction across generated images","10 plates live of 23"]}},
+ {id:"ai",name:"AI-assisted builds",gen:["Claude Code hooks and guards for verified, permission-first work"],ev:{gigbag:["Built with Claude Code"]}}];
+const OM_R=[
+ {id:"all",name:"All work",caps:null,why:""},
+ {id:"cto",name:"Fractional CTO",caps:["lead","pay","data","quality","delivery","ai"],why:"For a fractional CTO: leadership, payments, data and security, quality, product delivery and AI-assisted builds."},
+ {id:"cannabis",name:"Cannabis software",caps:["domain","data","quality","delivery"],why:"For cannabis software and compliance tools: market knowledge, data and security, quality and product delivery."},
+ {id:"fullstack",name:"Full-stack and AI builds",caps:["data","quality","pay","delivery","ai"],why:"For full-stack and AI-assisted builds: data and security, quality, payments, product delivery and Claude Code."},
+ {id:"creative",name:"Creative technologist",caps:["design","delivery","quality","ai"],why:"For creative technology: design systems and illustration, product delivery, accessibility and AI-assisted work."}];
+let mapKill=null;
+function initMap(root){
+ const P=Object.fromEntries(OM_P.map(x=>[x.id,x])),C=Object.fromEntries(OM_C.map(x=>[x.id,x]));
+ const capsOf=pid=>OM_C.filter(c=>c.ev[pid]),projsOf=cid=>OM_P.filter(p=>C[cid].ev[p.id]);
+ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+ const st={role:"all",sel:null,hover:null};
+ const q=s=>root.querySelector(s),rl=q(".om-rl"),why=q(".om-why"),chart=q(".om-chart"),ev=q(".om-ev"),list=q(".om-list"),table=q("table");
+ const R=()=>{const r=OM_R.find(x=>x.id===st.role);return r.caps?new Set(r.caps):null};
+ /* role buttons */
+ OM_R.forEach(r=>{const lab=document.createElement("label");lab.innerHTML=`<input type="radio" name="omrole" value="${r.id}"${r.id===st.role?" checked":""}><span>${esc(r.name)}</span>`;
+  lab.querySelector("input").addEventListener("change",()=>{st.role=r.id;update(true)});rl.append(lab)});
+ /* the arc diagram */
+ const NS="http://www.w3.org/2000/svg",mk=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+ const svg=mk("svg",{role:"group","aria-labelledby":"omT","aria-describedby":"omC"}),gA=mk("g",{"aria-hidden":"true"}),gN=mk("g");
+ const lp=mk("text",{class:"om-grp","aria-hidden":"true"}),lc=mk("text",{class:"om-grp","aria-hidden":"true"});lp.textContent="Projects";lc.textContent="Capabilities";
+ svg.append(gA,lp,lc,gN);chart.append(svg);
+ const nodes=new Map();
+ [...OM_P.map(p=>({...p,type:"project"})),...OM_C.map(c=>({...c,type:"cap"}))].forEach(n=>{
+  const count=n.type==="project"?capsOf(n.id).length:projsOf(n.id).length;
+  const g=mk("g",{class:`om-node ${n.type}`,role:"button",tabindex:"-1","aria-pressed":"false","aria-label":n.type==="project"?`${n.name}, project, proves ${count} capabilit${count===1?"y":"ies"}`:`${n.name}, capability, shown in ${count} project${count===1?"":"s"}`});
+  if(n.col)g.style.setProperty("--pc",n.col);
+  const row=mk("rect",{class:"om-row"}),hit=mk("rect",{class:"om-hit"});
+  const mark=n.type==="project"?mk("rect",{class:"om-mk",width:12,height:12,x:-6,y:-6}):mk("circle",{class:"om-mk",r:6});
+  const t=mk("text",{x:16,"aria-hidden":"true"}),m=mk("text",{class:"om-meta","aria-hidden":"true"});
+  t.textContent=n.name;m.textContent=n.type==="project"?`${count} capabilit${count===1?"y":"ies"}`:`${count} project${count===1?"":"s"}`;
+  g.append(row,hit,mark,t,m);gN.append(g);nodes.set(n.id,{g,row,hit,t,m,y:0,from:0,to:0,type:n.type});
+  g.addEventListener("click",()=>select(n.id));
+  g.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"){st.hover=n.id;paint()}});
+  g.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse"){st.hover=null;paint()}});
+  g.addEventListener("keydown",onKey);g.addEventListener("focus",()=>{focusId=n.id})});
+ const arcs=[];OM_C.forEach(c=>Object.keys(c.ev).forEach(p=>{const path=mk("path",{class:"om-arc"});path.style.setProperty("--pc",P[p].col);gA.append(path);arcs.push({p,c:c.id,path})}));
+ let geo={W:600,axis:300,rowH:42,top:28,gap:38,labelW:260,narrow:false},navOrder=[],focusId=null,raf=0;
+ function order(){const r=R(),role=OM_R.find(x=>x.id===st.role);
+  const caps=r?[...role.caps,...OM_C.filter(c=>!r.has(c.id)).map(c=>c.id)]:OM_C.map(c=>c.id);
+  const projs=OM_P.map((p,i)=>({id:p.id,n:r?capsOf(p.id).filter(c=>r.has(c.id)).length:0,i})).sort((a,b)=>b.n-a.n||a.i-b.i).map(x=>x.id);
+  return {projs,caps}}
+ function measure(){const W=chart.clientWidth;if(!W)return false;const narrow=W<560,rowH=narrow?46:42;let maxRow=0;
+  nodes.forEach(n=>{const tw=n.t.getComputedTextLength(),mw=n.m.getComputedTextLength();maxRow=Math.max(maxRow,narrow?Math.max(tw,mw):tw+10+mw)});
+  const labelW=Math.ceil(16+maxRow+8);
+  if(W-labelW-4<110&&!svg.classList.contains("tight")){svg.classList.add("tight");return measure()}
+  if(W-labelW-4>=150&&svg.classList.contains("tight")){svg.classList.remove("tight");return measure()}
+  geo={W,axis:Math.max(90,W-labelW-4),rowH,top:28,gap:narrow?40:38,labelW,narrow};return true}
+ function layout(animate){if(!measure())return;const {projs,caps}=order(),y={};
+  projs.forEach((id,i)=>{y[id]=geo.top+geo.rowH/2+i*geo.rowH});const capTop=geo.top+projs.length*geo.rowH+geo.gap;
+  caps.forEach((id,i)=>{y[id]=capTop+geo.rowH/2+i*geo.rowH});navOrder=[...projs,...caps];
+  const H=capTop+OM_C.length*geo.rowH+12;svg.setAttribute("viewBox",`0 0 ${geo.W} ${H}`);svg.setAttribute("width",geo.W);svg.setAttribute("height",H);
+  lp.setAttribute("x",geo.axis-6);lp.setAttribute("y",geo.top-12);lc.setAttribute("x",geo.axis-6);lc.setAttribute("y",capTop-10);
+  nodes.forEach((n,id)=>{const a={x:-14,y:-geo.rowH/2+3,width:geo.labelW+14,height:geo.rowH-6};for(const k in a)n.row.setAttribute(k,a[k]);
+   const h={x:-18,y:-geo.rowH/2,width:geo.labelW+18,height:geo.rowH};for(const k in h)n.hit.setAttribute(k,h[k]);
+   n.t.setAttribute("y",geo.narrow?-7:-1);
+   if(geo.narrow){n.m.setAttribute("x",16);n.m.setAttribute("y",11)}else{n.m.setAttribute("x",16+n.t.getComputedTextLength()+10);n.m.setAttribute("y",-1)}
+   n.from=n.y;n.to=y[id]});
+  if(!focusId)focusId=navOrder[0];nodes.forEach((n,id)=>n.g.setAttribute("tabindex",id===focusId?"0":"-1"));
+  gN.append(...navOrder.map(id=>nodes.get(id).g));tween(animate&&!reduce)}
+ function tween(animate){cancelAnimationFrame(raf);const dur=650,t0=performance.now();
+  const step=now=>{const p=animate?Math.min(1,(now-t0)/dur):1,e=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+   nodes.forEach(n=>{n.y=n.from+(n.to-n.from)*e;n.g.setAttribute("transform",`translate(${geo.axis},${n.y.toFixed(2)})`)});
+   arcs.forEach(a=>{const y1=nodes.get(a.p).y,y2=nodes.get(a.c).y,ry=Math.abs(y2-y1)/2,rx=Math.min(ry,geo.axis-10),[ya,yb]=y1<y2?[y1,y2]:[y2,y1];
+    a.path.setAttribute("d",`M${geo.axis},${ya.toFixed(2)}A${rx.toFixed(2)},${ry.toFixed(2)} 0 0,0 ${geo.axis},${yb.toFixed(2)}`)});
+   if(p<1)raf=requestAnimationFrame(step)};
+  if(animate)raf=requestAnimationFrame(step);else step(t0)}
+ const near=id=>new Set(P[id]?capsOf(id).map(c=>c.id):projsOf(id).map(p=>p.id));
+ function paint(){const r=R(),F=st.hover||st.sel,nb=F?near(F):null;
+  arcs.forEach(a=>{const hot=F&&(a.p===F||a.c===F);a.path.classList.toggle("hot",!!hot);a.path.classList.toggle("dim",F?!hot:r?!r.has(a.c):false)});
+  nodes.forEach((n,id)=>{let dim=false;if(F)dim=id!==F&&!nb.has(id);else if(r)dim=n.type==="cap"?!r.has(id):!capsOf(id).some(c=>r.has(c.id));
+   n.g.classList.toggle("dim",dim);n.g.classList.toggle("hot",!!F&&(id===F||nb.has(id))&&id!==st.sel);n.g.classList.toggle("sel",id===st.sel);n.g.setAttribute("aria-pressed",String(id===st.sel))})}
+ const sw=col=>`<i class="om-sw" style="--pc:${col}" aria-hidden="true"></i>`;
+ function renderEv(){const id=st.sel,r=R();
+  if(!id){ev.innerHTML=`<p class="om-kind">Evidence</p><p class="om-empty">Select a project or a capability to see what proves it.</p>`;return}
+  if(P[id]){const p=P[id],caps=capsOf(id).sort((a,b)=>r?r.has(b.id)-r.has(a.id):0);
+   ev.innerHTML=`<p class="om-kind">Project</p><h4 class="om-h">${sw(p.col)}${esc(p.name)}</h4><p class="om-sum">${esc(p.sum)}</p>${p.stack?`<p class="om-stack">${esc(p.stack)}</p>`:""}
+    <ul class="om-evl">${caps.map(c=>`<li><button type="button" data-sel="${c.id}">${esc(c.name)}</button><ul>${c.ev[id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}</ul>
+    <p class="om-more"><button type="button" data-go="${p.id}">Open the ${esc(p.name)} project <span aria-hidden="true">→</span></button></p>`}
+  else{const c=C[id];
+   ev.innerHTML=`<p class="om-kind">Capability</p><h4 class="om-h">${esc(c.name)}</h4>
+    <ul class="om-evl">${projsOf(id).map(p=>`<li><button type="button" data-sel="${p.id}">${sw(p.col)}${esc(p.name)}</button><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}
+    ${c.gen?`<li><span class="om-evh">Across my career</span><ul>${c.gen.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`:""}</ul>
+    ${r?`<p class="om-rel">${r.has(id)?"Applies to the selected role.":"Not a focus for the selected role."}</p>`:""}`}
+  ev.querySelectorAll("[data-sel]").forEach(b=>b.addEventListener("click",()=>{select(b.dataset.sel,true);nodes.get(b.dataset.sel).g.focus()}))}
+ /* phones: the same facts as a list, the selected role's capabilities first */
+ function renderList(){const r=R(),ids=order().caps;
+  list.innerHTML=ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);
+   return `<li class="om-li${dim?" dim":""}"><h4>${esc(c.name)}${dim?`<span class="om-nf"> · not a focus for this role</span>`:""}</h4><ul>${projsOf(cid).map(p=>`<li><b>${sw(p.col)}${esc(p.name)}</b> ${c.ev[p.id].map(esc).join("; ")}</li>`).join("")}${c.gen?`<li class="om-gen"><b>Across my career</b> ${c.gen.map(esc).join("; ")}</li>`:""}</ul></li>`}).join("")}
+ table.innerHTML=`<caption class="vh">Capabilities by project, with the evidence for each</caption>
+  <thead><tr><th scope="col">Capability</th>${OM_P.map(p=>`<th scope="col">${esc(p.name)}</th>`).join("")}</tr></thead>
+  <tbody>${OM_C.map(c=>`<tr><th scope="row">${esc(c.name)}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`).join("")}</tbody>`;
+ function select(id,keep){st.sel=keep?id:st.sel===id?null:id;focusId=id;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));paint();renderEv()}
+ function onKey(e){const i=navOrder.indexOf(focusId);let next=null;
+  if(e.key==="ArrowDown"||e.key==="ArrowRight")next=navOrder[Math.min(navOrder.length-1,i+1)];
+  else if(e.key==="ArrowUp"||e.key==="ArrowLeft")next=navOrder[Math.max(0,i-1)];
+  else if(e.key==="Home")next=navOrder[0];else if(e.key==="End")next=navOrder[navOrder.length-1];
+  else if(e.key==="Enter"||e.key===" "){e.preventDefault();select(focusId);return}
+  /* Escape clears a selection first; with nothing selected it closes the panel as usual */
+  else if(e.key==="Escape"&&st.sel){e.stopPropagation();st.sel=null;paint();renderEv();return}
+  if(next){e.preventDefault();focusId=next;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));nodes.get(next).g.focus()}}
+ function update(animate){why.textContent=OM_R.find(x=>x.id===st.role).why;layout(animate);paint();renderEv();renderList()}
+ let rw=0;const ro=new ResizeObserver(()=>{if(chart.clientWidth!==rw){rw=chart.clientWidth;layout(false);paint()}});ro.observe(chart);
+ update(false);let alive=true;if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(alive)layout(false)});
+ return ()=>{alive=false;ro.disconnect();cancelAnimationFrame(raf)}}
+
 const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Lorem ipsum"]];
 const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
 let openFrom=null,scrollBack=0;
@@ -444,7 +654,9 @@ function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
  pmeta.textContent=isWork?String(i+1).padStart(2,"0")+" · "+PROJ[i][2]:"";
  ppnum.textContent=isWork?String(i+1).padStart(2,"0"):"";
  pcloseT.textContent=isWork?"Back to Work":"Back";
+ if(mapKill){mapKill();mapKill=null}
  pbody.innerHTML=tpl.innerHTML;
+ if(slug==="about")mapKill=initMap(pbody.querySelector(".om-wrap"));
  if(isWork){const n=PROJ.length,pv=PROJ[(i-1+n)%n],nx=PROJ[(i+1)%n];
   const nav=document.createElement("nav");nav.className="pnav";nav.setAttribute("aria-label","Projects");
   nav.innerHTML=`<button type="button" class="prev" data-go="${pv[1]}"><span class="lab">Previous</span><span class="nm">${pv[0]}</span></button><button type="button" class="fwd" data-go="${nx[1]}"><span class="lab">Next</span><span class="nm">${nx[0]}</span></button>`;
@@ -468,7 +680,7 @@ function closePanel(){if(!panel.classList.contains("on")||wiping)return;
  const slug=panel.dataset.p;
  if(reduce||!wipe.animate||!PROJ.some(x=>x[1]===slug)){hidePanel();return}
  runWipe("back",WIPE_FROM[slug],hidePanel)}
-function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;pbody.innerHTML="";
+function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;if(mapKill){mapKill();mapKill=null}pbody.innerHTML="";
  if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
