@@ -32,6 +32,11 @@
    No open transition yet: About and the projects open at once until she picks one. */
 :root{
   --paper:#f1f0ec; --char:#16171b; --signal:#ff6a2b; --muted:#5b5b60; --rule:#d3d2cc; --onchar:#f1f0ec; --onmuted:#a4a4a8;
+  /* project colours, the Print shop palette: fill (hovered bar), ink (text on the fill), shade (resting number and descriptor, section headers; 4.6:1 or more on paper) */
+  --gb:#ad472e; --gb-ink:#f1f0ec; --gb-sh:#963118;
+  --tl:#2750a2; --tl-ink:#f1f0ec; --tl-sh:#133c8b;
+  --fs:#93640c; --fs-ink:#f1f0ec; --fs-sh:#785214;
+  --pf:#567428; --pf-ink:#f1f0ec; --pf-sh:#43600e;
   --head:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
   --blurb:"Gabarito",system-ui,-apple-system,"Segoe UI",sans-serif;
   --body:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -89,15 +94,20 @@ body.locked{overflow:hidden}
 /* ── Work: four static bars with the sample's slight tilt ── */
 .work{padding-block:clamp(40px,7vw,88px);overflow-x:clip}
 .bars{display:grid;gap:12px}
-.bar{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--paper);border:2px solid var(--char);padding:clamp(14px,2.2vw,26px) clamp(16px,2vw,28px);text-decoration:none;color:var(--char);transition:background .3s,color .3s}
+.bar{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--paper);border:2px solid var(--char);padding:clamp(14px,2.2vw,26px) clamp(16px,2vw,28px);text-decoration:none;color:var(--char)}
+[data-open="gigbag"],#opened[data-p="gigbag"]{--c:var(--gb);--c-ink:var(--gb-ink);--c-sh:var(--gb-sh)}
+[data-open="titrelab"],#opened[data-p="titrelab"]{--c:var(--tl);--c-ink:var(--tl-ink);--c-sh:var(--tl-sh)}
+[data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-ink:var(--fs-ink);--c-sh:var(--fs-sh)}
+[data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-ink:var(--pf-ink);--c-sh:var(--pf-sh)}
 .bar:nth-child(1){transform:rotate(.7deg);margin-right:4%}
 .bar:nth-child(2){transform:rotate(-.5deg);margin-left:4%}
 .bar:nth-child(3){transform:rotate(.4deg);margin-right:4%}
 .bar:nth-child(4){transform:rotate(-.7deg);margin-left:4%}
-.bar .i{font:600 .875rem var(--head)}
+.bar .i{font:600 .875rem var(--head);color:var(--c-sh,var(--char))}
 .bar h3{font:900 clamp(1.5rem,1rem + 2.2vw,3rem)/.95 var(--head);letter-spacing:-.035em;margin:0;overflow-wrap:anywhere}
-.bar .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right}
-.bar:hover,.bar:focus-visible{background:var(--char);color:var(--onchar)}
+.bar .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c-sh,var(--char))}
+.bar:hover,.bar:focus-visible{background:var(--c,var(--char));border-color:var(--c,var(--char));color:var(--c-ink,var(--onchar))}
+.bar:hover .i,.bar:hover .k,.bar:focus-visible .i,.bar:focus-visible .k{color:var(--c-ink,var(--onchar))}
 .bar:focus-visible{outline-offset:4px}
 
 /* ── Built with: full width; the < > opens on hover, focus, or once when it first comes into view ── */
@@ -149,7 +159,7 @@ body.locked{overflow:hidden}
 .study .meta:empty{display:none}
 .study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
 .study .grid > *{min-width:0}
-.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--c-sh,var(--muted));margin:0 0 10px}
 .study p{margin:0 0 1.1em;max-width:62ch}
 .study .lede{font:500 clamp(1.15rem,1rem + .7vw,1.5rem)/1.45 var(--blurb)}
 .study .wide{grid-column:1/-1}
@@ -172,7 +182,7 @@ body.locked{overflow:hidden}
  .pnav{grid-template-columns:minmax(0,1fr)}.pnav button.fwd{text-align:left;justify-items:start;border-top:1px solid var(--rule)}
 }
 @media (prefers-reduced-motion:reduce){
- .bar,.arrow,.bicon .br,.bicon .ht{transition:none}
+ .arrow,.bicon .br,.bicon .ht{transition:none}
  .hint .bob,.heart.live:hover svg,.heart.live.pulse svg{animation:none}
 }
 </style>
@@ -398,6 +408,7 @@ const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta")
 let openFrom=null,scrollBack=0;
 function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
  const i=PROJ.findIndex(p=>p[1]===slug),isWork=i>=0;
+ panel.dataset.p=slug;
  ptitle.textContent=isWork?PROJ[i][0]:"About";
  pmeta.textContent=isWork?String(i+1).padStart(2,"0")+" · "+PROJ[i][2]:"";
  ppnum.textContent=isWork?String(i+1).padStart(2,"0"):"";
