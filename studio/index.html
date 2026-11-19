@@ -101,6 +101,10 @@ body.locked{overflow:hidden}
 [data-open="titrelab"],#opened[data-p="titrelab"]{--c:var(--tl);--c-fill:var(--tl-fill)}
 [data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-fill:var(--fs-fill)}
 [data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-fill:var(--pf-fill)}
+/* Project page palettes (Kelly, 19 Nov): base = bar and rules, meta = number, meta line, Previous/Next, sh = section headers, acc = lede line, screen frames, link underline. A page without one keeps the neutral look. */
+#opened[data-p="titrelab"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
+#opened[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#57753e;--p-sh:#2d4002;--p-acc:#424d27}
+#opened[data-p="titrelab"],#opened[data-p="phytofoundry"]{--p-bar:3px solid var(--p-base);--p-mark:block;--p-lede:4px solid var(--p-acc);--p-ledepad:clamp(12px,2vw,20px)}
 .proj .i{font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
 .proj h3{font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
 .proj .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char))}
@@ -147,33 +151,34 @@ body.locked{overflow:hidden}
 /* ── the panel About and each project open into, in the sample's case-study layout ── */
 #opened{position:fixed;inset:0;z-index:100;background:var(--paper);color:var(--char);overflow:hidden auto;overscroll-behavior:contain;visibility:hidden}
 #opened.on{visibility:visible}
-#opened .pbar{position:sticky;top:0;z-index:2;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+#opened .pbar{position:sticky;top:0;z-index:2;background:var(--paper);border-bottom:var(--p-bar,1px solid var(--rule));padding-top:env(safe-area-inset-top,0px)}
 #opened .pbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
 .pclose{display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);color:inherit;background:transparent;border:0;padding:6px 0;cursor:pointer}
 .pclose svg{width:17px;height:17px}
 .pclose:hover{color:var(--muted)}
-.pnum{font:600 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pnum{font:600 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-meta,var(--muted))}
 .study{padding-block:clamp(40px,7vw,88px)}
 .study h2{font:900 clamp(2rem,1.3rem + 3vw,4rem)/.95 var(--head);letter-spacing:-.04em;margin:0 0 6px;overflow-wrap:anywhere}
-.study .meta{font:500 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 clamp(24px,4vw,40px)}
+.study .mark{display:var(--p-mark,none);width:56px;height:8px;background:var(--p-base);margin:0 0 18px}
+.study .meta{font:500 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-meta,var(--muted));margin:0 0 clamp(24px,4vw,40px)}
 .study .meta:empty{display:none}
 .study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
 .study .grid > *{min-width:0}
-.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--c,var(--muted));margin:0 0 10px}
+.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-sh,var(--c,var(--muted)));margin:0 0 10px}
 .study p{margin:0 0 1.1em;max-width:62ch}
-.study .lede{font:500 clamp(1.15rem,1rem + .7vw,1.5rem)/1.45 var(--blurb)}
+.study .lede{font:500 clamp(1.15rem,1rem + .7vw,1.5rem)/1.45 var(--blurb);border-left:var(--p-lede,none);padding-left:var(--p-ledepad,0)}
 .study .wide{grid-column:1/-1}
 .study .shots{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
-.study .shot{aspect-ratio:16/10;max-width:100%;border:2px solid var(--char);display:grid;place-items:center;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+.study .shot{aspect-ratio:16/10;max-width:100%;border:2px solid var(--p-acc,var(--char));display:grid;place-items:center;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
 .study .pairs{display:grid;gap:20px 32px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:0}
 .study .pairs dt{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .study .pairs dd{margin:4px 0 0;font:400 .9375rem/1.5 var(--body)}
-.pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--char);margin-top:clamp(24px,4vw,48px)}
+.pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--p-base,var(--char));margin-top:clamp(24px,4vw,48px)}
 .pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
 .pnav button.fwd{text-align:right;justify-items:end}
-.pnav .lab{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pnav .lab{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-meta,var(--muted))}
 .pnav .nm{font:900 clamp(1.5rem,1rem + 2.2vw,3rem)/.95 var(--head);letter-spacing:-.035em;overflow-wrap:anywhere}
-.pnav button:hover .nm{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:.12em}
+.pnav button:hover .nm{text-decoration:underline;text-decoration-color:var(--p-acc,currentColor);text-decoration-thickness:3px;text-underline-offset:.12em}
 
 @media (max-width:640px){
  .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-column:2;text-align:left}
@@ -240,7 +245,7 @@ body.locked{overflow:hidden}
 
 <div id="opened" role="dialog" aria-modal="true" aria-labelledby="ptitle" aria-hidden="true">
   <div class="pbar"><div class="wrap"><button type="button" class="pclose" id="pclose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span id="pcloseT">Back to Work</span></button><span class="pnum" id="ppnum"></span></div></div>
-  <article class="study wrap"><h2 id="ptitle"></h2><p class="meta" id="pmeta"></p><div id="pbody"></div></article>
+  <article class="study wrap"><span class="mark" aria-hidden="true"></span><h2 id="ptitle"></h2><p class="meta" id="pmeta"></p><div id="pbody"></div></article>
 </div>
 
 <!-- each page's own content. Section headers are .sh and take the project's colour. -->
