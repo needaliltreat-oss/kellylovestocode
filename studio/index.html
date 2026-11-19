@@ -109,7 +109,8 @@ body.locked{overflow:hidden}
 [data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-fill:var(--fs-fill)}
 [data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-fill:var(--pf-fill)}
 /* Project page palettes (Kelly, 19 Nov): base = bar and rules, meta = number, meta line, Previous/Next, sh = section headers, acc = lede line, screen frames, link underline. A page without one keeps the neutral look. */
-#opened[data-p="gigbag"],.wipe[data-p="gigbag"]{--p-base:#c03221;--p-meta:#8c3f3f;--p-sh:#450b04;--p-acc:#94180a}
+/* GigBag tries the blue/teal (Kelly, 19 Nov: the brick fought the red in the logo). Page and its wipe only; the Work bar, PAL and the site's brick accents are unchanged until she decides. */
+#opened[data-p="gigbag"],.wipe[data-p="gigbag"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
 #opened[data-p="titrelab"],.wipe[data-p="titrelab"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
 #opened[data-p="formulation-suite"],.wipe[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
 #opened[data-p="phytofoundry"],.wipe[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
@@ -231,8 +232,10 @@ body.locked{overflow:hidden}
 .study .stack li{font:600 .8125rem/1 var(--head);padding:8px 12px;border:2px solid var(--p-acc,var(--char))}
 .study .bul{margin:0;padding-left:1.1em}
 .study .bul li{margin:0 0 .5em}
-.study .gb-ask .btn{--c-fill:#c03221;background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
+.study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
+/* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
+#opened[data-p="gigbag"] .sh{font:800 clamp(1.25rem,1.1rem + .6vw,1.625rem)/1.2 var(--head);letter-spacing:.04em;margin:0 0 14px}
 .pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--p-base,var(--char));margin-top:clamp(24px,4vw,48px)}
 .pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
 .pnav button.fwd{text-align:right;justify-items:end}
