@@ -45,7 +45,8 @@
    Work bars: names in Title Case, second lines in ALL CAPS (E299); every bar has its 2px border (E298), the off-black (#16171b) on the light skin and on the white side of a bar after it flips, the off-white (#f1f0ec) on the dark skin (E415, E416, E417). The bars have no depth treatment of any kind (she said so; they are Demo Q's plain bars).
    Contact: the origami cat is still the placeholder from Demo R (it does not yet look like the cat in her reference photos; she is working on the cat and the Contact form in another session). Every number is a placeholder. Text is lorem (E31). */
 :root{
-  --Lg:#f1f0ec; --Dg:#16171b; --cobalt:#2448d8; --signal:#ff6a2b; --grain:.4;
+  --Lg:#f1f0ec; --Dg:#16171b; --cobalt:#16171b; --signal:#ff6a2b;   /* 19 Nov: Kelly picked "Polish what's here" with charcoal. --cobalt keeps its old name but is the charcoal now (graphite on the dark skin, below). */
+  --grain:.4;
   --head:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
   --blurb:"Gabarito",system-ui,-apple-system,"Segoe UI",sans-serif;
   --body:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -61,12 +62,12 @@
   --fs-display:clamp(2.25rem,1.4rem + 4.4vw,5rem);  /* panel title words */
   --dhi:rgba(255,255,255,.7); --dsh:rgba(0,0,0,.32); --dts:0 0 0 transparent; --g1:.38; --g2:.14;
 }
-body[data-skin="dark"]{--ground:var(--Dg);--text:#f1f0ec;--kelly:#f1f0ec;--muted:#a4a4a8;--rule:#f1f0ec;--bar:#ffffff;--barText:#000000;--barEdge:var(--Dg);--line:#37383e;--dhi:rgba(255,255,255,.16);--dsh:rgba(0,0,0,.72);--g1:.10;--g2:.45;color-scheme:dark}
+body[data-skin="dark"]{--cobalt:#34363e;--ground:var(--Dg);--text:#f1f0ec;--kelly:#f1f0ec;--muted:#a4a4a8;--rule:#f1f0ec;--bar:#ffffff;--barText:#000000;--barEdge:var(--Dg);--line:#37383e;--dhi:rgba(255,255,255,.16);--dsh:rgba(0,0,0,.72);--g1:.10;--g2:.45;color-scheme:dark}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--ground);color:var(--text);font:300 1rem/1.6 var(--body);overflow-x:hidden}
 body.locked{overflow:hidden}
-:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
 .wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .g{position:relative;isolation:isolate}
 .g::after{content:"";position:absolute;inset:0;background-image:var(--noise);mix-blend-mode:overlay;opacity:var(--grain);pointer-events:none;z-index:6}
@@ -221,6 +222,11 @@ body[data-hov="HV1"] .card{transform:none!important}
 #tk .ink{position:absolute;inset:0;background:var(--next);clip-path:circle(var(--r,0px) at var(--x,50%) var(--y,50%))}
 #tk .ink.grow{transition:clip-path .9s var(--quint)}
 .ct .wrap{position:relative;z-index:2;display:grid;justify-items:center;width:100%}
+.builtw{position:relative;z-index:2;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));margin-bottom:clamp(28px,5vh,56px)}
+.built{max-width:1100px;margin:0 auto;background:var(--ground);color:var(--text);border:2px solid var(--rule);padding:14px clamp(16px,2vw,28px);display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}   /* paper, with the bars' border, so it reads at every point of the colour ramp behind it */
+.built h2{font:800 var(--fs-label) var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0}
+.built ul{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0;padding:0;font:500 var(--fs-small) var(--body)}
+.built li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:.12em}
 /* 12 Nov: the origami cat is gone ("i do not want the origami"). A paper letter drops from the last Work bar and unfolds into this sheet (DK3, DT2). Demo P's markup. */
 /* 12 Nov: she liked Formspree's Creative Request Form and asked for a short brief, with the letter made bigger to
    hold it ("Make the letter bigger"). The paper still drops and unfolds into this sheet; the sheet is simply larger,
@@ -394,7 +400,7 @@ body[data-skin="dark"]{--box:#2a2b31}
 </style>
 </head>
 <body data-skin="light">
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="kgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2448d8"/><stop offset="1" stop-color="#ff6a2b"/></linearGradient></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="kgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16171b"/><stop offset="1" stop-color="#ff6a2b"/></linearGradient></defs></svg>
 <div id="loader" class="g" aria-hidden="true"></div>
 <div id="tl" aria-hidden="true"></div>
 <div id="tk" aria-hidden="true"><div class="inkclip"><div class="ink" id="ink"></div></div><div class="dp"></div></div>
@@ -429,6 +435,8 @@ body[data-skin="dark"]{--box:#2a2b31}
 <section class="work" id="work" aria-label="Work"><div class="wbox" id="wbox"></div></section>
 
 <section class="ct" id="contact" aria-label="Contact">
+  <!-- 19 Nov: the "Built with" strip from the sample Kelly picked (direction 3). The stack is the one named in the GigBag case study. -->
+  <div class="builtw"><div class="built" role="group" aria-labelledby="builtH"><h2 id="builtH">Built with</h2><ul><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul></div></div>
   <div class="wrap">
     <div class="stagef" id="formStage"></div>
   </div>
@@ -569,7 +577,12 @@ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,fine=matchMe
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t;
 const easeIO=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 const easeOutBack=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
-const C={cob:"#2448d8",sig:"#ff6a2b"};
+/* 19 Nov: charcoal replaces the blue (Kelly: "I like 3, so lets polish whats here. I also like the charcoal").
+   cob is the colour of the pour, the Work edge and the Contact colour's starting point; lo is the top of the falling words' colour scale.
+   On the dark skin the ground is already charcoal, so the pour is a lighter graphite there and the words start from a light grey (both set in applySkin). */
+const C={cob:"#16171b",sig:"#ff6a2b",lo:"#16171b"};
+const SKINCOL={light:{cob:"#16171b",lo:"#16171b"},dark:{cob:"#34363e",lo:"#c9c9cc"}};
+const rgbF=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255);
 const mix=(a,b,t)=>`color-mix(in oklch, ${b} ${Math.round(clamp(t)*100)}%, ${a})`;
 /* the light skin's colours looked washed out (E413). On the light skin only, the Contact colour (the page colour and the colour that grows from the cursor) is made richer: the chroma is multiplied by RICH (a placeholder, not a decision)
    and the multiplier eases back to 1 as the colour reaches full strength (q from .9 to 1), so a full-strength colour is the Contact colour itself. A browser without relative colours keeps the plain colour. */
@@ -637,7 +650,7 @@ function syncSkinSw(){if(!skinT)return;const dark=skin()==="dark";
  skinT.querySelectorAll(".si").forEach(s=>s.classList.toggle("on",(s.dataset.set==="dark")===dark))}
 if(skinT)skinT.addEventListener("click",e=>{const s=e.target.closest(".si");
  st.skin=s?s.dataset.set:(skin()==="dark"?"light":"dark");applySkin()});
-function applySkin(){body.dataset.skin=skin();{const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=skin()==="dark"?"#16171b":"#f1f0ec"}ctPaint();buildHgPrev();syncSkinSw()}
+function applySkin(){body.dataset.skin=skin();Object.assign(C,SKINCOL[skin()]);{const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=skin()==="dark"?"#16171b":"#f1f0ec"}ctPaint();buildHgPrev();syncSkinSw()}
 mq.addEventListener("change",applySkin);new MutationObserver(applySkin).observe(root,{attributes:true,attributeFilter:["data-theme"]});
 
 /* hearts */
@@ -690,7 +703,7 @@ const holdK=t0=>clamp((performance.now()-t0)/HOLD_MAX);
 let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,flyUp=false,drift=0,knockT=0,W0=0,H0=0,nameBodies=[];
 /* the falling words run through the colour scale they rest on: cobalt at the top to signal orange at the bottom (W4, E128). There is no white and no black in it at all,
    and it ends in the signal orange (her words, 10 Nov session 5: "there should BE NO WHITE IN THE GRADIENT OF THE WORDS", "IT ENDS IN THE GODDAMN SIGNAL ORANGE"). */
-function bandColour(yn){return yn<=0?C.cob:yn>=1?C.sig:mix(C.cob,C.sig,yn)}
+function bandColour(yn){return yn<=0?C.lo:yn>=1?C.sig:mix(C.lo,C.sig,yn)}
 function stopPile(){cancelAnimationFrame(raf);timers.forEach(clearTimeout);timers=[];clearInterval(drift);clearInterval(knockT);[kl,klw,heart].forEach(e=>e&&e.classList.remove("knock"));items.forEach(t=>t.el.remove());items=[];if(mc){dropMouse(mc);mc=null}if(eng)Matter.Engine.clear(eng);eng=null;ceiling=null}
 function rectBody(el,opt){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();return Matter.Bodies.rectangle(r.left-s.left+r.width/2,r.top-s.top+r.height/2,Math.max(4,r.width),Math.max(4,r.height),Object.assign({isStatic:true},opt||{}))}
 function setCeiling(on){if(!eng)return;if(on&&!ceiling){ceiling=Matter.Bodies.rectangle(W0/2,-200,W0*3,400,{isStatic:true});Matter.Composite.add(eng.world,ceiling)}if(!on&&ceiling){Matter.Composite.remove(eng.world,ceiling);ceiling=null}}
@@ -857,7 +870,7 @@ function heartWaterEl(){const svg=heart.querySelector("svg");if(!svg)return null
  /* the water is the heart's own shape, filled AND stroked in the blue, drawn on top of the heart and cut off at the water line, so below that line the heart's
     bottom is covered by the blue, outline and all (her words: "the blue should be OVER the bottom of the heart") */
  if(!r){svg.insertAdjacentHTML("beforeend",'<defs><clipPath id="hwater" clipPathUnits="userSpaceOnUse"><rect id="hwrect" x="-6" y="24" width="36" height="0"/></clipPath></defs>'
-  +'<path id="hfill" d="'+heartPathD()+'" fill="#2448d8" stroke="#2448d8" stroke-width="2.6" stroke-linejoin="round" clip-path="url(#hwater)"/>');
+  +'<path id="hfill" d="'+heartPathD()+'" style="fill:var(--cobalt);stroke:var(--cobalt)" stroke-width="2.6" stroke-linejoin="round" clip-path="url(#hwater)"/>');
   r=svg.querySelector("#hwrect")}
  const hp=svg.querySelector("#hfill");if(hp&&hp.getAttribute("d")!==heartPathD())hp.setAttribute("d",heartPathD());
  return r}
@@ -974,17 +987,17 @@ function po2init(){if(po2state)return po2state>0;po2state=-1;
      "d=smn(d,db,uKE);d=smx(d,-dk,uKE);}}"+
    "if(uPour>0.5){float dp=100000.0;for(int i=0;i<12;i++){if(uP[i].z>0.0){vec2 c=uP[i].xy;if(uP[i].w>0.0){c.y=clamp(p.y,uP[i].y,uP[i].w);}dp=smn(dp,length(p-c)-uP[i].z,uKP);}}if(uF1.y>0.5){dp=smn(dp,dFall(p),uKP);}d=max(d,dp);}"+
    "float a=1.0-smoothstep(-1.2,1.2,d);float rim=exp(d*0.035);vec2 q=p*uDpr/uRes;float sh=0.0;"+
-   "vec3 col=uCol+vec3(0.10,0.14,0.18)*rim*0.9*(0.5+0.5*sin(p.x*0.01+p.y*0.013+uT*1.3));"+
+   "vec3 col=uCol+vec3(0.13,0.13,0.14)*rim*0.9*(0.5+0.5*sin(p.x*0.01+p.y*0.013+uT*1.3));"+
    /* colour depth (E300, E303): 1 layered paper-wash tones, 2 raised (soft highlight and shadow), 3 shaded gradient with heavier grain. Every strength is a placeholder. */
    "if(uD>0.5&&uD<1.5){float w1=0.5+0.5*sin(q.x*3.1+q.y*2.3+uT*0.12);float w2=0.5+0.5*sin(q.x*5.3-q.y*4.1-uT*0.09+1.7);float w3=0.5+0.5*sin(q.x*8.7+q.y*6.9+2.9+uT*0.07);"+
-    "col*=1.0+0.085*(smoothstep(0.42,0.58,w1)-0.5)+0.075*(0.5-smoothstep(0.45,0.55,w2));col+=vec3(0.02,0.03,0.05)*(smoothstep(0.5,0.62,w3)-0.4);}"+
+    "col*=1.0+0.085*(smoothstep(0.42,0.58,w1)-0.5)+0.075*(0.5-smoothstep(0.45,0.55,w2));col+=vec3(0.03,0.03,0.035)*(smoothstep(0.5,0.62,w3)-0.4);}"+
    "if(uD>1.5&&uD<2.5){col*=1.07-0.16*q.y-0.05*q.x;\n"+
     "#ifdef GL_OES_standard_derivatives\n"+
     "vec2 gn=vec2(dFdx(d),-dFdy(d));float gl2=length(gn);if(gl2>0.0001){vec2 n=gn/gl2;float f=dot(n,normalize(vec2(-0.6,-0.8)));float bv=1.0-smoothstep(0.0,24.0,-d);"+
-     "if(d<0.0){col+=bv*max(f,0.0)*vec3(0.14,0.16,0.20);col*=1.0-bv*max(-f,0.0)*0.28;}else{sh=exp(-d/14.0)*max(-f,0.0)*0.30*(1.0-smoothstep(0.0,50.0,d));}}\n"+
+     "if(d<0.0){col+=bv*max(f,0.0)*vec3(0.16,0.16,0.17);col*=1.0-bv*max(-f,0.0)*0.28;}else{sh=exp(-d/14.0)*max(-f,0.0)*0.30*(1.0-smoothstep(0.0,50.0,d));}}\n"+
     "#endif\n"+
    "}"+
-   "if(uD>2.5){float g=dot(q-0.5,normalize(vec2(0.45,0.9)));col=mix(col*1.16+vec3(0.02,0.03,0.05),col*0.74,smoothstep(-0.45,0.45,g));}"+
+   "if(uD>2.5){float g=dot(q-0.5,normalize(vec2(0.45,0.9)));col=mix(col*1.16+vec3(0.03,0.03,0.035),col*0.74,smoothstep(-0.45,0.45,g));}"+
    "float gk=uD>2.5?0.040:"+GRAINK.toFixed(4)+";"+
    "col+=(fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)-0.5)*gk;"+
    "gl_FragColor=vec4(col*a,a+(1.0-a)*sh);}";
@@ -1004,7 +1017,7 @@ function fillArr(a,B){a.fill(0);for(let i=0;i<B.length&&i<NBL;i++){a[i*3]=B[i][0
 /* pour: {B,K} or null; edge: the geometry from owGeom() or null; all positions are in CSS pixels */
 function glDraw(pour,edge,tm){const dpr=Math.min(devicePixelRatio||1,1.5),Wd=Math.round(innerWidth*dpr),Hd=Math.round(innerHeight*dpr);if(glc.width!==Wd||glc.height!==Hd){glc.width=Wd;glc.height=Hd}
  gl.viewport(0,0,Wd,Hd);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
- gl.uniform2f(glU.uRes,Wd,Hd);gl.uniform1f(glU.uDpr,Wd/innerWidth);gl.uniform1f(glU.uT,tm);gl.uniform3f(glU.uCol,.156,.310,.860);gl.uniform1f(glU.uD,DEPTHN[OPT.depth.v]||2);
+ gl.uniform2f(glU.uRes,Wd,Hd);gl.uniform1f(glU.uDpr,Wd/innerWidth);gl.uniform1f(glU.uT,tm);{const c=rgbF(C.cob);gl.uniform3f(glU.uCol,c[0],c[1],c[2])}gl.uniform1f(glU.uD,DEPTHN[OPT.depth.v]||2);
  if(pour){fillP(gP,pour.B);gl.uniform4fv(glU.uP,gP);gl.uniform1f(glU.uKP,pour.K);gl.uniform1f(glU.uPour,1);
   const F=pour.F;gl.uniform4f(glU.uF0,F.cx,F.ys,F.yf,F.rs);gl.uniform4f(glU.uF1,F.rw,F.on?1:0,F.t,F.e)}
  else gl.uniform1f(glU.uPour,0);
