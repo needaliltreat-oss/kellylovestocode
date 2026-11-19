@@ -47,7 +47,8 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--char);font:300 1rem/1.7 var(--body);overflow-x:hidden}
+/* body text is regular weight site-wide (Kelly, 19 Nov: the light 300 was thin and hard to read) */
+body{margin:0;background:var(--paper);color:var(--char);font:400 1rem/1.7 var(--body);overflow-x:hidden}
 body.locked{overflow:hidden}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -246,9 +247,9 @@ body.locked{overflow:hidden}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
 #opened[data-p="gigbag"] .sh{font:800 clamp(1.5rem,1.3rem + .8vw,1.875rem)/1.2 var(--head);letter-spacing:.04em;margin:0 0 16px}
-/* GigBag body text (Kelly, 19 Nov: the light 300 was hard to read): regular weight, a touch larger. Scale on this page:
+/* GigBag body text: regular weight (site-wide) and a touch larger. Scale on this page:
    title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
-#opened[data-p="gigbag"] #pbody{font-weight:400;font-size:1.0625rem;line-height:1.7}
+#opened[data-p="gigbag"] #pbody{font-size:1.0625rem;line-height:1.7}
 #opened[data-p="gigbag"] #pbody :is(p,li){text-wrap:pretty}
 #opened[data-p="gigbag"] .meta{font-weight:600}
 #opened[data-p="gigbag"] .grid{row-gap:clamp(40px,6vw,64px)}
