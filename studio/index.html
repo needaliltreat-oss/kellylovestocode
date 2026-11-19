@@ -145,7 +145,7 @@ body.locked{overflow:hidden}
 @media (min-width:720px){.cform{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .cform .f{display:grid;min-width:0}
 .cform .wide{grid-column:1/-1}
-.cform label{font:600 .875rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
+.cform label{font:800 .875rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .cform input,.cform textarea,.cform select{width:100%;min-width:0;border:0;border-bottom:2px solid var(--char);border-radius:0;background:transparent;color:var(--char);font:400 1rem var(--body);padding:8px 0}
 .cform select{-webkit-appearance:none;appearance:none;padding-right:24px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2316171b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 4px center/12px 8px no-repeat}
 .cform textarea{resize:vertical;min-height:7.5em}
@@ -159,6 +159,12 @@ body.locked{overflow:hidden}
 .cform [aria-invalid="true"]{border-bottom-style:dashed}
 .cform .send{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:20px}
 .cform .send .btn{margin-top:0}
+/* Send: brick, with the Work bars' hover drift (run in the script); hover keeps the brick instead of turning white */
+.cform .btn{--c-fill:#c03221;background-color:var(--c-fill);border-color:var(--c-fill);color:#fff}
+.cform .btn:hover{background-color:var(--c-fill);color:#fff}
+.cform .f[hidden]{display:none}
+/* anti-spam trap: a field people never see or reach; bots that fill every field fill it */
+.cform .hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .cform .ph{font:600 .6875rem var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--muted);padding:4px 8px}
 .formnote{font:400 .875rem var(--body);color:var(--muted);margin:8px 0 0;min-height:1.4em}
 .clinks{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;font:600 .875rem var(--head)}
@@ -330,7 +336,9 @@ svg.tight .om-node .om-meta{font-size:12px}
       <div class="f"><label for="fe">Email</label><input id="fe" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="fe-e"><p class="ferr" id="fe-e"></p></div>
       <div class="f"><label for="fc">Company <span class="opt">(optional)</span></label><input id="fc" name="company" type="text" autocomplete="organization"></div>
       <div class="f"><label for="ft">What you need</label><select id="ft" name="need" required aria-describedby="ft-e"><option value="" selected>Choose one</option><option>Fractional CTO</option><option>Advisory</option><option>Build</option><option>Other</option></select><p class="ferr" id="ft-e"></p></div>
+      <div class="f wide" id="fo-w" hidden><label for="fo">Tell me what you need</label><input id="fo" name="need_other" type="text" maxlength="200" aria-describedby="fo-e"><p class="ferr" id="fo-e"></p></div>
       <div class="f wide"><label for="fm">Message</label><textarea id="fm" name="message" rows="4" maxlength="2000" required aria-describedby="fm-e"></textarea><p class="ferr" id="fm-e"></p></div>
+      <div class="hp" aria-hidden="true"><label for="fw">Website</label><input id="fw" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <div class="f wide"><div class="send"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button><span class="ph">Preview only · not sending yet</span></div><p class="formnote" id="fnote" role="status"></p></div>
     </form>
   </div>
@@ -729,20 +737,23 @@ function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimat
    a little toward one of the project's own darker palette colours and back toward the other, and a soft patch slides across it the other way.
    Off for touch, off with reduced motion, and it stops the moment the row is clicked, so the wipe takes over cleanly.
    Then (19 Nov) Kelly asked for the intro's previous, stronger version on the bars instead: a bigger drift and the intro's wider, solid-middled patch.
-   Tune here: ROW_T is how far the fill drifts, ROW_P how far the patch does (shares of the way to each palette colour). ── */
+   Tune ROW_T (how far the fill drifts) and ROW_P (how far the patch does) just below; both are shares of the way to each palette colour. ── */
+const ROW_T=.5,ROW_P=1;
+/* chamFill(el, [toward one way, toward the other], stopOnClick): the bar version of the chameleon on any filled element. Its fill is read from
+   --c-fill when the pointer arrives. Mouse and pen only, nothing with reduced motion. The Send button in the contact form uses it too. */
+const chamFill=(el,pal,stopOnClick)=>{if(reduce)return;
+ const c=swayState();let r=0,base="";
+ const shade=o=>o<0?mix(base,pal[0],-o):o>0?mix(base,pal[1],o):base;
+ const clear=()=>{cancelAnimationFrame(r);r=0;c.on=false;c.a=0;c.last=0;el.style.backgroundColor="";el.style.backgroundImage=""};
+ const tick=now=>{if(!c.on||wiping||panel.classList.contains("on")){clear();return}
+  const a=swayA(c,now),u=swayU(c,now);el.style.backgroundColor=shade(a*ROW_T*u);
+  el.style.backgroundImage=`radial-gradient(ellipse 75% 130% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${shade(-a*ROW_P*u)} 30%,transparent 85%)`;
+  r=requestAnimationFrame(tick)};
+ el.addEventListener("pointerenter",e=>{if(e.pointerType==="touch")return;base=getComputedStyle(el).getPropertyValue("--c-fill").trim();if(!base)return;
+  c.on=true;c.t0=performance.now();if(!r)r=requestAnimationFrame(tick)});
+ el.addEventListener("pointerleave",clear);if(stopOnClick)el.addEventListener("click",clear)};
 {const PAL={gigbag:["#94180a","#8c3f3f"],titrelab:["#0a5373","#3b464a"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
- const ROW_T=.5,ROW_P=1;
- if(!reduce)$$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(!pal)return;
-  const c=swayState();let r=0,base="";
-  const shade=o=>o<0?mix(base,pal[0],-o):o>0?mix(base,pal[1],o):base;
-  const clear=()=>{cancelAnimationFrame(r);r=0;c.on=false;c.a=0;c.last=0;row.style.backgroundColor="";row.style.backgroundImage=""};
-  const tick=now=>{if(!c.on||wiping||panel.classList.contains("on")){clear();return}
-   const a=swayA(c,now),u=swayU(c,now);row.style.backgroundColor=shade(a*ROW_T*u);
-   row.style.backgroundImage=`radial-gradient(ellipse 75% 130% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${shade(-a*ROW_P*u)} 30%,transparent 85%)`;
-   r=requestAnimationFrame(tick)};
-  row.addEventListener("pointerenter",e=>{if(e.pointerType==="touch")return;base=getComputedStyle(row).getPropertyValue("--c-fill").trim();if(!base)return;
-   c.on=true;c.t0=performance.now();if(!r)r=requestAnimationFrame(tick)});
-  row.addEventListener("pointerleave",clear);row.addEventListener("click",clear)})}
+ $$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(pal)chamFill(row,pal,true)})}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
 pclose.addEventListener("click",closePanel);
 panel.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
@@ -753,19 +764,33 @@ addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
   const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
 
 /* ── the form: PLACEHOLDER. It checks each field inline and sends nothing until a form service is chosen. ── */
-{const form=$("#cform"),note=$("#fnote");
+{const form=$("#cform"),note=$("#fnote"),need=$("#ft"),otherW=$("#fo-w"),other=$("#fo"),trap=$("#fw");
  const RULES={fn:v=>v?"":"Please add your name.",
   fe:v=>!v?"Please add your email.":/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?"":"That email address does not look right.",
   ft:v=>v?"":"Please choose what you need.",
+  fo:v=>otherW.hidden||v?"":"Please tell me what you need.",
   fm:v=>v?"":"Please add a short message."};
  const check=id=>{const el=$("#"+id),msg=RULES[id](el.value.trim());el.setAttribute("aria-invalid",msg?"true":"false");$("#"+id+"-e").textContent=msg;return !msg};
  Object.keys(RULES).forEach(id=>{const el=$("#"+id);
   el.addEventListener("blur",()=>{if(el.value.trim()||el.getAttribute("aria-invalid"))check(id)});
   el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{if(el.getAttribute("aria-invalid")==="true")check(id)})});
+ /* "Other" opens a required field for what they need; picking anything else hides it and clears its error */
+ const syncOther=()=>{const on=need.value==="Other";otherW.hidden=!on;other.required=on;
+  if(!on){other.removeAttribute("aria-invalid");$("#fo-e").textContent=""}};
+ need.addEventListener("change",syncOther);syncOther();
+ /* anti-spam, in the browser only (Kelly, 19 Nov). The hidden trap field and a minimum time between first touching the form and sending.
+    A filled trap gets the normal message and nothing else; a send under MIN_MS gets a polite "press Send again", and the next press goes through.
+    Server-side protection is chosen when sending is set up. */
+ const MIN_MS=2500;let firstTouch=0,warned=false;
+ form.addEventListener("focusin",()=>{if(!firstTouch)firstTouch=performance.now()});
+ const OK="Everything looks right. This form is a preview and is not connected yet, so nothing was sent.";
  form.addEventListener("submit",e=>{e.preventDefault();
+  if(trap.value){note.textContent=OK;return}
   const bad=Object.keys(RULES).filter(id=>!check(id));
   if(bad.length){note.textContent="";$("#"+bad[0]).focus();return}
-  note.textContent="Everything looks right. This form is a preview and is not connected yet, so nothing was sent."})}
+  if(!warned&&(!firstTouch||performance.now()-firstTouch<MIN_MS)){warned=true;note.textContent="That was quick. Please check your details and press Send again.";return}
+  note.textContent=OK});
+ chamFill(form.querySelector(".btn"),["#94180a","#8c3f3f"],false)}
 
 /* ── start ── */
 addEventListener("scroll",introTick,{passive:true});
