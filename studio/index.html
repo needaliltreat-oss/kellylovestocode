@@ -85,10 +85,11 @@ body.locked{overflow:hidden}
 .aboutband{background:var(--char);color:var(--onchar);position:relative;z-index:1}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
 .aboutband small{font:400 .75rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--onmuted)}
-.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.4 var(--blurb);margin:0;max-width:34ch}
+.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.4 var(--blurb);margin:0}
+.aboutband.pre .roll{opacity:0}
 /* the arrow: on hover or focus it turns into the heart once, then back to the arrow (her words: "onHover: heart then arrow again") */
-.arrow{width:56px;height:56px;border:1.5px solid var(--onchar);border-radius:50%;display:grid;place-items:center;color:var(--onchar);text-decoration:none;margin-top:8px;transition:border-color .2s,color .2s}
-.arrow:hover,.arrow:focus-visible{border-color:var(--signal);color:var(--signal)}
+.arrow{width:56px;height:56px;border:1.5px solid var(--onchar);border-radius:50%;display:grid;place-items:center;color:var(--onchar);background:linear-gradient(150deg,rgba(255,255,255,.2),rgba(255,255,255,0) 55%,rgba(0,0,0,.2)),#c03221;text-decoration:none;margin-top:8px;transition:border-color .2s}
+.arrow:hover,.arrow:focus-visible{border-color:var(--signal)}
 .arrow .ico{position:relative;width:22px;height:22px;overflow:hidden}
 .arrow .ico > svg{position:absolute;inset:0;width:22px;height:22px}
 .arrow .ico .ah{transform:translate(-110%,110%)}
@@ -118,11 +119,11 @@ body.locked{overflow:hidden}
 
 /* ── Built with: full width; the < > opens on hover, focus, or once when it first comes into view ── */
 .proof{border-top:2px solid var(--char);border-bottom:2px solid var(--char)}
-.proof .wrap{padding-block:22px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
-.proof h2{font:800 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0}
-.proof ul{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0;padding:0;font:500 .9375rem var(--body)}
+.proof .wrap{padding-block:26px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center;justify-content:center;text-align:center}
+.proof h2{font:800 .9375rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0}
+.proof ul{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 26px;list-style:none;margin:0;padding:0;font:500 1.0625rem var(--body)}
 .proof li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:.12em}
-.bicon{width:34px;height:20px;flex:none;overflow:visible;margin-right:-14px}
+.bicon{width:40px;height:24px;flex:none;overflow:visible;margin-right:-18px}
 .bicon .br{fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
 .bicon .ht{fill:var(--signal);transform-box:fill-box;transform-origin:50% 60%;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
 .proof:hover .bicon .l,.proof:focus-within .bicon .l,.proof.peek .bicon .l{transform:translateX(-4px)}
@@ -160,7 +161,7 @@ body.locked{overflow:hidden}
 #opened{position:fixed;inset:0;z-index:100;background:var(--paper);color:var(--char);overflow:hidden auto;overscroll-behavior:contain;visibility:hidden}
 #opened.on{visibility:visible}
 /* the wipe: a skewed sheet that sweeps across, covers the page while a section opens under it, then sweeps back. Never takes clicks. */
-.wipe{position:fixed;top:0;bottom:0;left:-10vh;width:calc(100vw + 20vh);z-index:110;background:var(--p-base,var(--char));pointer-events:none;visibility:hidden;transform:translateX(-100%) skewX(-5deg);will-change:transform}
+.wipe{position:fixed;top:-12vw;bottom:-12vw;left:-12vh;right:-12vh;z-index:110;background:var(--p-base,var(--char));pointer-events:none;visibility:hidden;transform:translateX(-100%) skewX(-5deg);will-change:transform}
 .wipe.run{visibility:visible}
 #opened .pbar{position:sticky;top:0;z-index:2;background:var(--paper);border-bottom:var(--p-bar,1px solid var(--rule));padding-top:env(safe-area-inset-top,0px)}
 #opened .pbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
@@ -207,7 +208,7 @@ body.locked{overflow:hidden}
 <section class="track" id="introTrack" aria-label="Kelly loves">
   <div class="sticky" id="stage">
     <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span class="sr">loves</span></h1>
-    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="none" stroke="#ff6a2b" stroke-width="2.6" stroke-linejoin="round"/></svg></div>
+    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="#c03221" stroke="#c03221" stroke-width="2.6" stroke-linejoin="round"/><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hgl)"/></svg></div>
     <div class="hint" id="hint" aria-hidden="true"><span class="bob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg></span></div>
     <p class="sub" id="sub"><b>Kelly Burgess</b> · Fractional CTO</p>
   </div>
@@ -215,11 +216,10 @@ body.locked{overflow:hidden}
 
 <section class="aboutband" id="about" aria-labelledby="aboutH">
   <div class="wrap">
-    <small id="aboutH">About</small>
-    <p>I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO: I come in, make the technical calls and build what needs building.</p>
-    <p>Most recently I co-founded GigBag and built it as CTO and sole developer, taking four products from zero to closed beta. Before that I ran Take Me To Your Pixel, my own web design studio, where I took clients from a napkin sketch to a launched site, and I led a platform rebuild as UX architect for Carolinas AGC. My first leadership role was VP of Technology at Step Up 4 Learning, where I ran the platform and the development team behind an online writing program.</p>
-    <p>I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
-    <a class="arrow" id="alink" href="#about" data-open="about" aria-label="More about Kelly"><span class="ico" aria-hidden="true"><svg class="aa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg><svg class="ah" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="none" stroke="#ff6a2b" stroke-width="2.4" stroke-linejoin="round"/></svg></span></a>
+    <small id="aboutH" class="roll">About</small>
+    <p class="roll">I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO: I come in, make the technical calls and build what needs building.</p>
+    <p class="roll">I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
+    <a class="arrow roll" id="alink" href="#about" data-open="about" aria-label="More about Kelly"><span class="ico" aria-hidden="true"><svg class="aa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg><svg class="ah" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></span></a>
   </div>
 </section>
 
@@ -285,7 +285,7 @@ body.locked{overflow:hidden}
   <div class="wide"><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div></div></div>
 </div></template>
 <template id="pg-about"><div class="grid">
-  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide"><p class="lede">Most recently I co-founded GigBag and built it as CTO and sole developer, taking four products from zero to closed beta. Before that I ran Take Me To Your Pixel, my own web design studio, where I took clients from a napkin sketch to a launched site, and I led a platform rebuild as UX architect for Carolinas AGC. My first leadership role was VP of Technology at Step Up 4 Learning, where I ran the platform and the development team behind an online writing program.</p></div>
   <div><h3 class="sh">What I do</h3>
     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     <dl class="pairs">
@@ -415,13 +415,24 @@ function introTick(){const r=track.getBoundingClientRect(),p=clamp(-r.top/Math.m
  a.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"||e.pointerType==="pen")play()});a.addEventListener("focus",()=>{if(!restoring&&a.matches(":focus-visible"))play()});
  a.addEventListener("pointerleave",()=>{armed=true});a.addEventListener("blur",()=>{armed=true})}
 
+/* ── About: the label, both paragraphs and the arrow roll up into view once when the band comes into view ── */
+{const band=$("#about"),items=$$("#about .roll");
+ if(!reduce&&"IntersectionObserver" in window&&band.animate){band.classList.add("pre");
+  const io=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting))return;io.disconnect();band.classList.remove("pre");
+   items.forEach((el,i)=>el.animate([{opacity:0,transform:"translateY(28px)"},{opacity:1,transform:"none"}],{duration:700,delay:i*120,easing:"cubic-bezier(.2,.7,.2,1)",fill:"backwards"}))},{threshold:.2});
+  io.observe(band)}}
+
 /* ── Built with: open the < > once when the bar first comes fully into view, so touch screens see it too ── */
 {const el=$("#built");if(!reduce&&"IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();setTimeout(()=>{el.classList.add("peek");setTimeout(()=>el.classList.remove("peek"),1400)},300)}},{threshold:.9});io.observe(el)}}
 
 /* ── the panel: About and each project open over the page behind a wipe.
-   The wipe sweeps in from the left (380ms), holds while the page is swapped underneath (120ms), then sweeps back out (400ms): 900ms in all.
-   Its colour is the project's base colour, or charcoal for About. With reduced motion it is a 150ms fade instead. ── */
+   The wipe sweeps in (380ms), holds while the page is swapped underneath (120ms), then sweeps back out the way it came (400ms): 900ms in all.
+   Each project comes from its own side: GigBag left, TitreLab top, Formulation Suite right, PhytoFoundry bottom; About from the left.
+   Opening takes the project's base colour (charcoal for About); going back to Work is charcoal, from the project's side.
+   With reduced motion, opening is a 150ms fade and closing is instant. ── */
 const WIPE_IN=380,WIPE_HOLD=120,WIPE_OUT=400,WIPE_EASE="cubic-bezier(.7,0,.3,1)";
+const L_=["translateX(-100%) skewX(-5deg)","translateX(0) skewX(0deg)"];
+const WIPE_FROM={gigbag:L_,titrelab:["translateY(-100%) skewY(-3deg)","translateY(0) skewY(0deg)"],"formulation-suite":["translateX(100%) skewX(5deg)","translateX(0) skewX(0deg)"],phytofoundry:["translateY(100%) skewY(3deg)","translateY(0) skewY(0deg)"],about:L_};
 function fade(el){if(!el.animate)return;el.getAnimations().forEach(x=>x.cancel());el.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}
 const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Lorem ipsum"]];
 const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
@@ -444,15 +455,20 @@ function showPanel(slug,from){if(!fill(slug))return false;openFrom=from||openFro
  if(!was){scrollBack=scrollY;panel.classList.add("on");panel.setAttribute("aria-hidden","false");body.classList.add("locked");main.inert=true}
  pclose.focus({preventScroll:true});return was?pbody:panel}
 const wipe=$("#wipe");let wiping=false;
+/* colour: a slug with a --p-base rule takes it; anything else ("about", "back") is charcoal */
+function runWipe(colour,[OFF,ON],swap){wiping=true;wipe.dataset.p=colour;wipe.classList.add("run");
+ const sweep=(k,ms,delay=0)=>wipe.animate(k,{duration:ms,delay,easing:WIPE_EASE,fill:"forwards"}).finished.catch(()=>{});
+ sweep([{transform:OFF},{transform:ON}],WIPE_IN)
+  .then(()=>{swap();return sweep([{transform:ON},{transform:OFF}],WIPE_OUT,WIPE_HOLD)})
+  .then(()=>{wipe.getAnimations().forEach(x=>x.cancel());wipe.classList.remove("run");wiping=false})}
 function openPanel(slug,from){if(wiping||!$("#pg-"+slug))return;
  if(reduce||!wipe.animate){const el=showPanel(slug,from);if(el)fade(el);return}
- wiping=true;wipe.dataset.p=slug;wipe.classList.add("run");
- const sweep=(k,ms,delay=0)=>wipe.animate(k,{duration:ms,delay,easing:WIPE_EASE,fill:"forwards"}).finished.catch(()=>{});
- const OFF="translateX(-100%) skewX(-5deg)",ON="translateX(0) skewX(0deg)";
- sweep([{transform:OFF},{transform:ON}],WIPE_IN)
-  .then(()=>{showPanel(slug,from);return sweep([{transform:ON},{transform:OFF}],WIPE_OUT,WIPE_HOLD)})
-  .then(()=>{wipe.getAnimations().forEach(x=>x.cancel());wipe.classList.remove("run");wiping=false})}
-function closePanel(){if(!panel.classList.contains("on")||wiping)return;[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;pbody.innerHTML="";
+ runWipe(slug,WIPE_FROM[slug]||L_,()=>showPanel(slug,from))}
+function closePanel(){if(!panel.classList.contains("on")||wiping)return;
+ const slug=panel.dataset.p;
+ if(reduce||!wipe.animate||!PROJ.some(x=>x[1]===slug)){hidePanel();return}
+ runWipe("back",WIPE_FROM[slug],hidePanel)}
+function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;pbody.innerHTML="";
  if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
