@@ -396,7 +396,27 @@ body[data-depth="DP3"] .word.hot .wi{text-shadow:none;filter:drop-shadow(0 0 .06
 body[data-skin="dark"]{--box:#2a2b31}
 :root{--box:#d8d7d2}
 
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01s!important;animation:none!important}}
+/* ── 19 Nov: three trial animations for Kelly to look at. Each block (CSS here, markup and script marked ANIM-1/2/3) can be deleted on its own. ── */
+/* ANIM-1: a line that draws itself under the About text and ends in a small orange heart */
+.aline{display:block;width:min(100%,340px);height:auto;margin-top:clamp(18px,3vw,30px);color:inherit;overflow:visible;transition:color .4s}
+.aline.lit{color:#fff}
+.aline path.ln{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.65,0,.35,1)}
+.aline .ht{fill:var(--signal);transform-box:fill-box;transform-origin:50% 60%;transform:scale(0);transition:transform .5s cubic-bezier(.3,1.5,.5,1) 1.45s}
+.aline.on path.ln{stroke-dashoffset:0}
+.aline.on .ht{transform:scale(1)}
+/* ANIM-2: a few orange dots that drift slowly in the empty space */
+.dots{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.dots i{position:absolute;width:var(--d,8px);aspect-ratio:1;border-radius:50%;background:var(--signal);opacity:.85;animation:drift var(--t,11s) ease-in-out var(--w,0s) infinite alternate;will-change:transform}
+@keyframes drift{from{transform:translate(0,-14px)}to{transform:translate(var(--x,10px),18px)}}
+@media (max-width:640px){.about .dots i:nth-child(even){display:none}}   /* on phones the text fills the width, so keep only the dots at the edge */
+/* ANIM-3: the < > beside "Built with" opens a little on hover, focus or the first time the strip comes into view */
+.bicon{width:34px;height:20px;flex:none;overflow:visible;margin-right:-14px}
+.bicon .br{fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.bicon .ht{fill:var(--signal);transform-box:fill-box;transform-origin:50% 60%;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.built:hover .bicon .l,.built:focus-within .bicon .l,.built.peek .bicon .l{transform:translateX(-4px)}
+.built:hover .bicon .r,.built:focus-within .bicon .r,.built.peek .bicon .r{transform:translateX(4px)}
+.built:hover .bicon .ht,.built:focus-within .bicon .ht,.built.peek .bicon .ht{transform:scale(1)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01s!important;animation:none!important}.aline path.ln{stroke-dashoffset:0}.aline .ht{transform:none}}
 </style>
 </head>
 <body data-skin="light">
@@ -424,9 +444,11 @@ body[data-skin="dark"]{--box:#2a2b31}
 </section>
 
 <section class="about" id="about" aria-label="About">
+  <div class="dots" aria-hidden="true"><!-- ANIM-2 --><i style="right:12%;top:22%;--d:9px;--t:12s;--x:-14px"></i><i style="right:24%;top:58%;--d:6px;--t:9s;--w:-3s;--x:12px"></i><i style="right:7%;top:74%;--d:11px;--t:14s;--w:-6s;--x:-8px"></i><i style="right:34%;top:14%;--d:5px;--t:10s;--w:-2s;--x:9px"></i></div>
   <div class="wrap">
     <p class="ap" id="ap1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
     <p class="ap" id="ap2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+    <svg class="aline" id="aline" viewBox="0 0 340 26" aria-hidden="true"><!-- ANIM-1 --><path class="ln" pathLength="1" d="M2 15c40-9 70 7 110 0s70-9 110 0 50 6 86-2"/><g transform="translate(314 2) scale(.9)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg>
     <a class="alink" id="alink" href="#about" aria-label="About"></a>
     <p class="anote" id="anote" aria-live="polite"></p>
   </div>
@@ -435,8 +457,9 @@ body[data-skin="dark"]{--box:#2a2b31}
 <section class="work" id="work" aria-label="Work"><div class="wbox" id="wbox"></div></section>
 
 <section class="ct" id="contact" aria-label="Contact">
+  <div class="dots" aria-hidden="true"><!-- ANIM-2 --><i style="left:6%;top:10%;--d:7px;--t:11s;--w:-4s;--x:10px"></i><i style="right:9%;top:6%;--d:10px;--t:13s;--x:-12px"></i><i style="left:14%;bottom:12%;--d:5px;--t:9s;--w:-1s;--x:8px"></i></div>
   <!-- 19 Nov: the "Built with" strip from the sample Kelly picked (direction 3). The stack is the one named in the GigBag case study. -->
-  <div class="builtw"><div class="built" role="group" aria-labelledby="builtH"><h2 id="builtH">Built with</h2><ul><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul></div></div>
+  <div class="builtw"><div class="built" id="built" role="group" aria-labelledby="builtH"><svg class="bicon" viewBox="0 0 34 20" aria-hidden="true"><!-- ANIM-3 --><path class="br l" d="M8 3 2 10l6 7"/><path class="br r" d="M26 3l6 7-6 7"/><g transform="translate(11.6 4.4) scale(.45)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg><h2 id="builtH">Built with</h2><ul><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul></div></div>
   <div class="wrap">
     <div class="stagef" id="formStage"></div>
   </div>
@@ -1198,6 +1221,7 @@ function paintAll(){
  if(tlOn||P.wasOn){kwList.forEach(w=>w.classList.toggle("lit",litFor(w)))}else kwList.forEach(w=>w.classList.remove("lit"));
  P.wasOn=tlOn;
  const al=litFor(alink);alink.classList.toggle("lit",al);anote.classList.toggle("lit",al);
+ const aln=$("#aline");if(aln)aln.classList.toggle("lit",litFor(aln));   /* ANIM-1: the line takes the same white as the link while it is over the charcoal */
  if(((pp>0&&pp<1)||(tlOn&&edgeOn&&!reduce))&&!liqRaf)liqRaf=requestAnimationFrame(liqLoop)}
 /* how far she has to scroll before the toggle has faded out (px). A placeholder, not a decision. */
 const FADET=16;
@@ -1231,6 +1255,10 @@ function playAbout(){stopAboutLoop();wordify();const m=OPT.atext.v;aboutPlayed=t
  setTimeout(()=>{alink.style.opacity=1},900+n*20);
  if(m==="AK2"||m==="AK3")setTimeout(startAboutLoop,1300)}
 new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!aboutPlayed)playAbout()}),{threshold:.5}).observe(ap1);
+/* ANIM-1: draw the About line once, when it comes into view */
+{const el=$("#aline");if(el){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){el.classList.add("on");io.disconnect()}},{threshold:.6});io.observe(el)}}
+/* ANIM-3: open the < > once when the strip first comes into view, so touch screens see it too */
+{const el=$("#built");if(el&&!reduce){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();setTimeout(()=>{el.classList.add("peek");setTimeout(()=>el.classList.remove("peek"),1400)},300)}},{threshold:.9});io.observe(el)}}
 
 /* icon link to the About page (E203, E212) */
 const ICONS={
