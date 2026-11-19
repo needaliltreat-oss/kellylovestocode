@@ -348,7 +348,7 @@ svg.tight .om-node .om-meta{font-size:12px}
       <div class="f"><label for="fe">Email<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fe" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="fe-e"><p class="ferr" id="fe-e"></p></div>
       <div class="f"><label for="fc">Company <span class="opt">(optional)</span></label><input id="fc" name="company" type="text" autocomplete="organization"></div>
       <div class="f"><label for="ft">What you need <span class="opt">(optional)</span></label><select id="ft" name="need"><option value="" selected>Choose one</option><option>Fractional CTO</option><option>Advisory</option><option>Build</option><option>Other</option></select></div>
-      <div class="f wide" id="fo-w" hidden><label for="fo">Tell me what you need<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fo" name="need_other" type="text" maxlength="200" aria-describedby="fo-e"><p class="ferr" id="fo-e"></p></div>
+      <div class="f wide" id="fo-w" hidden><label for="fo">Tell me what you need <span class="opt">(optional)</span></label><input id="fo" name="need_other" type="text" maxlength="200"></div>
       <div class="f wide"><label for="fm">Message<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><textarea id="fm" name="message" rows="4" maxlength="2000" required aria-describedby="fm-e"></textarea><p class="ferr" id="fm-e"></p></div>
       <div class="hp" aria-hidden="true"><label for="fw">Website</label><input id="fw" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <div class="f wide"><div class="send"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button><span class="ph">Preview only · not sending yet</span></div><p class="formnote" id="fnote" role="status"></p></div>
@@ -776,18 +776,16 @@ addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
   const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
 
 /* ── the form: PLACEHOLDER. It checks each field inline and sends nothing until a form service is chosen. ── */
-{const form=$("#cform"),note=$("#fnote"),need=$("#ft"),otherW=$("#fo-w"),other=$("#fo"),trap=$("#fw");
+{const form=$("#cform"),note=$("#fnote"),need=$("#ft"),otherW=$("#fo-w"),trap=$("#fw");
  const RULES={fn:v=>v?"":"Please add your name.",
   fe:v=>!v?"Please add your email.":/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?"":"That email address does not look right.",
-  fo:v=>otherW.hidden||v?"":"Please tell me what you need.",
   fm:v=>v?"":"Please add a short message."};
  const check=id=>{const el=$("#"+id),msg=RULES[id](el.value.trim());el.setAttribute("aria-invalid",msg?"true":"false");$("#"+id+"-e").textContent=msg;return !msg};
  Object.keys(RULES).forEach(id=>{const el=$("#"+id);
   el.addEventListener("blur",()=>{if(el.value.trim()||el.getAttribute("aria-invalid"))check(id)});
   el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{if(el.getAttribute("aria-invalid")==="true")check(id)})});
- /* "Other" opens a required field for what they need; picking anything else hides it and clears its error */
- const syncOther=()=>{const on=need.value==="Other";otherW.hidden=!on;other.required=on;
-  if(!on){other.removeAttribute("aria-invalid");$("#fo-e").textContent=""}};
+ /* "Other" opens an optional field for what they need (Kelly, 19 Nov); picking anything else hides it */
+ const syncOther=()=>{otherW.hidden=need.value!=="Other"};
  need.addEventListener("change",syncOther);syncOther();
  /* anti-spam, in the browser only (Kelly, 19 Nov). The hidden trap field and a minimum time between first touching the form and sending.
     A filled trap gets the normal message and nothing else; a send under MIN_MS gets a polite "press Send again", and the next press goes through.
