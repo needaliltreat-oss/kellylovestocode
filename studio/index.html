@@ -67,14 +67,14 @@ body.locked{overflow:hidden}
 .heart.shake svg,.heart.knock svg{animation:shake .6s ease-out}
 .heart.live{pointer-events:auto;cursor:pointer}
 /* hover (or a tap, which toggles it): the heart grows a little and takes the chameleon (it runs in the script) */
-.heart.live.pulse svg{scale:1.1}
-@media (hover:hover){.heart.live:hover svg{scale:1.1}}
+.heart.live.pulse svg{scale:1.16}
+@media (hover:hover){.heart.live:hover svg{scale:1.16}}
 @keyframes shake{20%{transform:rotate(-8deg) scale(1.08)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(1deg)}100%{transform:none}}
 .word{position:absolute;left:0;top:0;font:900 var(--word)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;user-select:none;-webkit-user-select:none;z-index:4;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
 .word.on{opacity:1}
 .word .wi{display:block;transition:scale .2s cubic-bezier(.3,1.4,.5,1)}
 /* hover or tap: the word grows a little and takes the chameleon (it runs in the script). The shake is kept for holding a word to throw it. */
-.word.hot .wi{scale:1.1}
+.word.hot .wi{scale:1.16}
 /* the chameleon paints inside the letters; the padding, taken back by the margin, keeps the tall letters inside the painted box */
 .word.cham .wi{-webkit-text-fill-color:transparent;background-color:currentColor;-webkit-background-clip:text;background-clip:text;padding:.2em .08em;margin:-.2em -.08em}
 .word.held .wi{animation:wshake var(--skd,.45s) ease-in-out infinite}
@@ -289,7 +289,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 <section class="track" id="introTrack" aria-label="Kelly loves">
   <div class="sticky" id="stage">
     <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span class="sr">loves</span></h1>
-    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient><radialGradient id="hch" cx=".85" cy=".6" r=".6"><stop offset="0" stop-color="#c03221"/><stop offset="1" stop-color="#c03221" stop-opacity="0"/></radialGradient></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path class="hch" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hch)" opacity="0"/><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hgl)"/></svg></div>
+    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient><radialGradient id="hch" cx=".85" cy=".6" r=".75"><stop offset=".3" stop-color="#c03221"/><stop offset="1" stop-color="#c03221" stop-opacity="0"/></radialGradient></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path class="hch" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hch)" opacity="0"/><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="url(#hgl)"/></svg></div>
     <div class="hint" id="hint" aria-hidden="true"><span class="bob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg></span></div>
     <p class="sub" id="sub"><b>Kelly Burgess</b> · Fractional CTO</p>
   </div>
@@ -297,7 +297,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 
 <section class="aboutband" id="about" aria-label="About">
   <div class="wrap">
-    <p class="roll">I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO: I come in, make the technical calls and build what needs building.</p>
+    <p class="roll">I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO. Think of me as your CTO on speed dial: I untangle the technical decisions, make the calls that are expensive to get wrong and build what your product actually needs.</p>
     <p class="roll">I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
     <a class="arrow roll" id="alink" href="#about" data-open="about" aria-label="More about Kelly"><span class="ico" aria-hidden="true"><svg class="aa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg><svg class="ah" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></span></a>
   </div>
@@ -408,11 +408,13 @@ const bandColour=yn=>yn<=0?W0:yn>=1?W1:mix(W0,W1,yn);
 
 /* the hover "chameleon", after the CodePen Kelly sent: the text colour drifts slowly between two close colours while a soft patch of colour
    slides across the letters. Kelly's limit: "only two colors either way from wherever the word lands on the gradient scale", so the text
-   moves between one step below and one step above the word's own spot, and the patch between two steps either side, the other way round.
+   moves between two steps below and two steps above the word's own spot, and the patch the other way round, so the two meet and cross.
+   Kelly, 19 Nov: "make the chameleon effect a bit more dramatic". Steps went from .07 to .10 of the gradient, the text from one step to two either way,
+   the patch from 50% to 75% of the word with a solid middle, and the hover size from 1.1 to 1.16.
    The patch is painted inside the letters (background-clip:text) rather than as a blurred multiply overlay, so it stays on the word over the light
    paper and costs no blur filter on phones. When the pointer leaves it fades back to the word's own colour.
    Tune here: CH_STEP is one step as a share of the whole gradient, CH_HALF one drift across in ms. Reduced motion: no drift, only the size change. */
-const CH_STEP=.07,CH_HALF=2500,CH_IN=220,CH_OUT=320,TAP_HOLD=1600;
+const CH_STEP=.10,CH_HALF=2500,CH_IN=220,CH_OUT=320,TAP_HOLD=1600;
 const swayState=()=>({on:false,a:0,t0:0,last:0});
 /* how far the effect is faded in (0 to 1) */
 function swayA(c,now){const dt=Math.min(64,now-(c.last||now));c.last=now;
@@ -443,7 +445,7 @@ function land(){landed=true;heart.classList.remove("shake");void heart.offsetWid
  /* the heart has no spot on the gradient, so its steps lean its brick red toward the blue end one way and the orange end the other */
  const shade=o=>o<0?mix(HEART,W0,-o):o>0?mix(HEART,W1,o):HEART;
  const tick=now=>{const a=swayA(hc,now),u=swayU(hc,now);
-  if(a>0){heart.style.color=shade(a*CH_STEP*u);const pc=shade(-a*2*CH_STEP*u);hs.forEach(x=>x.style.stopColor=pc);hg.setAttribute("cx",(.85-.7*(u+1)/2).toFixed(3));hp.setAttribute("opacity",a.toFixed(3))}
+  if(a>0){heart.style.color=shade(a*2*CH_STEP*u);const pc=shade(-a*2*CH_STEP*u);hs.forEach(x=>x.style.stopColor=pc);hg.setAttribute("cx",(.85-.7*(u+1)/2).toFixed(3));hp.setAttribute("opacity",a.toFixed(3))}
   else{heart.style.color="";hp.setAttribute("opacity","0")}
   if(hc.on||hc.a>0)hr=requestAnimationFrame(tick);else{hr=0;hc.last=0}};
  const hot=on=>{if(on&&!hc.on)hc.t0=performance.now();hc.on=on;if(!reduce&&!hr)hr=requestAnimationFrame(tick)};
@@ -495,8 +497,8 @@ function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Co
  /* each word takes the colour of where it sits; while hovered it drifts up to two steps either way from there */
  const draw=(now=performance.now())=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
   const yn=p.y/H,a=swayA(t.ch,now);
-  if(a>0){const u=swayU(t.ch,now);t.el.style.color=bandColour(yn+a*CH_STEP*u);
-   t.wi.style.backgroundImage=`radial-gradient(ellipse 50% 95% at ${(85-70*(u+1)/2).toFixed(1)}% 62%,${bandColour(yn-a*2*CH_STEP*u)},transparent 75%)`;
+  if(a>0){const u=swayU(t.ch,now),pc=bandColour(yn-a*2*CH_STEP*u);t.el.style.color=bandColour(yn+a*2*CH_STEP*u);
+   t.wi.style.backgroundImage=`radial-gradient(ellipse 75% 130% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${pc} 30%,transparent 85%)`;
    if(!t.cham){t.cham=true;t.el.classList.add("cham")}}
   else{t.el.style.color=bandColour(yn);if(t.cham){t.cham=false;t.el.classList.remove("cham");t.wi.style.backgroundImage=""}}});
  const holdShake=()=>items.forEach(t=>{if(!t.drag||!t.h0)return;const h=holdK(t.h0);t.el.style.setProperty("--sk",(1+(SHAKE_MAX-1)*h).toFixed(2));t.el.style.setProperty("--skd",(.45-.3*h).toFixed(3)+"s")});
