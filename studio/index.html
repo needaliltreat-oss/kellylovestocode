@@ -23,19 +23,19 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&family=Gabarito:wght@400..800&family=Lexend:wght@300..600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&family=Gabarito:wght@400..800&family=Lexend:wght@300..700&display=swap">
 <style>
 /* THE HOME PAGE of kellylovestocode.com, rebuilt 19 Nov 2026 to the look of the "Polished Current Sample" Kelly picked:
    Figtree for headings, Gabarito for the About text and ledes, Lexend for body text; paper and charcoal; light only.
    Kept, her words: "I would keep the intro of falling words but scrap the other animations and transitions."
-   The falling words keep the blue to orange gradient. Work is the Index layout in her Coolors colours (brick, blue, grape, olive).
+   The falling words keep the blue to orange gradient. Work is the Index layout in her Coolors colours (GigBag blue, TitreLab brick, grape, olive; GigBag and TitreLab swapped 19 Nov because the brick fought the red in the GigBag logo).
    No open transition yet: About and the projects open at once until she picks one. */
 :root{
   --paper:#f1f0ec; --char:#16171b; --signal:#ff6a2b; --muted:#5b5b60; --rule:#d3d2cc; --onchar:#f1f0ec; --onmuted:#a4a4a8;
   /* Kelly's Coolors colours. First value: small text on the paper. Second: the hover fill, with white text on it.
      Brick and grape are her exact hexes. Blue and olive are deepened just enough for small text (all pass WCAG AA). */
-  --gb:#c03221; --gb-fill:#c03221;
-  --tl:#38748c; --tl-fill:#38748c;
+  --gb:#38748c; --gb-fill:#38748c;
+  --tl:#c03221; --tl-fill:#c03221;
   --fs:#483a58; --fs-fill:#483a58;
   --pf:#66721c; --pf-fill:#707d1e;
   --fill-ink:#ffffff;
@@ -47,7 +47,8 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--char);font:300 1rem/1.7 var(--body);overflow-x:hidden}
+/* body text is regular weight site-wide (Kelly, 19 Nov: the light 300 was thin and hard to read) */
+body{margin:0;background:var(--paper);color:var(--char);font:400 1rem/1.7 var(--body);overflow-x:hidden}
 body.locked{overflow:hidden}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -62,17 +63,24 @@ body.locked{overflow:hidden}
 .kl.landed .s{opacity:1}
 .kl.knock{animation:klknock .7s ease-out}
 @keyframes klknock{0%,100%{transform:translate(-50%,-50%)}14%{transform:translate(-50%,-50%) rotate(-1.1deg) translateX(-7px)}32%{transform:translate(-50%,-50%) rotate(.9deg) translateX(6px)}52%{transform:translate(-50%,-50%) rotate(-.6deg) translateX(-4px)}74%{transform:translate(-50%,-50%) rotate(.3deg) translateX(2px)}}
-.heart{position:absolute;left:0;top:0;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);z-index:5;will-change:transform;pointer-events:none;opacity:0}
-.heart svg{width:100%;height:100%;display:block;overflow:visible}
+.heart{position:absolute;left:0;top:0;width:calc(var(--hw) * 1px);height:calc(var(--hh) * 1px);z-index:5;will-change:transform;pointer-events:none;opacity:0;color:#c03221}
+.heart svg{width:100%;height:100%;display:block;overflow:visible;transition:scale .22s cubic-bezier(.3,1.4,.5,1)}
 .heart.shake svg,.heart.knock svg{animation:shake .6s ease-out}
-.heart.live{pointer-events:auto;cursor:pointer}
-.heart.live:hover svg,.heart.live.pulse svg{animation:hpulse .9s ease-in-out infinite;filter:drop-shadow(0 0 6px var(--hglow)) drop-shadow(0 0 22px var(--hglow))}
-@keyframes hpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.heart.live{pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* no rim (Kelly, 19 Nov): the shine and the chameleon patch are masked to the heart's full outline, stroke included, so no plain edge reads as a border.
+   Their gradients keep the old box-relative placement through gradientTransform (the path's box: 1.239,4.157, 21.523 × 17.143). */
+/* hover (or a tap, which toggles it): the heart grows a little and takes the chameleon (it runs in the script) */
+.heart.live.pulse svg{scale:1.18}
+@media (hover:hover){.heart.live:hover svg{scale:1.18}}
 @keyframes shake{20%{transform:rotate(-8deg) scale(1.08)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(1deg)}100%{transform:none}}
 .word{position:absolute;left:0;top:0;font:900 var(--word)/.82 var(--head);letter-spacing:-.045em;white-space:nowrap;will-change:transform;user-select:none;-webkit-user-select:none;z-index:4;opacity:0;padding:.06em .02em .1em;cursor:grab;touch-action:pan-y}
 .word.on{opacity:1}
-.word .wi{display:block}
-.word.hot .wi{animation:wshake var(--skd,.45s) ease-in-out infinite;text-shadow:0 0 .12em var(--glow),0 0 .45em var(--glow),0 0 .9em var(--glow)}
+.word .wi{display:block;transition:scale .2s cubic-bezier(.3,1.4,.5,1)}
+/* hover or tap: the word grows a little and takes the chameleon (it runs in the script). The shake is kept for holding a word to throw it. */
+.word.hot .wi{scale:1.18}
+/* the chameleon paints inside the letters; the padding, taken back by the margin, keeps the tall letters inside the painted box */
+.word.cham .wi{-webkit-text-fill-color:transparent;background-color:currentColor;-webkit-background-clip:text;background-clip:text;padding:.2em .08em;margin:-.2em -.08em}
+.word.held .wi{animation:wshake var(--skd,.45s) ease-in-out infinite}
 @keyframes wshake{0%,100%{transform:none}25%{transform:rotate(calc(var(--sk,1) * -3deg)) translateX(calc(var(--sk,1) * -.02em))}75%{transform:rotate(calc(var(--sk,1) * 3deg)) translateX(calc(var(--sk,1) * .02em))}}
 .hint{position:absolute;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:3;color:var(--char);opacity:0;transition:opacity .4s}
 .hint .bob{display:block;animation:bob 1.6s ease-in-out infinite}
@@ -84,11 +92,11 @@ body.locked{overflow:hidden}
 /* ── About: the charcoal band ── */
 .aboutband{background:var(--char);color:var(--onchar);position:relative;z-index:1}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
-.aboutband small{font:400 .75rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--onmuted)}
-.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.4 var(--blurb);margin:0;max-width:34ch}
+.aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.85 var(--blurb);margin:0}
+.aboutband.pre .roll{opacity:0}
 /* the arrow: on hover or focus it turns into the heart once, then back to the arrow (her words: "onHover: heart then arrow again") */
-.arrow{width:56px;height:56px;border:1.5px solid var(--onchar);border-radius:50%;display:grid;place-items:center;color:var(--onchar);text-decoration:none;margin-top:8px;transition:border-color .2s,color .2s}
-.arrow:hover,.arrow:focus-visible{border-color:var(--signal);color:var(--signal)}
+.arrow{width:56px;height:56px;border:1.5px solid var(--onchar);border-radius:50%;display:grid;place-items:center;color:var(--onchar);background:linear-gradient(150deg,rgba(255,255,255,.2),rgba(255,255,255,0) 55%,rgba(0,0,0,.2)),#c03221;text-decoration:none;margin-top:8px;transition:border-color .2s}
+.arrow:hover,.arrow:focus-visible{border-color:var(--signal)}
 .arrow .ico{position:relative;width:22px;height:22px;overflow:hidden}
 .arrow .ico > svg{position:absolute;inset:0;width:22px;height:22px}
 .arrow .ico .ah{transform:translate(-110%,110%)}
@@ -102,57 +110,85 @@ body.locked{overflow:hidden}
 [data-open="formulation-suite"],#opened[data-p="formulation-suite"]{--c:var(--fs);--c-fill:var(--fs-fill)}
 [data-open="phytofoundry"],#opened[data-p="phytofoundry"]{--c:var(--pf);--c-fill:var(--pf-fill)}
 /* Project page palettes (Kelly, 19 Nov): base = bar and rules, meta = number, meta line, Previous/Next, sh = section headers, acc = lede line, screen frames, link underline. A page without one keeps the neutral look. */
-#opened[data-p="gigbag"]{--p-base:#c03221;--p-meta:#8c3f3f;--p-sh:#450b04;--p-acc:#94180a}
-#opened[data-p="titrelab"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
-#opened[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
-#opened[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
+#opened[data-p="gigbag"],.wipe[data-p="gigbag"]{--p-base:#38748c;--p-meta:#0a5373;--p-sh:#0b3366;--p-acc:#3b464a}
+#opened[data-p="titrelab"],.wipe[data-p="titrelab"]{--p-base:#c03221;--p-meta:#8c3f3f;--p-sh:#450b04;--p-acc:#94180a}
+#opened[data-p="formulation-suite"],.wipe[data-p="formulation-suite"]{--p-base:#483a58;--p-meta:#77579c;--p-sh:#230238;--p-acc:#5a1ba1}
+#opened[data-p="phytofoundry"],.wipe[data-p="phytofoundry"]{--p-base:#707d1e;--p-meta:#5a5e3f;--p-sh:#262b00;--p-acc:#424529}
 #opened[data-p="gigbag"],#opened[data-p="titrelab"],#opened[data-p="formulation-suite"],#opened[data-p="phytofoundry"]{--p-bar:3px solid var(--p-base);--p-mark:block;--p-lede:4px solid var(--p-acc);--p-ledepad:clamp(12px,2vw,20px)}
-.proj .i{font:600 .875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
-.proj h3{font:900 clamp(2rem,1.2rem + 4vw,4.75rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
-.proj .k{font:500 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char))}
-.proj .go{grid-column:2;font:500 .875rem var(--body);color:var(--c,var(--char));visibility:hidden}
+.proj .i{grid-row:1;grid-column:1;font:800 1.1875rem var(--head);font-variant-numeric:tabular-nums;color:var(--c,var(--char))}
+.proj h3{grid-row:1;grid-column:2;font:900 clamp(1.625rem,.95rem + 3vw,3.5rem)/.9 var(--head);letter-spacing:-.045em;margin:0;overflow-wrap:anywhere}
+.proj .k{grid-row:1;grid-column:3;font:700 .875rem var(--body);letter-spacing:.08em;text-transform:uppercase;text-align:right;color:var(--c,var(--char));white-space:nowrap}
+/* the teaser under each project name, with clear room above it */
+.proj .t{grid-row:2;grid-column:2;margin:clamp(10px,1.4vw,16px) 0 0;max-width:62ch;font:400 clamp(.9375rem,.88rem + .25vw,1.0625rem)/1.55 var(--body);color:var(--muted)}
 .proj:hover,.proj:focus-visible{background:var(--c-fill,var(--char));color:var(--fill-ink)}
-.proj:hover :is(.i,.k,.go),.proj:focus-visible :is(.i,.k,.go){color:var(--fill-ink)}
-.proj:hover .go,.proj:focus-visible .go{visibility:visible}
+.proj:hover :is(.i,.k,.t),.proj:focus-visible :is(.i,.k,.t){color:var(--fill-ink)}
 .proj:focus-visible{outline-offset:4px}
 
 /* ── Built with: full width; the < > opens on hover, focus, or once when it first comes into view ── */
-.proof{border-top:2px solid var(--char);border-bottom:2px solid var(--char)}
-.proof .wrap{padding-block:22px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
-.proof h2{font:800 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0}
-.proof ul{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0;padding:0;font:500 .9375rem var(--body)}
-.proof li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:.12em}
-.bicon{width:34px;height:20px;flex:none;overflow:visible;margin-right:-14px}
+/* the bar runs the same width as About's text and the Work list */
+.proof .bar{border-top:2px solid var(--char);border-bottom:2px solid var(--char);padding:26px 12px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center;justify-content:center;text-align:center}
+.proof h2{font:800 .9375rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0}
+.proof ul{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 26px;list-style:none;margin:0;padding:0;font:500 1.0625rem var(--body)}
+.proof li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#c03221;margin-right:8px;vertical-align:.12em}
+.bicon{width:40px;height:24px;flex:none;overflow:visible;margin-right:-18px}
 .bicon .br{fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
-.bicon .ht{fill:var(--signal);transform-box:fill-box;transform-origin:50% 60%;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.bicon .ht{fill:#c03221;transform-box:fill-box;transform-origin:50% 60%;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
 .proof:hover .bicon .l,.proof:focus-within .bicon .l,.proof.peek .bicon .l{transform:translateX(-4px)}
 .proof:hover .bicon .r,.proof:focus-within .bicon .r,.proof.peek .bicon .r{transform:translateX(4px)}
 .proof:hover .bicon .ht,.proof:focus-within .bicon .ht,.proof.peek .bicon .ht{transform:scale(1)}
+.bicon .ht.gl{fill:url(#bgl)}
 
-/* ── Contact: the form, below the Built with bar ── */
-.contact{padding-block:clamp(40px,7vw,88px)}
-.contact h2{font:800 .8125rem var(--head);letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px}
-.sheet{border:2px solid var(--char);background:var(--paper);padding:clamp(20px,4vw,40px);max-width:880px}
-.cform{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 30px}
+/* ── Contact: a charcoal band below the Built with bar, with a white form the same width as About and Work ── */
+.contact{background:var(--char);color:var(--onchar);margin-top:clamp(40px,7vw,88px)}
+.contact > .wrap{padding-top:clamp(40px,7vw,88px);padding-bottom:calc(clamp(40px,7vw,88px) + env(safe-area-inset-bottom,0px))}
+.sheet{background:#fff;color:var(--char);padding:clamp(20px,4vw,40px)}
+.cform{display:grid;grid-template-columns:minmax(0,1fr);gap:20px 30px}
 @media (min-width:720px){.cform{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .cform .f{display:grid;min-width:0}
 .cform .wide{grid-column:1/-1}
-.cform label{font:600 .75rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
+.cform label{font:800 .875rem var(--head);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .cform input,.cform textarea,.cform select{width:100%;min-width:0;border:0;border-bottom:2px solid var(--char);border-radius:0;background:transparent;color:var(--char);font:400 1rem var(--body);padding:8px 0}
 .cform select{-webkit-appearance:none;appearance:none;padding-right:24px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2316171b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 4px center/12px 8px no-repeat}
 .cform textarea{resize:vertical;min-height:7.5em}
-.cform input:focus,.cform textarea:focus,.cform select:focus{outline:none;border-bottom-color:var(--signal)}
+/* the underline draws in from the left when a field is selected (Kelly, 19 Nov), like the old letter form's lines.
+   Both lines are background layers (a border would paint over the drawn one): --ul is the resting charcoal line, dashed when the field has an error,
+   and the orange line grows to --ul-on over it. Forced-colours mode drops backgrounds, so it gets a plain border back below. */
+.cform input,.cform textarea,.cform select{--ul:linear-gradient(var(--char),var(--char));--ul-on:0%;border-bottom:0;padding-bottom:10px;
+ transition:background-size .7s cubic-bezier(.22,1,.36,1)}
+.cform [aria-invalid="true"]{--ul:repeating-linear-gradient(90deg,var(--char) 0 6px,transparent 6px 10px)}
+.cform input,.cform textarea{background:linear-gradient(var(--signal),var(--signal)) left bottom/var(--ul-on) 2px no-repeat,var(--ul) left bottom/100% 2px no-repeat}
+.cform select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2316171b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 4px center/12px 8px no-repeat,linear-gradient(var(--signal),var(--signal)) left bottom/var(--ul-on) 2px no-repeat,var(--ul) left bottom/100% 2px no-repeat}
+.cform :is(input,textarea,select):focus{outline:none;--ul-on:100%}
+@media (forced-colors:active){.cform input,.cform textarea,.cform select{border-bottom:2px solid CanvasText;padding-bottom:8px}}
+/* required: a small brick heart in place of the asterisk; screen readers hear "required" from the field itself */
+.cform .req{display:inline-block;width:.8em;height:.8em;margin-left:.35em;vertical-align:-.05em;color:#c03221}
+.cform .req svg{display:block;width:100%;height:100%}
 .btn{justify-self:start;margin-top:20px;display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);background:var(--char);color:var(--onchar);border:2px solid var(--char);padding:12px 22px;cursor:pointer;border-radius:0}
-.btn:hover{background:var(--paper);color:var(--char)}
+.btn:hover{background:#fff;color:var(--char)}
 .btn:disabled{opacity:.6;cursor:default}
+.cform .opt{font-weight:400;letter-spacing:.04em;text-transform:none}
+.cform .ferr{font:500 .8125rem/1.4 var(--body);color:var(--char);margin:6px 0 0}
+.cform .ferr:empty{display:none}
+
+.cform .send{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:20px}
+.cform .send .btn{margin-top:0}
+/* Send: brick, with the Work bars' hover drift (run in the script); hover keeps the brick instead of turning white */
+.cform .btn{--c-fill:#c03221;background-color:var(--c-fill);border-color:var(--c-fill);color:#fff}
+.cform .btn:hover{background-color:var(--c-fill);color:#fff}
+.cform .f[hidden]{display:none}
+/* anti-spam trap: a field people never see or reach; bots that fill every field fill it */
+.cform .hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.cform .ph{font:600 .6875rem var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--muted);padding:4px 8px}
 .formnote{font:400 .875rem var(--body);color:var(--muted);margin:8px 0 0;min-height:1.4em}
-.tyk{font:900 clamp(1.6rem,1.1rem + 2.6vw,3.25rem)/1 var(--head);letter-spacing:-.03em;margin:0}
 .clinks{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;font:600 .875rem var(--head)}
 .clinks a{color:inherit;text-decoration:none;border-bottom:2px solid currentColor}
 
 /* ── the panel About and each project open into, in the sample's case-study layout ── */
 #opened{position:fixed;inset:0;z-index:100;background:var(--paper);color:var(--char);overflow:hidden auto;overscroll-behavior:contain;visibility:hidden}
 #opened.on{visibility:visible}
+/* the wipe: a skewed sheet that sweeps across, covers the page while a section opens under it, then sweeps back. Never takes clicks. */
+.wipe{position:fixed;top:-12vw;bottom:-12vw;left:-12vh;right:-12vh;z-index:110;background:var(--p-base,var(--char));pointer-events:none;visibility:hidden;transform:translateX(-100%) skewX(-5deg);will-change:transform}
+.wipe.run{visibility:visible}
 #opened .pbar{position:sticky;top:0;z-index:2;background:var(--paper);border-bottom:var(--p-bar,1px solid var(--rule));padding-top:env(safe-area-inset-top,0px)}
 #opened .pbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
 .pclose{display:inline-flex;align-items:center;gap:10px;font:800 .9375rem var(--head);color:inherit;background:transparent;border:0;padding:6px 0;cursor:pointer}
@@ -162,19 +198,84 @@ body.locked{overflow:hidden}
 .study{padding-block:clamp(40px,7vw,88px)}
 .study h2{font:900 clamp(2rem,1.3rem + 3vw,4rem)/.95 var(--head);letter-spacing:-.04em;margin:0 0 6px;overflow-wrap:anywhere}
 .study .mark{display:var(--p-mark,none);width:56px;height:8px;background:var(--p-base);margin:0 0 18px}
-.study .meta{font:500 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-meta,var(--muted));margin:0 0 clamp(24px,4vw,40px)}
+.study .meta{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-meta,var(--muted));margin:0 0 clamp(24px,4vw,40px)}
 .study .meta:empty{display:none}
-.study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
+.study .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,64px) clamp(20px,4vw,56px)}
 .study .grid > *{min-width:0}
-.study .sh{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-sh,var(--c,var(--muted)));margin:0 0 10px}
+/* section titles: one treatment on every panel; the colour is the page's own --p-sh, charcoal on the About (Kelly, 19 Nov) */
+.study .sh{font:800 clamp(1.5rem,1.3rem + .8vw,1.875rem)/1.2 var(--head);letter-spacing:.04em;text-transform:uppercase;color:var(--p-sh,var(--char));margin:0 0 16px}
 .study p{margin:0 0 1.1em;max-width:62ch}
 .study .lede{font:500 clamp(1.15rem,1rem + .7vw,1.5rem)/1.45 var(--blurb);border-left:var(--p-lede,none);padding-left:var(--p-ledepad,0)}
 .study .wide{grid-column:1/-1}
+/* the expanded About matches the home About's line spacing (Kelly, 19 Nov); the skills map's small captions keep theirs */
+#opened[data-p="about"] .study p:not(.meta,.om-wrap *){line-height:1.85}
 .study .shots{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
 .study .shot{aspect-ratio:16/10;max-width:100%;border:2px solid var(--p-acc,var(--char));display:grid;place-items:center;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
 .study .pairs{display:grid;gap:20px 32px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:0}
 .study .pairs dt{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .study .pairs dd{margin:4px 0 0;font:400 .9375rem/1.5 var(--body)}
+/* the GigBag page (19 Nov): logo beside the overview, the four products as a tracklist, the calls as a list, the stack as a row, and a walkthrough ask */
+.study .gb-ov{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(16px,3vw,32px);align-items:start}
+.study .gb-logo{display:block;width:clamp(64px,9vw,104px);height:auto;aspect-ratio:1}
+.study .tracks{list-style:none;margin:0;padding:0;display:grid;gap:20px 24px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:560px){.study .tracks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.study .tracks{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.study .tracks li{min-width:0;border-top:3px solid var(--p-base,var(--char));padding-top:14px}
+.study .tracks .no{display:block;font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--p-acc,var(--muted))}
+.study .tracks h4{font:800 1.25rem/1.25 var(--head);letter-spacing:-.01em;margin:6px 0 8px}
+.study .tracks p{margin:0;line-height:1.6}
+.study .tracks .soon{border-top-style:dashed}
+.study .tracks .soon h4{color:var(--p-meta,var(--muted))}
+.study .calls{list-style:none;margin:0;padding:0;display:grid;gap:24px}
+.study .calls li{padding-left:16px;border-left:2px solid var(--p-acc,var(--char))}
+.study .calls h4{font:800 1.25rem/1.25 var(--head);letter-spacing:-.01em;margin:0 0 6px}
+.study .stack{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+/* Stack chips light up the lines they power (Kelly, 19 Nov): hover or focus previews, a click, tap or Enter keeps it lit until pressed again */
+.study .stack li{display:flex}
+.study .stack button{--c-fill:var(--p-base,var(--char));display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font:700 .875rem/1 var(--head);color:var(--char);background:transparent;border:2px solid var(--p-acc,var(--char));border-radius:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* mouse or pen hover (.hov, set with the highlight below): the chip fills with the project colour and runs the Work bars' chameleon (chamFill, wired up in fill()) */
+.study .stack button.hov{background-color:var(--c-fill);border-color:var(--c-fill);color:#fff}
+.study .stack button[aria-pressed="true"]{background:var(--p-base,var(--char));border-color:var(--p-base,var(--char));color:#fff}
+.study .gb-hint{margin:-4px 0 16px;font:400 .9375rem/1.5 var(--body);color:var(--muted)}
+.study .gb-stack .bul li{transition:opacity .2s,color .2s}
+.study .gb-stack.hl .bul li{opacity:.5}
+.study .gb-stack.hl .bul li.hit{opacity:1;color:var(--p-sh,var(--char));font-weight:700}
+.study .gb-stack.hl .bul li.hit::marker{color:var(--p-base,currentColor)}
+@media (prefers-reduced-motion:reduce){.study .gb-stack .bul li{transition:none}}
+.study .bul{margin:0;padding-left:1.1em}
+.study .bul li{margin:0 0 .6em}
+.study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
+.study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
+/* TitreLab page (20 Nov): the logo placeholder until Kelly has a logo, and the demo login shown once See the demo is pressed */
+#opened[data-p="titrelab"] .tl-logo{display:grid;place-items:center;border:2px dashed var(--p-acc);color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+#opened[data-p="titrelab"] .gb-ask .btn{text-decoration:none}
+#opened[data-p="titrelab"] .tl-login{margin-top:24px;padding-left:clamp(12px,2vw,20px);border-left:4px solid var(--p-acc)}
+#opened[data-p="titrelab"] .tl-login .gb-hint{margin:0 0 12px}
+#opened[data-p="titrelab"] .tl-login dd{overflow-wrap:anywhere;-webkit-user-select:all;user-select:all}
+/* its four screens sit 1, 2 or 4 across, on the same steps as the bench tiles, so none is left alone on a row */
+#opened[data-p="titrelab"] .shots{grid-template-columns:minmax(0,1fr)}
+@media (min-width:560px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* the four demo screens: each capture fills its 16:10 frame, its name sits underneath */
+#opened[data-p="titrelab"] .tl-shot{margin:0;min-width:0}
+#opened[data-p="titrelab"] .tl-shot .shot{display:block;overflow:hidden;background:#fff}
+#opened[data-p="titrelab"] .tl-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+#opened[data-p="titrelab"] .tl-shot figcaption{margin-top:10px;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+#opened[data-p="titrelab"] .tl-todo{color:var(--muted);font-style:italic;-webkit-user-select:none;user-select:none}
+/* Formulation Suite page (20 Nov): its three screen placeholders sit 1 across on phones and 3 across from 700px, so none is left alone on a row */
+#opened[data-p="formulation-suite"] .shots{grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){#opened[data-p="formulation-suite"] .shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* PhytoFoundry page (20 Nov): the logo placeholder until Kelly has one, and its four plate placeholders 1, 2 or 4 across */
+#opened[data-p="phytofoundry"] .gb-ask .btn{text-decoration:none}
+#opened[data-p="phytofoundry"] .pf-logo{display:grid;place-items:center;border:2px dashed var(--p-acc);color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+#opened[data-p="phytofoundry"] .shots{grid-template-columns:minmax(0,1fr)}
+@media (min-width:560px){#opened[data-p="phytofoundry"] .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){#opened[data-p="phytofoundry"] .shots{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
+/* panel body text, shared by every project page and the About (Kelly, 19 Nov: the light 300 was hard to read; all projects match GigBag). Scale:
+   title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
+#pbody{font-size:1.0625rem;line-height:1.7}
+#pbody :is(p,li){text-wrap:pretty}
 .pnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(16px,4vw,56px);border-top:2px solid var(--p-base,var(--char));margin-top:clamp(24px,4vw,48px)}
 .pnav button{display:grid;gap:6px;text-align:left;background:none;border:0;color:inherit;padding:clamp(22px,4vw,44px) 0;cursor:pointer;font:inherit;min-width:0}
 .pnav button.fwd{text-align:right;justify-items:end}
@@ -183,13 +284,91 @@ body.locked{overflow:hidden}
 .pnav button:hover .nm{text-decoration:underline;text-decoration-color:var(--p-acc,currentColor);text-decoration-thickness:3px;text-underline-offset:.12em}
 
 @media (max-width:640px){
- .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-column:2;text-align:left}
+ .proj{grid-template-columns:2.2rem minmax(0,1fr)}.proj .k{grid-row:3;grid-column:2;text-align:left;margin-top:10px}
  .study .grid{grid-template-columns:minmax(0,1fr)}
+ .study .gb-ov{grid-template-columns:minmax(0,1fr)}
  .pnav{grid-template-columns:minmax(0,1fr)}.pnav button.fwd{text-align:left;justify-items:start;border-top:1px solid var(--rule)}
 }
+/* ── the skill map in the expanded About: arcs from 640px up, a list on phones ── */
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.study .om-wrap{margin-top:clamp(16px,3vw,32px);border-top:2px solid var(--char);padding-top:clamp(20px,3vw,32px)}
+.study .om-cap{font:400 .9375rem/1.5 var(--body);color:var(--muted);margin:0 0 20px}
+.om-cap .n{display:none}
+.om{display:grid;grid-template-columns:minmax(0,1fr);gap:20px 40px}
+.om-roles,.om-why,.om-list,.om-data{grid-column:1/-1}
+.om-roles{border:0;margin:0;padding:0;min-width:0}
+.om-roles legend{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding:0}
+.om-rl{display:flex;flex-wrap:wrap;gap:8px}
+.om-rl label{position:relative}
+.om-rl input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+.om-rl span{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1.5px solid var(--char);background:var(--paper);color:var(--char);font:600 .875rem var(--head);cursor:pointer}
+.om-rl input:hover+span{background:var(--rule)}
+.om-rl input:checked+span{background:var(--char);color:var(--onchar)}
+.om-rl input:focus-visible+span{outline:2px solid var(--signal);outline-offset:3px}
+.study .om-why{font:400 .9375rem/1.5 var(--body);color:var(--muted);margin:-8px 0 0;min-height:1.5em;max-width:62ch}
+.om-chart{position:relative;min-width:0}
+.om-chart svg{display:block;width:100%;height:auto;overflow:visible;touch-action:manipulation}
+.om-arc{fill:none;stroke:var(--char);stroke-width:1.5;stroke-opacity:.5;transition:stroke-opacity .25s,stroke-width .25s}
+.om-arc.dim{stroke-opacity:.1}
+/* the About is greyscale (Kelly, 19 Nov): the map's project squares, swatches and lit arcs are charcoal, not project colours */
+.om-arc.hot{stroke:var(--char);stroke-opacity:1;stroke-width:2.5}
+.om-node{cursor:pointer;outline:none}
+.om-hit{fill:transparent}
+.om-row{fill:var(--char);fill-opacity:0;transition:fill-opacity .2s}
+.om-node.sel .om-row{fill-opacity:.07}
+.om-node:focus-visible .om-row{stroke:var(--signal);stroke-width:2}
+.om-mk{fill:var(--paper);stroke:var(--char);stroke-width:2;transition:opacity .25s}
+.om-node.project .om-mk{fill:var(--char);stroke:var(--char)}
+.om-node.cap.hot .om-mk,.om-node.cap.sel .om-mk{fill:var(--char)}
+.om-node text{fill:var(--char);font:500 15px var(--head);dominant-baseline:middle}
+.om-node.project text{font-weight:700}
+.om-node .om-meta{fill:var(--muted);font:400 13px var(--body)}
+.om-node.dim text{fill:var(--muted)}
+.om-node.dim .om-mk{opacity:.35}
+svg.tight .om-node text{font-size:13.5px}
+svg.tight .om-node .om-meta{font-size:12px}
+.om-grp{fill:var(--muted);font:600 11px var(--head);letter-spacing:.14em;text-transform:uppercase;text-anchor:end}
+.om-ev{border-top:2px solid var(--char);padding-top:14px;min-width:0}
+.study .om-ev p{margin:0}
+.om-kind{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.study .om-ev .om-empty{margin-top:8px;color:var(--muted);font:400 .9375rem/1.5 var(--body)}
+.om-h{display:flex;align-items:center;gap:10px;font:800 1.5rem/1.15 var(--head);letter-spacing:-.02em;margin:4px 0 0}
+.om-sw{display:inline-block;flex:none;width:12px;height:12px;background:var(--char);vertical-align:-.05em;margin-right:8px}
+.om-h .om-sw{margin-right:0}
+.study .om-ev .om-sum{margin-top:8px;font:400 .9375rem/1.5 var(--body)}
+.study .om-ev .om-stack{margin-top:6px;font:400 .875rem var(--body);color:var(--muted)}
+.om-evl{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:12px}
+.om-evl>li>button,.om-evh{all:unset;display:inline-flex;align-items:center;min-height:32px;font:700 .9375rem var(--head);color:var(--char);cursor:pointer}
+.om-evh{cursor:default}
+.om-evl>li>button:hover{text-decoration:underline;text-underline-offset:3px}
+.om-evl>li>button:focus-visible,.om-more button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.om-evl ul{margin:2px 0 0;padding-left:18px;font:400 .875rem/1.5 var(--body)}
+.study .om-ev .om-rel{margin-top:14px;font:400 .875rem var(--body);color:var(--muted)}
+.study .om-ev .om-more{margin-top:16px}
+.om-more button{all:unset;display:inline-flex;align-items:center;gap:6px;min-height:40px;font:700 .9375rem var(--head);color:var(--char);border-bottom:2px solid currentColor;cursor:pointer}
+.om-list{display:none;list-style:none;margin:0;padding:0;border-top:1px solid var(--char)}
+.om-li{padding:14px 0;border-bottom:1px solid var(--rule)}
+.om-li h4{font:700 1rem var(--head);margin:0 0 6px}
+.om-li ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font:400 .875rem/1.5 var(--body)}
+.om-li b{font:700 .875rem var(--head)}
+.om-li.dim h4,.om-li.dim li{color:var(--muted)}
+.om-nf{font-weight:400}
+.om-data summary{font:700 .875rem var(--head);cursor:pointer;min-height:40px;display:flex;align-items:center}
+.om-data summary:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.om-tw{overflow-x:auto}
+.om-data table{border-collapse:collapse;width:100%;min-width:640px;font:400 .875rem/1.45 var(--body);margin-top:8px}
+.om-data th,.om-data td{text-align:left;vertical-align:top;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.om-data thead th{font:600 .75rem var(--head);letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--char)}
+.om-data tbody th{font:700 .875rem var(--head)}
+.om-data ul{margin:0;padding-left:16px}
+.om-gen{display:block;font:400 .8125rem/1.4 var(--body);color:var(--muted);margin-top:4px}
+.om-none{color:var(--muted)}
+@media (min-width:1000px){.om{grid-template-columns:minmax(0,1fr) 300px}.om-ev{position:sticky;top:96px;align-self:start}}
+@media (max-width:639px){.om-chart,.om-ev,.om-data{display:none}.om-list{display:block}.om-cap .w{display:none}.om-cap .n{display:inline}}
+@media (prefers-reduced-motion:reduce){.om-arc,.om-row,.om-mk{transition:none}.cform input,.cform textarea,.cform select{transition:none}}
 @media (prefers-reduced-motion:reduce){
- .arrow,.bicon .br,.bicon .ht{transition:none}
- .hint .bob,.heart.live:hover svg,.heart.live.pulse svg{animation:none}
+ .arrow,.bicon .br,.bicon .ht,.word .wi,.heart svg{transition:none}
+ .hint .bob,.word.held .wi{animation:none}
 }
 </style>
 </head>
@@ -198,84 +377,184 @@ body.locked{overflow:hidden}
 <section class="track" id="introTrack" aria-label="Kelly loves">
   <div class="sticky" id="stage">
     <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span class="sr">loves</span></h1>
-    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="none" stroke="#ff6a2b" stroke-width="2.6" stroke-linejoin="round"/></svg></div>
+    <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(21.523 0 0 17.143 1.239 4.157)"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient><radialGradient id="hch" cx=".85" cy=".6" r=".8" gradientUnits="userSpaceOnUse" gradientTransform="matrix(21.523 0 0 17.143 1.239 4.157)"><stop offset=".35" stop-color="#c03221"/><stop offset="1" stop-color="#c03221" stop-opacity="0"/></radialGradient><mask id="hm" maskUnits="userSpaceOnUse" x="-2" y="1" width="28" height="24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="#fff" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/></mask></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><rect class="hch" x="-2" y="1" width="28" height="24" fill="url(#hch)" mask="url(#hm)" opacity="0"/><rect x="-2" y="1" width="28" height="24" fill="url(#hgl)" mask="url(#hm)"/></svg></div>
     <div class="hint" id="hint" aria-hidden="true"><span class="bob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg></span></div>
     <p class="sub" id="sub"><b>Kelly Burgess</b> · Fractional CTO</p>
   </div>
 </section>
 
-<section class="aboutband" id="about" aria-labelledby="aboutH">
+<section class="aboutband" id="about" aria-label="About">
   <div class="wrap">
-    <small id="aboutH">About</small>
-    <p>I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO: I come in, make the technical calls and build what needs building.</p>
-    <p>Most recently I co-founded GigBag and built it as CTO and sole developer, taking four products from zero to closed beta. Before that I ran Take Me To Your Pixel, my own web design studio, where I took clients from a napkin sketch to a launched site, and I led a platform rebuild as UX architect for Carolinas AGC. My first leadership role was VP of Technology at Step Up 4 Learning, where I ran the platform and the development team behind an online writing program.</p>
-    <p>I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
-    <a class="arrow" id="alink" href="#about" data-open="about" aria-label="More about Kelly"><span class="ico" aria-hidden="true"><svg class="aa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg><svg class="ah" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="none" stroke="#ff6a2b" stroke-width="2.4" stroke-linejoin="round"/></svg></span></a>
+    <p class="roll">I've been building for the web for more than twenty years, from a design studio in London to a bank in Charlotte to my own music platform in New York. Today I work as a fractional CTO. Think of me as your CTO on speed dial: I untangle the technical decisions, make the calls that are expensive to get wrong and build what your product actually needs.</p>
+    <p class="roll">I speak "geek" and I speak business, so I can sit between your developers and every level of management and make sure both sides are heard.</p>
+    <a class="arrow roll" id="alink" href="#about" data-open="about" aria-label="More about Kelly"><span class="ico" aria-hidden="true"><svg class="aa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg><svg class="ah" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></span></a>
   </div>
 </section>
 
 <section class="work wrap" id="work" aria-label="Selected work">
   <div class="index">
-    <a class="proj" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><span class="k">Case study</span><span class="go" aria-hidden="true">View project →</span></a>
-    <a class="proj" href="#work" data-open="titrelab"><span class="i">02</span><h3>TitreLab</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
-    <a class="proj" href="#work" data-open="formulation-suite"><span class="i">03</span><h3>Formulation Suite</h3><span class="k">Compliance labelling</span><span class="go" aria-hidden="true">View project →</span></a>
-    <a class="proj" href="#work" data-open="phytofoundry"><span class="i">04</span><h3>PhytoFoundry</h3><span class="k">Lorem ipsum</span><span class="go" aria-hidden="true">View project →</span></a>
+    <a class="proj" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><p class="t">A New York music platform I co-founded and built as CTO and sole developer, taking four products from zero to closed beta on my own.</p><span class="k">View project</span></a>
+    <a class="proj" href="#work" data-open="titrelab"><span class="i">02</span><h3>TitréLab</h3><p class="t">A potency, formulation and labeling app for small-batch cannabis makers, with 705 automated tests and row-level security on every table.</p><span class="k">View project</span></a>
+    <a class="proj" href="#work" data-open="formulation-suite"><span class="i">03</span><h3>Formulation Suite</h3><p class="t">Formulation, costing and market-ready ingredient lists built into TitréLab, with label rules written for eight markets plus a general default.</p><span class="k">View project</span></a>
+    <a class="proj" href="#work" data-open="phytofoundry"><span class="i">04</span><h3>PhytoFoundry</h3><p class="t">An interactive botanical reference, one plant to a plate, each one carrying its science and its sources.</p><span class="k">View project</span></a>
   </div>
 </section>
 
-<section class="proof" id="built" aria-labelledby="builtH">
-  <div class="wrap"><svg class="bicon" viewBox="0 0 34 20" aria-hidden="true"><path class="br l" d="M8 3 2 10l6 7"/><path class="br r" d="M26 3l6 7-6 7"/><g transform="translate(11.6 4.4) scale(.45)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg><h2 id="builtH">Built with</h2><ul><li>Next.js</li><li>Vercel</li><li>Supabase</li><li>Postgres</li><li>Stripe</li><li>Resend</li></ul></div>
+<section class="proof wrap" id="built" aria-labelledby="builtH">
+  <div class="bar"><svg class="bicon" viewBox="0 0 34 20" aria-hidden="true"><defs><linearGradient id="bgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs><path class="br l" d="M8 3 2 10l6 7"/><path class="br r" d="M26 3l6 7-6 7"/><g transform="translate(11.6 4.4) scale(.45)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/><path class="ht gl" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg><h2 id="builtH">Built with</h2><ul><li>React</li><li>Next.js</li><li>Vite</li><li>TypeScript</li><li>Supabase</li><li>Postgres</li><li>Vercel</li><li>Stripe</li><li>Resend</li><li>WebGL</li></ul></div>
 </section>
 
-<section class="contact wrap" id="contact" aria-labelledby="contactH">
-  <h2 id="contactH">Contact</h2>
+<section class="contact" id="contact" aria-label="Contact">
+ <div class="wrap">
   <div class="sheet" id="sheet">
-    <!-- the form she created on her own Formspree account, "Kelly Loves To Code". Posted in the background so the page stays put. -->
-    <form class="cform" id="cform" action="https://formspree.io/f/xqpqaqzp" method="POST" novalidate>
-      <div class="f"><label for="fn">Name</label><input id="fn" name="name" type="text" autocomplete="name" required></div>
-      <div class="f"><label for="fe">Email</label><input id="fe" name="email" type="email" autocomplete="email" required></div>
-      <div class="f"><label for="ft">Type of work</label><select id="ft" name="type" required><option value="" selected></option><option>Fractional CTO engagement</option><option>Product or platform build</option><option>Design and brand</option><option>Something else</option></select></div>
-      <div class="f"><label for="fd">Deadline</label><input id="fd" name="deadline" type="text" required></div>
-      <div class="f"><label for="fb">Budget (if any)</label><input id="fb" name="budget" type="text"></div>
-      <div class="f wide"><label for="fm">What you need</label><textarea id="fm" name="message" rows="4" maxlength="2000" required></textarea></div>
-      <div class="f wide"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button><p class="formnote" id="fnote" aria-live="polite"></p></div>
+    <!-- PLACEHOLDER: this form sends nothing yet. There is no action and no network call; the submit handler only checks the fields.
+         Wire it to the form service Kelly picks, then remove the "Preview only" tag and the placeholder note. -->
+    <form class="cform" id="cform" novalidate>
+      <div class="f"><label for="fn">Name<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fn" name="name" type="text" autocomplete="name" required aria-describedby="fn-e"><p class="ferr" id="fn-e"></p></div>
+      <div class="f"><label for="fe">Email<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fe" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="fe-e"><p class="ferr" id="fe-e"></p></div>
+      <div class="f"><label for="fc">Company <span class="opt">(optional)</span></label><input id="fc" name="company" type="text" autocomplete="organization"></div>
+      <div class="f"><label for="ft">What you need <span class="opt">(optional)</span></label><select id="ft" name="need"><option value="" selected>Choose one</option><option>Fractional CTO</option><option>Advisory</option><option>Build</option><option>Design and brand</option><option>Other</option></select></div>
+      <div class="f wide" id="fo-w" hidden><label for="fo">Tell me what you need <span class="opt">(optional)</span></label><input id="fo" name="need_other" type="text" maxlength="200"></div>
+      <div class="f wide"><label for="fm">Message<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><textarea id="fm" name="message" rows="4" maxlength="2000" required aria-describedby="fm-e"></textarea><p class="ferr" id="fm-e"></p></div>
+      <div class="hp" aria-hidden="true"><label for="fw">Website</label><input id="fw" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="f wide"><div class="send"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button><span class="ph">Preview only · not sending yet</span></div><p class="formnote" id="fnote" role="status"></p></div>
     </form>
   </div>
   <div class="clinks"><span>lorem@ipsum.com</span><a href="#contact">LinkedIn ↗</a></div>
+ </div>
 </section>
 </main>
 
+<div class="wipe" id="wipe" aria-hidden="true"></div>
 <div id="opened" role="dialog" aria-modal="true" aria-labelledby="ptitle" aria-hidden="true">
   <div class="pbar"><div class="wrap"><button type="button" class="pclose" id="pclose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span id="pcloseT">Back to Work</span></button><span class="pnum" id="ppnum"></span></div></div>
   <article class="study wrap"><span class="mark" aria-hidden="true"></span><h2 id="ptitle"></h2><p class="meta" id="pmeta"></p><div id="pbody"></div></article>
 </div>
 
 <!-- each page's own content. Section headers are .sh and take the project's colour. -->
+<!-- GigBag (19 Nov, Kelly's approved plan): nothing about the unreleased fourth product, no figures, no screens. Wording kept to what the
+     GigBag disclosure boundaries allow; the licensing call is worded generally on purpose. -->
 <template id="pg-gigbag"><div class="grid">
-  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">GigBag is a New York music platform I co-founded and built as CTO and sole developer. I took it from zero to closed beta on my own: four products in one platform for artists, fans and the businesses around them.</p></div>
+  <div class="wide gb-ov"><img class="gb-logo" src="/assets/gigbag-mark.png" width="180" height="180" alt="GigBag logo" decoding="async"><div><h3 class="sh">Overview</h3><p class="lede">GigBag is a New York music platform I co-founded and built as CTO and sole developer. I took it from zero to closed beta on my own: four products in one platform for artists, fans and the businesses around them.</p></div></div>
+  <div class="wide"><h3 class="sh">Tracklist</h3><ol class="tracks">
+    <li><span class="no">Track 01</span><h4>Profiles &amp; Discovery</h4><p>Profiles that connect artists with each other, their fans and the businesses that hire them.</p></li>
+    <li><span class="no">Track 02</span><h4>Gear marketplace</h4><p>A marketplace made for buying and selling music gear.</p></li>
+    <li><span class="no">Track 03</span><h4>Session booking</h4><p>Book studios and session players directly, all in one place.</p></li>
+    <li class="soon"><span class="no">Track 04</span><h4>Unreleased</h4><p>Track four is still in the studio. I'll play it for you when it drops.</p></li>
+  </ol></div>
   <div><h3 class="sh">Problem and approach</h3>
-    <p>Four products is a lot of ground for one engineer, so the platform runs on a small, dependable stack: Next.js on Vercel, Supabase and Postgres, Stripe and Resend. Access is role-based and enforced in Postgres with row-level security. Business accounts are multi-tenant, with team permission levels. Scheduled jobs and transactional email, authenticated with SPF, DKIM and DMARC, keep it running without anyone watching.</p>
-    <p>The harder work was the decisions. I kept the platform out of the payment path for gigs and sessions, and used Stripe Connect only for the marketplace and studio bookings, because holding other people's money is a liability and money-transmission question, not a feature. Artists license their music directly when they submit it, with consent, warranty and indemnity, and that evidence is kept even after the audio is deleted. Licensing was designed into the data model, not bolted on. Legal review ran alongside launch instead of blocking it: the policies went live marked provisional, pending attorney review. Paid tiers open the door rather than close it. Any artist can post to and browse the collaboration board for free, and only replying to a response needs a paid tier.</p></div>
-  <div><h3 class="sh">Outcome</h3><p>A four-product platform, designed, built and shipped by one engineer, now in closed beta. What I bring to a client is the reasoning behind it: where to draw the line on liability, how to design licensing into the data model, and how to keep a build moving while legal and commercial questions are still open. For serious prospects, I can show a live demo and walk through the architecture under NDA.</p></div>
+    <p>Four products is a lot of ground for one engineer. The harder work was the decisions.</p>
+    <ul class="calls">
+      <li><h4>Out of the payment path</h4>I kept the platform out of the payment path for gigs and sessions, and used Stripe Connect only for the marketplace and studio bookings. Holding other people's money is a liability and money-transmission question, not a feature.</li>
+      <li><h4>Licensing in the data model</h4>Rights and consent are captured with warranty and indemnity when content comes in, and that evidence is kept even after the content is deleted. Licensing was designed in, not bolted on.</li>
+      <li><h4>Legal alongside launch</h4>The policies went live marked provisional, pending attorney review, so legal review ran alongside launch instead of blocking it.</li>
+      <li><h4>Paid tiers open the door</h4>Any artist can post to and browse the collaboration board for free. Only replying to a response needs a paid tier.</li>
+    </ul></div>
+  <div class="gb-stack"><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="nextjs" aria-pressed="false">Next.js</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="stripe" aria-pressed="false">Stripe</button></li><li><button type="button" data-tool="resend" aria-pressed="false">Resend</button></li></ul>
+    <p class="gb-hint">Pick a tool to see what it powers.</p>
+    <ul class="bul">
+      <li data-k="nextjs vercel">The app runs on Next.js, deployed on Vercel</li>
+      <li data-k="supabase postgres">Role-based access, enforced in Postgres with row-level security</li>
+      <li data-k="supabase postgres">Multi-tenant business accounts with team permission levels</li>
+      <li data-k="supabase postgres">Consent and attestation records kept as evidence</li>
+      <li data-k="stripe">Payments through Stripe Connect, for the marketplace and studio bookings only</li>
+      <li data-k="resend">Scheduled jobs, and transactional email authenticated with SPF, DKIM and DMARC</li>
+      <li>Built with Claude Code, with hooks and guards that keep the work verified and permission-first</li>
+    </ul><p class="vh gb-live" aria-live="polite"></p></div>
+  <div><h3 class="sh">Outcome</h3><p>A four-product platform, designed, built and shipped by one engineer, now in closed beta. What I bring to a client is the reasoning behind it: where to draw the line on liability, how to design licensing into the data model, and how to keep a build moving while legal and commercial questions are still open.</p></div>
+  <div class="gb-ask"><h3 class="sh">Walkthrough</h3><p>There's a lot more under the hood than I can put on a public page. Once we've signed an NDA, I'd love to walk you through GigBag properly: the architecture, the trade-offs and the calls I'd make again.</p><button type="button" class="btn" data-contact>Ask for a walkthrough <span aria-hidden="true">→</span></button></div>
 </div></template>
+<!-- TitreLab (20 Nov, Kelly's approved plan and her answers): copy from her Portfolio drafts, checked against the titre code (THC and CBD only;
+     705 tests in 75 files, run 19 Nov). Spelled TitréLab on the page. The logo and the four screens are placeholders until she has them. -->
 <template id="pg-titrelab"><div class="grid">
-  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide gb-ov"><div class="gb-logo tl-logo" aria-hidden="true">Logo</div><div><h3 class="sh">Overview</h3><p class="lede">TitréLab is an app I designed and built on my own for small-batch cannabis makers. It works out the potency of a batch, doses a topical or a recipe from it, and keeps a log of every tested batch with its lab report. It began as my own tool and is now built for other makers to use.</p></div></div>
+  <div class="wide"><h3 class="sh">On the bench</h3><ol class="tracks">
+    <li><span class="no">No. 01</span><h4>Potency</h4><p>THC and CBD potency for every batch, tied to its lot and lab report.</p></li>
+    <li><span class="no">No. 02</span><h4>Dosing</h4><p>Dose a topical, a recipe, or a blend of two batches to a target ratio.</p></li>
+    <li><span class="no">No. 03</span><h4>Formulation and labels</h4><p>Scale a salve or a recipe, with INCI names and allergen lines built as you go.</p></li>
+    <li><span class="no">No. 04</span><h4>Batch log</h4><p>Every batch is logged and traceable, and stock comes off as you produce.</p></li>
+  </ol></div>
   <div><h3 class="sh">Problem and approach</h3>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></div>
-  <div><h3 class="sh">Outcome</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div><div class="shot">Screen 4</div></div></div>
+    <p>A maker working at small scale has to get potency right, and getting it wrong is a dosing error in something a person swallows or puts on their skin. The tools on offer were spreadsheets with no guardrails, or seed-to-sale systems priced for licensed operators.</p>
+    <ul class="calls">
+      <li><h4>The database is the safety layer</h4>Row-level security is on every table, so each maker's batches stay their own, whatever reaches the API.</li>
+      <li><h4>Plan limits live in Postgres</h4>A request sent straight at the API is refused, the same as on screen.</li>
+      <li><h4>Tested where a mistake is a dose</h4>705 tests across 75 files. One of them checks that the database's plan rules match the app's.</li>
+      <li><h4>Accessibility measured, not assumed</h4>Every screen checked from 320 to 1024px in light and dark. The lowest contrast is 5.40:1, against the 4.5:1 that AA asks for.</li>
+    </ul></div>
+  <div class="gb-stack"><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="react" aria-pressed="false">React</button></li><li><button type="button" data-tool="vite" aria-pressed="false">Vite</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li></ul>
+    <p class="gb-hint">Pick a tool to see what it powers.</p>
+    <ul class="bul">
+      <li data-k="react vite vercel">The app runs on React 18 and Vite 5, deployed on Vercel</li>
+      <li data-k="supabase postgres">Row-level security on every table</li>
+      <li data-k="supabase postgres">Plan limits enforced by Postgres triggers, not just hidden on screen</li>
+      <li data-k="postgres">Proof scripts for the key database rules, safe to run on production because every write rolls back</li>
+      <li data-k="supabase">Sign-in, and each batch's lab report stored with it</li>
+      <li data-k="vite vercel">Installs on a phone, and reads still work offline</li>
+    </ul><p class="vh gb-live" aria-live="polite"></p></div>
+  <div><h3 class="sh">Outcome</h3><p>A live app at titrelab.com, installable on a phone, with every screen checked for width and contrast in light and dark.</p></div>
+  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/specimen-ticket.webp" width="1200" height="750" loading="lazy" decoding="async" alt="TitréLab specimen ticket for a sample alcohol tincture, showing 66.7 milligrams per milliliter, 50 milliliters remaining, best by September 2029 and its lot number."></div><figcaption>Specimen ticket</figcaption></figure><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/potency-calculation.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Add Specimen calculation run live: 66.6 milligrams per milliliter, 328.3 per teaspoon and 984.8 per tablespoon, with the formula it used."></div><figcaption>Live potency calculation</figcaption></figure><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/arnica-salve-label.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The US ingredient label TitréLab builds for the Arnica Relief Salve sample, each ingredient followed by its INCI name and sorted by weight."></div><figcaption>Arnica Relief Salve</figcaption></figure><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/lavender-shortbread-eu.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The EU ingredient label for the Lavender Shortbread sample, with wheat flour, butter and egg yolk bolded as allergens, and its diet profile."></div><figcaption>Lavender Shortbread · EU</figcaption></figure></div></div>
+  <div class="gb-ask"><h3 class="sh">Demo</h3><p>Sign in with the demo account to try TitréLab with sample data. The calculations are the real ones, and saving is the only thing the account refuses.</p><a class="btn" href="https://www.titrelab.com/" target="_blank" rel="noopener" data-demo>See the demo <span aria-hidden="true">→</span><span class="vh"> (opens in a new tab)</span></a>
+    <div class="tl-login" hidden><p class="gb-hint">Sign in to TitréLab with:</p><dl class="pairs"><div><dt>Email</dt><dd>demo@titrelab.com</dd></div><div><dt>Password</dt><dd><!-- KELLY: paste the demo password here, in place of the next line --><span class="tl-todo">Password to come</span></dd></div></dl></div></div>
 </div></template>
+<!-- Formulation Suite (20 Nov): built from the plan while Kelly was away, with the safest choice on each open question (no test count, no market
+     switcher, no demo box, no Claude Code line, subtitle unchanged, screens as placeholders). Every fact is from the titre repo: the Formulator
+     tab, src/regions.js, src/format/labelFormat.js, src/math/{scaleFormula,formulaMass,pricing}.js, migration 0022. -->
 <template id="pg-formulation-suite"><div class="grid">
-  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-  <div class="wide"><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div></div></div>
+  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">Formulation Suite is the formulation side of TitréLab, which I designed and built on my own. A maker builds a topical or a recipe ingredient by ingredient, scales it, prices it, and gets an ingredient list formatted for the market it's sold in.</p></div>
+  <div class="wide"><h3 class="sh">Method</h3><ol class="tracks">
+    <li><span class="no">Step 01</span><h4>Build</h4><p>Work in ml, g or %, with a cost, an INCI name and an allergen flag on each ingredient. A plain formula keeps cannabis off entirely.</p></li>
+    <li><span class="no">Step 02</span><h4>Scale</h4><p>Resize a batch in one step. Percentages hold, whole items like eggs round to whole numbers, and the cost follows what's really in the batch.</p></li>
+    <li><span class="no">Step 03</span><h4>Price</h4><p>Markup or margin from real ingredient cost, worked out in either direction.</p></li>
+    <li><span class="no">Step 04</span><h4>Label</h4><p>An ingredient list in descending order, with INCI names and allergen lines in the format the market asks for.</p></li>
+  </ol></div>
+  <div><h3 class="sh">Problem and approach</h3>
+    <p>An ingredient list is easy to get wrong in ways that matter. Every market declares allergens differently, and a list ordered by the wrong measure is simply wrong.</p>
+    <ul class="calls">
+      <li><h4>Rules as data</h4>Each market is one record. On a food label the EU and UK bold allergens inline and forbid a separate &ldquo;Contains&rdquo; line, the US, Canada, Japan, Korea and China use a &ldquo;Contains&rdquo; block, and Australia and New Zealand use both. The rules are written for eight markets plus a general default, and the live app offers US labels today.</li>
+      <li><h4>No guessed numbers</h4>Grams and millilitres are never added together without a density. The formula asks for one instead, and a list built from mixed units says its order is an estimate.</li>
+      <li><h4>One label engine</h4>A single function builds the list for the screen, the copy button and the PDF, so all three always agree.</li>
+      <li><h4>Saves that can't half-happen</h4>A formula and its ingredients save in one Postgres transaction, so a failed update can't lose ingredients.</li>
+    </ul></div>
+  <div><h3 class="sh">Outcome</h3><p>A formulation and labelling workflow inside a live app. Each market's label rules are data that can be checked and extended, and the label, scaling, pricing and unit rules each have their own tests.</p></div>
+  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Formula builder</div><div class="shot">Scaled batch</div><div class="shot">Ingredient list</div></div></div>
 </div></template>
+<!-- PhytoFoundry page (20 Nov), built on conservative defaults while Kelly's questions are open: no ownership claim, "generated art" kept, the logo and screens are placeholders, and the button opens the live site (Kelly, 20 Nov). Facts from the PhytoFoundry repo and its live site. -->
 <template id="pg-phytofoundry"><div class="grid">
-  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-  <div class="wide"><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div></div></div>
+  <div class="wide gb-ov"><div class="gb-logo pf-logo" aria-hidden="true">Logo</div><div><h3 class="sh">Overview</h3><p class="lede">PhytoFoundry is an interactive botanical reference: one plant to a plate, each one part scientific infographic and part field journal, with its sources cited. Ten of its 23 plates are live.</p></div></div>
+  <div class="wide"><h3 class="sh">On the plates</h3><ol class="tracks">
+    <li><span class="no">Plate I</span><h4>Shea Butter Tree</h4><p>Scroll one two-hundred-year-old tree from crown to root, by day or by night.</p></li>
+    <li><span class="no">Plate IV</span><h4>Vitamin E</h4><p>An endless zoom that travels through all eight forms of the vitamin.</p></li>
+    <li><span class="no">Plate XV</span><h4>Frankincense</h4><p>The resin's story told from the first cut in the bark to the hardened tear.</p></li>
+    <li><span class="no">Plate XXIII</span><h4>Helichrysum</h4><p>A ruined mosaic mended with a sprig of immortelle, where each restored region opens the next section.</p></li>
+  </ol></div>
+  <div><h3 class="sh">Problem and approach</h3>
+    <p>A reference has to be accurate, and a plate has to be worth framing. The work was holding both at once.</p>
+    <ul class="calls">
+      <li><h4>Art is made, not drawn in code</h4>Every plate uses generated art under one art direction, and a check blocks artwork drawn in code.</li>
+      <li><h4>One illusion per plate</h4>Each plate gets a single signature effect, logged so that no two plates repeat one.</li>
+      <li><h4>Science you can check</h4>Claims carry citations with DOI and PubMed links, and every plant is available as public data.</li>
+      <li><h4>Proof in a real browser</h4>Nothing counts as done until it renders. The last check covered 99 frames across five screen sizes with no console errors.</li>
+    </ul></div>
+  <div class="gb-stack"><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="next" aria-pressed="false">Next.js</button></li><li><button type="button" data-tool="react" aria-pressed="false">React</button></li><li><button type="button" data-tool="ts" aria-pressed="false">TypeScript</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="webgl" aria-pressed="false">WebGL</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li></ul>
+    <p class="gb-hint">Pick a tool to see what it powers.</p>
+    <ul class="bul">
+      <li data-k="next react ts vercel">Next.js 15 and React 19 in TypeScript, deployed on Vercel</li>
+      <li data-k="supabase postgres">Each plant in Postgres, with its compounds, anatomy, bloom calendar, folklore and citations in their own tables</li>
+      <li data-k="next supabase vercel">A public, cached JSON feed for every specimen</li>
+      <li data-k="webgl">WebGL shaders for the mosaic, with tiles that follow the artwork's real grout lines</li>
+      <li data-k="react">Motion that respects reduced-motion settings</li>
+      <li data-k="ts">Built with Claude Code, with checks that block code-drawn art and any "done" without a render</li>
+    </ul><p class="vh gb-live" aria-live="polite"></p></div>
+  <div><h3 class="sh">Outcome</h3><p>Ten plates live and checked on desktop, tablet and phone, with four more designed and waiting on their art.</p></div>
+  <div class="wide"><h3 class="sh">Plates</h3><div class="shots"><div class="shot">Shea Butter Tree</div><div class="shot">Vitamin E</div><div class="shot">Frankincense</div><div class="shot">Helichrysum</div></div></div>
+  <div class="gb-ask"><h3 class="sh">See it live</h3><p>PhytoFoundry is live and public. Start at the index and open any plate.</p><a class="btn" href="https://phytofoundry.vercel.app/" target="_blank" rel="noopener">Visit PhytoFoundry <span aria-hidden="true">→</span><span class="vh"> (opens in a new tab)</span></a></div>
 </div></template>
 <template id="pg-about"><div class="grid">
-  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide"><p class="lede">Most recently I co-founded GigBag and built it as CTO and sole developer, taking four products from zero to closed beta. Before that I ran Take Me To Your Pixel, my own web design studio, where I took clients from a napkin sketch to a launched site, and I led a platform rebuild as UX architect for Carolinas AGC. My first leadership role was VP of Technology at Step Up 4 Learning, where I ran the platform and the development team behind an online writing program.</p></div>
   <div><h3 class="sh">What I do</h3>
     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     <dl class="pairs">
@@ -287,6 +566,18 @@ body.locked{overflow:hidden}
   <div><h3 class="sh">How I work</h3>
     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide om-wrap">
+    <h3 class="sh" id="omT">Where my work overlaps</h3>
+    <p class="om-cap" id="omC"><span class="w">Each arc links a project to a capability it proves. Select any name for the evidence.</span><span class="n">Each capability with the projects that prove it.</span></p>
+    <div class="om">
+      <fieldset class="om-roles"><legend>Show what applies to</legend><div class="om-rl"></div></fieldset>
+      <p class="om-why" aria-live="polite"></p>
+      <div class="om-chart"></div>
+      <aside class="om-ev" aria-live="polite" aria-label="Evidence"></aside>
+      <ul class="om-list" aria-labelledby="omT"></ul>
+      <details class="om-data"><summary>View as a table</summary><div class="om-tw"><table></table></div></details>
+    </div>
+  </div>
 </div></template>
 
 <!-- matter.js drives the falling words only; it loads just before the script that uses it -->
@@ -299,9 +590,26 @@ const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 
 /* the gradient on the falling words: blue at the top of the screen to orange at the bottom (Kelly's pick 3, kept at full colour;
    the orange end is a touch deeper so every step stays at least 3:1 on the paper, WCAG AA for large text) */
-const W0="#2448d8",W1="#e95609",GSTEP=.22;
+const W0="#2448d8",W1="#e95609",HEART="#c03221";
 const mix=(a,b,t)=>`color-mix(in oklch, ${b} ${Math.round(clamp(t)*100)}%, ${a})`;
 const bandColour=yn=>yn<=0?W0:yn>=1?W1:mix(W0,W1,yn);
+
+/* the hover "chameleon", after the CodePen Kelly sent: the text colour drifts slowly between two close colours while a soft patch of colour
+   slides across the letters. Kelly's limit: "only two colors either way from wherever the word lands on the gradient scale", so the text
+   moves between two steps below and two steps above the word's own spot, and the patch the other way round, so the two meet and cross.
+   Kelly, 19 Nov: "make the chameleon effect a bit more dramatic". Steps went from .07 to .10 of the gradient, the text from one step to two either way,
+   the patch from 50% to 75% of the word with a solid middle, and the hover size from 1.1 to 1.16.
+   Then "a tiny bit more": steps .10 to .115, the patch to 80% with a wider solid middle, the hover size to 1.18.
+   The patch is painted inside the letters (background-clip:text) rather than as a blurred multiply overlay, so it stays on the word over the light
+   paper and costs no blur filter on phones. When the pointer leaves it fades back to the word's own colour.
+   Tune here: CH_STEP is one step as a share of the whole gradient, CH_HALF one drift across in ms. Reduced motion: no drift, only the size change. */
+const CH_STEP=.115,CH_HALF=2500,CH_IN=220,CH_OUT=320,TAP_HOLD=1600;
+const swayState=()=>({on:false,a:0,t0:0,last:0});
+/* how far the effect is faded in (0 to 1) */
+function swayA(c,now){const dt=Math.min(64,now-(c.last||now));c.last=now;
+ c.a=c.on?Math.min(1,c.a+dt/CH_IN):Math.max(0,c.a-dt/CH_OUT);return reduce?0:c.a}
+/* where the drift is, from -1 to 1 and back, at an even pace like the CodePen's linear alternate */
+const swayU=(c,now)=>{const k=((now-c.t0)/CH_HALF)%2;return (k<1?k:2-k)*2-1};
 
 /* ── intro sizing: "Kelly ♥s" centred, the heart twice the name's x-height, the small s .78 of the name ── */
 const stage=$("#stage"),kl=$("#kl"),heart=$("#heart"),hgap=$("#hgap"),track=$("#introTrack"),hint=$("#hint"),sub=$("#sub");
@@ -320,17 +628,30 @@ function heartAt(t){const sr=stage.getBoundingClientRect(),gr=hgap.getBoundingCl
  const x=u*u*sx+2*u*t*cx+t*t*ex,y=u*u*sy+2*u*t*cy+t*t*ey;heart.style.transform=`translate(${x}px,${y}px) rotate(${(1-t)*-420}deg) scale(${.35+.65*t})`;heart.style.opacity=t>0?1:0}
 function flyHeart(){cancelAnimationFrame(heartRaf);landed=false;kl.classList.remove("landed");heart.classList.remove("live","shake");if(reduce){heartAt(1);land();return}
  let t0=null;const dur=1300;const step=now=>{if(!t0)t0=now;const k=clamp((now-t0)/dur);heartAt(1-Math.pow(1-k,3));if(k<1)heartRaf=requestAnimationFrame(step);else land()};heartRaf=requestAnimationFrame(step)}
-function land(){landed=true;heart.classList.remove("shake");void heart.offsetWidth;heart.classList.add("shake","live");kl.classList.add("landed");heart.style.setProperty("--hglow",bandColour(.44));setTimeout(startPile,reduce?0:280)}
-heart.addEventListener("click",()=>heart.classList.toggle("pulse"));
+function land(){landed=true;heart.classList.remove("shake");void heart.offsetWidth;heart.classList.add("shake","live");kl.classList.add("landed");setTimeout(startPile,reduce?0:280)}
+/* the heart's hover: mouse or pen hover, or a tap or click, which toggles it */
+{const hc=swayState(),hp=heart.querySelector(".hch"),hg=heart.querySelector("#hch"),hs=[...hg.querySelectorAll("stop")];let hr=0;
+ /* the heart has no spot on the gradient, so its steps lean its brick red toward the blue end one way and the orange end the other */
+ const shade=o=>o<0?mix(HEART,W0,-o):o>0?mix(HEART,W1,o):HEART;
+ const tick=now=>{const a=swayA(hc,now),u=swayU(hc,now);
+  if(a>0){heart.style.color=shade(a*2*CH_STEP*u);const pc=shade(-a*2*CH_STEP*u);hs.forEach(x=>x.style.stopColor=pc);hg.setAttribute("cx",(.85-.7*(u+1)/2).toFixed(3));hp.setAttribute("opacity",a.toFixed(3))}
+  else{heart.style.color="";hp.setAttribute("opacity","0")}
+  if(hc.on||hc.a>0)hr=requestAnimationFrame(tick);else{hr=0;hc.last=0}};
+ const hot=on=>{if(on&&!hc.on)hc.t0=performance.now();hc.on=on;if(!reduce&&!hr)hr=requestAnimationFrame(tick)};
+ heart.addEventListener("pointerenter",e=>{if(e.pointerType!=="touch")hot(true)});
+ heart.addEventListener("pointerleave",e=>{if(e.pointerType!=="touch")hot(heart.classList.contains("pulse"))});
+ heart.addEventListener("click",()=>{heart.classList.toggle("pulse");hot(heart.classList.contains("pulse")||heart.matches(":hover"))})}
 
 /* ── the words: the screen is the box, its bottom is the floor; the name, the heart, the s and the name line under it are surfaces ── */
-const WORDS=["Code","CSS","Delivery","Lorem","Ipsum","Dolor","Sit","Amet","Consectetur","Adipiscing","Elit","Tempor","Magna","Aliqua"];
+/* DRAFT for Kelly's approval: her current skills, weighted to fractional CTO and senior full-stack roles */
+/* Kelly's Set 1 (20 Nov) */
+const WORDS=["Postgres","Shipping","Testing","Design","Data","Security","Launches","Prototypes","Clients","Accessibility","Clean builds"];
 /* hold a word to shoot it: it shakes harder the longer it is held (hardest at 3 seconds) and flies the way the cursor was moving, or straight up */
 const HOLD_MAX=3000,SHOT_MIN=10,SHOT_MAX=32,SHAKE_MAX=3.6,CV_STILL=.08;
 let cvx=0,cvy=0,clx=0,cly=0,clt=0;
 addEventListener("pointermove",e=>{const now=performance.now();if(clt){const dt=Math.max(10,now-clt),a=.45;cvx=cvx*(1-a)+((e.clientX-clx)/dt)*a;cvy=cvy*(1-a)+((e.clientY-cly)/dt)*a}clx=e.clientX;cly=e.clientY;clt=now},{passive:true});
 const holdK=t0=>clamp((performance.now()-t0)/HOLD_MAX);
-let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,flyUp=false,driftT=0,knockT=0,W0w=0,H0=0,nameBodies=[];
+let eng=null,raf=0,items=[],timers=[],ceiling=null,mc=null,driftT=0,knockT=0,W0w=0,H0=0,nameBodies=[];
 function stopPile(){cancelAnimationFrame(raf);timers.forEach(clearTimeout);timers=[];clearInterval(driftT);clearInterval(knockT);[kl,heart].forEach(e=>e.classList.remove("knock"));
  items.forEach(t=>t.el.remove());items=[];if(mc){dropMouse(mc);mc=null}if(eng&&window.Matter)Matter.Engine.clear(eng);eng=null;ceiling=null;nameBodies=[]}
 function rectBody(el,opt){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();return Matter.Bodies.rectangle(r.left-s.left+r.width/2,r.top-s.top+r.height/2,Math.max(4,r.width),Math.max(4,r.height),Object.assign({isStatic:true},opt||{}))}
@@ -341,57 +662,61 @@ function mkMouse(el,e){const {Mouse,MouseConstraint,Composite}=Matter;const mous
  const m=MouseConstraint.create(e,{mouse,constraint:{stiffness:.2,render:{visible:false}}});Composite.add(e.world,m);return m}
 function dropMouse(c){const m=c.mouse,el=m&&m.element;if(!el)return;["mousemove","mousedown","mouseup"].forEach(ev=>el.removeEventListener(ev,m[ev]))}
 function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Composite,Events,Body}=Matter;
- const W=W0w=stage.clientWidth,H=H0=stage.clientHeight;eng=Engine.create();eng.gravity.y=flyUp?-1.4:1.1;eng.positionIterations=10;eng.velocityIterations=8;
+ const W=W0w=stage.clientWidth,H=H0=stage.clientHeight;eng=Engine.create();eng.gravity.y=1.1;eng.positionIterations=10;eng.velocityIterations=8;
  const wall=400;Composite.add(eng.world,[Bodies.rectangle(W/2,H+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
  nameBodies=[rectBody($("#kname"),{chamfer:{radius:12}}),rectBody(hgap,{chamfer:{radius:20}}),rectBody($("#ks"))];
  Composite.add(eng.world,[...nameBodies,rectBody(sub)]);
  WORDS.forEach((w,i)=>{const el=document.createElement("span");el.className="word";el.setAttribute("aria-hidden","true");el.innerHTML=`<span class="wi">${w}</span>`;stage.append(el);
-  const t={el,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null};items.push(t);
-  el.addEventListener("pointerenter",()=>el.classList.add("hot"));el.addEventListener("pointerleave",()=>{if(!t.drag)el.classList.remove("hot")})});
+  const t={el,wi:el.firstChild,i,bw:el.offsetWidth,bh:el.offsetHeight,body:null,ch:swayState(),tap:0,cham:false};items.push(t);
+  /* hover with a mouse or pen; on a touch screen a tap shows it for a moment (touch still scrolls the page) */
+  el.addEventListener("pointerenter",e=>{if(e.pointerType!=="touch")hotWord(t,true)});
+  el.addEventListener("pointerleave",e=>{if(e.pointerType!=="touch"&&!t.drag)hotWord(t,false)});
+  el.addEventListener("pointerdown",e=>{if(e.pointerType!=="touch")return;hotWord(t,true);clearTimeout(t.tap);t.tap=setTimeout(()=>{if(!t.drag)hotWord(t,false)},TAP_HOLD)})});
  mc=mkMouse(stage,eng);
  const by=new Map();
- Events.on(mc,"startdrag",e=>{const t=by.get(e.body);if(t){t.drag=true;t.h0=performance.now();t.el.classList.add("hot")}});
- Events.on(mc,"enddrag",e=>{const t=by.get(e.body);if(!t)return;t.drag=false;
+ Events.on(mc,"startdrag",e=>{const t=by.get(e.body);if(t){t.drag=true;t.h0=performance.now();hotWord(t,true);t.el.classList.add("held")}});
+ Events.on(mc,"enddrag",e=>{const t=by.get(e.body);if(!t)return;t.drag=false;t.el.classList.remove("held");
   const h=t.h0?holdK(t.h0):0;t.h0=0;t.el.style.removeProperty("--sk");t.el.style.removeProperty("--skd");
   const sp=SHOT_MIN+(SHOT_MAX-SHOT_MIN)*Math.pow(h,.85),m=Math.hypot(cvx,cvy);
   const dx=m>CV_STILL?cvx/m:0,dy=m>CV_STILL?cvy/m:-1,b=t.body;
   requestAnimationFrame(()=>{if(!b||!eng)return;Body.setVelocity(b,{x:dx*sp,y:dy*sp});Body.setAngularVelocity(b,(Math.random()-.5)*.6)});
-  t.el.classList.add("hot");setTimeout(()=>{if(!t.drag)t.el.classList.remove("hot")},500)});
+  setTimeout(()=>{if(!t.drag)hotWord(t,false)},500)});
  const drop=t=>{const x=t.bw/2+Math.random()*Math.max(1,W-t.bw);const y0=-t.bh*1.3-Math.random()*H*.35;
   t.body=Bodies.rectangle(x,y0,t.bw,t.bh,{chamfer:{radius:Math.min(8,t.bh*.12)},restitution:.25+Math.random()*.15,friction:.5,frictionAir:.006+Math.random()*.04,angle:(Math.random()-.5)*.7});
   Body.setVelocity(t.body,{x:(Math.random()-.5)*2,y:Math.random()*4});by.set(t.body,t);Composite.add(eng.world,t.body);t.el.classList.add("on")};
- /* each word takes the colour of where it sits; its glow is one step along the gradient from it */
- const draw=()=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
-  const yn=p.y/H,gy=yn<.5?Math.min(1,yn+GSTEP):Math.max(0,yn-GSTEP);t.el.style.color=bandColour(yn);t.el.style.setProperty("--glow",bandColour(gy))});
+ /* each word takes the colour of where it sits; while hovered it drifts up to two steps either way from there */
+ const draw=(now=performance.now())=>items.forEach(t=>{if(!t.body)return;const p=t.body.position;t.el.style.transform=`translate(${p.x-t.bw/2}px,${p.y-t.bh/2}px) rotate(${t.body.angle}rad)`;
+  const yn=p.y/H,a=swayA(t.ch,now);
+  if(a>0){const u=swayU(t.ch,now),pc=bandColour(yn-a*2*CH_STEP*u);t.el.style.color=bandColour(yn+a*2*CH_STEP*u);
+   t.wi.style.backgroundImage=`radial-gradient(ellipse 80% 140% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${pc} 35%,transparent 88%)`;
+   if(!t.cham){t.cham=true;t.el.classList.add("cham")}}
+  else{t.el.style.color=bandColour(yn);if(t.cham){t.cham=false;t.el.classList.remove("cham");t.wi.style.backgroundImage=""}}});
  const holdShake=()=>items.forEach(t=>{if(!t.drag||!t.h0)return;const h=holdK(t.h0);t.el.style.setProperty("--sk",(1+(SHAKE_MAX-1)*h).toFixed(2));t.el.style.setProperty("--skd",(.45-.3*h).toFixed(3)+"s")});
- if(reduce){items.forEach(drop);setCeiling(true);for(let k=0;k<900;k++)Engine.update(eng,1000/60);draw();return}
+ /* reduced motion: settle the pile at once, then close the lid (closing it first would trap the words that start above the screen) */
+ if(reduce){items.forEach(drop);for(let k=0;k<900;k++)Engine.update(eng,1000/60);setCeiling(true);draw();return}
  items.forEach((t,i)=>timers.push(setTimeout(()=>drop(t),i*170+Math.random()*140)));
- timers.push(setTimeout(()=>{if(!flyUp)setCeiling(true)},items.length*170+1600));
+ timers.push(setTimeout(()=>setCeiling(true),items.length*170+1600));
  /* a resting word now and then shifts a little, so the pile never looks frozen */
- driftT=setInterval(()=>{if(!eng||flyUp)return;items.forEach(t=>{if(t.body&&t.body.speed<.4&&!t.drag&&Math.random()<.35){Body.applyForce(t.body,{x:t.body.position.x+(Math.random()-.5)*t.bw*.4,y:t.body.position.y},{x:(Math.random()-.5)*.0016*t.body.mass,y:-.0022*t.body.mass})}})},2600);
+ driftT=setInterval(()=>{if(!eng)return;items.forEach(t=>{if(t.body&&t.body.speed<.4&&!t.drag&&Math.random()<.35){Body.applyForce(t.body,{x:t.body.position.x+(Math.random()-.5)*t.bw*.4,y:t.body.position.y},{x:(Math.random()-.5)*.0016*t.body.mass,y:-.0022*t.body.mass})}})},2600);
  /* if words are left sitting on the name, every 30 seconds the name shakes and throws them: three kicks, left, right, left */
  const sitsOnName=t=>{const b=t.body;if(!b||t.drag)return false;
   return nameBodies.some(nb=>b.bounds.max.y>=nb.bounds.min.y-3&&b.bounds.max.y<=nb.bounds.min.y+Math.max(18,t.bh*.6)&&b.bounds.max.x>nb.bounds.min.x&&b.bounds.min.x<nb.bounds.max.x)};
- knockT=setInterval(()=>{if(!eng||flyUp)return;const hit=items.filter(sitsOnName);if(!hit.length)return;
+ knockT=setInterval(()=>{if(!eng)return;const hit=items.filter(sitsOnName);if(!hit.length)return;
   [kl,heart].forEach(e=>{e.classList.remove("knock");void e.offsetWidth;e.classList.add("knock")});
   const kick=(dir,k)=>hit.forEach(t=>{const b=t.body;if(!b||t.drag)return;
    Body.setVelocity(b,{x:b.velocity.x+dir*(3.4+Math.random()*2.6)*k,y:b.velocity.y-(1.8+Math.random()*2.2)*k});
    Body.setAngularVelocity(b,b.angularVelocity+(Math.random()-.5)*.14*k)});
   kick(-1,1);timers.push(setTimeout(()=>kick(1,.75),150));timers.push(setTimeout(()=>kick(-1,.45),330));
   setTimeout(()=>[kl,heart].forEach(e=>e.classList.remove("knock")),800)},30000);
- let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;holdShake();Engine.update(eng,dt);draw();raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
+ let last=performance.now();const loop=now=>{const dt=Math.min(32,now-last);last=now;holdShake();Engine.update(eng,dt);draw(now);raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
 
-/* the words fly up as About arrives; coming back, the visitor breaks through them */
-function setFly(up){if(up===flyUp)return;flyUp=up;if(!eng)return;const B=Matter.Body;
- if(up){setCeiling(false);eng.gravity.y=-1.4;items.forEach(t=>{if(t.body)B.setVelocity(t.body,{x:t.body.velocity.x,y:-6-Math.random()*6})})}
- else{eng.gravity.y=1.1;items.forEach(t=>{if(!t.body)return;if(t.body.position.y<t.bh)B.setPosition(t.body,{x:t.bw/2+Math.random()*Math.max(1,W0w-t.bw),y:H0*(.12+Math.random()*.35)});
-  const a=Math.random()*Math.PI*2,v=14+Math.random()*16;B.setVelocity(t.body,{x:Math.cos(a)*v,y:Math.sin(a)*v-6});B.setAngularVelocity(t.body,(Math.random()-.5)*.5)});setCeiling(true)}}
+/* the words stay in the pile when the visitor scrolls on to About (Kelly, 19 Nov: "Keep the words there when you scroll away") */
+function hotWord(t,on){if(on&&!t.ch.on)t.ch.t0=performance.now();t.ch.on=on;t.el.classList.toggle("hot",on)}
 let lastY=scrollY,restoring=false;   /* restoring: focus going back to the opener after the panel closes, which should not replay the arrow */
 function introTick(){const r=track.getBoundingClientRect(),p=clamp(-r.top/Math.max(1,r.height-innerHeight)),dy=scrollY-lastY;lastY=scrollY;
  hint.style.opacity=p>.03||!landed?0:1;
- setFly(p>.55);
  /* scrolling up through a pile that is still in the box knocks the words about */
- if(eng&&!flyUp&&dy<-3&&p<.55&&r.bottom>0){const k=Math.min(1,-dy/60);items.forEach(t=>{if(t.body&&Math.random()<.6)Matter.Body.setVelocity(t.body,{x:t.body.velocity.x+(Math.random()-.5)*14*k,y:t.body.velocity.y-(6+Math.random()*12)*k})})}}
+ if(eng&&dy<-3&&p<.55&&r.bottom>0){const k=Math.min(1,-dy/60);items.forEach(t=>{if(t.body&&Math.random()<.6)Matter.Body.setVelocity(t.body,{x:t.body.velocity.x+(Math.random()-.5)*14*k,y:t.body.velocity.y-(6+Math.random()*12)*k})})}}
 
 /* ── About arrow: on hover or focus it turns into the heart once, then back to the arrow. No loop; no swap with reduced motion. ── */
 {const a=$("#alink"),aa=a.querySelector(".aa"),ah=a.querySelector(".ah");let busy=false,armed=true;
@@ -405,13 +730,149 @@ function introTick(){const r=track.getBoundingClientRect(),p=clamp(-r.top/Math.m
  a.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"||e.pointerType==="pen")play()});a.addEventListener("focus",()=>{if(!restoring&&a.matches(":focus-visible"))play()});
  a.addEventListener("pointerleave",()=>{armed=true});a.addEventListener("blur",()=>{armed=true})}
 
+/* ── About: the label, both paragraphs and the arrow roll up into view once when the band comes into view ── */
+{const band=$("#about"),items=$$("#about .roll");
+ if(!reduce&&"IntersectionObserver" in window&&band.animate){band.classList.add("pre");
+  const io=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting))return;io.disconnect();band.classList.remove("pre");
+   items.forEach((el,i)=>el.animate([{opacity:0,transform:"translateY(28px)"},{opacity:1,transform:"none"}],{duration:700,delay:i*120,easing:"cubic-bezier(.2,.7,.2,1)",fill:"backwards"}))},{threshold:.2});
+  io.observe(band)}}
+
 /* ── Built with: open the < > once when the bar first comes fully into view, so touch screens see it too ── */
 {const el=$("#built");if(!reduce&&"IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();setTimeout(()=>{el.classList.add("peek");setTimeout(()=>el.classList.remove("peek"),1400)},300)}},{threshold:.9});io.observe(el)}}
 
-/* ── the panel: About and each project open over the page, at once (no transition until Kelly picks one) ── */
-const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Lorem ipsum"]];
+/* ── the panel: About and each project open over the page behind a wipe.
+   The wipe sweeps in (380ms), holds while the page is swapped underneath (120ms), then sweeps back out the way it came (400ms): 900ms in all.
+   Each project comes from its own side: GigBag left, TitreLab top, Formulation Suite right, PhytoFoundry bottom; About from the left.
+   Opening takes the project's base colour (charcoal for About); going back to Work is charcoal, from the project's side.
+   With reduced motion, opening is a 150ms fade and closing is instant. ── */
+const WIPE_IN=380,WIPE_HOLD=120,WIPE_OUT=400,WIPE_EASE="cubic-bezier(.7,0,.3,1)";
+const L_=["translateX(-100%) skewX(-5deg)","translateX(0) skewX(0deg)"];
+const WIPE_FROM={gigbag:L_,titrelab:["translateY(-100%) skewY(-3deg)","translateY(0) skewY(0deg)"],"formulation-suite":["translateX(100%) skewX(5deg)","translateX(0) skewX(0deg)"],phytofoundry:["translateY(100%) skewY(3deg)","translateY(0) skewY(0deg)"],about:L_};
+function fade(el){if(!el.animate)return;el.getAnimations().forEach(x=>x.cancel());el.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}
+/* ── the skill map, "Where my work overlaps", built inside the expanded About each time it opens.
+   Facts follow the corrected lines in the Portfolio drafts doc. Arcs on wider screens, a plain list on phones. ── */
+const OM_P=[
+ {id:"gigbag",name:"GigBag",col:"#38748c",sum:"Co-founder, CTO and sole developer. Four products taken solo from zero to closed beta, built with Claude Code."},
+ {id:"titrelab",name:"TitréLab",col:"#c03221",sum:"A cannabis tincture and potency app for makers.",stack:"React, Vite, Supabase, Vercel"},
+ {id:"formulation-suite",name:"Formulation Suite",col:"#483a58",sum:"Multi-cannabinoid calculator and recipe builder."},
+ {id:"phytofoundry",name:"PhytoFoundry",col:"#707d1e",sum:"An interactive botanical reference, one plant to a plate."}];
+const OM_C=[
+ {id:"lead",name:"Technical leadership",gen:["Building for the web since 2001; VP of Technology at Step Up 4 Learning, 2002 to 2007, leading the development team"],ev:{gigbag:["Co-founder, CTO and sole developer"]}},
+ {id:"pay",name:"Payments",ev:{gigbag:["Stripe Connect for the marketplace and studio bookings, with the platform kept out of the payment path"]}},
+ {id:"data",name:"Data and security",ev:{titrelab:["Supabase row-level security","Tested migrations with constraints"]}},
+ {id:"quality",name:"Quality and accessibility",ev:{titrelab:["705 automated tests, all passing","Contrast measured at 5.40:1 minimum, light and dark"]}},
+ {id:"domain",name:"Cannabis and cosmetics markets",ev:{titrelab:["Tincture and potency app for cannabis makers"],"formulation-suite":["Label rules for eight markets plus a general default","INCI names and allergen declarations","Scaling and pricing"]}},
+ {id:"delivery",name:"Product delivery",ev:{gigbag:["Full platform, sole developer"],titrelab:["Plan limits enforced in Postgres as well as the app","Installs on a phone"],"formulation-suite":["Recipe builder","Cost and inventory tracking","Label generator"]}},
+ {id:"design",name:"Design systems and illustration",ev:{phytofoundry:["One art direction across generated images","10 plates live of 23"]}},
+ {id:"ai",name:"AI-assisted builds",gen:["Claude Code hooks and guards for verified, permission-first work"],ev:{gigbag:["Built with Claude Code"]}}];
+const OM_R=[
+ {id:"all",name:"All work",caps:null,why:""},
+ {id:"cto",name:"Fractional CTO",caps:["lead","pay","data","quality","delivery","ai"],why:"For a fractional CTO: leadership, payments, data and security, quality, product delivery and AI-assisted builds."},
+ {id:"cannabis",name:"Cannabis software",caps:["domain","data","quality","delivery"],why:"For cannabis software and compliance tools: market knowledge, data and security, quality and product delivery."},
+ {id:"fullstack",name:"Full-stack and AI builds",caps:["data","quality","pay","delivery","ai"],why:"For full-stack and AI-assisted builds: data and security, quality, payments, product delivery and Claude Code."},
+ {id:"creative",name:"Creative technologist",caps:["design","delivery","quality","ai"],why:"For creative technology: design systems and illustration, product delivery, accessibility and AI-assisted work."}];
+let mapKill=null;
+function initMap(root){
+ const P=Object.fromEntries(OM_P.map(x=>[x.id,x])),C=Object.fromEntries(OM_C.map(x=>[x.id,x]));
+ const capsOf=pid=>OM_C.filter(c=>c.ev[pid]),projsOf=cid=>OM_P.filter(p=>C[cid].ev[p.id]);
+ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+ const st={role:"all",sel:null,hover:null};
+ const q=s=>root.querySelector(s),rl=q(".om-rl"),why=q(".om-why"),chart=q(".om-chart"),ev=q(".om-ev"),list=q(".om-list"),table=q("table");
+ const R=()=>{const r=OM_R.find(x=>x.id===st.role);return r.caps?new Set(r.caps):null};
+ /* role buttons */
+ OM_R.forEach(r=>{const lab=document.createElement("label");lab.innerHTML=`<input type="radio" name="omrole" value="${r.id}"${r.id===st.role?" checked":""}><span>${esc(r.name)}</span>`;
+  lab.querySelector("input").addEventListener("change",()=>{st.role=r.id;update(true)});rl.append(lab)});
+ /* the arc diagram */
+ const NS="http://www.w3.org/2000/svg",mk=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+ const svg=mk("svg",{role:"group","aria-labelledby":"omT","aria-describedby":"omC"}),gA=mk("g",{"aria-hidden":"true"}),gN=mk("g");
+ const lp=mk("text",{class:"om-grp","aria-hidden":"true"}),lc=mk("text",{class:"om-grp","aria-hidden":"true"});lp.textContent="Projects";lc.textContent="Capabilities";
+ svg.append(gA,lp,lc,gN);chart.append(svg);
+ const nodes=new Map();
+ [...OM_P.map(p=>({...p,type:"project"})),...OM_C.map(c=>({...c,type:"cap"}))].forEach(n=>{
+  const count=n.type==="project"?capsOf(n.id).length:projsOf(n.id).length;
+  const g=mk("g",{class:`om-node ${n.type}`,role:"button",tabindex:"-1","aria-pressed":"false","aria-label":n.type==="project"?`${n.name}, project, proves ${count} capabilit${count===1?"y":"ies"}`:`${n.name}, capability, shown in ${count} project${count===1?"":"s"}`});
+  const row=mk("rect",{class:"om-row"}),hit=mk("rect",{class:"om-hit"});
+  const mark=n.type==="project"?mk("rect",{class:"om-mk",width:12,height:12,x:-6,y:-6}):mk("circle",{class:"om-mk",r:6});
+  const t=mk("text",{x:16,"aria-hidden":"true"}),m=mk("text",{class:"om-meta","aria-hidden":"true"});
+  t.textContent=n.name;m.textContent=n.type==="project"?`${count} capabilit${count===1?"y":"ies"}`:`${count} project${count===1?"":"s"}`;
+  g.append(row,hit,mark,t,m);gN.append(g);nodes.set(n.id,{g,row,hit,t,m,y:0,from:0,to:0,type:n.type});
+  g.addEventListener("click",()=>select(n.id));
+  g.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"){st.hover=n.id;paint()}});
+  g.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse"){st.hover=null;paint()}});
+  g.addEventListener("keydown",onKey);g.addEventListener("focus",()=>{focusId=n.id})});
+ const arcs=[];OM_C.forEach(c=>Object.keys(c.ev).forEach(p=>{const path=mk("path",{class:"om-arc"});gA.append(path);arcs.push({p,c:c.id,path})}));
+ let geo={W:600,axis:300,rowH:42,top:28,gap:38,labelW:260,narrow:false},navOrder=[],focusId=null,raf=0;
+ function order(){const r=R(),role=OM_R.find(x=>x.id===st.role);
+  const caps=r?[...role.caps,...OM_C.filter(c=>!r.has(c.id)).map(c=>c.id)]:OM_C.map(c=>c.id);
+  const projs=OM_P.map((p,i)=>({id:p.id,n:r?capsOf(p.id).filter(c=>r.has(c.id)).length:0,i})).sort((a,b)=>b.n-a.n||a.i-b.i).map(x=>x.id);
+  return {projs,caps}}
+ function measure(){const W=chart.clientWidth;if(!W)return false;const narrow=W<560,rowH=narrow?46:42;let maxRow=0;
+  nodes.forEach(n=>{const tw=n.t.getComputedTextLength(),mw=n.m.getComputedTextLength();maxRow=Math.max(maxRow,narrow?Math.max(tw,mw):tw+10+mw)});
+  const labelW=Math.ceil(16+maxRow+8);
+  if(W-labelW-4<110&&!svg.classList.contains("tight")){svg.classList.add("tight");return measure()}
+  if(W-labelW-4>=150&&svg.classList.contains("tight")){svg.classList.remove("tight");return measure()}
+  geo={W,axis:Math.max(90,W-labelW-4),rowH,top:28,gap:narrow?40:38,labelW,narrow};return true}
+ function layout(animate){if(!measure())return;const {projs,caps}=order(),y={};
+  projs.forEach((id,i)=>{y[id]=geo.top+geo.rowH/2+i*geo.rowH});const capTop=geo.top+projs.length*geo.rowH+geo.gap;
+  caps.forEach((id,i)=>{y[id]=capTop+geo.rowH/2+i*geo.rowH});navOrder=[...projs,...caps];
+  const H=capTop+OM_C.length*geo.rowH+12;svg.setAttribute("viewBox",`0 0 ${geo.W} ${H}`);svg.setAttribute("width",geo.W);svg.setAttribute("height",H);
+  lp.setAttribute("x",geo.axis-6);lp.setAttribute("y",geo.top-12);lc.setAttribute("x",geo.axis-6);lc.setAttribute("y",capTop-10);
+  nodes.forEach((n,id)=>{const a={x:-14,y:-geo.rowH/2+3,width:geo.labelW+14,height:geo.rowH-6};for(const k in a)n.row.setAttribute(k,a[k]);
+   const h={x:-18,y:-geo.rowH/2,width:geo.labelW+18,height:geo.rowH};for(const k in h)n.hit.setAttribute(k,h[k]);
+   n.t.setAttribute("y",geo.narrow?-7:-1);
+   if(geo.narrow){n.m.setAttribute("x",16);n.m.setAttribute("y",11)}else{n.m.setAttribute("x",16+n.t.getComputedTextLength()+10);n.m.setAttribute("y",-1)}
+   n.from=n.y;n.to=y[id]});
+  if(!focusId)focusId=navOrder[0];nodes.forEach((n,id)=>n.g.setAttribute("tabindex",id===focusId?"0":"-1"));
+  gN.append(...navOrder.map(id=>nodes.get(id).g));tween(animate&&!reduce)}
+ function tween(animate){cancelAnimationFrame(raf);const dur=650,t0=performance.now();
+  const step=now=>{const p=animate?Math.min(1,(now-t0)/dur):1,e=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+   nodes.forEach(n=>{n.y=n.from+(n.to-n.from)*e;n.g.setAttribute("transform",`translate(${geo.axis},${n.y.toFixed(2)})`)});
+   arcs.forEach(a=>{const y1=nodes.get(a.p).y,y2=nodes.get(a.c).y,ry=Math.abs(y2-y1)/2,rx=Math.min(ry,geo.axis-10),[ya,yb]=y1<y2?[y1,y2]:[y2,y1];
+    a.path.setAttribute("d",`M${geo.axis},${ya.toFixed(2)}A${rx.toFixed(2)},${ry.toFixed(2)} 0 0,0 ${geo.axis},${yb.toFixed(2)}`)});
+   if(p<1)raf=requestAnimationFrame(step)};
+  if(animate)raf=requestAnimationFrame(step);else step(t0)}
+ const near=id=>new Set(P[id]?capsOf(id).map(c=>c.id):projsOf(id).map(p=>p.id));
+ function paint(){const r=R(),F=st.hover||st.sel,nb=F?near(F):null;
+  arcs.forEach(a=>{const hot=F&&(a.p===F||a.c===F);a.path.classList.toggle("hot",!!hot);a.path.classList.toggle("dim",F?!hot:r?!r.has(a.c):false)});
+  nodes.forEach((n,id)=>{let dim=false;if(F)dim=id!==F&&!nb.has(id);else if(r)dim=n.type==="cap"?!r.has(id):!capsOf(id).some(c=>r.has(c.id));
+   n.g.classList.toggle("dim",dim);n.g.classList.toggle("hot",!!F&&(id===F||nb.has(id))&&id!==st.sel);n.g.classList.toggle("sel",id===st.sel);n.g.setAttribute("aria-pressed",String(id===st.sel))})}
+ const sw=()=>`<i class="om-sw" aria-hidden="true"></i>`;
+ function renderEv(){const id=st.sel,r=R();
+  if(!id){ev.innerHTML=`<p class="om-kind">Evidence</p><p class="om-empty">Select a project or a capability to see what proves it.</p>`;return}
+  if(P[id]){const p=P[id],caps=capsOf(id).sort((a,b)=>r?r.has(b.id)-r.has(a.id):0);
+   ev.innerHTML=`<p class="om-kind">Project</p><h4 class="om-h">${sw()}${esc(p.name)}</h4><p class="om-sum">${esc(p.sum)}</p>${p.stack?`<p class="om-stack">${esc(p.stack)}</p>`:""}
+    <ul class="om-evl">${caps.map(c=>`<li><button type="button" data-sel="${c.id}">${esc(c.name)}</button><ul>${c.ev[id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}</ul>
+    <p class="om-more"><button type="button" data-go="${p.id}">Open the ${esc(p.name)} project <span aria-hidden="true">→</span></button></p>`}
+  else{const c=C[id];
+   ev.innerHTML=`<p class="om-kind">Capability</p><h4 class="om-h">${esc(c.name)}</h4>
+    <ul class="om-evl">${projsOf(id).map(p=>`<li><button type="button" data-sel="${p.id}">${sw()}${esc(p.name)}</button><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}
+    ${c.gen?`<li><span class="om-evh">Across my career</span><ul>${c.gen.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`:""}</ul>
+    ${r?`<p class="om-rel">${r.has(id)?"Applies to the selected role.":"Not a focus for the selected role."}</p>`:""}`}
+  ev.querySelectorAll("[data-sel]").forEach(b=>b.addEventListener("click",()=>{select(b.dataset.sel,true);nodes.get(b.dataset.sel).g.focus()}))}
+ /* phones: the same facts as a list, the selected role's capabilities first */
+ function renderList(){const r=R(),ids=order().caps;
+  list.innerHTML=ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);
+   return `<li class="om-li${dim?" dim":""}"><h4>${esc(c.name)}${dim?`<span class="om-nf"> · not a focus for this role</span>`:""}</h4><ul>${projsOf(cid).map(p=>`<li><b>${sw()}${esc(p.name)}</b> ${c.ev[p.id].map(esc).join("; ")}</li>`).join("")}${c.gen?`<li class="om-gen"><b>Across my career</b> ${c.gen.map(esc).join("; ")}</li>`:""}</ul></li>`}).join("")}
+ table.innerHTML=`<caption class="vh">Capabilities by project, with the evidence for each</caption>
+  <thead><tr><th scope="col">Capability</th>${OM_P.map(p=>`<th scope="col">${esc(p.name)}</th>`).join("")}</tr></thead>
+  <tbody>${OM_C.map(c=>`<tr><th scope="row">${esc(c.name)}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`).join("")}</tbody>`;
+ function select(id,keep){st.sel=keep?id:st.sel===id?null:id;focusId=id;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));paint();renderEv()}
+ function onKey(e){const i=navOrder.indexOf(focusId);let next=null;
+  if(e.key==="ArrowDown"||e.key==="ArrowRight")next=navOrder[Math.min(navOrder.length-1,i+1)];
+  else if(e.key==="ArrowUp"||e.key==="ArrowLeft")next=navOrder[Math.max(0,i-1)];
+  else if(e.key==="Home")next=navOrder[0];else if(e.key==="End")next=navOrder[navOrder.length-1];
+  else if(e.key==="Enter"||e.key===" "){e.preventDefault();select(focusId);return}
+  /* Escape clears a selection first; with nothing selected it closes the panel as usual */
+  else if(e.key==="Escape"&&st.sel){e.stopPropagation();st.sel=null;paint();renderEv();return}
+  if(next){e.preventDefault();focusId=next;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));nodes.get(next).g.focus()}}
+ function update(animate){why.textContent=OM_R.find(x=>x.id===st.role).why;layout(animate);paint();renderEv();renderList()}
+ let rw=0;const ro=new ResizeObserver(()=>{if(chart.clientWidth!==rw){rw=chart.clientWidth;layout(false);paint()}});ro.observe(chart);
+ update(false);let alive=true;if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(alive)layout(false)});
+ return ()=>{alive=false;ro.disconnect();cancelAnimationFrame(raf)}}
+
+const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitréLab","titrelab","Potency and dosing · Live app"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Interactive plates · Live and public"]];
 const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
-let openFrom=null,scrollBack=0;
+let openFrom=null,scrollBack=0,goContact=false;   /* goContact: the GigBag walkthrough button closes the panel onto the contact form */
 function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
  const i=PROJ.findIndex(p=>p[1]===slug),isWork=i>=0;
  panel.dataset.p=slug;
@@ -419,41 +880,109 @@ function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
  pmeta.textContent=isWork?String(i+1).padStart(2,"0")+" · "+PROJ[i][2]:"";
  ppnum.textContent=isWork?String(i+1).padStart(2,"0"):"";
  pcloseT.textContent=isWork?"Back to Work":"Back";
+ if(mapKill){mapKill();mapKill=null}
  pbody.innerHTML=tpl.innerHTML;
+ if(PAL[slug]){pbody.querySelectorAll(".stack button").forEach(b=>chamFill(b,PAL[slug],false,true));
+  pbody.querySelectorAll(".gb-ask .btn").forEach(b=>chamFill(b,PAL[slug],true,true))}
+ if(slug==="about")mapKill=initMap(pbody.querySelector(".om-wrap"));
  if(isWork){const n=PROJ.length,pv=PROJ[(i-1+n)%n],nx=PROJ[(i+1)%n];
   const nav=document.createElement("nav");nav.className="pnav";nav.setAttribute("aria-label","Projects");
   nav.innerHTML=`<button type="button" class="prev" data-go="${pv[1]}"><span class="lab">Previous</span><span class="nm">${pv[0]}</span></button><button type="button" class="fwd" data-go="${nx[1]}"><span class="lab">Next</span><span class="nm">${nx[0]}</span></button>`;
   pbody.append(nav)}
  panel.scrollTop=0;return true}
-function openPanel(slug,from){if(!fill(slug))return;openFrom=from||openFrom;
- if(!panel.classList.contains("on")){scrollBack=scrollY;panel.classList.add("on");panel.setAttribute("aria-hidden","false");body.classList.add("locked");main.inert=true}
- pclose.focus({preventScroll:true})}
-function closePanel(){if(!panel.classList.contains("on"))return;panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;pbody.innerHTML="";
+function showPanel(slug,from){if(!fill(slug))return false;openFrom=from||openFrom;
+ const was=panel.classList.contains("on");
+ if(!was){scrollBack=scrollY;panel.classList.add("on");panel.setAttribute("aria-hidden","false");body.classList.add("locked");main.inert=true}
+ pclose.focus({preventScroll:true});return was?pbody:panel}
+const wipe=$("#wipe");let wiping=false;
+/* colour: a slug with a --p-base rule takes it; anything else ("about", "back") is charcoal */
+function runWipe(colour,[OFF,ON],swap){wiping=true;wipe.dataset.p=colour;wipe.classList.add("run");
+ const sweep=(k,ms,delay=0)=>wipe.animate(k,{duration:ms,delay,easing:WIPE_EASE,fill:"forwards"}).finished.catch(()=>{});
+ sweep([{transform:OFF},{transform:ON}],WIPE_IN)
+  .then(()=>{swap();return sweep([{transform:ON},{transform:OFF}],WIPE_OUT,WIPE_HOLD)})
+  .then(()=>{wipe.getAnimations().forEach(x=>x.cancel());wipe.classList.remove("run");wiping=false})}
+function openPanel(slug,from){if(wiping||!$("#pg-"+slug))return;
+ if(reduce||!wipe.animate){const el=showPanel(slug,from);if(el)fade(el);return}
+ runWipe(slug,WIPE_FROM[slug]||L_,()=>showPanel(slug,from))}
+function closePanel(){if(!panel.classList.contains("on")||wiping)return;
+ const slug=panel.dataset.p;
+ if(reduce||!wipe.animate||!PROJ.some(x=>x[1]===slug)){hidePanel();return}
+ runWipe("back",WIPE_FROM[slug],hidePanel)}
+function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;if(mapKill){mapKill();mapKill=null}pbody.innerHTML="";
+ if(goContact){goContact=false;openFrom=null;const ct=$("#contact"),f=$("#fn");if(ct)ct.scrollIntoView({block:"start"});if(f)f.focus({preventScroll:true});return}
  if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
+/* ── Work rows: Kelly's try-out (19 Nov) of the subtle first chameleon on the filled bar. While a mouse or pen hovers a row, its fill drifts
+   a little toward one of the project's own darker palette colours and back toward the other, and a soft patch slides across it the other way.
+   Off for touch, off with reduced motion, and it stops the moment the row is clicked, so the wipe takes over cleanly.
+   Then (19 Nov) Kelly asked for the intro's previous, stronger version on the bars instead: a bigger drift and the intro's wider, solid-middled patch.
+   Tune ROW_T (how far the fill drifts) and ROW_P (how far the patch does) just below; both are shares of the way to each palette colour. ── */
+const ROW_T=.5,ROW_P=1;
+/* chamFill(el, [toward one way, toward the other], stopOnClick): the bar version of the chameleon on any filled element. Its fill is read from
+   --c-fill when the pointer arrives. Mouse and pen only, nothing with reduced motion. The Send button in the contact form uses it too. */
+const chamFill=(el,pal,stopOnClick,inPanel)=>{if(reduce)return;
+ const c=swayState();let r=0,base="";
+ const shade=o=>o<0?mix(base,pal[0],-o):o>0?mix(base,pal[1],o):base;
+ const clear=()=>{cancelAnimationFrame(r);r=0;c.on=false;c.a=0;c.last=0;el.style.backgroundColor="";el.style.backgroundImage=""};
+ const tick=now=>{if(!c.on||wiping||(!inPanel&&panel.classList.contains("on"))){clear();return}
+  const a=swayA(c,now),u=swayU(c,now);el.style.backgroundColor=shade(a*ROW_T*u);
+  el.style.backgroundImage=`radial-gradient(ellipse 75% 130% at ${(85-70*(u+1)/2).toFixed(1)}% 60%,${shade(-a*ROW_P*u)} 30%,transparent 85%)`;
+  r=requestAnimationFrame(tick)};
+ el.addEventListener("pointerenter",e=>{if(e.pointerType==="touch")return;base=getComputedStyle(el).getPropertyValue("--c-fill").trim();if(!base)return;
+  c.on=true;c.t0=performance.now();if(!r)r=requestAnimationFrame(tick)});
+ el.addEventListener("pointerleave",clear);if(stopOnClick)el.addEventListener("click",clear)};
+const PAL={gigbag:["#0a5373","#3b464a"],titrelab:["#94180a","#8c3f3f"],"formulation-suite":["#5a1ba1","#77579c"],phytofoundry:["#424529","#5a5e3f"]};
+$$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(pal)chamFill(row,pal,true)});
+/* GigBag stack: a tool lights up the lines it powers. Hover (mouse or pen) and keyboard focus preview it; a click, tap, Enter or Space pins it
+   (aria-pressed) until pressed again, and leaving goes back to the pinned one. Only a pin is announced, so hovering stays quiet for screen readers. */
+{const hl=(box,k,say)=>{let n=0;box.querySelectorAll(".bul li").forEach(li=>{const hit=!!k&&(li.dataset.k||"").split(" ").includes(k);li.classList.toggle("hit",hit);if(hit)n++});
+  box.classList.toggle("hl",!!k);if(!say)return;const lv=box.querySelector(".gb-live"),b=k&&box.querySelector(`[data-tool="${k}"]`);
+  if(lv)lv.textContent=b?`${b.textContent}: ${n} ${n===1?"line":"lines"} highlighted`:"Highlight cleared"};
+ const tool=e=>{const b=e.target.closest&&e.target.closest("[data-tool]");return b?[b,b.closest(".gb-stack")]:[]};
+ const back=box=>hl(box,box.dataset.pin||"",false);
+ pbody.addEventListener("click",e=>{const [b,box]=tool(e);if(!b)return;const k=box.dataset.pin===b.dataset.tool?"":b.dataset.tool;box.dataset.pin=k;
+  box.querySelectorAll("[data-tool]").forEach(x=>x.setAttribute("aria-pressed",String(!!k&&x===b)));hl(box,k,true)});
+ pbody.addEventListener("pointerover",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b){b.classList.add("hov");hl(box,b.dataset.tool,false)}});
+ pbody.addEventListener("pointerout",e=>{if(e.pointerType==="touch")return;const [b,box]=tool(e);if(b&&!b.contains(e.relatedTarget)){b.classList.remove("hov");back(box)}});
+ pbody.addEventListener("focusin",e=>{const [b,box]=tool(e);if(b&&b.matches(":focus-visible"))hl(box,b.dataset.tool,false)});
+ pbody.addEventListener("focusout",e=>{const [b,box]=tool(e);if(b)back(box)})}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
 pclose.addEventListener("click",closePanel);
-panel.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
+/* TitreLab: See the demo opens the app in a new tab (the link does that) and shows the demo login under the button */
+pbody.addEventListener("click",e=>{const d=e.target.closest("[data-demo]");if(!d)return;const lg=d.parentElement.querySelector(".tl-login");if(lg)lg.hidden=false});
+panel.addEventListener("click",e=>{if(e.target.closest("[data-contact]")){if(!wiping){goContact=true;closePanel()}return}
+ const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
 addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
  if(e.key==="Escape"){closePanel();return}
  /* keep Tab inside the panel */
  if(e.key==="Tab"){const f=[...panel.querySelectorAll("button,a[href],input,select,textarea,[tabindex]:not([tabindex='-1'])")].filter(x=>!x.disabled&&x.offsetParent!==null);if(!f.length)return;
   const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
 
-/* ── the form: posted in the background with a plain fetch, so nothing on the page reloads ── */
-const form=$("#cform"),note=$("#fnote");
-form.addEventListener("submit",async e=>{e.preventDefault();
- const btn=form.querySelector("button[type=submit]"),say=t=>{note.textContent=t};
- const data=new FormData(form),val=k=>String(data.get(k)||"").trim();
- const name=val("name"),email=val("email");
- if(!name||!email||!val("type")||!val("message")||!val("deadline")){say("Please fill in your name, your email, the type of work, a deadline and what you need.");return}
- if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say("That email address does not look right.");return}
- btn.disabled=true;say("Sending…");
- try{const r=await fetch(form.action,{method:"POST",body:data,headers:{Accept:"application/json"}});
-  if(r.ok){const first=name.split(/\s+/)[0];$("#sheet").innerHTML=`<p class="tyk">Thank you, ${first.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}.</p><p class="formnote">Your message is on its way. I will reply to the address you gave.</p>`;return}
-  let why="";try{const j=await r.json();if(j&&j.errors)why=j.errors.map(x=>x.message).filter(Boolean).join(", ")}catch(_){}
-  say(why||"That did not send. Please try again, or email me directly.");btn.disabled=false}
- catch(_){say("That did not send. You may be offline; nothing is lost, so try again in a moment.");btn.disabled=false}});
+/* ── the form: PLACEHOLDER. It checks each field inline and sends nothing until a form service is chosen. ── */
+{const form=$("#cform"),note=$("#fnote"),need=$("#ft"),otherW=$("#fo-w"),trap=$("#fw");
+ const RULES={fn:v=>v?"":"Please add your name.",
+  fe:v=>!v?"Please add your email.":/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?"":"That email address does not look right.",
+  fm:v=>v?"":"Please add a short message."};
+ const check=id=>{const el=$("#"+id),msg=RULES[id](el.value.trim());el.setAttribute("aria-invalid",msg?"true":"false");$("#"+id+"-e").textContent=msg;return !msg};
+ Object.keys(RULES).forEach(id=>{const el=$("#"+id);
+  el.addEventListener("blur",()=>{if(el.value.trim()||el.getAttribute("aria-invalid"))check(id)});
+  el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{if(el.getAttribute("aria-invalid")==="true")check(id)})});
+ /* "Other" opens an optional field for what they need (Kelly, 19 Nov); picking anything else hides it */
+ const syncOther=()=>{otherW.hidden=need.value!=="Other"};
+ need.addEventListener("change",syncOther);syncOther();
+ /* anti-spam, in the browser only (Kelly, 19 Nov). The hidden trap field and a minimum time between first touching the form and sending.
+    A filled trap gets the normal message and nothing else; a send under MIN_MS gets a polite "press Send again", and the next press goes through.
+    Server-side protection is chosen when sending is set up. */
+ const MIN_MS=2500;let firstTouch=0,warned=false;
+ form.addEventListener("focusin",()=>{if(!firstTouch)firstTouch=performance.now()});
+ const OK="Everything looks right. This form is a preview and is not connected yet, so nothing was sent.";
+ form.addEventListener("submit",e=>{e.preventDefault();
+  if(trap.value){note.textContent=OK;return}
+  const bad=Object.keys(RULES).filter(id=>!check(id));
+  if(bad.length){note.textContent="";$("#"+bad[0]).focus();return}
+  if(!warned&&(!firstTouch||performance.now()-firstTouch<MIN_MS)){warned=true;note.textContent="That was quick. Please check your details and press Send again.";return}
+  note.textContent=OK});
+ chamFill(form.querySelector(".btn"),["#94180a","#8c3f3f"],false)}
 
 /* ── start ── */
 addEventListener("scroll",introTick,{passive:true});
