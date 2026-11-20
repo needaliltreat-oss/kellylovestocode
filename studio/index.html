@@ -265,12 +265,16 @@ body.locked{overflow:hidden}
 /* Formulation Suite page (20 Nov): its three screen placeholders sit 1 across on phones and 3 across from 700px, so none is left alone on a row */
 #opened[data-p="formulation-suite"] .shots{grid-template-columns:minmax(0,1fr)}
 @media (min-width:700px){#opened[data-p="formulation-suite"] .shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
-/* PhytoFoundry page (20 Nov): the name set as text in the logo box (Kelly), and its four plate boxes 1, 2 or 4 across */
+/* PhytoFoundry page (20 Nov): the name set as text in the logo box (Kelly), and its four plate screens 1, 2 or 4 across */
 #opened[data-p="phytofoundry"] .gb-ask .btn{text-decoration:none}
 #opened[data-p="phytofoundry"] .pf-logo{display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid var(--p-base);color:var(--p-sh);font:800 clamp(.68rem,1.15vw,1rem)/1.05 var(--head);letter-spacing:-.01em;text-align:center}
 #opened[data-p="phytofoundry"] .shots{grid-template-columns:minmax(0,1fr)}
 @media (min-width:560px){#opened[data-p="phytofoundry"] .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width:1000px){#opened[data-p="phytofoundry"] .shots{grid-template-columns:repeat(4,minmax(0,1fr))}}
+#opened[data-p="phytofoundry"] .pf-shot{margin:0;min-width:0}
+#opened[data-p="phytofoundry"] .pf-shot .shot{display:block;overflow:hidden;background:var(--p-sh)}
+#opened[data-p="phytofoundry"] .pf-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+#opened[data-p="phytofoundry"] .pf-shot figcaption{margin-top:10px;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
 /* panel body text, shared by every project page and the About (Kelly, 19 Nov: the light 300 was hard to read; all projects match GigBag). Scale:
    title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
@@ -521,7 +525,7 @@ svg.tight .om-node .om-meta{font-size:12px}
   <div><h3 class="sh">Outcome</h3><p>A formulation and labelling workflow inside a live app. Each market's label rules are data that can be checked and extended, and the label, scaling, pricing and unit rules each have their own tests.</p></div>
   <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Formula builder</div><div class="shot">Scaled batch</div><div class="shot">Ingredient list</div></div></div>
 </div></template>
-<!-- PhytoFoundry page (20 Nov), Kelly's picks (20 Nov): "I designed and built", "AI-generated art", the name set as text for the logo, and the button opens the live site. The plate screens are still placeholders. Facts from the PhytoFoundry repo and its live site. -->
+<!-- PhytoFoundry page (20 Nov), Kelly's picks (20 Nov): "I designed and built", "AI-generated art", the name set as text for the logo, and the button opens the live site. The plate screens are the opening view of each live plate, captured at 1440 by 900. Facts from the PhytoFoundry repo and its live site. -->
 <template id="pg-phytofoundry"><div class="grid">
   <div class="wide gb-ov"><div class="gb-logo pf-logo" aria-hidden="true"><span>Phyto</span><span>Foundry</span></div><div><h3 class="sh">Overview</h3><p class="lede">PhytoFoundry is an interactive botanical reference I designed and built: one plant to a plate, each one part scientific infographic and part field journal, with its sources cited. Ten of its 23 plates are live.</p></div></div>
   <div class="wide"><h3 class="sh">On the plates</h3><ol class="tracks">
@@ -550,7 +554,7 @@ svg.tight .om-node .om-meta{font-size:12px}
       <li data-k="ts">Built with Claude Code, with checks that block code-drawn art and any "done" without a render</li>
     </ul><p class="vh gb-live" aria-live="polite"></p></div>
   <div><h3 class="sh">Outcome</h3><p>Ten plates live and checked on desktop, tablet and phone, with four more designed and waiting on their art.</p></div>
-  <div class="wide"><h3 class="sh">Plates</h3><div class="shots"><div class="shot">Shea Butter Tree</div><div class="shot">Vitamin E</div><div class="shot">Frankincense</div><div class="shot">Helichrysum</div></div></div>
+  <div class="wide"><h3 class="sh">Plates</h3><div class="shots"><figure class="pf-shot"><div class="shot"><img src="/assets/phytofoundry/shea.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The opening of the Shea Butter Tree plate: an engraved shea tree heavy with fruit under a carved sun and clouds, on a golden ground."></div><figcaption>Shea Butter Tree</figcaption></figure><figure class="pf-shot"><div class="shot"><img src="/assets/phytofoundry/vitamin-e.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The opening of the Vitamin E plate: the words Vitamin E over a spiral of overlapping blue, green and violet petals, with the line one name, eight molecules, one antioxidant network."></div><figcaption>Vitamin E</figcaption></figure><figure class="pf-shot"><div class="shot"><img src="/assets/phytofoundry/frankincense.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The opening of the Frankincense plate: the title Boswellia carterii over dark, cracked bark with a resin-filled wound running across it."></div><figcaption>Frankincense</figcaption></figure><figure class="pf-shot"><div class="shot"><img src="/assets/phytofoundry/helichrysum.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The opening of the Helichrysum plate: a worn Byzantine mosaic of three figures, the crowned centre figure robed in gold immortelle flowers, with tiles missing across the wall."></div><figcaption>Helichrysum</figcaption></figure></div></div>
   <div class="gb-ask"><h3 class="sh">See it live</h3><p>PhytoFoundry is live and public. Start at the index and open any plate.</p><a class="btn" href="https://phytofoundry.vercel.app/" target="_blank" rel="noopener">Visit PhytoFoundry <span aria-hidden="true">→</span><span class="vh"> (opens in a new tab)</span></a></div>
 </div></template>
 <template id="pg-about"><div class="grid">
