@@ -257,6 +257,9 @@ body.locked{overflow:hidden}
 @media (min-width:560px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width:1000px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(4,minmax(0,1fr))}}
 #opened[data-p="titrelab"] .tl-todo{color:var(--muted);font-style:italic;-webkit-user-select:none;user-select:none}
+/* Formulation Suite page (20 Nov): its three screen placeholders sit 1 across on phones and 3 across from 700px, so none is left alone on a row */
+#opened[data-p="formulation-suite"] .shots{grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){#opened[data-p="formulation-suite"] .shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
 /* panel body text, shared by every project page and the About (Kelly, 19 Nov: the light 300 was hard to read; all projects match GigBag). Scale:
    title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
@@ -485,9 +488,27 @@ svg.tight .om-node .om-meta{font-size:12px}
   <div class="gb-ask"><h3 class="sh">Demo</h3><p>Sign in with the demo account to try TitréLab with sample data. The calculations are the real ones, and saving is the only thing the account refuses.</p><a class="btn" href="https://www.titrelab.com/" target="_blank" rel="noopener" data-demo>See the demo <span aria-hidden="true">→</span><span class="vh"> (opens in a new tab)</span></a>
     <div class="tl-login" hidden><p class="gb-hint">Sign in to TitréLab with:</p><dl class="pairs"><div><dt>Email</dt><dd>demo@titrelab.com</dd></div><div><dt>Password</dt><dd><!-- KELLY: paste the demo password here, in place of the next line --><span class="tl-todo">Password to come</span></dd></div></dl></div></div>
 </div></template>
+<!-- Formulation Suite (20 Nov): built from the plan while Kelly was away, with the safest choice on each open question (no test count, no market
+     switcher, no demo box, no Claude Code line, subtitle unchanged, screens as placeholders). Every fact is from the titre repo: the Formulator
+     tab, src/regions.js, src/format/labelFormat.js, src/math/{scaleFormula,formulaMass,pricing}.js, migration 0022. -->
 <template id="pg-formulation-suite"><div class="grid">
-  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-  <div class="wide"><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div></div></div>
+  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">Formulation Suite is the formulation side of TitréLab, which I designed and built on my own. A maker builds a topical or a recipe ingredient by ingredient, scales it, prices it, and gets an ingredient list formatted for the market it's sold in.</p></div>
+  <div class="wide"><h3 class="sh">Method</h3><ol class="tracks">
+    <li><span class="no">Step 01</span><h4>Build</h4><p>Work in ml, g or %, with a cost, an INCI name and an allergen flag on each ingredient. A plain formula keeps cannabis off entirely.</p></li>
+    <li><span class="no">Step 02</span><h4>Scale</h4><p>Resize a batch in one step. Percentages hold, whole items like eggs round to whole numbers, and the cost follows what's really in the batch.</p></li>
+    <li><span class="no">Step 03</span><h4>Price</h4><p>Markup or margin from real ingredient cost, worked out in either direction.</p></li>
+    <li><span class="no">Step 04</span><h4>Label</h4><p>An ingredient list in descending order, with INCI names and allergen lines in the format the market asks for.</p></li>
+  </ol></div>
+  <div><h3 class="sh">Problem and approach</h3>
+    <p>An ingredient list is easy to get wrong in ways that matter. Every market declares allergens differently, and a list ordered by the wrong measure is simply wrong.</p>
+    <ul class="calls">
+      <li><h4>Rules as data</h4>Each market is one record. On a food label the EU and UK bold allergens inline and forbid a separate &ldquo;Contains&rdquo; line, the US, Canada, Japan, Korea and China use a &ldquo;Contains&rdquo; block, and Australia and New Zealand use both. The rules are written for eight markets plus a general default, and the live app offers US labels today.</li>
+      <li><h4>No guessed numbers</h4>Grams and millilitres are never added together without a density. The formula asks for one instead, and a list built from mixed units says its order is an estimate.</li>
+      <li><h4>One label engine</h4>A single function builds the list for the screen, the copy button and the PDF, so all three always agree.</li>
+      <li><h4>Saves that can't half-happen</h4>A formula and its ingredients save in one Postgres transaction, so a failed update can't lose ingredients.</li>
+    </ul></div>
+  <div><h3 class="sh">Outcome</h3><p>A formulation and labelling workflow inside a live app. Each market's label rules are data that can be checked and extended, and the label, scaling, pricing and unit rules each have their own tests.</p></div>
+  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Formula builder</div><div class="shot">Scaled batch</div><div class="shot">Ingredient list</div></div></div>
 </div></template>
 <template id="pg-phytofoundry"><div class="grid">
   <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
