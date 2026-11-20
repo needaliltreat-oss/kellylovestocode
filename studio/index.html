@@ -772,7 +772,7 @@ function initMap(root){
  update(false);let alive=true;if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(alive)layout(false)});
  return ()=>{alive=false;ro.disconnect();cancelAnimationFrame(raf)}}
 
-const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Lorem ipsum"]];
+const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Lorem ipsum"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Interactive plates · Live and public"]];
 const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
 let openFrom=null,scrollBack=0,goContact=false;   /* goContact: the GigBag walkthrough button closes the panel onto the contact form */
 function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
