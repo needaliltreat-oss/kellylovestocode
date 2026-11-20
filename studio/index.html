@@ -246,6 +246,17 @@ body.locked{overflow:hidden}
 .study .bul li{margin:0 0 .6em}
 .study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
+/* TitreLab page (20 Nov): the logo placeholder until Kelly has a logo, and the demo login shown once See the demo is pressed */
+#opened[data-p="titrelab"] .tl-logo{display:grid;place-items:center;border:2px dashed var(--p-acc);color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+#opened[data-p="titrelab"] .gb-ask .btn{text-decoration:none}
+#opened[data-p="titrelab"] .tl-login{margin-top:24px;padding-left:clamp(12px,2vw,20px);border-left:4px solid var(--p-acc)}
+#opened[data-p="titrelab"] .tl-login .gb-hint{margin:0 0 12px}
+#opened[data-p="titrelab"] .tl-login dd{overflow-wrap:anywhere;-webkit-user-select:all;user-select:all}
+/* its four screens sit 1, 2 or 4 across, on the same steps as the bench tiles, so none is left alone on a row */
+#opened[data-p="titrelab"] .shots{grid-template-columns:minmax(0,1fr)}
+@media (min-width:560px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(4,minmax(0,1fr))}}
+#opened[data-p="titrelab"] .tl-todo{color:var(--muted);font-style:italic;-webkit-user-select:none;user-select:none}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
 /* panel body text, shared by every project page and the About (Kelly, 19 Nov: the light 300 was hard to read; all projects match GigBag). Scale:
    title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
@@ -440,13 +451,39 @@ svg.tight .om-node .om-meta{font-size:12px}
   <div><h3 class="sh">Outcome</h3><p>A four-product platform, designed, built and shipped by one engineer, now in closed beta. What I bring to a client is the reasoning behind it: where to draw the line on liability, how to design licensing into the data model, and how to keep a build moving while legal and commercial questions are still open.</p></div>
   <div class="gb-ask"><h3 class="sh">Walkthrough</h3><p>There's a lot more under the hood than I can put on a public page. Once we've signed an NDA, I'd love to walk you through GigBag properly: the architecture, the trade-offs and the calls I'd make again.</p><button type="button" class="btn" data-contact>Ask for a walkthrough <span aria-hidden="true">→</span></button></div>
 </div></template>
+<!-- TitreLab (20 Nov, Kelly's approved plan and her answers): copy from her Portfolio drafts, checked against the titre code (THC and CBD only;
+     705 tests in 75 files, run 19 Nov). Spelled TitréLab on the page. The logo and the four screens are placeholders until she has them. -->
 <template id="pg-titrelab"><div class="grid">
-  <div class="wide"><h3 class="sh">Overview</h3><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+  <div class="wide gb-ov"><div class="gb-logo tl-logo" aria-hidden="true">Logo</div><div><h3 class="sh">Overview</h3><p class="lede">TitréLab is an app I designed and built on my own for small-batch cannabis makers. It works out the potency of a batch, doses a topical or a recipe from it, and keeps a log of every tested batch with its lab report. It began as my own tool and is now built for other makers to use.</p></div></div>
+  <div class="wide"><h3 class="sh">On the bench</h3><ol class="tracks">
+    <li><span class="no">No. 01</span><h4>Potency</h4><p>THC and CBD potency for every batch, tied to its lot and lab report.</p></li>
+    <li><span class="no">No. 02</span><h4>Dosing</h4><p>Dose a topical, a recipe, or a blend of two batches to a target ratio.</p></li>
+    <li><span class="no">No. 03</span><h4>Formulation and labels</h4><p>Scale a salve or a recipe, with INCI names and allergen lines built as you go.</p></li>
+    <li><span class="no">No. 04</span><h4>Batch log</h4><p>Every batch is logged and traceable, and stock comes off as you produce.</p></li>
+  </ol></div>
   <div><h3 class="sh">Problem and approach</h3>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p></div>
-  <div><h3 class="sh">Outcome</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div><div class="shot">Screen 4</div></div></div>
+    <p>A maker working at small scale has to get potency right, and getting it wrong is a dosing error in something a person swallows or puts on their skin. The tools on offer were spreadsheets with no guardrails, or seed-to-sale systems priced for licensed operators.</p>
+    <ul class="calls">
+      <li><h4>The database is the safety layer</h4>Row-level security is on every table, so each maker's batches stay their own, whatever reaches the API.</li>
+      <li><h4>Plan limits live in Postgres</h4>A request sent straight at the API is refused, the same as on screen.</li>
+      <li><h4>Tested where a mistake is a dose</h4>705 tests across 75 files. One of them checks that the database's plan rules match the app's.</li>
+      <li><h4>Accessibility measured, not assumed</h4>Every screen checked from 320 to 1024px in light and dark. The lowest contrast is 5.40:1, against the 4.5:1 that AA asks for.</li>
+    </ul></div>
+  <div class="gb-stack"><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="react" aria-pressed="false">React</button></li><li><button type="button" data-tool="vite" aria-pressed="false">Vite</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li></ul>
+    <p class="gb-hint">Pick a tool to see what it powers.</p>
+    <ul class="bul">
+      <li data-k="react vite vercel">The app runs on React 18 and Vite 5, deployed on Vercel</li>
+      <li data-k="supabase postgres">Row-level security on every table</li>
+      <li data-k="supabase postgres">Plan limits enforced by Postgres triggers, not just hidden on screen</li>
+      <li data-k="postgres">Proof scripts for the key database rules, safe to run on production because every write rolls back</li>
+      <li data-k="supabase">Sign-in, and each batch's lab report stored with it</li>
+      <li data-k="vite vercel">Installs on a phone, and reads still work offline</li>
+    </ul><p class="vh gb-live" aria-live="polite"></p></div>
+  <div><h3 class="sh">Outcome</h3><p>A live app at titrelab.com, installable on a phone, with every screen checked for width and contrast in light and dark.</p></div>
+  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Specimen ticket</div><div class="shot">Live potency calculation</div><div class="shot">Arnica Relief Salve</div><div class="shot">Lavender Shortbread · EU</div></div></div>
+  <div class="gb-ask"><h3 class="sh">Demo</h3><p>Sign in with the demo account to try TitréLab with sample data. The calculations are the real ones, and saving is the only thing the account refuses.</p><a class="btn" href="https://www.titrelab.com/" target="_blank" rel="noopener" data-demo>See the demo <span aria-hidden="true">→</span><span class="vh"> (opens in a new tab)</span></a>
+    <div class="tl-login" hidden><p class="gb-hint">Sign in to TitréLab with:</p><dl class="pairs"><div><dt>Email</dt><dd>demo@titrelab.com</dd></div><div><dt>Password</dt><dd><!-- KELLY: paste the demo password here, in place of the next line --><span class="tl-todo">Password to come</span></dd></div></dl></div></div>
 </div></template>
 <template id="pg-formulation-suite"><div class="grid">
   <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
@@ -772,7 +809,7 @@ function initMap(root){
  update(false);let alive=true;if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(alive)layout(false)});
  return ()=>{alive=false;ro.disconnect();cancelAnimationFrame(raf)}}
 
-const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitreLab","titrelab","Potency and dosing · Live app"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Interactive plates · Live and public"]];
+const PROJ=[["GigBag","gigbag","Case study · Closed beta"],["TitréLab","titrelab","Potency and dosing · Live app"],["Formulation Suite","formulation-suite","Compliance labelling"],["PhytoFoundry","phytofoundry","Interactive plates · Live and public"]];
 const panel=$("#opened"),pbody=$("#pbody"),ptitle=$("#ptitle"),pmeta=$("#pmeta"),ppnum=$("#ppnum"),pclose=$("#pclose"),pcloseT=$("#pcloseT"),main=$("#main");
 let openFrom=null,scrollBack=0,goContact=false;   /* goContact: the GigBag walkthrough button closes the panel onto the contact form */
 function fill(slug){const tpl=$("#pg-"+slug);if(!tpl)return false;
@@ -850,6 +887,8 @@ $$(".proj").forEach(row=>{const pal=PAL[row.dataset.open];if(pal)chamFill(row,pa
  pbody.addEventListener("focusout",e=>{const [b,box]=tool(e);if(b)back(box)})}
 $$("[data-open]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();openPanel(el.dataset.open,el)}));
 pclose.addEventListener("click",closePanel);
+/* TitreLab: See the demo opens the app in a new tab (the link does that) and shows the demo login under the button */
+pbody.addEventListener("click",e=>{const d=e.target.closest("[data-demo]");if(!d)return;const lg=d.parentElement.querySelector(".tl-login");if(lg)lg.hidden=false});
 panel.addEventListener("click",e=>{if(e.target.closest("[data-contact]")){if(!wiping){goContact=true;closePanel()}return}
  const g=e.target.closest("[data-go]");if(!g)return;const row=$(`.proj[data-open="${g.dataset.go}"]`);openFrom=row||openFrom;openPanel(g.dataset.go)});
 addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
