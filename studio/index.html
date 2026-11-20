@@ -256,6 +256,11 @@ body.locked{overflow:hidden}
 #opened[data-p="titrelab"] .shots{grid-template-columns:minmax(0,1fr)}
 @media (min-width:560px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width:1000px){#opened[data-p="titrelab"] .shots{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* the four demo screens: each capture fills its 16:10 frame, its name sits underneath */
+#opened[data-p="titrelab"] .tl-shot{margin:0;min-width:0}
+#opened[data-p="titrelab"] .tl-shot .shot{display:block;overflow:hidden;background:#fff}
+#opened[data-p="titrelab"] .tl-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+#opened[data-p="titrelab"] .tl-shot figcaption{margin-top:10px;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
 #opened[data-p="titrelab"] .tl-todo{color:var(--muted);font-style:italic;-webkit-user-select:none;user-select:none}
 /* Formulation Suite page (20 Nov): its three screen placeholders sit 1 across on phones and 3 across from 700px, so none is left alone on a row */
 #opened[data-p="formulation-suite"] .shots{grid-template-columns:minmax(0,1fr)}
@@ -489,7 +494,7 @@ svg.tight .om-node .om-meta{font-size:12px}
       <li data-k="vite vercel">Installs on a phone, and reads still work offline</li>
     </ul><p class="vh gb-live" aria-live="polite"></p></div>
   <div><h3 class="sh">Outcome</h3><p>A live app at titrelab.com, installable on a phone, with every screen checked for width and contrast in light and dark.</p></div>
-  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Specimen ticket</div><div class="shot">Live potency calculation</div><div class="shot">Arnica Relief Salve</div><div class="shot">Lavender Shortbread · EU</div></div></div>
+  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/specimen-ticket.webp" width="1200" height="750" loading="lazy" decoding="async" alt="TitréLab specimen ticket for a sample alcohol tincture, showing 66.7 milligrams per milliliter, 50 milliliters remaining, best by September 2029 and its lot number."></div><figcaption>Specimen ticket</figcaption></figure><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/potency-calculation.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Add Specimen calculation run live: 66.6 milligrams per milliliter, 328.3 per teaspoon and 984.8 per tablespoon, with the formula it used."></div><figcaption>Live potency calculation</figcaption></figure><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/arnica-salve-label.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The US ingredient label TitréLab builds for the Arnica Relief Salve sample, each ingredient followed by its INCI name and sorted by weight."></div><figcaption>Arnica Relief Salve</figcaption></figure><figure class="tl-shot"><div class="shot"><img src="/assets/titrelab/lavender-shortbread-eu.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The EU ingredient label for the Lavender Shortbread sample, with wheat flour, butter and egg yolk bolded as allergens, and its diet profile."></div><figcaption>Lavender Shortbread · EU</figcaption></figure></div></div>
   <div class="gb-ask"><h3 class="sh">Demo</h3><p>Sign in with the demo account to try TitréLab with sample data. The calculations are the real ones, and saving is the only thing the account refuses.</p><a class="btn" href="https://www.titrelab.com/" target="_blank" rel="noopener" data-demo>See the demo <span aria-hidden="true">→</span><span class="vh"> (opens in a new tab)</span></a>
     <div class="tl-login" hidden><p class="gb-hint">Sign in to TitréLab with:</p><dl class="pairs"><div><dt>Email</dt><dd>demo@titrelab.com</dd></div><div><dt>Password</dt><dd><!-- KELLY: paste the demo password here, in place of the next line --><span class="tl-todo">Password to come</span></dd></div></dl></div></div>
 </div></template>
