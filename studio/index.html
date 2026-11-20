@@ -260,6 +260,11 @@ body.locked{overflow:hidden}
 /* Formulation Suite page (20 Nov): its three screen placeholders sit 1 across on phones and 3 across from 700px, so none is left alone on a row */
 #opened[data-p="formulation-suite"] .shots{grid-template-columns:minmax(0,1fr)}
 @media (min-width:700px){#opened[data-p="formulation-suite"] .shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* PhytoFoundry page (20 Nov): the logo placeholder until Kelly has one, and its four plate placeholders 1, 2 or 4 across */
+#opened[data-p="phytofoundry"] .pf-logo{display:grid;place-items:center;border:2px dashed var(--p-acc);color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+#opened[data-p="phytofoundry"] .shots{grid-template-columns:minmax(0,1fr)}
+@media (min-width:560px){#opened[data-p="phytofoundry"] .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){#opened[data-p="phytofoundry"] .shots{grid-template-columns:repeat(4,minmax(0,1fr))}}
 /* GigBag section titles: bigger and bold (Kelly, 19 Nov); the other pages get this as each one is built */
 /* panel body text, shared by every project page and the About (Kelly, 19 Nov: the light 300 was hard to read; all projects match GigBag). Scale:
    title 32-64 > section titles 24-30 > lede 18-24 > subheads 20 (track titles, the four calls) > body 17 > labels 12-15. */
@@ -510,9 +515,37 @@ svg.tight .om-node .om-meta{font-size:12px}
   <div><h3 class="sh">Outcome</h3><p>A formulation and labelling workflow inside a live app. Each market's label rules are data that can be checked and extended, and the label, scaling, pricing and unit rules each have their own tests.</p></div>
   <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Formula builder</div><div class="shot">Scaled batch</div><div class="shot">Ingredient list</div></div></div>
 </div></template>
+<!-- PhytoFoundry page (20 Nov), built on conservative defaults while Kelly's questions are open: no ownership claim, "generated art" kept, the logo and screens are placeholders, and the button asks for a walkthrough rather than linking the live site. Facts from the PhytoFoundry repo and its live site. -->
 <template id="pg-phytofoundry"><div class="grid">
-  <div class="wide"><p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-  <div class="wide"><div class="shots"><div class="shot">Screen 1</div><div class="shot">Screen 2</div><div class="shot">Screen 3</div></div></div>
+  <div class="wide gb-ov"><div class="gb-logo pf-logo" aria-hidden="true">Logo</div><div><h3 class="sh">Overview</h3><p class="lede">PhytoFoundry is an interactive botanical reference: one plant to a plate, each one part scientific infographic and part field journal, with its sources cited. Ten of its 23 plates are live.</p></div></div>
+  <div class="wide"><h3 class="sh">On the plates</h3><ol class="tracks">
+    <li><span class="no">Plate I</span><h4>Shea Butter Tree</h4><p>Scroll one two-hundred-year-old tree from crown to root, by day or by night.</p></li>
+    <li><span class="no">Plate IV</span><h4>Vitamin E</h4><p>An endless zoom that travels through all eight forms of the vitamin.</p></li>
+    <li><span class="no">Plate XV</span><h4>Frankincense</h4><p>The resin's story told from the first cut in the bark to the hardened tear.</p></li>
+    <li><span class="no">Plate XXIII</span><h4>Helichrysum</h4><p>A ruined mosaic mended with a sprig of immortelle, where each restored region opens the next section.</p></li>
+  </ol></div>
+  <div><h3 class="sh">Problem and approach</h3>
+    <p>A reference has to be accurate, and a plate has to be worth framing. The work was holding both at once.</p>
+    <ul class="calls">
+      <li><h4>Art is made, not drawn in code</h4>Every plate uses generated art under one art direction, and a check blocks artwork drawn in code.</li>
+      <li><h4>One illusion per plate</h4>Each plate gets a single signature effect, logged so that no two plates repeat one.</li>
+      <li><h4>Science you can check</h4>Claims carry citations with DOI and PubMed links, and every plant is available as public data.</li>
+      <li><h4>Proof in a real browser</h4>Nothing counts as done until it renders. The last check covered 99 frames across five screen sizes with no console errors.</li>
+    </ul></div>
+  <div class="gb-stack"><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="next" aria-pressed="false">Next.js</button></li><li><button type="button" data-tool="react" aria-pressed="false">React</button></li><li><button type="button" data-tool="ts" aria-pressed="false">TypeScript</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="webgl" aria-pressed="false">WebGL</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li></ul>
+    <p class="gb-hint">Pick a tool to see what it powers.</p>
+    <ul class="bul">
+      <li data-k="next react ts vercel">Next.js 15 and React 19 in TypeScript, deployed on Vercel</li>
+      <li data-k="supabase postgres">Each plant in Postgres, with its compounds, anatomy, bloom calendar, folklore and citations in their own tables</li>
+      <li data-k="next supabase vercel">A public, cached JSON feed for every specimen</li>
+      <li data-k="webgl">WebGL shaders for the mosaic, with tiles that follow the artwork's real grout lines</li>
+      <li data-k="react">Motion that respects reduced-motion settings</li>
+      <li data-k="ts">Built with Claude Code, with checks that block code-drawn art and any "done" without a render</li>
+    </ul><p class="vh gb-live" aria-live="polite"></p></div>
+  <div><h3 class="sh">Outcome</h3><p>Ten plates live and checked on desktop, tablet and phone, with four more designed and waiting on their art.</p></div>
+  <div class="wide"><h3 class="sh">Plates</h3><div class="shots"><div class="shot">Shea Butter Tree</div><div class="shot">Vitamin E</div><div class="shot">Frankincense</div><div class="shot">Helichrysum</div></div></div>
+  <div class="gb-ask"><h3 class="sh">Walkthrough</h3><p>Ask me and I'll walk you through how a plate goes from research to art to a live page.</p><button type="button" class="btn" data-contact>Ask for a walkthrough <span aria-hidden="true">→</span></button></div>
 </div></template>
 <template id="pg-about"><div class="grid">
   <div class="wide"><p class="lede">Most recently I co-founded GigBag and built it as CTO and sole developer, taking four products from zero to closed beta. Before that I ran Take Me To Your Pixel, my own web design studio, where I took clients from a napkin sketch to a launched site, and I led a platform rebuild as UX architect for Carolinas AGC. My first leadership role was VP of Technology at Step Up 4 Learning, where I ran the platform and the development team behind an online writing program.</p></div>
