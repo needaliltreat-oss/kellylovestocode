@@ -263,6 +263,10 @@ body.locked{overflow:hidden}
 #opened[data-p="titrelab"] .tl-shot figcaption{margin-top:10px;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
 #opened[data-p="titrelab"] .tl-todo{color:var(--muted);font-style:italic;-webkit-user-select:none;user-select:none}
 /* Formulation Suite page (20 Nov): its three screen placeholders sit 1 across on phones and 3 across from 700px, so none is left alone on a row */
+#opened[data-p="formulation-suite"] .fs-shot{margin:0;min-width:0}
+#opened[data-p="formulation-suite"] .fs-shot .shot{display:block;overflow:hidden;background:#fff}
+#opened[data-p="formulation-suite"] .fs-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+#opened[data-p="formulation-suite"] .fs-shot figcaption{margin-top:10px;color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
 #opened[data-p="formulation-suite"] .shots{grid-template-columns:minmax(0,1fr)}
 @media (min-width:700px){#opened[data-p="formulation-suite"] .shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
 /* PhytoFoundry page (20 Nov): the name set as text in the logo box (Kelly), and its four plate screens 1, 2 or 4 across */
@@ -534,7 +538,7 @@ svg.tight .om-node .om-meta{font-size:12px}
       <li data-k="vite">Vitest tests for the scaling, mass, pricing, inventory and ingredient-list code</li>
     </ul><p class="vh gb-live" aria-live="polite"></p></div>
   <div><h3 class="sh">Outcome</h3><p>A formulation and labelling workflow inside a live app. Each market's label rules are data that can be checked and extended, and the label, scaling, pricing and unit rules each have their own tests.</p></div>
-  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Formula builder</div><div class="shot">Scaled batch</div><div class="shot">Ingredient list</div></div></div>
+  <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><figure class="fs-shot"><div class="shot"><img src="/assets/formulation-suite/formula-builder.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The formula builder with the Chamomile Day Cream sample: six ingredients, each with an amount in grams and a unit menu, and a texture note under sweet almond oil."></div><figcaption>Formula builder</figcaption></figure><figure class="fs-shot"><div class="shot"><img src="/assets/formulation-suite/scaled-batch.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The same cream scaled from 100 to 200 milliliters in one step: water goes from 58 to 116 grams, sweet almond oil from 20 to 40 and emulsifying wax from 8 to 16."></div><figcaption>Scaled batch</figcaption></figure><figure class="fs-shot"><div class="shot"><img src="/assets/formulation-suite/ingredient-list-ca.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Canadian ingredient list for the cream, in INCI names sorted by weight, heaviest first, with print label size and layout options."></div><figcaption>Ingredient list</figcaption></figure></div></div>
 </div></template>
 <!-- PhytoFoundry page (20 Nov), Kelly's picks (20 Nov): "I designed and built", "AI-generated art", the name set as text for the logo, and the button opens the live site. The plate screens are the opening view of each live plate, captured at 1440 by 900. Facts from the PhytoFoundry repo and its live site. -->
 <template id="pg-phytofoundry"><div class="grid">
