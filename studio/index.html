@@ -299,10 +299,18 @@ body.locked{overflow:hidden}
 .study .om-cap{font:400 .9375rem/1.5 var(--body);color:var(--muted);margin:0 0 20px}
 .om-cap .n{display:none}
 .om{display:grid;grid-template-columns:minmax(0,1fr);gap:20px 40px}
-.om-roles,.om-why,.om-list,.om-data{grid-column:1/-1}
+.om-view,.om-roles,.om-why,.om-list,.om-data{grid-column:1/-1}
+/* map or table (Kelly, 23 Nov: "a toggle between the arc map and the table"). Phones keep the list, as before. */
+.om-view{border:0;margin:0;padding:0;min-width:0}
+.om[data-view="map"] .om-data,.om[data-view="table"] :is(.om-chart,.om-ev){display:none}
+.om-cap .t{display:none}
+.om-wrap:has(.om[data-view="table"]) .om-cap .w{display:none}
+.om-wrap:has(.om[data-view="table"]) .om-cap .t{display:inline}
 .om-roles{border:0;margin:0;padding:0;min-width:0}
 .om-roles legend{font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding:0}
 .om-rl{display:flex;flex-wrap:wrap;gap:8px}
+.om-view .om-rl{gap:0}
+.om-view .om-rl label+label span{border-left-width:0}
 .om-rl label{position:relative}
 .om-rl input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
 .om-rl span{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1.5px solid var(--char);background:var(--paper);color:var(--char);font:600 .875rem var(--head);cursor:pointer}
@@ -312,10 +320,11 @@ body.locked{overflow:hidden}
 .study .om-why{font:400 .9375rem/1.5 var(--body);color:var(--muted);margin:-8px 0 0;min-height:1.5em;max-width:62ch}
 .om-chart{position:relative;min-width:0}
 .om-chart svg{display:block;width:100%;height:auto;overflow:visible;touch-action:manipulation}
-.om-arc{fill:none;stroke:var(--char);stroke-width:1.5;stroke-opacity:.5;transition:stroke-opacity .25s,stroke-width .25s}
+/* each arc is drawn in its project's own color (Kelly, 23 Nov: "Add the color of the projects to their arc lines"); set inline from OM_P */
+.om-arc{fill:none;stroke-width:1.75;stroke-opacity:.7;transition:stroke-opacity .25s,stroke-width .25s}
 .om-arc.dim{stroke-opacity:.1}
-/* the About is greyscale (Kelly, 19 Nov): the map's project squares, swatches and lit arcs are charcoal, not project colours */
-.om-arc.hot{stroke:var(--char);stroke-opacity:1;stroke-width:2.5}
+/* the map's project squares and swatches stay charcoal (Kelly, 19 Nov); only the arcs carry project color (23 Nov) */
+.om-arc.hot{stroke-opacity:1;stroke-width:3}
 .om-node{cursor:pointer;outline:none}
 .om-hit{fill:transparent}
 .om-row{fill:var(--char);fill-opacity:0;transition:fill-opacity .2s}
@@ -357,18 +366,18 @@ svg.tight .om-node .om-meta{font-size:12px}
 .om-li b{font:700 .875rem var(--head)}
 .om-li.dim h4,.om-li.dim li{color:var(--muted)}
 .om-nf{font-weight:400}
-.om-data summary{font:700 .875rem var(--head);cursor:pointer;min-height:40px;display:flex;align-items:center}
-.om-data summary:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
 .om-tw{overflow-x:auto}
-.om-data table{border-collapse:collapse;width:100%;min-width:640px;font:400 .875rem/1.45 var(--body);margin-top:8px}
+.om-data table{border-collapse:collapse;width:100%;min-width:640px;font:400 .875rem/1.45 var(--body);margin-top:0}
 .om-data th,.om-data td{text-align:left;vertical-align:top;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
 .om-data thead th{font:600 .75rem var(--head);letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--char)}
 .om-data tbody th{font:700 .875rem var(--head)}
+.om-data tr.dim :is(th,td){color:var(--muted)}
+.om-data .om-nf{display:block;font:400 .8125rem/1.4 var(--body);margin-top:4px}
 .om-data ul{margin:0;padding-left:16px}
 .om-gen{display:block;font:400 .8125rem/1.4 var(--body);color:var(--muted);margin-top:4px}
 .om-none{color:var(--muted)}
 @media (min-width:1000px){.om{grid-template-columns:minmax(0,1fr) 300px}.om-ev{position:sticky;top:96px;align-self:start}}
-@media (max-width:639px){.om-chart,.om-ev,.om-data{display:none}.om-list{display:block}.om-cap .w{display:none}.om-cap .n{display:inline}}
+@media (max-width:639px){.om .om-chart,.om .om-ev,.om .om-data,.om-view{display:none}.om-list{display:block}.om-cap .w,.om-cap .t{display:none!important}.om-cap .n{display:inline}}
 @media (prefers-reduced-motion:reduce){.om-arc,.om-row,.om-mk{transition:none}.cform input,.cform textarea,.cform select{transition:none}}
 @media (prefers-reduced-motion:reduce){
  .arrow,.bicon .br,.bicon .ht,.word .wi,.heart svg{transition:none}
@@ -572,14 +581,15 @@ svg.tight .om-node .om-meta{font-size:12px}
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
   <div class="wide om-wrap">
     <h3 class="sh" id="omT">Where my work overlaps</h3>
-    <p class="om-cap" id="omC"><span class="w">Each arc links a project to a capability it proves. Select any name for the evidence.</span><span class="n">Each capability with the projects that prove it.</span></p>
-    <div class="om">
+    <p class="om-cap" id="omC"><span class="w">Each arc links a project to a capability it proves. Select any name for the evidence.</span><span class="t">Each capability with the evidence from each project.</span><span class="n">Each capability with the projects that prove it.</span></p>
+    <div class="om" data-view="map">
+      <fieldset class="om-view"><legend class="vh">View as</legend><div class="om-rl"><label><input type="radio" name="omview" value="map" checked><span>Map</span></label><label><input type="radio" name="omview" value="table"><span>Table</span></label></div></fieldset>
       <fieldset class="om-roles"><legend>Show what applies to</legend><div class="om-rl"></div></fieldset>
       <p class="om-why" aria-live="polite"></p>
       <div class="om-chart"></div>
       <aside class="om-ev" aria-live="polite" aria-label="Evidence"></aside>
       <ul class="om-list" aria-labelledby="omT"></ul>
-      <details class="om-data"><summary>View as a table</summary><div class="om-tw"><table></table></div></details>
+      <div class="om-data"><div class="om-tw" tabindex="0" role="region" aria-labelledby="omTc"><table></table></div></div>
     </div>
   </div>
 </div></template>
@@ -781,11 +791,13 @@ function initMap(root){
  const capsOf=pid=>OM_C.filter(c=>c.ev[pid]),projsOf=cid=>OM_P.filter(p=>C[cid].ev[p.id]);
  const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
  const st={role:"all",sel:null,hover:null};
- const q=s=>root.querySelector(s),rl=q(".om-rl"),why=q(".om-why"),chart=q(".om-chart"),ev=q(".om-ev"),list=q(".om-list"),table=q("table");
+ const q=s=>root.querySelector(s),om=q(".om"),rl=q(".om-roles .om-rl"),why=q(".om-why"),chart=q(".om-chart"),ev=q(".om-ev"),list=q(".om-list"),table=q("table");
  const R=()=>{const r=OM_R.find(x=>x.id===st.role);return r.caps?new Set(r.caps):null};
  /* role buttons */
  OM_R.forEach(r=>{const lab=document.createElement("label");lab.innerHTML=`<input type="radio" name="omrole" value="${r.id}"${r.id===st.role?" checked":""}><span>${esc(r.name)}</span>`;
   lab.querySelector("input").addEventListener("change",()=>{st.role=r.id;update(true)});rl.append(lab)});
+ /* map or table */
+ root.querySelectorAll('input[name="omview"]').forEach(i=>{i.checked=i.value==="map";i.addEventListener("change",()=>{if(i.checked)om.dataset.view=i.value})});om.dataset.view="map";
  /* the arc diagram */
  const NS="http://www.w3.org/2000/svg",mk=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
  const svg=mk("svg",{role:"group","aria-labelledby":"omT","aria-describedby":"omC"}),gA=mk("g",{"aria-hidden":"true"}),gN=mk("g");
@@ -804,7 +816,7 @@ function initMap(root){
   g.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"){st.hover=n.id;paint()}});
   g.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse"){st.hover=null;paint()}});
   g.addEventListener("keydown",onKey);g.addEventListener("focus",()=>{focusId=n.id})});
- const arcs=[];OM_C.forEach(c=>Object.keys(c.ev).forEach(p=>{const path=mk("path",{class:"om-arc"});gA.append(path);arcs.push({p,c:c.id,path})}));
+ const arcs=[];OM_C.forEach(c=>Object.keys(c.ev).forEach(p=>{const path=mk("path",{class:"om-arc",stroke:P[p].col});gA.append(path);arcs.push({p,c:c.id,path})}));
  let geo={W:600,axis:300,rowH:42,top:28,gap:38,labelW:260,narrow:false},navOrder=[],focusId=null,raf=0;
  function order(){const r=R(),role=OM_R.find(x=>x.id===st.role);
   const caps=r?[...role.caps,...OM_C.filter(c=>!r.has(c.id)).map(c=>c.id)]:OM_C.map(c=>c.id);
@@ -857,9 +869,10 @@ function initMap(root){
  function renderList(){const r=R(),ids=order().caps;
   list.innerHTML=ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);
    return `<li class="om-li${dim?" dim":""}"><h4>${esc(c.name)}${dim?`<span class="om-nf"> · not a focus for this role</span>`:""}</h4><ul>${projsOf(cid).map(p=>`<li><b>${sw()}${esc(p.name)}</b> ${c.ev[p.id].map(esc).join("; ")}</li>`).join("")}${c.gen?`<li class="om-gen"><b>Across my career</b> ${c.gen.map(esc).join("; ")}</li>`:""}</ul></li>`}).join("")}
- table.innerHTML=`<caption class="vh">Capabilities by project, with the evidence for each</caption>
+ function renderTable(){const r=R(),ids=order().caps;
+  table.innerHTML=`<caption class="vh" id="omTc">Capabilities by project, with the evidence for each</caption>
   <thead><tr><th scope="col">Capability</th>${OM_P.map(p=>`<th scope="col">${esc(p.name)}</th>`).join("")}</tr></thead>
-  <tbody>${OM_C.map(c=>`<tr><th scope="row">${esc(c.name)}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`).join("")}</tbody>`;
+  <tbody>${ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);return `<tr${dim?' class="dim"':""}><th scope="row">${esc(c.name)}${dim?`<span class="om-nf">Not a focus for this role</span>`:""}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`}).join("")}</tbody>`}
  function select(id,keep){st.sel=keep?id:st.sel===id?null:id;focusId=id;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));paint();renderEv()}
  function onKey(e){const i=navOrder.indexOf(focusId);let next=null;
   if(e.key==="ArrowDown"||e.key==="ArrowRight")next=navOrder[Math.min(navOrder.length-1,i+1)];
@@ -869,7 +882,7 @@ function initMap(root){
   /* Escape clears a selection first; with nothing selected it closes the panel as usual */
   else if(e.key==="Escape"&&st.sel){e.stopPropagation();st.sel=null;paint();renderEv();return}
   if(next){e.preventDefault();focusId=next;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));nodes.get(next).g.focus()}}
- function update(animate){why.textContent=OM_R.find(x=>x.id===st.role).why;layout(animate);paint();renderEv();renderList()}
+ function update(animate){why.textContent=OM_R.find(x=>x.id===st.role).why;layout(animate);paint();renderEv();renderList();renderTable()}
  let rw=0;const ro=new ResizeObserver(()=>{if(chart.clientWidth!==rw){rw=chart.clientWidth;layout(false);paint()}});ro.observe(chart);
  update(false);let alive=true;if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(alive)layout(false)});
  return ()=>{alive=false;ro.disconnect();cancelAnimationFrame(raf)}}
