@@ -522,6 +522,17 @@ svg.tight .om-node .om-meta{font-size:12px}
       <li><h4>One label engine</h4>A single function builds the list for the screen, the copy button and the PDF, so all three always agree.</li>
       <li><h4>Saves that can't half-happen</h4>A formula and its ingredients save in one Postgres transaction, so a failed update can't lose ingredients.</li>
     </ul></div>
+  <div class="gb-stack"><h3 class="sh">Stack and security</h3>
+    <ul class="stack" aria-label="Stack"><li><button type="button" data-tool="react" aria-pressed="false">React</button></li><li><button type="button" data-tool="vite" aria-pressed="false">Vite</button></li><li><button type="button" data-tool="supabase" aria-pressed="false">Supabase</button></li><li><button type="button" data-tool="postgres" aria-pressed="false">Postgres</button></li><li><button type="button" data-tool="jspdf" aria-pressed="false">jsPDF</button></li><li><button type="button" data-tool="vercel" aria-pressed="false">Vercel</button></li></ul>
+    <p class="gb-hint">Pick a tool to see what it powers.</p>
+    <ul class="bul">
+      <li data-k="react vite vercel">Built into TitréLab, on React 18 and Vite 5, deployed on Vercel</li>
+      <li data-k="supabase postgres">Formulas and their ingredients in Postgres, with row-level security keeping each one to the maker who saved it</li>
+      <li data-k="react supabase">Saved formulas load through TanStack Query and refresh after every save</li>
+      <li data-k="jspdf">Formula sheets and print-ready label sheets as PDFs, with jsPDF loaded only when someone exports</li>
+      <li data-k="vercel">Strict security headers on every page, set in the Vercel config</li>
+      <li data-k="vite">Vitest tests for the scaling, mass, pricing, inventory and ingredient-list code</li>
+    </ul><p class="vh gb-live" aria-live="polite"></p></div>
   <div><h3 class="sh">Outcome</h3><p>A formulation and labelling workflow inside a live app. Each market's label rules are data that can be checked and extended, and the label, scaling, pricing and unit rules each have their own tests.</p></div>
   <div class="wide"><h3 class="sh">Screens</h3><div class="shots"><div class="shot">Formula builder</div><div class="shot">Scaled batch</div><div class="shot">Ingredient list</div></div></div>
 </div></template>
