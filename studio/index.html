@@ -528,6 +528,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 /* "years" on its own line beside Big Ben on desktop and tablet (Kelly, 24 Nov: "wrap it on tablet too"); one line on phone */
 @container (max-width:559.98px){.kab .yrs2{display:none}}
 @container (min-width:560px){.kab .yw{display:none}}
+.kab .B .yrs2{text-align:left}
 /* Kelly, 24 Nov: "remove the box from around what I do", "a little padding between the London and Global bank lines", "a little space to the right of Pixel" */
 .kab .B .boxes > .box.full{border:0;padding:.3em 0 0}
 .kab .B .row.rowgap,.aboutband .kab .B .row.rowgap{margin-top:.55em}
@@ -1329,17 +1330,24 @@ setTimeout(go,1500);
         const fs = parseFloat(getComputedStyle(i).fontSize), w = i.offsetWidth;
         if (w && avail > 0) i.style.fontSize = (fs * avail / w) + 'px';
       });
+      // "twenty" and "years" are never set larger than London (Kelly, 24 Nov)
+      K.querySelectorAll('.poster').forEach(pst => {
+        const lon = pst.querySelector('.benrow > .fli'), lfs = lon && parseFloat(lon.style.fontSize);
+        if (!lfs) return;
+        pst.querySelectorAll('.yrs .fli,.yrs2 .fli').forEach(f => { f.dataset.cap = ''; if (f.offsetParent && parseFloat(f.style.fontSize) > lfs) { f.style.fontSize = lfs + 'px'; f.dataset.cap = '1'; } });
+      });
       // print and pixel share one size: the smaller of the two fits
       K.querySelectorAll('.boxes.trio').forEach(g => { const fs = [...g.querySelectorAll('.fli')]; const m = Math.min(...fs.map(f => parseFloat(f.style.fontSize || 16))); fs.forEach(f => f.style.fontSize = m + 'px'); });
       K.querySelectorAll('.side[data-rel]').forEach(s => {
         const fli = s.parentElement.querySelector('.fli');
         s.style.fontSize = Math.max(11, parseFloat(fli.style.fontSize || 16) * parseFloat(s.dataset.rel)) + 'px';
       });
-      if (pass > 1 && [...K.querySelectorAll('.fl')].every(fl => { const i = fl.firstElementChild, cs = getComputedStyle(fl); const av = fl.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight); return fl.closest('.trio') ? i.offsetWidth <= av + 1.5 : Math.abs(i.offsetWidth - av) < 1.5; })) break;
+      if (pass > 1 && [...K.querySelectorAll('.fl')].every(fl => { const i = fl.firstElementChild, cs = getComputedStyle(fl); const av = fl.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight); return (fl.closest('.trio') || i.dataset.cap === '1') ? i.offsetWidth <= av + 1.5 : Math.abs(i.offsetWidth - av) < 1.5; })) break;
     }
     sizeHearts();
     clearBen();
     placeStudio();
+    coinRoom();
     placeBridges();
     if (scrollY !== sy) scrollTo(0, sy);  // the refit briefly shortens the page; keep the reader where they were
   }
@@ -1385,19 +1393,19 @@ setTimeout(go,1500);
         const sfs = parseFloat(getComputedStyle(sm).fontSize);
         const dy = Math.max(0, capTop - sfs * 0.45 - sr.bottom);
         sm.style.top = dy + 'px';
-        // where Big Ben's spire would run into the line (phones), slide it left, no further than London's first letter
+        // the line starts where London's L starts (Kelly, 24 Nov); where Big Ben's spire would still run into it (phones), it is set a touch smaller
         const ben = row.querySelector('.ben'), ink = [...sm.querySelectorAll('.w,.chev')];
-        if (ben && ink.length) {
+        if (ink.length) {
           const toC = (bx, by) => ({ x: bx - docBox(sm).l + sr.left - (parseFloat(sm.style.translate) || 0), y: by - docBox(sm).t + sr.top });
-          const bd = docBox(ben.closest('.disc')), bc = toC(bd.l + ben.offsetLeft - ben.offsetWidth / 2, bd.t + ben.offsetTop);
-          const br = { left: bc.x, top: bc.y };
           const right = Math.max(...ink.map(e => toC(docBox(e).r, 0).x)), left = Math.min(...ink.map(e => toC(docBox(e).l, 0).x));
-          const over = right + sfs * 0.6 - br.left;
-          if (over > 0 && br.top < sr.bottom + dy) {
-            const room = left - fr.left;
-            sm.style.translate = -Math.min(over, Math.max(0, room)) + 'px 0';
-            // smallest phones: still too long, so set it a touch smaller (never under 11px) and place it again
-            if (over > room && k === 0) { sm.style.fontSize = Math.max(11, sfs * (right - left - (over - room)) / (right - left)) + 'px'; sm.style.top = ''; sm.style.translate = ''; continue; }
+          const lb = -c.measureText('L').actualBoundingBoxLeft / 100;   // the L's own left side bearing
+          const lx = lw ? toC(docBox(lw).l + parseFloat(getComputedStyle(lw).paddingLeft) + lb * fs, 0).x : fr.left;
+          const shift = lx - left;
+          sm.style.translate = shift.toFixed(2) + 'px 0';
+          if (ben) {
+            const bd = docBox(ben.closest('.disc')), bc = toC(bd.l + ben.offsetLeft - ben.offsetWidth / 2, bd.t + ben.offsetTop);
+            const over = right + shift + sfs * 0.6 - bc.x;
+            if (over > 0 && bc.y < sr.bottom + dy && k === 0) { sm.style.fontSize = Math.max(11, sfs * (right - left - over) / (right - left)) + 'px'; sm.style.top = ''; sm.style.translate = ''; continue; }
           }
         }
         break;
@@ -1405,6 +1413,21 @@ setTimeout(go,1500);
     });
   }
 
+  // about 10px between the falling coins and London's letters (Kelly, 24 Nov): the Global bank line moves down or up to make it so
+  function coinRoom() {
+    K.querySelectorAll('.benrow').forEach(row => {
+      const gb = row.nextElementSibling, coins = gb && gb.querySelector('.coins'), lw = row.querySelector('.fli .w');
+      if (!coins || !lw || !gb.classList.contains('rowgap')) return;
+      gb.style.marginTop = '';
+      const fs = parseFloat(getComputedStyle(lw).fontSize);
+      // the foot of London's letters (their baseline, read from a zero-size mark sitting on it) with the hard edge of their raised shadow (.034em below)
+      const mk = document.createElement('span'); mk.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+      lw.appendChild(mk); const foot = docBox(mk).t + 0.034 * fs; mk.remove();
+      const cb = docBox(coins), top = cb.t + 0.012 * coins.offsetHeight;   // the coins' drawing starts 1.2% down its picture
+      const mt = parseFloat(getComputedStyle(gb).marginTop) + (10 - (top - foot));
+      gb.style.marginTop = mt.toFixed(1) + 'px';
+    });
+  }
   function sizeHearts() {
     K.querySelectorAll('.kheart').forEach(h => {
       const bb = { y: 4.157, height: 17.143 }, cs = getComputedStyle(h.parentElement); // the heart's outline inside its 24-unit box
