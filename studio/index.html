@@ -561,25 +561,20 @@ svg.tight .om-node .om-meta{font-size:12px}
 /* sketches held at full size when the type is set smaller: print and pixel sit centered on theirs */
 .kab.held .B .box .sk.in{vertical-align:middle}
 
-/* ── Paper sheets (Kelly, 24 Nov): the intro stays put while the About rolls up over the whole page; the About scrolls
-   inside its sheet, then Work rolls up over it the same way, then Contact. Each sheet holds once its last screen is in
-   view (top = viewport height minus its own height, set in the script) and stays fixed there for a beat (--hold, the
-   next sheet's top margin) before the next one comes up over it.
-   The roll follows the scroll, so it plays backward on the way up. Reduced motion: an ordinary page, no sheets. ── */
-:root{--hold:35vh;--hold:35svh}
-.leaf{position:sticky;top:var(--st,0px);background:var(--paper)}
-#introTrack.leaf{z-index:0}
-#about.leaf{z-index:2}
-#workLeaf{z-index:3;margin-top:var(--hold);padding-bottom:clamp(72px,11vw,168px)}
-#contact.leaf{z-index:4;margin-top:var(--hold)}
-#about.leaf,#workLeaf,#contact.leaf{box-shadow:0 -14px 34px -16px rgba(22,23,27,.34),0 -1px 0 rgba(22,23,27,.08);transform-origin:50% 0;rotate:var(--sr,0deg)}
+/* ── Paper sheets (Kelly, 24 Nov): the intro stays put while the About rolls up over the whole page. Each sheet locks
+   once it covers the screen, holds for a beat, then its content scrolls up inside it; at the end it holds again and the
+   next sheet rolls up over it (About, Work, Contact). All of it follows the scroll, so it plays backward on the way up.
+   The script adds .sheets to <html> and sets each sheet's travel; reduced motion or no script: an ordinary page. ── */
+.leaf{position:relative;background:var(--paper)}
+#workLeaf{padding-bottom:clamp(72px,11vw,168px)}
 #workLeaf .work{padding-top:clamp(48px,9vw,112px)}
-@media (prefers-reduced-motion:reduce){
- .leaf{position:relative;top:auto}
- #workLeaf{margin-top:0}
- #about.leaf,#workLeaf,#contact.leaf{box-shadow:none;rotate:none}
- #contact.leaf{margin-top:clamp(40px,7vw,88px)}
-}
+.sheets #introTrack.leaf{position:sticky;top:var(--st,0px);z-index:0}
+.sheets #about.leaf,.sheets #workLeaf,.sheets #contact.leaf{position:sticky;top:0;height:100vh;height:100lvh;overflow:clip;
+ box-shadow:0 -14px 34px -16px rgba(22,23,27,.34),0 -1px 0 rgba(22,23,27,.08);transform-origin:50% 0;rotate:var(--sr,0deg)}
+.sheets #about.leaf{z-index:2}
+.sheets #workLeaf{z-index:3}
+.sheets #contact.leaf{z-index:4}
+.sheets #about.leaf > *,.sheets #workLeaf > *,.sheets #contact.leaf > *{translate:0 var(--ty,0px)}
 </style>
 </head>
 <body>
@@ -1158,7 +1153,7 @@ function closePanel(){if(!panel.classList.contains("on")||wiping)return;
  if(reduce||!wipe.animate||!PROJ.some(x=>x[1]===slug)){hidePanel();return}
  runWipe("back",WIPE_FROM[slug],hidePanel)}
 function hidePanel(){[panel,pbody].forEach(el=>{if(el.getAnimations)el.getAnimations().forEach(x=>x.cancel())});panel.classList.remove("on");panel.setAttribute("aria-hidden","true");body.classList.remove("locked");main.inert=false;if(mapKill){mapKill();mapKill=null}pbody.innerHTML="";
- if(goContact){goContact=false;openFrom=null;const ct=$("#contact"),f=$("#fn");if(ct)ct.scrollIntoView({block:"start"});if(f)f.focus({preventScroll:true});return}
+ if(goContact){goContact=false;openFrom=null;const ct=$("#contact"),f=$("#fn");if(ct&&!(window.kSheetGo&&window.kSheetGo(ct)))ct.scrollIntoView({block:"start"});if(f)f.focus({preventScroll:true});return}
  if(Math.abs(scrollY-scrollBack)>2)scrollTo(0,scrollBack);
  restoring=true;if(openFrom)openFrom.focus({preventScroll:true});restoring=false;openFrom=null}
 /* ── Work rows: Kelly's try-out (19 Nov) of the subtle first chameleon on the filled bar. While a mouse or pen hovers a row, its fill drifts
@@ -1549,41 +1544,100 @@ setTimeout(go,1500);
 <script>
 /* ── Paper sheets (see the styles above) ── */
 (() => {
-  const leaves = [...document.querySelectorAll('.leaf')], main = document.getElementById('main');
-  if (leaves.length < 2 || !main) return;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  const clamp = v => Math.max(0, Math.min(1, v));
-  let tops = [];   // where each sheet sits in the page's flow (sticky never moves the flow)
+  const main = document.getElementById('main'), intro = document.getElementById('introTrack');
+  const els = ['about', 'workLeaf', 'contact'].map(id => document.getElementById(id)).filter(Boolean);
+  if (!main || els.length < 2) return;
+  const root = document.documentElement, reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const ARRIVE = 0.2, HOLD = 0.35;   // in screen heights: the beat after a sheet locks, and the beat at its end
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const num = v => parseFloat(v) || 0;
+  // the small viewport height (mobile toolbars showing) keeps the travel steady while the toolbars come and go
+  const probe = document.createElement('div'); probe.setAttribute('aria-hidden', 'true');
+  probe.style.cssText = 'position:absolute;top:0;left:0;width:0;height:100vh;height:100svh;visibility:hidden;pointer-events:none';
+  document.body.append(probe);
+  let on = false, sv = 0, S = [];
+  const put = (st, k, v) => { const s = v ? v.toFixed(1) + 'px' : ''; if (st[k] !== s) st[k] = s; };
+  const contentH = el => { let h = 0; for (const k of el.children) h = Math.max(h, k.offsetTop + k.offsetHeight + num(getComputedStyle(k).marginBottom)); return h + num(getComputedStyle(el).paddingBottom); };
+  function clear() {
+    els.forEach(el => { el.style.marginTop = ''; el.style.removeProperty('--ty'); el.style.removeProperty('--sr'); });
+    main.style.paddingBottom = ''; if (intro) intro.style.removeProperty('--st');
+  }
   function measure() {
-    let y = main.getBoundingClientRect().top + scrollY;
-    tops = leaves.map(l => { y += parseFloat(getComputedStyle(l).marginTop) || 0; const at = y; y += l.offsetHeight; l.style.setProperty('--st', Math.min(0, innerHeight - l.offsetHeight) + 'px'); return at; });
+    const want = !reduce.matches;
+    if (want !== on) { on = want; root.classList.toggle('sheets', on); if (!on) clear(); }
+    if (!on) return;
+    sv = probe.offsetHeight || innerHeight;
+    if (intro) intro.style.setProperty('--st', Math.min(0, innerHeight - intro.offsetHeight) + 'px');
+    S = els.map(el => ({ el, run: Math.max(0, Math.round(contentH(el) - sv)), top: 0 }));
+    // the scroll spent with each sheet locked becomes room before the next one (or at the page's end)
+    S.forEach((s, i) => {
+      const room = (s.run ? ARRIVE * sv + s.run : 0) + (i < S.length - 1 ? HOLD * sv : 0);
+      if (S[i + 1]) put(S[i + 1].el.style, 'marginTop', room); else put(main.style, 'paddingBottom', room);
+    });
+    // where each sheet sits in the page's flow (sticky never moves the flow; sibling margins collapse)
+    let y = main.getBoundingClientRect().top + scrollY + num(getComputedStyle(main).paddingTop), mb = 0;
+    for (const c of main.children) {
+      const cs = getComputedStyle(c); if (cs.display === 'none' || cs.position === 'absolute' || cs.position === 'fixed') continue;
+      y += Math.max(mb, num(cs.marginTop)); const s = S.find(x => x.el === c); if (s) s.top = y;
+      y += c.offsetHeight; mb = num(cs.marginBottom);
+    }
     update();
   }
   function update() {
-    const vh = innerHeight;
-    leaves.forEach((l, i) => {
-      if (!i) return;
-      if (reduce.matches) { l.style.removeProperty('--sr'); return; }
-      const p = clamp((vh - (tops[i] - scrollY)) / vh);   // 0 as its top edge enters at the bottom, 1 once it covers the screen
-      l.style.setProperty('--sr', ((1 - p) * 1.4).toFixed(3) + 'deg');
+    if (!on) return;
+    const y = scrollY, vh = innerHeight;
+    S.forEach(s => {
+      s.el.style.setProperty('--ty', (-clamp(y - s.top - ARRIVE * sv, 0, s.run)).toFixed(1) + 'px');
+      const p = clamp((vh - (s.top - y)) / vh, 0, 1);   // 0 as its top edge enters at the bottom, 1 once it covers the screen
+      s.el.style.setProperty('--sr', ((1 - p) * 1.4).toFixed(3) + 'deg');
     });
   }
-  // a keyboard user tabbing into a sheet that the next one is covering: scroll back until it shows
-  document.addEventListener('focusin', e => {
-    if (reduce.matches) return;
-    const i = leaves.findIndex(l => l.contains(e.target)), nx = leaves[i + 1];
-    if (i < 0 || !nx) return;
-    const b = e.target.getBoundingClientRect().bottom, over = nx.getBoundingClientRect().top;
-    if (b > over - 8) scrollBy({ top: -(b - over + 32), behavior: 'instant' });
+  // bring an element inside a sheet into view: the sheet's own spot, then far enough along its travel
+  function go(el) {
+    if (!on || !el) return false;
+    const s = S.find(x => x.el === el || x.el.contains(el)); if (!s) return false;
+    let to = s.top;
+    if (s.el !== el && s.run) {
+      const cur = clamp(scrollY - s.top - ARRIVE * sv, 0, s.run);
+      const cy = el.getBoundingClientRect().top - s.el.getBoundingClientRect().top + cur;
+      to = s.top + ARRIVE * sv + clamp(cy - sv * 0.25, 0, s.run);
+    }
+    scrollTo({ top: Math.round(to), behavior: 'instant' }); update(); return true;
+  }
+  window.kSheetGo = go;
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a || !on) return;
+    const id = decodeURIComponent(a.getAttribute('href').slice(1)), el = id && document.getElementById(id);
+    if (el && go(el)) { e.preventDefault(); if (location.hash !== '#' + id) history.pushState(null, '', '#' + id); }
   });
+  // keyboard: a focused field or link under the next sheet, or scrolled out of its own, is brought into view
+  document.addEventListener('focusin', e => {
+    if (!on) return;
+    const s = S.find(x => x.el.contains(e.target)); if (!s) return;
+    const r = e.target.getBoundingClientRect(), i = S.indexOf(s), nx = S[i + 1];
+    const cover = nx ? nx.el.getBoundingClientRect().top : innerHeight;
+    if (r.top < 0 || r.bottom > Math.min(innerHeight, cover)) go(e.target);
+  });
+  document.addEventListener('focusin', e => requestAnimationFrame(() => {
+    if (!on || document.activeElement !== e.target) return;
+    const s = S.find(x => x.el.contains(e.target)); if (!s) return;
+    const r = e.target.getBoundingClientRect(), nx = S[S.indexOf(s) + 1];
+    const cover = nx ? nx.el.getBoundingClientRect().top : innerHeight;
+    if (r.top < 0 || r.bottom > Math.min(innerHeight, cover) || s.el.getBoundingClientRect().top > 1) go(e.target);
+  }));
   let raf = 0;
   addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); }, { passive: true });
   addEventListener('resize', measure);
   const K = document.getElementById('kab'); if (K) K.addEventListener('kab:fit', measure);
-  new ResizeObserver(measure).observe(main);
+  const ro = new ResizeObserver(() => measure());
+  ro.observe(main); els.forEach(el => { for (const k of el.children) ro.observe(k); });
   reduce.addEventListener('change', measure);
   if (document.fonts) document.fonts.ready.then(measure);
   measure();
+  // a link to #about, #work or #contact from elsewhere: land on that sheet once the page has laid out
+  const toHash = () => { const el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (el) go(el); };
+  addEventListener('hashchange', toHash);
+  if (location.hash) addEventListener('load', () => setTimeout(() => { measure(); toHash(); }, 60), { once: true });
 })();
 </script>
 </body>
