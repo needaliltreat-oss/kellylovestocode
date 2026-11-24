@@ -91,7 +91,7 @@ body.locked{overflow:hidden}
 
 /* ── About: the charcoal band ── */
 /* the page's own background (Kelly, 24 Nov: no black band) */
-.aboutband{background:var(--paper);color:var(--char);position:relative;z-index:1;--kmax:1148px}
+.aboutband{background:var(--paper);color:var(--char);position:relative;z-index:1;--kmax:880px}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
 .aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.85 var(--blurb);margin:0}
 .aboutband.pre .roll{opacity:0}
@@ -542,7 +542,19 @@ svg.tight .om-node .om-meta{font-size:12px}
 @keyframes kab-beat{0%{opacity:0;transform:scale(0)}45%{opacity:1;transform:scale(1.3)}65%{transform:scale(.92)}100%{opacity:1;transform:none}}
 
 /* ── About: open type, not a card (Kelly, 24 Nov): no frame, always the page's background, the same width as the work list ── */
-.aboutband .wrap{max-width:calc(var(--kmax,1148px) + 32px)}
+.aboutband .wrap{max-width:calc(var(--kmax,880px) + 32px);padding-block:clamp(40px,6vw,80px)}
+/* tighter stack (Kelly, 24 Nov): one small, even step between lines and rules, close to the word space, as in a set stack */
+.aboutband .kab .B .rl{margin:.3em 0}
+.aboutband .kab .B .rowgap{margin-top:.3em}
+.aboutband .kab .B .dbl{padding:.3em 0;margin:.25em 0}
+.aboutband .kab .B .boxes{gap:.4em;margin:.3em 0}
+.aboutband .kab .B .box{padding:.3em .45em}
+.aboutband .kab .B .small{margin:.3em 0}
+.aboutband .kab .B .small.tight{margin:.2em 0 .05em}
+.aboutband .kab .B .mid{margin:.3em 0}
+.aboutband .kab .B .mid > *{padding-block:.22em}
+.aboutband .kab .B .mid > .fl:last-child{padding-block:.35em .4em}
+.aboutband .kab .B .small.spaced{line-height:1.2;margin:.4em 0}
 .aboutband .kab{--paper:inherit}
 .aboutband .kab .poster{padding:0;background:transparent}
 .aboutband .kab .B .frame{border:0;outline:0;padding:0}
@@ -551,17 +563,20 @@ svg.tight .om-node .om-meta{font-size:12px}
 
 /* ── Paper sheets (Kelly, 24 Nov): the intro stays put while the About rolls up over the whole page; the About scrolls
    inside its sheet, then Work rolls up over it the same way, then Contact. Each sheet holds once its last screen is in
-   view (top = viewport height minus its own height, set in the script) so the next one can come up over it.
+   view (top = viewport height minus its own height, set in the script) and stays fixed there for a beat (--hold, the
+   next sheet's top margin) before the next one comes up over it.
    The roll follows the scroll, so it plays backward on the way up. Reduced motion: an ordinary page, no sheets. ── */
+:root{--hold:35vh;--hold:35svh}
 .leaf{position:sticky;top:var(--st,0px);background:var(--paper)}
 #introTrack.leaf{z-index:0}
 #about.leaf{z-index:2}
-#workLeaf{z-index:3}
-#contact.leaf{z-index:4;margin-top:0}
+#workLeaf{z-index:3;margin-top:var(--hold);padding-bottom:clamp(72px,11vw,168px)}
+#contact.leaf{z-index:4;margin-top:var(--hold)}
 #about.leaf,#workLeaf,#contact.leaf{box-shadow:0 -14px 34px -16px rgba(22,23,27,.34),0 -1px 0 rgba(22,23,27,.08);transform-origin:50% 0;rotate:var(--sr,0deg)}
 #workLeaf .work{padding-top:clamp(48px,9vw,112px)}
 @media (prefers-reduced-motion:reduce){
  .leaf{position:relative;top:auto}
+ #workLeaf{margin-top:0}
  #about.leaf,#workLeaf,#contact.leaf{box-shadow:none;rotate:none}
  #contact.leaf{margin-top:clamp(40px,7vw,88px)}
 }
@@ -896,7 +911,8 @@ function mkMouse(el,e){const {Mouse,MouseConstraint,Composite}=Matter;const mous
 function dropMouse(c){const m=c.mouse,el=m&&m.element;if(!el)return;["mousemove","mousedown","mouseup"].forEach(ev=>el.removeEventListener(ev,m[ev]))}
 function startPile(){stopPile();if(!window.Matter)return;const {Engine,Bodies,Composite,Events,Body}=Matter;
  const W=W0w=stage.clientWidth,H=H0=stage.clientHeight;eng=Engine.create();eng.gravity.y=1.1;eng.positionIterations=10;eng.velocityIterations=8;
- const wall=400;Composite.add(eng.world,[Bodies.rectangle(W/2,H+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
+ /* the floor sits a little above the bottom edge so no word is clipped (Kelly, 24 Nov) */
+ const wall=400,lift=Math.round(Math.max(24,H*.045)+Math.max(0,(parseFloat(getComputedStyle(hint).bottom)||84)-84));Composite.add(eng.world,[Bodies.rectangle(W/2,H-lift+wall/2,W*3,wall,{isStatic:true}),Bodies.rectangle(-wall/2,0,wall,H*6,{isStatic:true}),Bodies.rectangle(W+wall/2,0,wall,H*6,{isStatic:true})]);
  nameBodies=[rectBody($("#kname"),{chamfer:{radius:12}}),rectBody(hgap,{chamfer:{radius:20}}),rectBody($("#ks"))];
  Composite.add(eng.world,[...nameBodies,rectBody(sub)]);
  WORDS.forEach((w,i)=>{const el=document.createElement("span");el.className="word";el.setAttribute("aria-hidden","true");el.innerHTML=`<span class="wi">${w}</span>`;stage.append(el);
@@ -1283,6 +1299,8 @@ setTimeout(go,1500);
       const ov = fli.querySelector('.over'); if (!ov) return;
       const fs = parseFloat(getComputedStyle(fli).fontSize), extra = Math.max(0, (ov.offsetHeight - 1.85 * fs) / 2);
       fli.style.paddingTop = (0.62 * fs + extra).toFixed(1) + 'px'; fli.style.paddingBottom = (0.56 * fs + extra).toFixed(1) + 'px';
+      const band = fli.offsetHeight / 2 - 0.45 * ov.offsetHeight;   // empty space between the bridge's foot and the line's bottom
+      fli.style.marginBottom = band > 6 ? (4 - band).toFixed(1) + 'px' : '';
     });
   }
   function fitCore() {
@@ -1538,7 +1556,7 @@ setTimeout(go,1500);
   let tops = [];   // where each sheet sits in the page's flow (sticky never moves the flow)
   function measure() {
     let y = main.getBoundingClientRect().top + scrollY;
-    tops = leaves.map(l => { const at = y; y += l.offsetHeight; l.style.setProperty('--st', Math.min(0, innerHeight - l.offsetHeight) + 'px'); return at; });
+    tops = leaves.map(l => { y += parseFloat(getComputedStyle(l).marginTop) || 0; const at = y; y += l.offsetHeight; l.style.setProperty('--st', Math.min(0, innerHeight - l.offsetHeight) + 'px'); return at; });
     update();
   }
   function update() {
