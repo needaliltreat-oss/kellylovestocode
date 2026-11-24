@@ -91,7 +91,7 @@ body.locked{overflow:hidden}
 
 /* ── About: the charcoal band ── */
 /* off-white like the rest of the site (Kelly, 24 Nov: no black background) */
-.aboutband{background:var(--paper);color:var(--char);position:relative;z-index:1;--kmax:880px}
+.aboutband{background:var(--paper);color:var(--char);position:relative;z-index:1;--kmax:1148px}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
 .aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.85 var(--blurb);margin:0}
 .aboutband.pre .roll{opacity:0}
@@ -547,8 +547,10 @@ svg.tight .om-node .om-meta{font-size:12px}
    sign: the signature writes itself as the intro scrolls away.
    Reduced motion: the line is drawn in full, the sheet sits flat in its place, the signature is written. ── */
 .aboutband .wrap{max-width:calc(var(--kmax,1148px) + 32px)}
-/* the arrow lines up with the poster's frame now that the poster's paper edge no longer shows */
-.aboutband .arrow{margin-left:clamp(14px,3.4vw,40px)}
+/* open type, not a card (Kelly, 24 Nov): no frame, always the page's own background, and the same width as the work list below */
+.aboutband .kab{--paper:inherit}
+.aboutband .kab .poster{padding:0;background:transparent}
+.aboutband .kab .B .frame{border:0;outline:0;padding:0}
 /* sketches held at full size: print and pixel sit centered on theirs */
 .kab.held .B .box .sk.in{vertical-align:middle}
 .kline{position:absolute;left:0;top:0;width:100%;overflow:visible;pointer-events:none;z-index:3;display:none}
