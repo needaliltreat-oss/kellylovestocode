@@ -503,7 +503,7 @@ svg.tight .om-node .om-meta{font-size:12px}
   background:url(../assets/about/bk-bridge.svg) var(--bx,0) var(--by,0)/var(--bw,0) var(--bh,0) no-repeat,
              linear-gradient(var(--nymid),var(--nymid)) var(--bx,0) var(--by,0)/var(--bw,0) var(--bh,0) no-repeat;
   -webkit-background-clip:text;background-clip:text}
-.kab .B .w.hot,.kab .B .kheart,.kab .B .disc,.kab .B .sk.in,.kab .B .nycrow > .fli{transition:scale .2s cubic-bezier(.3,1.4,.5,1)}
+.kab .B .w.hot,.kab .B .w.hov,.kab .B .kheart,.kab .B .disc,.kab .B .sk.in,.kab .B .nycrow > .fli{transition:scale .2s cubic-bezier(.3,1.4,.5,1)}
 .kab .B .is-hot{scale:var(--g,1.18)}
 .kab .B .w.is-hot,.kab .B .kheart.is-hot{position:relative;z-index:5}
 .kab .B .disc.is-hot,.kab .B .sk.in.is-hot{position:relative;z-index:7}
@@ -581,6 +581,10 @@ svg.tight .om-node .om-meta{font-size:12px}
 .sheets #workLeaf{z-index:3}
 .sheets #contact.leaf{z-index:4}
 .sheets #about.leaf > *,.sheets #workLeaf > *,.sheets #contact.leaf > *{translate:0 var(--ty,0px)}
+.kab .B .disc .ben,.kab .B .disc .ben > .base{pointer-events:none}
+.kab .B .disc .benhit{position:absolute;inset:0;pointer-events:auto;clip-path:polygon(22.6% 0.0%,22.6% 4.1%,20.9% 4.1%,20.9% 8.3%,20.9% 8.3%,20.9% 12.5%,17.8% 12.5%,17.8% 16.6%,12.0% 16.6%,12.0% 20.8%,11.5% 20.8%,11.5% 25.0%,3.3% 25.0%,3.3% 29.1%,2.0% 29.1%,2.0% 33.3%,0.3% 33.3%,0.3% 37.5%,0.5% 37.5%,0.5% 41.6%,0.5% 41.6%,0.5% 45.8%,0.5% 45.8%,0.5% 50.0%,0.8% 50.0%,0.8% 54.1%,0.8% 54.1%,0.8% 58.3%,3.1% 58.3%,3.1% 62.5%,3.3% 62.5%,3.3% 66.6%,3.1% 66.6%,3.1% 70.8%,3.8% 70.8%,3.8% 75.0%,3.1% 75.0%,3.1% 79.1%,3.1% 79.1%,3.1% 83.3%,3.1% 83.3%,3.1% 87.5%,3.3% 87.5%,3.3% 91.6%,2.5% 91.6%,2.5% 95.8%,13.5% 95.8%,13.5% 100.0%,38.2% 100.0%,38.2% 95.8%,49.1% 95.8%,49.1% 91.6%,60.8% 91.6%,60.8% 87.5%,85.8% 87.5%,85.8% 83.3%,97.7% 83.3%,97.7% 79.1%,99.5% 79.1%,99.5% 75.0%,97.5% 75.0%,97.5% 70.8%,98.0% 70.8%,98.0% 66.6%,98.2% 66.6%,98.2% 62.5%,97.5% 62.5%,97.5% 58.3%,96.4% 58.3%,96.4% 54.1%,86.3% 54.1%,86.3% 50.0%,51.9% 50.0%,51.9% 45.8%,51.9% 45.8%,51.9% 41.6%,51.4% 41.6%,51.4% 37.5%,51.4% 37.5%,51.4% 33.3%,50.1% 33.3%,50.1% 29.1%,48.6% 29.1%,48.6% 25.0%,38.7% 25.0%,38.7% 20.8%,38.2% 20.8%,38.2% 16.6%,32.1% 16.6%,32.1% 12.5%,28.5% 12.5%,28.5% 8.3%,28.5% 8.3%,28.5% 4.1%,26.0% 4.1%,26.0% 0.0%)}
+.kab .B .disc{border-radius:50%}
+.kab .poster.B{overflow:visible}
 </style>
 </head>
 <body>
@@ -604,7 +608,7 @@ svg.tight .om-node .om-meta{font-size:12px}
           <div class="row yrs"><div class="side l" data-rel=".26">for more<br>than</div><div class="fl"><span class="fli ant">twenty<span class="yw"> years</span></span></div></div>
           <div class="fl yrs2"><span class="fli ant">years</span></div>
           <div class="small tight"><span class="chev" aria-hidden="true"><svg viewBox="0 0 30 12"><path d="M1 1l5 5-5 5M11 1l5 5-5 5M21 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.6"/></svg></span> from a design studio in <span class="chev" aria-hidden="true"><svg viewBox="0 0 30 12"><path d="M9 1L4 6l5 5M19 1l-5 5 5 5M29 1l-5 5 5 5" fill="none" stroke="currentColor" stroke-width="2.6"/></svg></span></div>
-          <div class="fl benrow"><span class="fli ant c3">London<span class="disc pop" aria-hidden="true"><span class="sk ben"><img class="base" src="../assets/about/big-ben.svg" alt=""><img class="flag" src="../assets/about/big-ben-flag.svg" alt=""></span></span></span></div>
+          <div class="fl benrow"><span class="fli ant c3">London<span class="disc pop" aria-hidden="true"><span class="sk ben"><img class="base" src="../assets/about/big-ben.svg" alt=""><img class="flag" src="../assets/about/big-ben-flag.svg" alt=""><span class="benhit" aria-hidden="true"></span></span></span></span></div>
           <div class="row rowgap"><div class="side l" data-rel=".3">to<br>a</div><div class="fl"><span class="fli ant c2"><span class="w gpb">Gl<span class="sk let bank" aria-hidden="true"><span class="coins"><img src="../assets/about/coins.svg" alt=""><img class="mul" src="../assets/about/coins-color.svg" alt=""></span><img class="pig" src="../assets/about/piggy-bank.svg" alt=""></span>bal</span> bank</span></div><div class="side r" data-rel=".3">in<br>Charlotte</div></div>
           <div class="dbl small">to a startup music platform in</div>
           <div class="fl nycrow"><span class="fli ant c1"><span class="nytw"><span class="nyt w hot nosplit">New York City</span><span class="nyt2 nosplit" aria-hidden="true">New York City</span></span><span class="sk bridge over" aria-hidden="true"><img class="base" src="../assets/about/bk-bridge.svg" alt=""><img class="mul" src="../assets/about/bk-bridge-color.svg" alt=""></span></span></div>
@@ -1268,6 +1272,7 @@ setTimeout(go,1500);
       n.replaceWith(f);
     });
     pst.querySelectorAll('.c1 .w,.c2 .w,.c3 .w,.c4 .w,.c5 .w,.c6 .w,.c7 .w,.w.c1').forEach(w => { if (!w.closest('.ch')) w.classList.add('hot'); });
+    pst.querySelectorAll('.yrs .fli .w,.yrs2 .fli .w').forEach(w => w.classList.add('hov'));   // Kelly, 24 Nov: "you can hover 20 year"
       });
 
   // fit each line to its width; side words follow the size of the line beside them
@@ -1451,9 +1456,8 @@ setTimeout(go,1500);
     });
   }
 
-  // at the pace of the scroll (Kelly, 24 Nov): each word and sketch starts to come in as it reaches the bottom of the screen
-  // and is fully in about a tenth of a screen later, only as far as the page has moved; scrolling up takes it back out.
-  // Along a line the words follow one another left to right.
+  // at the pace of the scroll (Kelly, 24 Nov): each line comes in across the lower part of the screen, its words one after
+  // another left to right, only as far as the page has moved; scrolling up takes them back out.
   const items = [];
   posters.forEach(pst => pst.querySelectorAll('.w, .sk, .disc, .kheart, .sig').forEach(el => {
     if (el.parentElement.closest('.sk,.disc,.w,.sig') || el.classList.contains('over')) return;   // the big bridge follows New York City
@@ -1468,21 +1472,43 @@ setTimeout(go,1500);
   const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
   let armed = false;
   function place() {
+    const vh = innerHeight, vis = [];
     items.forEach(it => {
       it.vis = it.el.offsetParent !== null;
       if (!it.vis) return;
       const b = docBox(it.el), pb = docBox(it.pst);
-      it.t = b.t - pb.t; it.x = clamp01((b.l - pb.l) / Math.max(1, it.pst.offsetWidth));
+      it.t = b.t - pb.t; it.l = b.l; it.h = it.el.offsetHeight; vis.push(it);
+    });
+    posters.forEach(pst => {
+      // how high each line can rise on screen before the next sheet covers it (the sheet's content scrolled to its end)
+      const sheet = pst.closest('.leaf'), pb = docBox(pst);
+      let off = -Infinity, run = 0;
+      if (sheet && document.documentElement.classList.contains('sheets')) {
+        let h = 0; for (const k of sheet.children) h = Math.max(h, k.offsetTop + k.offsetHeight + (parseFloat(getComputedStyle(k).marginBottom) || 0));
+        h += parseFloat(getComputedStyle(sheet).paddingBottom) || 0; run = Math.max(0, h - vh); off = pb.t - docBox(sheet).t;
+      }
+      const lines = [];
+      vis.filter(i => i.pst === pst).sort((a, b) => a.t - b.t || a.l - b.l).forEach(it => {
+        const ln = lines[lines.length - 1];
+        if (ln && it.t < ln.t + Math.max(8, ln.h * .5)) ln.items.push(it); else lines.push({ t: it.t, h: it.h, items: [it] });
+      });
+      lines.forEach(ln => {
+        ln.items.sort((a, b) => a.l - b.l);
+        const reach = (off + ln.t - run) / vh;
+        ln.items.forEach((it, k) => { it.k = k; it.n = ln.items.length; it.reach = reach; });
+      });
     });
     scrub();
   }
   function scrub() {
     if (!armed) return;
-    const vh = innerHeight, D = Math.min(110, Math.max(60, vh * 0.1));
+    const vh = innerHeight, S0 = vh * .97;
     const tops = new Map(posters.map(p => [p, p.getBoundingClientRect().top]));
     items.forEach(it => {
       if (!it.vis) return;
-      const p = clamp01((vh - (tops.get(it.pst) + it.t)) / D - it.x * 0.3);
+      const E = vh * Math.min(.91, Math.max(.74, it.reach + .02)), span = S0 - E;
+      const w = it.n > 1 ? span * .5 : span * .65, step = it.n > 1 ? (span - w) / (it.n - 1) : 0;
+      const p = clamp01((S0 - it.k * step - (tops.get(it.pst) + it.t)) / w);
       if (p === it.p) return; it.p = p;
       const e = 1 - (1 - p) * (1 - p);
       it.el.style.setProperty('--p', e.toFixed(3));
@@ -1523,7 +1549,7 @@ setTimeout(go,1500);
   const mix = (a, b, t) => `color-mix(in oklch, ${b} ${Math.round(clamp(t) * 100)}%, ${a})`;
   const shade = (base, o) => o < 0 ? mix(base, W0, -o) : o > 0 ? mix(base, W1, o) : base;
   const units = [];
-  B.querySelectorAll('.w.hot,.kheart,.disc,.sk.in').forEach(el => {
+  B.querySelectorAll('.w.hot,.w.hov,.kheart,.disc,.sk.in').forEach(el => {
     const nyw = el.closest('.nytw'), isHeart = el.classList.contains('kheart'), growOnly = el.classList.contains('disc') || el.classList.contains('sk');
     const t = { el, nyw, isHeart, growOnly, grow: nyw ? el.closest('.fli') : el, c: { on: false, a: 0, t0: 0, last: 0 }, base: '', cham: false, tap: 0 };
     if (isHeart) { t.hp = el.querySelector('.hch'); t.hg = el.querySelector('radialGradient'); t.hs = [...t.hg.querySelectorAll('stop')]; }
@@ -1538,7 +1564,8 @@ setTimeout(go,1500);
     if (on && !t.c.on) { t.c.t0 = performance.now(); if (t.c.a === 0) t.base = getComputedStyle(t.el).color; }
     if (on && !t.grow.classList.contains('is-hot')) {
       // grow only as far as the frame's inner edge allows, never past 1.18 (Kelly: "up to the border")
-      const f = B.querySelector('.frame').getBoundingClientRect(), bw = 13;
+      const sh = B.closest('.leaf'), sr = sh ? sh.getBoundingClientRect() : { left: 0, right: innerWidth };
+      const f = { left: Math.max(0, sr.left), right: Math.min(document.documentElement.clientWidth, sr.right) }, bw = 4;
       if (t.growOnly) {
         // a graphic: grow from the side nearest the border, so it grows inward; Big Ben from his foot, the others from their middle
         const d = t.grow.getBoundingClientRect(), ben = t.grow.querySelector('.ben'), a = ben ? ben.getBoundingClientRect() : d;
@@ -1548,9 +1575,10 @@ setTimeout(go,1500);
         const room = ox === R ? (L - f.left - bw) : (f.right - bw - R);
         t.grow.style.setProperty('--g', Math.max(1, Math.min(1.18, 1 + room / (R - L))).toFixed(3));
       } else {
-        const r = t.grow.getBoundingClientRect();
-        const room = Math.min(r.left - f.left - bw, f.right - bw - r.right);
-        t.grow.style.setProperty('--g', Math.max(1, Math.min(1.18, 1 + 2 * room / r.width)).toFixed(3));
+        const r = t.grow.getBoundingClientRect(), dl = Math.max(0, r.left - f.left - bw), dr = Math.max(0, f.right - bw - r.right);
+        const gc = 1 + 2 * Math.min(dl, dr) / r.width, gs = 1 + Math.max(dl, dr) / r.width;
+        t.grow.style.transformOrigin = gc >= Math.min(1.18, gs) ? '' : (dl < dr ? '0% 50%' : '100% 50%');
+        t.grow.style.setProperty('--g', Math.max(1, Math.min(1.18, Math.max(gc, gs))).toFixed(3));
       }
     }
     t.c.on = on; t.grow.classList.toggle('is-hot', on);
