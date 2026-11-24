@@ -525,7 +525,13 @@ svg.tight .om-node .om-meta{font-size:12px}
 .kab .armed .nyt2{opacity:var(--p,0)}
 .kab .armed .kheart{opacity:min(1, var(--p,0) * 2);transform:scale(calc(.3 + .7 * var(--p,0)))}
 /* "years" on its own line beside Big Ben when the sketches are held at full size (desktop) */
-.kab:not(.held) .yrs2,.kab.held .yw{display:none}
+/* "years" on its own line beside Big Ben on desktop and tablet (Kelly, 24 Nov: "wrap it on tablet too"); one line on phone */
+@container (max-width:559.98px){.kab .yrs2{display:none}}
+@container (min-width:560px){.kab .yw{display:none}}
+/* Kelly, 24 Nov: "remove the box from around what I do", "a little padding between the London and Global bank lines", "a little space to the right of Pixel" */
+.kab .B .boxes > .box.full{border:0;padding:.3em 0 0}
+.kab .B .row.rowgap,.aboutband .kab .B .row.rowgap{margin-top:.55em}
+.kab .B .box .sk.in.phone{margin-left:.32em}
 @keyframes kab-up{from{opacity:0;transform:translateY(.3em)}to{opacity:1;transform:none}}
 @keyframes kab-hot{from{opacity:0;transform:translateY(.35em) scale(.55) rotate(-5deg)}to{opacity:1;transform:none}}
 @keyframes kab-write{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
