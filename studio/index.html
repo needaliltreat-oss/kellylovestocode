@@ -585,6 +585,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 .kab .B .disc .benhit{position:absolute;inset:0;pointer-events:auto;clip-path:polygon(22.6% 0.0%,22.6% 4.1%,20.9% 4.1%,20.9% 8.3%,20.9% 8.3%,20.9% 12.5%,17.8% 12.5%,17.8% 16.6%,12.0% 16.6%,12.0% 20.8%,11.5% 20.8%,11.5% 25.0%,3.3% 25.0%,3.3% 29.1%,2.0% 29.1%,2.0% 33.3%,0.3% 33.3%,0.3% 37.5%,0.5% 37.5%,0.5% 41.6%,0.5% 41.6%,0.5% 45.8%,0.5% 45.8%,0.5% 50.0%,0.8% 50.0%,0.8% 54.1%,0.8% 54.1%,0.8% 58.3%,3.1% 58.3%,3.1% 62.5%,3.3% 62.5%,3.3% 66.6%,3.1% 66.6%,3.1% 70.8%,3.8% 70.8%,3.8% 75.0%,3.1% 75.0%,3.1% 79.1%,3.1% 79.1%,3.1% 83.3%,3.1% 83.3%,3.1% 87.5%,3.3% 87.5%,3.3% 91.6%,2.5% 91.6%,2.5% 95.8%,13.5% 95.8%,13.5% 100.0%,38.2% 100.0%,38.2% 95.8%,49.1% 95.8%,49.1% 91.6%,60.8% 91.6%,60.8% 87.5%,85.8% 87.5%,85.8% 83.3%,97.7% 83.3%,97.7% 79.1%,99.5% 79.1%,99.5% 75.0%,97.5% 75.0%,97.5% 70.8%,98.0% 70.8%,98.0% 66.6%,98.2% 66.6%,98.2% 62.5%,97.5% 62.5%,97.5% 58.3%,96.4% 58.3%,96.4% 54.1%,86.3% 54.1%,86.3% 50.0%,51.9% 50.0%,51.9% 45.8%,51.9% 45.8%,51.9% 41.6%,51.4% 41.6%,51.4% 37.5%,51.4% 37.5%,51.4% 33.3%,50.1% 33.3%,50.1% 29.1%,48.6% 29.1%,48.6% 25.0%,38.7% 25.0%,38.7% 20.8%,38.2% 20.8%,38.2% 16.6%,32.1% 16.6%,32.1% 12.5%,28.5% 12.5%,28.5% 8.3%,28.5% 8.3%,28.5% 4.1%,26.0% 4.1%,26.0% 0.0%)}
 .kab .B .disc{border-radius:50%}
 .kab .poster.B{overflow:visible}
+#about{overflow-x:clip}
 </style>
 </head>
 <body>
@@ -1340,6 +1341,14 @@ setTimeout(go,1500);
         const lon = pst.querySelector('.benrow > .fli'), lfs = lon && parseFloat(lon.style.fontSize);
         if (!lfs) return;
         pst.querySelectorAll('.yrs .fli,.yrs2 .fli').forEach(f => { f.dataset.cap = ''; if (f.offsetParent && parseFloat(f.style.fontSize) > lfs) { f.style.fontSize = lfs + 'px'; f.dataset.cap = '1'; } });
+      });
+      // New York City keeps room to grow on hover (Kelly, 24 Nov: "Make it smaller"): where the full-width line can't
+      // grow the full amount inside the screen, it is set just small enough to grow from its left edge
+      K.querySelectorAll('.nycrow > .fli').forEach(f => {
+        f.dataset.cap = ''; const sh = f.closest('.leaf'); if (!f.offsetParent || !f.style.fontSize) return;
+        const fb = docBox(f), right = Math.min(document.documentElement.clientWidth, sh ? docBox(sh).r : Infinity) - 4;
+        const wmax = (right - fb.l) / 1.18;
+        if (f.offsetWidth > wmax + .5) { f.style.fontSize = (parseFloat(f.style.fontSize) * wmax / f.offsetWidth) + 'px'; f.dataset.cap = '1'; }
       });
       // print and pixel share one size: the smaller of the two fits
       K.querySelectorAll('.boxes.trio').forEach(g => { const fs = [...g.querySelectorAll('.fli')]; const m = Math.min(...fs.map(f => parseFloat(f.style.fontSize || 16))); fs.forEach(f => f.style.fontSize = m + 'px'); });
