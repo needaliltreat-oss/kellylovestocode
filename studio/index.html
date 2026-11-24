@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kelly Burgess — Fractional CTO</title>
 <meta name="description" content="Kelly Burgess, fractional CTO. Selected work and contact.">
-<meta name="theme-color" content="#f1f0ec">
+<meta name="theme-color" content="#ffffff">
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -31,7 +31,7 @@
    The falling words keep the blue to orange gradient. Work is the Index layout in her Coolors colours (GigBag blue, TitreLab brick, grape, olive; GigBag and TitreLab swapped 19 Nov because the brick fought the red in the GigBag logo).
    No open transition yet: About and the projects open at once until she picks one. */
 :root{
-  --paper:#f1f0ec; --char:#16171b; --signal:#ff6a2b; --muted:#5b5b60; --rule:#d3d2cc; --onchar:#f1f0ec; --onmuted:#a4a4a8;
+  --paper:#ffffff; --char:#16171b; --signal:#ff6a2b; --muted:#5b5b60; --rule:#d3d2cc; --onchar:#f1f0ec; --onmuted:#a4a4a8;
   /* Kelly's Coolors colours. First value: small text on the paper. Second: the hover fill, with white text on it.
      Brick and grape are her exact hexes. Blue and olive are deepened just enough for small text (all pass WCAG AA). */
   --gb:#38748c; --gb-fill:#38748c;
@@ -90,7 +90,7 @@ body.locked{overflow:hidden}
 .sub b{color:var(--char);font-weight:800}
 
 /* ── About: the charcoal band ── */
-/* off-white like the rest of the site (Kelly, 24 Nov: no black background) */
+/* the page's own background (Kelly, 24 Nov: no black band) */
 .aboutband{background:var(--paper);color:var(--char);position:relative;z-index:1;--kmax:1148px}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
 .aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.85 var(--blurb);margin:0}
@@ -541,31 +541,35 @@ svg.tight .om-node .om-meta{font-size:12px}
 @keyframes kab-fade6{from{opacity:0}to{opacity:.6}}
 @keyframes kab-beat{0%{opacity:0;transform:scale(0)}45%{opacity:1;transform:scale(1.3)}65%{transform:scale(.92)}100%{opacity:1;transform:none}}
 
-/* ── Intro to About transitions (Kelly, 24 Nov), one at a time through data-trans on #about; none by default.
-   line: a charcoal line draws down from the intro's arrow and leads into "Hi, I'm" as you scroll.
-   sheet: the About slides up over the intro like a sheet of paper, settling flat as it arrives.
-   sign: the signature writes itself as the intro scrolls away.
-   Reduced motion: the line is drawn in full, the sheet sits flat in its place, the signature is written. ── */
+/* ── About: open type, not a card (Kelly, 24 Nov): no frame, always the page's background, the same width as the work list ── */
 .aboutband .wrap{max-width:calc(var(--kmax,1148px) + 32px)}
-/* open type, not a card (Kelly, 24 Nov): no frame, always the page's own background, and the same width as the work list below */
 .aboutband .kab{--paper:inherit}
 .aboutband .kab .poster{padding:0;background:transparent}
 .aboutband .kab .B .frame{border:0;outline:0;padding:0}
-/* sketches held at full size: print and pixel sit centered on theirs */
+/* sketches held at full size when the type is set smaller: print and pixel sit centered on theirs */
 .kab.held .B .box .sk.in{vertical-align:middle}
-.kline{position:absolute;left:0;top:0;width:100%;overflow:visible;pointer-events:none;z-index:3;display:none}
-#about[data-trans="line"] .kline{display:block}
-.kline path{fill:none;stroke:#1d1d21;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:var(--kd,1);filter:url(#kchar)}
-.kline .kl1{stroke-width:4.6px}
-.kline .kl2{stroke-width:1.8px;opacity:.6}
-#about[data-trans="sheet"]{margin-top:-55vh;margin-top:-55svh;box-shadow:0 -14px 34px -16px rgba(22,23,27,.34),0 -1px 0 rgba(22,23,27,.08);transform-origin:50% 0;rotate:var(--sr,0deg)}
-@media (prefers-reduced-motion:reduce){#about[data-trans="sheet"]{margin-top:0;rotate:none}}
-#about[data-trans="sign"] .kab .sig .wr{animation:none}
+
+/* ── Paper sheets (Kelly, 24 Nov): the intro stays put while the About rolls up over the whole page; the About scrolls
+   inside its sheet, then Work rolls up over it the same way, then Contact. Each sheet holds once its last screen is in
+   view (top = viewport height minus its own height, set in the script) so the next one can come up over it.
+   The roll follows the scroll, so it plays backward on the way up. Reduced motion: an ordinary page, no sheets. ── */
+.leaf{position:sticky;top:var(--st,0px);background:var(--paper)}
+#introTrack.leaf{z-index:0}
+#about.leaf{z-index:2}
+#workLeaf{z-index:3}
+#contact.leaf{z-index:4;margin-top:0}
+#about.leaf,#workLeaf,#contact.leaf{box-shadow:0 -14px 34px -16px rgba(22,23,27,.34),0 -1px 0 rgba(22,23,27,.08);transform-origin:50% 0;rotate:var(--sr,0deg)}
+#workLeaf .work{padding-top:clamp(48px,9vw,112px)}
+@media (prefers-reduced-motion:reduce){
+ .leaf{position:relative;top:auto}
+ #about.leaf,#workLeaf,#contact.leaf{box-shadow:none;rotate:none}
+ #contact.leaf{margin-top:clamp(40px,7vw,88px)}
+}
 </style>
 </head>
 <body>
 <main id="main">
-<section class="track" id="introTrack" aria-label="Kelly loves">
+<section class="track leaf" id="introTrack" aria-label="Kelly loves">
   <div class="sticky" id="stage">
     <h1 class="kl" id="kl"><span id="kname">Kelly</span><span class="hgap" id="hgap"></span><span class="s" id="ks" aria-hidden="true">s</span><span class="sr">loves</span></h1>
     <div class="heart" id="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hgl" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(21.523 0 0 17.143 1.239 4.157)"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient><radialGradient id="hch" cx=".85" cy=".6" r=".8" gradientUnits="userSpaceOnUse" gradientTransform="matrix(21.523 0 0 17.143 1.239 4.157)"><stop offset=".35" stop-color="#c03221"/><stop offset="1" stop-color="#c03221" stop-opacity="0"/></radialGradient><mask id="hm" maskUnits="userSpaceOnUse" x="-2" y="1" width="28" height="24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="#fff" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/></mask></defs><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><rect class="hch" x="-2" y="1" width="28" height="24" fill="url(#hch)" mask="url(#hm)" opacity="0"/><rect x="-2" y="1" width="28" height="24" fill="url(#hgl)" mask="url(#hm)"/></svg></div>
@@ -574,8 +578,7 @@ svg.tight .om-node .om-meta{font-size:12px}
   </div>
 </section>
 
-<section class="aboutband" id="about" aria-label="About">
-  <svg class="kline" id="kline" aria-hidden="true" focusable="false"><defs><filter id="kchar" x="-20%" y="-2%" width="140%" height="104%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="2" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.5 1.5" result="gm"/><feComposite in="d" in2="gm" operator="in"/></filter></defs><path class="kl1" pathLength="1" d=""/><path class="kl2" pathLength="1" d=""/></svg>
+<section class="aboutband leaf" id="about" aria-label="About">
   <div class="wrap">
     <div class="kab" id="kab">
       <div class="poster B" id="kabPoster" data-york="1" data-grow="2">
@@ -608,6 +611,7 @@ svg.tight .om-node .om-meta{font-size:12px}
   </div>
 </section>
 
+<div class="leaf" id="workLeaf">
 <section class="work wrap" id="work" aria-label="Selected work">
   <div class="index">
     <a class="proj" href="#work" data-open="gigbag"><span class="i">01</span><h3>GigBag</h3><p class="t">A New York music platform I co-founded and built as CTO and sole developer, taking four products from zero to closed beta on my own.</p><span class="k">View project</span></a>
@@ -620,8 +624,9 @@ svg.tight .om-node .om-meta{font-size:12px}
 <section class="proof wrap" id="built" aria-labelledby="builtH">
   <div class="bar"><svg class="bicon" viewBox="0 0 34 20" aria-hidden="true"><defs><linearGradient id="bgl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs><path class="br l" d="M8 3 2 10l6 7"/><path class="br r" d="M26 3l6 7-6 7"/><g transform="translate(11.6 4.4) scale(.45)"><path class="ht" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/><path class="ht gl" d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z"/></g></svg><h2 id="builtH">Built with</h2><ul><li>React</li><li>Next.js</li><li>Vite</li><li>TypeScript</li><li>Supabase</li><li>Postgres</li><li>Vercel</li><li>Stripe</li><li>Resend</li><li>WebGL</li></ul></div>
 </section>
+</div>
 
-<section class="contact" id="contact" aria-label="Contact">
+<section class="contact leaf" id="contact" aria-label="Contact">
  <div class="wrap">
   <div class="sheet" id="sheet">
     <!-- PLACEHOLDER: this form sends nothing yet. There is no action and no network call; the submit handler only checks the fields.
@@ -1524,61 +1529,43 @@ setTimeout(go,1500);
 })();
 </script>
 <script>
-/* ── Intro to About transitions (see the styles above). Each one follows the scroll, so it plays forward and back. ── */
+/* ── Paper sheets (see the styles above) ── */
 (() => {
-  const A = document.getElementById('about'), K = document.getElementById('kab'), L = document.getElementById('kline');
-  if (!A || !K) return;
+  const leaves = [...document.querySelectorAll('.leaf')], main = document.getElementById('main');
+  if (leaves.length < 2 || !main) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = v => Math.max(0, Math.min(1, v));
-  const strokes = [...K.querySelectorAll('.sig .wr')];
-  const lens = strokes.map(s => s.getTotalLength()), total = lens.reduce((a, b) => a + b, 0);
-  let mode = '';
-  // the charcoal line: from under the heart in "Kelly ♥s", round the "Kelly Burgess · Fractional CTO" line, into "Hi,"
-  // (the intro's stage scrolls away with the About once the falling words are done, so both are placed from the stage's bottom edge, which meets the About's top)
-  function shapeLine() {
-    const a = A.getBoundingClientRect(), stage = document.getElementById('stage').getBoundingClientRect();
-    const g = document.getElementById('hgap').getBoundingClientRect(), sr = document.getElementById('sub').getBoundingClientRect();
-    const hi = K.querySelector('.hi .hw') || K.querySelector('.hi'), h = hi.getBoundingClientRect();
-    const rel = y => y - stage.bottom;
-    const sx = g.left + g.width / 2 - a.left, sy = rel(g.bottom) + 10;
-    const subTop = rel(sr.top), subMid = rel((sr.top + sr.bottom) / 2);
-    const side = Math.min(a.width - 14, sr.right - a.left + 26);
-    const ex = h.left - a.left + h.width * 0.05, ey = h.top - a.top - 8;
-    const f = v => v.toFixed(1);
-    const d = `M${f(sx)} ${f(sy)} C${f(sx - 10)} ${f(sy + (subTop - sy) * 0.45)} ${f(side + 6)} ${f(subTop - (subTop - sy) * 0.35)} ${f(side)} ${f(subMid)}`
-      + ` C${f(side - 4)} ${f(subMid + (ey - subMid) * 0.45)} ${f(ex + 10)} ${f(ey - (ey - subMid) * 0.4)} ${f(ex)} ${f(ey)}`;
-    L.querySelector('.kl1').setAttribute('d', d);
-    L.querySelector('.kl2').setAttribute('d', d);
-    L.querySelector('.kl2').setAttribute('transform', 'translate(1.4 1)');
-    L.style.height = Math.max(1, ey + 12) + 'px';
-  }
-  function update() {
-    const vh = innerHeight, top = A.getBoundingClientRect().top;
-    if (mode === 'line') {
-      const p = reduce.matches ? 1 : clamp((vh * 0.98 - top) / (vh * 0.78));
-      L.style.setProperty('--kd', (1 - p).toFixed(4));
-    } else if (mode === 'sheet') {
-      const p = reduce.matches ? 1 : clamp((vh - top) / (vh * 0.7));
-      A.style.setProperty('--sr', ((1 - p) * 1.4).toFixed(3) + 'deg');
-    } else if (mode === 'sign') {
-      if (reduce.matches) { strokes.forEach(s => s.style.strokeDashoffset = ''); return; }
-      let left = clamp((vh * 0.92 - top) / (vh * 0.62)) * total;
-      strokes.forEach((s, i) => { const f = clamp(left / lens[i]); left -= lens[i]; s.style.strokeDashoffset = (1 - f).toFixed(4); });
-    }
-  }
-  function setMode() {
-    mode = A.dataset.trans || '';
-    A.style.removeProperty('--sr'); strokes.forEach(s => s.style.strokeDashoffset = '');
-    if (mode === 'line') shapeLine();
+  let tops = [];   // where each sheet sits in the page's flow (sticky never moves the flow)
+  function measure() {
+    let y = main.getBoundingClientRect().top + scrollY;
+    tops = leaves.map(l => { const at = y; y += l.offsetHeight; l.style.setProperty('--st', Math.min(0, innerHeight - l.offsetHeight) + 'px'); return at; });
     update();
   }
+  function update() {
+    const vh = innerHeight;
+    leaves.forEach((l, i) => {
+      if (!i) return;
+      if (reduce.matches) { l.style.removeProperty('--sr'); return; }
+      const p = clamp((vh - (tops[i] - scrollY)) / vh);   // 0 as its top edge enters at the bottom, 1 once it covers the screen
+      l.style.setProperty('--sr', ((1 - p) * 1.4).toFixed(3) + 'deg');
+    });
+  }
+  // a keyboard user tabbing into a sheet that the next one is covering: scroll back until it shows
+  document.addEventListener('focusin', e => {
+    if (reduce.matches) return;
+    const i = leaves.findIndex(l => l.contains(e.target)), nx = leaves[i + 1];
+    if (i < 0 || !nx) return;
+    const b = e.target.getBoundingClientRect().bottom, over = nx.getBoundingClientRect().top;
+    if (b > over - 8) scrollBy({ top: -(b - over + 32), behavior: 'instant' });
+  });
   let raf = 0;
   addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); }, { passive: true });
-  addEventListener('resize', () => { if (mode === 'line') shapeLine(); update(); });
-  K.addEventListener('kab:fit', () => { if (mode === 'line') shapeLine(); update(); });
-  reduce.addEventListener('change', update);
-  new MutationObserver(setMode).observe(A, { attributes: true, attributeFilter: ['data-trans'] });
-  setMode();
+  addEventListener('resize', measure);
+  const K = document.getElementById('kab'); if (K) K.addEventListener('kab:fit', measure);
+  new ResizeObserver(measure).observe(main);
+  reduce.addEventListener('change', measure);
+  if (document.fonts) document.fonts.ready.then(measure);
+  measure();
 })();
 </script>
 </body>
