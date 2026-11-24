@@ -90,7 +90,8 @@ body.locked{overflow:hidden}
 .sub b{color:var(--char);font-weight:800}
 
 /* ── About: the charcoal band ── */
-.aboutband{background:var(--char);color:var(--onchar);position:relative;z-index:1}
+/* off-white like the rest of the site (Kelly, 24 Nov: no black background) */
+.aboutband{background:var(--paper);color:var(--char);position:relative;z-index:1;--kmax:880px}
 .aboutband .wrap{padding-block:clamp(48px,9vw,112px);display:grid;gap:20px;justify-items:start}
 .aboutband p{font:500 clamp(1.25rem,1rem + 1vw,1.75rem)/1.85 var(--blurb);margin:0}
 .aboutband.pre .roll{opacity:0}
@@ -139,7 +140,8 @@ body.locked{overflow:hidden}
 .bicon .ht.gl{fill:url(#bgl)}
 
 /* ── Contact: a charcoal band below the Built with bar, with a white form the same width as About and Work ── */
-.contact{background:var(--char);color:var(--onchar);margin-top:clamp(40px,7vw,88px)}
+.contact{background:var(--paper);color:var(--char);margin-top:clamp(40px,7vw,88px)}
+.contact .sheet{box-shadow:0 0 0 1px var(--rule)}
 .contact > .wrap{padding-top:clamp(40px,7vw,88px);padding-bottom:calc(clamp(40px,7vw,88px) + env(safe-area-inset-bottom,0px))}
 .sheet{background:#fff;color:var(--char);padding:clamp(20px,4vw,40px)}
 .cform{display:grid;grid-template-columns:minmax(0,1fr);gap:20px 30px}
@@ -538,6 +540,25 @@ svg.tight .om-node .om-meta{font-size:12px}
 @keyframes kab-fade{from{opacity:0}to{opacity:1}}
 @keyframes kab-fade6{from{opacity:0}to{opacity:.6}}
 @keyframes kab-beat{0%{opacity:0;transform:scale(0)}45%{opacity:1;transform:scale(1.3)}65%{transform:scale(.92)}100%{opacity:1;transform:none}}
+
+/* ── Intro to About transitions (Kelly, 24 Nov), one at a time through data-trans on #about; none by default.
+   line: a charcoal line draws down from the intro's arrow and leads into "Hi, I'm" as you scroll.
+   sheet: the About slides up over the intro like a sheet of paper, settling flat as it arrives.
+   sign: the signature writes itself as the intro scrolls away.
+   Reduced motion: the line is drawn in full, the sheet sits flat in its place, the signature is written. ── */
+.aboutband .wrap{max-width:calc(var(--kmax,1148px) + 32px)}
+/* the arrow lines up with the poster's frame now that the poster's paper edge no longer shows */
+.aboutband .arrow{margin-left:clamp(14px,3.4vw,40px)}
+/* sketches held at full size: print and pixel sit centered on theirs */
+.kab.held .B .box .sk.in{vertical-align:middle}
+.kline{position:absolute;left:0;top:0;width:100%;overflow:visible;pointer-events:none;z-index:3;display:none}
+#about[data-trans="line"] .kline{display:block}
+.kline path{fill:none;stroke:#1d1d21;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:var(--kd,1);filter:url(#kchar)}
+.kline .kl1{stroke-width:4.6px}
+.kline .kl2{stroke-width:1.8px;opacity:.6}
+#about[data-trans="sheet"]{margin-top:-55vh;margin-top:-55svh;box-shadow:0 -14px 34px -16px rgba(22,23,27,.34),0 -1px 0 rgba(22,23,27,.08);transform-origin:50% 0;rotate:var(--sr,0deg)}
+@media (prefers-reduced-motion:reduce){#about[data-trans="sheet"]{margin-top:0;rotate:none}}
+#about[data-trans="sign"] .kab .sig .wr{animation:none}
 </style>
 </head>
 <body>
@@ -552,6 +573,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 </section>
 
 <section class="aboutband" id="about" aria-label="About">
+  <svg class="kline" id="kline" aria-hidden="true" focusable="false"><defs><filter id="kchar" x="-20%" y="-2%" width="140%" height="104%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="2" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.5 1.5" result="gm"/><feComposite in="d" in2="gm" operator="in"/></filter></defs><path class="kl1" pathLength="1" d=""/><path class="kl2" pathLength="1" d=""/></svg>
   <div class="wrap">
     <div class="kab" id="kab">
       <div class="poster B" id="kabPoster" data-york="1" data-grow="2">
@@ -1224,9 +1246,41 @@ setTimeout(go,1500);
       });
 
   // fit each line to its width; side words follow the size of the line beside them
+  // smaller text, same sketches (Kelly, 24 Nov): when the About is narrower than the page column (--kmax),
+  // the poster is first fitted at the full column width, each sketch's size is noted, and then it is fitted again
+  // at the narrower width with the sketches held at those sizes, so only the words get smaller.
+  const ICONS = '.disc,.sk.let,.sk.in,.sk.over';
+  const iconProp = el => el.classList.contains('disc') ? 'width' : 'height';
   function fitAll() {
+    const wrap = K.parentElement, sy = scrollY;
+    K.querySelectorAll(ICONS).forEach(e => { e.style[iconProp(e)] = ''; });
+    const capW = K.offsetWidth;
+    wrap.style.maxWidth = '1180px';
+    const fullW = K.offsetWidth;
+    if (fullW > capW + 1) {
+      fitCore();
+      const sizes = [...K.querySelectorAll(ICONS)].map(e => [e, e.getBoundingClientRect()[iconProp(e)]]);
+      wrap.style.maxWidth = '';
+      sizes.forEach(([e, v]) => { e.style[iconProp(e)] = v.toFixed(2) + 'px'; });
+    } else wrap.style.maxWidth = '';
+    K.classList.toggle('held', fullW > capW + 1);
+    fitCore();
+    roomForBridge();
+    placeBridges();
+    if (scrollY !== sy) scrollTo(0, sy);
+    K.dispatchEvent(new Event('kab:fit'));
+  }
+  // a bridge held at its full size is taller than the smaller New York City line, so the line gets the extra room above and below
+  function roomForBridge() {
+    K.querySelectorAll('.nycrow > .fli').forEach(fli => {
+      const ov = fli.querySelector('.over'); if (!ov) return;
+      const fs = parseFloat(getComputedStyle(fli).fontSize), extra = Math.max(0, (ov.offsetHeight - 1.85 * fs) / 2);
+      fli.style.paddingTop = (0.62 * fs + extra).toFixed(1) + 'px'; fli.style.paddingBottom = (0.56 * fs + extra).toFixed(1) + 'px';
+    });
+  }
+  function fitCore() {
     const sy = scrollY;
-    K.querySelectorAll('.fl').forEach(fl => { fl.firstElementChild.style.fontSize = ''; fl.firstElementChild.style.paddingTop = ''; });
+    K.querySelectorAll('.fl').forEach(fl => { fl.firstElementChild.style.fontSize = ''; fl.firstElementChild.style.paddingTop = ''; fl.firstElementChild.style.paddingBottom = ''; });
     // repeat until every line fits its box (side words and the heart change the room a line has)
     // From and both "to"s match the "from a design studio in" line
     K.querySelectorAll('.poster').forEach(pst => {
@@ -1458,10 +1512,71 @@ setTimeout(go,1500);
   let rt;
   // refit only when the width changes; the height moving by a pixel would otherwise refit in a loop and make the page jump
   let lastW = 0;
+  // refit when the About's own width changes (its --kmax), not only the window's
+  let lastKW = 0;
+  new ResizeObserver(es => { const w = Math.round(es[0].contentRect.width); if (w === lastKW) return; const first = !lastKW; lastKW = w; if (first) return; clearTimeout(rt); rt = setTimeout(fitAll, 60); }).observe(K);
   new ResizeObserver(es => { const w = Math.round(es[0].contentRect.width); if (w === lastW) return; lastW = w; clearTimeout(rt); rt = setTimeout(fitAll, 60); }).observe(document.body);
   fitAll();
   addEventListener('load', () => fitAll());
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { fitAll(); posters.forEach(p => io.observe(p)); });
+})();
+</script>
+<script>
+/* ── Intro to About transitions (see the styles above). Each one follows the scroll, so it plays forward and back. ── */
+(() => {
+  const A = document.getElementById('about'), K = document.getElementById('kab'), L = document.getElementById('kline');
+  if (!A || !K) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp = v => Math.max(0, Math.min(1, v));
+  const strokes = [...K.querySelectorAll('.sig .wr')];
+  const lens = strokes.map(s => s.getTotalLength()), total = lens.reduce((a, b) => a + b, 0);
+  let mode = '';
+  // the charcoal line: from under the heart in "Kelly ♥s", round the "Kelly Burgess · Fractional CTO" line, into "Hi,"
+  // (the intro's stage scrolls away with the About once the falling words are done, so both are placed from the stage's bottom edge, which meets the About's top)
+  function shapeLine() {
+    const a = A.getBoundingClientRect(), stage = document.getElementById('stage').getBoundingClientRect();
+    const g = document.getElementById('hgap').getBoundingClientRect(), sr = document.getElementById('sub').getBoundingClientRect();
+    const hi = K.querySelector('.hi .hw') || K.querySelector('.hi'), h = hi.getBoundingClientRect();
+    const rel = y => y - stage.bottom;
+    const sx = g.left + g.width / 2 - a.left, sy = rel(g.bottom) + 10;
+    const subTop = rel(sr.top), subMid = rel((sr.top + sr.bottom) / 2);
+    const side = Math.min(a.width - 14, sr.right - a.left + 26);
+    const ex = h.left - a.left + h.width * 0.05, ey = h.top - a.top - 8;
+    const f = v => v.toFixed(1);
+    const d = `M${f(sx)} ${f(sy)} C${f(sx - 10)} ${f(sy + (subTop - sy) * 0.45)} ${f(side + 6)} ${f(subTop - (subTop - sy) * 0.35)} ${f(side)} ${f(subMid)}`
+      + ` C${f(side - 4)} ${f(subMid + (ey - subMid) * 0.45)} ${f(ex + 10)} ${f(ey - (ey - subMid) * 0.4)} ${f(ex)} ${f(ey)}`;
+    L.querySelector('.kl1').setAttribute('d', d);
+    L.querySelector('.kl2').setAttribute('d', d);
+    L.querySelector('.kl2').setAttribute('transform', 'translate(1.4 1)');
+    L.style.height = Math.max(1, ey + 12) + 'px';
+  }
+  function update() {
+    const vh = innerHeight, top = A.getBoundingClientRect().top;
+    if (mode === 'line') {
+      const p = reduce.matches ? 1 : clamp((vh * 0.98 - top) / (vh * 0.78));
+      L.style.setProperty('--kd', (1 - p).toFixed(4));
+    } else if (mode === 'sheet') {
+      const p = reduce.matches ? 1 : clamp((vh - top) / (vh * 0.7));
+      A.style.setProperty('--sr', ((1 - p) * 1.4).toFixed(3) + 'deg');
+    } else if (mode === 'sign') {
+      if (reduce.matches) { strokes.forEach(s => s.style.strokeDashoffset = ''); return; }
+      let left = clamp((vh * 0.92 - top) / (vh * 0.62)) * total;
+      strokes.forEach((s, i) => { const f = clamp(left / lens[i]); left -= lens[i]; s.style.strokeDashoffset = (1 - f).toFixed(4); });
+    }
+  }
+  function setMode() {
+    mode = A.dataset.trans || '';
+    A.style.removeProperty('--sr'); strokes.forEach(s => s.style.strokeDashoffset = '');
+    if (mode === 'line') shapeLine();
+    update();
+  }
+  let raf = 0;
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); }, { passive: true });
+  addEventListener('resize', () => { if (mode === 'line') shapeLine(); update(); });
+  K.addEventListener('kab:fit', () => { if (mode === 'line') shapeLine(); update(); });
+  reduce.addEventListener('change', update);
+  new MutationObserver(setMode).observe(A, { attributes: true, attributeFilter: ['data-trans'] });
+  setMode();
 })();
 </script>
 </body>
