@@ -511,22 +511,19 @@ svg.tight .om-node .om-meta{font-size:12px}
 .kab .B .nycrow > .fli.is-hot{z-index:5}
 .kab .B .cham{-webkit-text-fill-color:transparent;background-color:currentColor;-webkit-background-clip:text;background-clip:text;padding:.2em .08em;margin:-.2em -.08em;background-size:var(--tsz),auto,auto;background-blend-mode:var(--tbm)}
 .kab .kheart{color:#c03221}
-.kab .armed .w,.kab .armed .pop,.kab .armed .nyt2,.kab .armed .sk > img,.kab .armed .bank > *,.kab .armed .kheart{opacity:0}
-.kab .armed .sig .wr{stroke-dashoffset:1}
-.kab .armed .w.kv{animation:kab-up .42s cubic-bezier(.2,.7,.3,1) var(--d,0s) both}
-.kab .armed .w.hot.kv{animation:kab-hot .62s cubic-bezier(.3,1.55,.5,1) var(--d,0s) both}
-.kab .armed .sig.kv .wr{animation:kab-write var(--len,.6s) cubic-bezier(.45,.05,.4,1) var(--d,0s) both}
-.kab .armed .pop.kv{animation:kab-pop .55s cubic-bezier(.3,1.5,.5,1) var(--d,0s) both}
-.kab .armed .kv .ben > .base{animation:kab-wipeUp .7s cubic-bezier(.4,.1,.3,1) var(--d,0s) both}
-.kab .armed .kv .ben > .flag{animation:kab-pop .35s cubic-bezier(.3,1.6,.5,1) calc(var(--d,0s) + .6s) both}
-.kab .armed .kv .bank > .pig{animation:kab-pigUp .5s cubic-bezier(.3,1.5,.5,1) var(--d,0s) both;transform-origin:50% 100%}
-.kab .armed .kv .bank > .coins{animation:kab-drop .55s cubic-bezier(.5,0,.75,0) calc(var(--d,0s) + .42s) both}
-.kab .armed .bridge.kv > .base,.kab .armed .nap.kv > .base,.kab .armed .hand.kv > .base{animation:kab-wipeR .75s cubic-bezier(.4,.1,.3,1) var(--d,0s) both}
-.kab .armed .code.kv > .base{animation:kab-wipeDown .75s cubic-bezier(.4,.1,.3,1) var(--d,0s) both}
-.kab .armed .phone.kv > .base{animation:kab-rise .6s cubic-bezier(.3,1.4,.5,1) var(--d,0s) both}
-.kab .armed .sk.kv > .mul{animation:kab-fade .4s ease-out calc(var(--d,0s) + .65s) both}
-.kab .armed .nyt2.kv{animation:kab-fade .6s ease-out var(--d,0s) both}
-.kab .armed .kheart.kv{animation:kab-beat .9s cubic-bezier(.3,1.5,.5,1) var(--d,0s) both}
+.kab .armed .w{opacity:var(--p,0);transform:translateY(calc((1 - var(--p,0)) * .3em))}
+.kab .armed .w.hot{transform:translateY(calc((1 - var(--p,0)) * .35em)) scale(calc(.55 + .45 * var(--p,0))) rotate(calc((1 - var(--p,0)) * -5deg))}
+.kab .armed .pop{opacity:min(1, var(--p,0) * 2);transform:scale(calc(.3 + .7 * var(--p,0)))}
+.kab .armed .ben > .base{clip-path:inset(calc((1 - min(1, var(--p,0) * 1.4)) * 100%) 0 0 0)}
+.kab .armed .ben > .flag{opacity:clamp(0, (var(--p,0) - .7) * 3.4, 1)}
+.kab .armed .bank > .pig{opacity:min(1, var(--p,0) * 1.6);transform:translateY(calc((1 - min(1, var(--p,0) * 1.6)) * 35%)) scale(calc(.3 + .7 * min(1, var(--p,0) * 1.6)));transform-origin:50% 100%}
+.kab .armed .bank > .coins{opacity:clamp(0, (var(--p,0) - .6) * 6, 1);transform:translateY(calc((1 - clamp(0, (var(--p,0) - .6) / .4, 1)) * -150%))}
+.kab .armed .bridge > .base,.kab .armed .nap > .base,.kab .armed .hand > .base{clip-path:inset(0 calc((1 - var(--p,0)) * 100%) 0 0)}
+.kab .armed .code > .base{clip-path:inset(0 0 calc((1 - var(--p,0)) * 100%) 0)}
+.kab .armed .phone > .base{opacity:var(--p,0);transform:translateY(calc((1 - var(--p,0)) * 40%))}
+.kab .armed .sk > .mul{opacity:clamp(0, (var(--p,0) - .65) / .35, 1)}
+.kab .armed .nyt2{opacity:var(--p,0)}
+.kab .armed .kheart{opacity:min(1, var(--p,0) * 2);transform:scale(calc(.3 + .7 * var(--p,0)))}
 /* "years" on its own line beside Big Ben when the sketches are held at full size (desktop) */
 .kab:not(.held) .yrs2,.kab.held .yw{display:none}
 @keyframes kab-up{from{opacity:0;transform:translateY(.3em)}to{opacity:1;transform:none}}
@@ -1280,7 +1277,7 @@ setTimeout(go,1500);
     const fullW = K.offsetWidth;
     if (fullW > capW + 1) {
       fitCore();
-      const sizes = [...K.querySelectorAll(ICONS)].map(e => [e, e.getBoundingClientRect()[iconProp(e)]]);
+      const sizes = [...K.querySelectorAll(ICONS)].map(e => [e, parseFloat(getComputedStyle(e)[iconProp(e)])]);
       wrap.style.maxWidth = '';
       sizes.forEach(([e, v]) => { e.style[iconProp(e)] = v.toFixed(2) + 'px'; });
     } else wrap.style.maxWidth = '';
@@ -1385,7 +1382,10 @@ setTimeout(go,1500);
         // where Big Ben's spire would run into the line (phones), slide it left, no further than London's first letter
         const ben = row.querySelector('.ben'), ink = [...sm.querySelectorAll('.w,.chev')];
         if (ben && ink.length) {
-          const br = ben.getBoundingClientRect(), right = Math.max(...ink.map(e => e.getBoundingClientRect().right)), left = Math.min(...ink.map(e => e.getBoundingClientRect().left));
+          const toC = (bx, by) => ({ x: bx - docBox(sm).l + sr.left - (parseFloat(sm.style.translate) || 0), y: by - docBox(sm).t + sr.top });
+          const bd = docBox(ben.closest('.disc')), bc = toC(bd.l + ben.offsetLeft - ben.offsetWidth / 2, bd.t + ben.offsetTop);
+          const br = { left: bc.x, top: bc.y };
+          const right = Math.max(...ink.map(e => toC(docBox(e).r, 0).x)), left = Math.min(...ink.map(e => toC(docBox(e).l, 0).x));
           const over = right + sfs * 0.6 - br.left;
           if (over > 0 && br.top < sr.bottom + dy) {
             const room = left - fr.left;
@@ -1422,61 +1422,62 @@ setTimeout(go,1500);
     });
   }
 
-  // one by one as each comes into view (Kelly, 24 Nov): every word and sketch has its own trigger, tied to the scroll.
-  // Words that come into view together go in reading order a beat apart, squeezed so a fast scroll never leaves them behind;
-  // a word that drops out at the bottom (scrolling back up) is set back, so it comes in again on the way down.
-  function setD(el, t) {
-    el.style.setProperty('--d', t.toFixed(2) + 's');
-    if (el.classList.contains('disc')) el.querySelectorAll('.sk').forEach(s => s.style.setProperty('--d', (t + 0.15).toFixed(2) + 's'));
-  }
-  const items = [], deps = new Map(), shown = new WeakSet();
-  const dep = (el, d, o) => { if (el && d) deps.set(el, [...(deps.get(el) || []), [d, o]]); };
-  posters.forEach(pst => {
-    pst.querySelectorAll('.w, .sk, .disc, .kheart, .sig').forEach(el => {
-      if (el.parentElement.closest('.sk,.disc,.w,.sig')) return;
-      items.push(el);
-    });
-    pst.querySelectorAll('.nytw').forEach(tw => dep(tw.querySelector('.nyt'), tw.querySelector('.nyt2'), 0.45));   // the bridge inside the letters follows the words
-  });
-  const stepOf = el => el.classList.contains('sig') ? 0.5 : el.classList.contains('kheart') || el.classList.contains('hot') ? 0.12 : el.classList.contains('w') ? 0.07 : 0;
-  function show(el, t) {
-    setD(el, t);
-    if (el.classList.contains('sig')) {
+  // at the pace of the scroll (Kelly, 24 Nov): each word and sketch starts to come in as it reaches the bottom of the screen
+  // and is fully in about a tenth of a screen later, only as far as the page has moved; scrolling up takes it back out.
+  // Along a line the words follow one another left to right.
+  const items = [];
+  posters.forEach(pst => pst.querySelectorAll('.w, .sk, .disc, .kheart, .sig').forEach(el => {
+    if (el.parentElement.closest('.sk,.disc,.w,.sig') || el.classList.contains('over')) return;   // the big bridge follows New York City
+    const it = { el, pst, p: -1 };
+    if (el.classList.contains('sig')) {   // the signature writes itself stroke by stroke over its own scroll
       const ps = [...el.querySelectorAll('.wr')], ls = ps.map(p => p.getTotalLength()), tot = ls.reduce((a, b) => a + b, 0) || 1;
-      let st = t; ps.forEach((p, i) => { const d = 1.7 * ls[i] / tot; p.style.setProperty('--d', st.toFixed(2) + 's'); p.style.setProperty('--len', d.toFixed(2) + 's'); st += d + 0.08; });
+      let a = 0; it.strokes = ps.map((p, i) => { const r = { p, a: a / tot, b: (a + ls[i]) / tot }; a += ls[i]; return r; });
     }
-    el.classList.add('kv'); shown.add(el);
-    (deps.get(el) || []).forEach(([d, o]) => { setD(d, t + o); d.classList.add('kv'); });
-  }
-  function reset(el) { el.classList.remove('kv'); shown.delete(el); (deps.get(el) || []).forEach(([d]) => d.classList.remove('kv')); }
-  const queue = new Set(); let qraf = 0, tail = 0;
-  function flush() {
-    qraf = 0;
-    const list = [...queue].sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1); queue.clear();
-    // a new batch starts after the last one, never before it, and the whole queue stays under about 0.7s
-    const now = performance.now() / 1000, total = list.reduce((s, el) => s + stepOf(el), 0);
-    let t = Math.max(0, tail - now);
-    const k = Math.min(1, Math.max(0.12, 0.7 - t) / (total || 1));
-    list.forEach(el => { show(el, t); t += stepOf(el) * k; });
-    tail = now + t;
-  }
-  const ioIn = new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting && !shown.has(e.target)) queue.add(e.target); });
-    if (queue.size && !qraf) qraf = requestAnimationFrame(flush);
-  }, { rootMargin: '0px 0px -6% 0px' });
-  const ioOut = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) return;
-    const el = e.target, r = e.boundingClientRect, vb = e.rootBounds ? e.rootBounds.bottom : innerHeight;
-    if (!r.width && !r.height) return;                                                    // not shown at this width
-    if (r.top >= vb - 1) { queue.delete(el); if (shown.has(el)) reset(el); }              // dropped out at the bottom
-    else if (r.bottom <= 1 && !shown.has(el)) { queue.delete(el); show(el, 0); }          // passed above unseen (a jump): just show it
+    if (el.classList.contains('nyt')) { it.twin = el.parentElement.querySelector('.nyt2'); it.over = el.closest('.fli').querySelector('.over'); }   // the bridges behind and inside the letters
+    items.push(it);
   }));
-  function arm() {
-    items.forEach(el => { ioIn.unobserve(el); ioOut.unobserve(el); reset(el); });
-    if (reduce.matches) { posters.forEach(p => p.classList.remove('armed')); return; }
-    posters.forEach(p => p.classList.add('armed'));
-    items.forEach(el => { ioIn.observe(el); ioOut.observe(el); });
+  const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  let armed = false;
+  function place() {
+    items.forEach(it => {
+      it.vis = it.el.offsetParent !== null;
+      if (!it.vis) return;
+      const b = docBox(it.el), pb = docBox(it.pst);
+      it.t = b.t - pb.t; it.x = clamp01((b.l - pb.l) / Math.max(1, it.pst.offsetWidth));
+    });
+    scrub();
   }
+  function scrub() {
+    if (!armed) return;
+    const vh = innerHeight, D = Math.min(110, Math.max(60, vh * 0.1));
+    const tops = new Map(posters.map(p => [p, p.getBoundingClientRect().top]));
+    items.forEach(it => {
+      if (!it.vis) return;
+      const p = clamp01((vh - (tops.get(it.pst) + it.t)) / D - it.x * 0.3);
+      if (p === it.p) return; it.p = p;
+      const e = 1 - (1 - p) * (1 - p);
+      it.el.style.setProperty('--p', e.toFixed(3));
+      if (it.strokes) it.strokes.forEach(s => { s.p.style.strokeDashoffset = (1 - clamp01((p - s.a) / (s.b - s.a))).toFixed(3); });
+      if (it.twin) it.twin.style.setProperty('--p', clamp01(p * 2 - 1).toFixed(3));
+      if (it.over) it.over.style.setProperty('--p', e.toFixed(3));
+    });
+  }
+  function arm() {
+    armed = !reduce.matches;
+    posters.forEach(p => p.classList.toggle('armed', armed));
+    items.forEach(it => {
+      it.p = -1; it.el.style.removeProperty('--p');
+      if (it.strokes) it.strokes.forEach(s => { s.p.style.strokeDashoffset = ''; });
+      if (it.twin) it.twin.style.removeProperty('--p');
+      if (it.over) it.over.style.removeProperty('--p');
+    });
+    if (armed) place();
+  }
+  let sraf = 0;
+  addEventListener('scroll', () => { if (!sraf) sraf = requestAnimationFrame(() => { sraf = 0; scrub(); }); }, { passive: true });
+  document.addEventListener('sheets:moved', scrub);
+  addEventListener('resize', () => requestAnimationFrame(place));
+  K.addEventListener('kab:fit', place);
   reduce.addEventListener('change', arm);
   arm();
 
@@ -1617,6 +1618,7 @@ setTimeout(go,1500);
       const p = clamp((vh - (s.top - y)) / vh, 0, 1);   // 0 as its top edge enters at the bottom, 1 once it covers the screen
       s.el.style.setProperty('--sr', ((1 - p) * 1.4).toFixed(3) + 'deg');
     });
+    document.dispatchEvent(new Event('sheets:moved'));
   }
   // bring an element inside a sheet into view: the sheet's own spot, then far enough along its travel
   function go(el) {
