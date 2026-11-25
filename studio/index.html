@@ -1143,7 +1143,7 @@ function initMap(root){
  function renderTable(){const r=R(),ids=order().caps;
   table.innerHTML=`<caption class="vh" id="omTc">Capabilities by project, with the evidence for each</caption>
   <thead><tr><th scope="col">Capability</th>${OM_P.map(p=>`<th scope="col">${esc(p.name)}</th>`).join("")}</tr></thead>
-  <tbody>${ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);return `<tr${dim?' class="dim"':""}><th scope="row">${esc(c.name)}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`}).join("")}</tbody>`}
+  <tbody>${ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);return `<tr${dim?' class="dim"':""}><th scope="row">${esc(c.name)}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"></td>`).join("")}</tr>`}).join("")}</tbody>`}
  function select(id,keep){st.sel=keep?id:st.sel===id?null:id;focusId=id;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));paint();renderEv()}
  function onKey(e){const i=navOrder.indexOf(focusId);let next=null;
   if(e.key==="ArrowDown"||e.key==="ArrowRight")next=navOrder[Math.min(navOrder.length-1,i+1)];
