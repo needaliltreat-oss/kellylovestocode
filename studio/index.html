@@ -1134,16 +1134,16 @@ function initMap(root){
    ev.innerHTML=`<p class="om-kind">Capability</p><h4 class="om-h">${esc(c.name)}</h4>
     <ul class="om-evl">${projsOf(id).map(p=>`<li><button type="button" data-sel="${p.id}">${sw(p)}${esc(p.name)}</button><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}
     ${c.gen?`<li><span class="om-evh">Across my career</span><ul>${c.gen.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`:""}</ul>
-    ${r?`<p class="om-rel">${r.has(id)?"Applies to the selected role.":"Not a focus for the selected role."}</p>`:""}`}
+    ${r&&r.has(id)?`<p class="om-rel">Applies to the selected role.</p>`:""}`}
   ev.querySelectorAll("[data-sel]").forEach(b=>b.addEventListener("click",()=>{select(b.dataset.sel,true);nodes.get(b.dataset.sel).g.focus()}))}
  /* phones: the same facts as a list, the selected role's capabilities first */
  function renderList(){const r=R(),ids=order().caps;
   list.innerHTML=ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);
-   return `<li class="om-li${dim?" dim":""}"><h4>${esc(c.name)}${dim?`<span class="om-nf"> · not a focus for this role</span>`:""}</h4><ul>${projsOf(cid).map(p=>`<li><b>${sw(p)}${esc(p.name)}</b> ${c.ev[p.id].map(esc).join("; ")}</li>`).join("")}${c.gen?`<li class="om-gen"><b>Across my career</b> ${c.gen.map(esc).join("; ")}</li>`:""}</ul></li>`}).join("")}
+   return `<li class="om-li${dim?" dim":""}"><h4>${esc(c.name)}</h4><ul>${projsOf(cid).map(p=>`<li><b>${sw(p)}${esc(p.name)}</b> ${c.ev[p.id].map(esc).join("; ")}</li>`).join("")}${c.gen?`<li class="om-gen"><b>Across my career</b> ${c.gen.map(esc).join("; ")}</li>`:""}</ul></li>`}).join("")}
  function renderTable(){const r=R(),ids=order().caps;
   table.innerHTML=`<caption class="vh" id="omTc">Capabilities by project, with the evidence for each</caption>
   <thead><tr><th scope="col">Capability</th>${OM_P.map(p=>`<th scope="col">${esc(p.name)}</th>`).join("")}</tr></thead>
-  <tbody>${ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);return `<tr${dim?' class="dim"':""}><th scope="row">${esc(c.name)}${dim?`<span class="om-nf">Not a focus for this role</span>`:""}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`}).join("")}</tbody>`}
+  <tbody>${ids.map(cid=>{const c=C[cid],dim=r&&!r.has(cid);return `<tr${dim?' class="dim"':""}><th scope="row">${esc(c.name)}${c.gen?`<span class="om-gen">${c.gen.map(esc).join("; ")}</span>`:""}</th>${OM_P.map(p=>c.ev[p.id]?`<td><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></td>`:`<td class="om-none"><span aria-hidden="true">–</span><span class="vh">None</span></td>`).join("")}</tr>`}).join("")}</tbody>`}
  function select(id,keep){st.sel=keep?id:st.sel===id?null:id;focusId=id;nodes.forEach((n,k)=>n.g.setAttribute("tabindex",k===focusId?"0":"-1"));paint();renderEv()}
  function onKey(e){const i=navOrder.indexOf(focusId);let next=null;
   if(e.key==="ArrowDown"||e.key==="ArrowRight")next=navOrder[Math.min(navOrder.length-1,i+1)];
