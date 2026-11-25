@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>map check</title><body><pre id="o">running</pre><div id="h"></div><script>
+const o=document.getElementById('o'),log=s=>{o.textContent+="\n"+s};const W=[1440,1024,820,390,320],wait=ms=>new Promise(r=>setTimeout(r,ms));
+(async()=>{let html=await (await fetch('index.html',{cache:'no-store'})).text();
+html=html.replace('<head>','<head><base href="'+new URL('./',location.href).href+'"><script>window.__e=[];history.pushState=history.replaceState=function(){};addEventListener("error",e=>{if(e.message)__e.push(String(e.message))});addEventListener("unhandledrejection",e=>__e.push("rej "+e.reason))<\/script>');
+let all=true;
+for(const w of W){const f=document.createElement('iframe');f.style.cssText=`width:${w}px;height:900px;border:0;display:block`;document.getElementById('h').append(f);
+ f.srcdoc=html;await new Promise(r=>f.onload=r);await wait(1200);const d=f.contentDocument,win=f.contentWindow;
+ d.getElementById('alink').click();await wait(2500);const res=[];
+ for(const role of ['all','cto','startup','regulated','creative']){d.querySelector(`input[name=omrole][value=${role}]`).click();await wait(900);
+  for(const view of ['map','table']){const vi=d.querySelector(`input[name=omview][value=${view}]`);vi.click();vi.dispatchEvent(new Event('change'));await wait(400);
+   const caps=[...d.querySelectorAll('.om-node.cap')];let evBad=false;for(const c of caps){c.dispatchEvent(new MouseEvent('click',{bubbles:true}));await wait(30);if(/not a focus|not applicable|–|None/.test(d.querySelector('.om-ev').textContent))evBad=true;c.dispatchEvent(new MouseEvent('click',{bubbles:true}))}
+   const txt=d.querySelector('.om').textContent,bad=/not a focus|not applicable|–|None/.test(txt)||evBad;
+   const over=d.documentElement.scrollWidth>d.documentElement.clientWidth;const op=d.getElementById('opened');const pover=op?op.scrollWidth>op.clientWidth:'none';
+   const vis=[...d.querySelectorAll('.om-chart,.om-data,.om-list')].filter(e=>e.offsetParent).map(e=>e.className).join('+');
+   const dimC=d.querySelectorAll('.om-node.cap.dim').length,dimR=d.querySelectorAll('.om-data tr.dim').length,dimL=d.querySelectorAll('.om-li.dim').length;
+   if(bad||over||pover===true)all=false;res.push(`${role}/${view} text=${bad?'FOUND':'none'} pageOverflow=${over} panelOverflow=${pover} visible=${vis} grayed caps/rows/list=${dimC}/${dimR}/${dimL}`)}}
+ const errs=win.__e.filter(e=>!/ResizeObserver loop/.test(e));if(errs.length)all=false;
+ log(`${w}px errors=${JSON.stringify(errs)}`);res.forEach(x=>log('  '+x));f.style.height='0';}
+log(all?'ALL PASS':'SOME FAIL');document.title=all?'PASS':'FAIL'})().catch(e=>log('harness error '+e));
+</script>
