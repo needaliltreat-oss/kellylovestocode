@@ -1144,9 +1144,9 @@ function initMap(root){
    not the section titles. Words in a closed "How I work" group are skipped until it opens. Off with reduced motion. Returns a clean-up. */
 function aboutReveal(root){
  if(reduce)return ()=>{};
- const blocks=[...root.querySelectorAll(".hy-txt,.hy-do,.hy-how")],items=[];
+ const blocks=[...root.querySelectorAll(".hy-txt,.hy-do,.hy-how,h3.sh")],items=[];   /* section titles reveal too (Kelly, 26 Nov) */
  blocks.forEach(b=>{const tw=document.createTreeWalker(b,NodeFilter.SHOW_TEXT),ns=[];
-  while(tw.nextNode()){const n=tw.currentNode;if(n.textContent.trim()&&!n.parentElement.closest("h3,svg,.xp-i"))ns.push(n)}
+  while(tw.nextNode()){const n=tw.currentNode;if(n.textContent.trim()&&!n.parentElement.closest("svg,.xp-i,.rw"))ns.push(n)}
   ns.forEach(n=>{const f=document.createDocumentFragment();
    n.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){f.appendChild(document.createTextNode(t));return}
     const w=document.createElement("span");w.className="rw";w.textContent=t;f.appendChild(w);items.push({el:w,p:-1})});
