@@ -1,0 +1,48 @@
+<!doctype html><meta charset="utf-8"><title>check</title>
+<style>body{font:12px monospace;margin:8px}iframe{border:1px solid #999;display:block;margin:8px 0}pre{white-space:pre-wrap}</style>
+<pre id="out">running</pre><div id="fr"></div>
+<script>
+const SHA=new URLSearchParams(location.search).get("sha");
+const BASE=`https://raw.githack.com/needaliltreat-oss/kellylovestocode/${SHA}/studio/`;
+const W=[1440,1024,820,390,320],res={},out=document.getElementById("out");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const show=()=>out.textContent=JSON.stringify(res,null,1);
+(async()=>{
+ const html=await (await fetch(BASE+"index.html",{cache:"no-store"})).text();
+ const inj=`<base href="${BASE}"><script>window.__err=[];addEventListener("error",e=>__err.push(String(e.message||e.type)+" @"+(e.filename||"").split("/").pop()+":"+(e.lineno||"")),true);addEventListener("unhandledrejection",e=>__err.push("rej "+String(e.reason)));<\/script>`;
+ const doc=html.replace(/<head[^>]*>/i,m=>m+inj);
+ for(const w of W){
+  const f=document.createElement("iframe");f.width=w;f.height=820;f.srcdoc=doc;document.getElementById("fr").append(f);
+  await new Promise(r=>f.onload=r);await sleep(2500);
+  const win=f.contentWindow,d=f.contentDocument,r={};
+  r.homeOverflow=d.documentElement.scrollWidth-w;
+  r.email=(d.querySelector(".clinks span")||{}).textContent;
+  r.twentyHov=d.querySelectorAll(".yrs .fli .w.hov,.yrs2 .fli .w.hov").length;
+  d.querySelector('a[data-open="about"]').click();await sleep(2500);
+  const p=d.getElementById("opened");
+  r.panelOn=p.classList.contains("on");r.panelOverflow=p.scrollWidth-p.clientWidth;
+  r.rw=d.querySelectorAll("#pbody .rw").length;r.rvBlocks=d.querySelectorAll("#pbody .rv").length;
+  r.intro=(d.querySelector("#pbody .hy-txt p")||{}).textContent.slice(0,60);
+  for(let y=0;y<=p.scrollHeight;y+=200){p.scrollTop=y;p.dispatchEvent(new Event("scroll"));await sleep(40)}
+  await sleep(300);
+  // after scrolling, every visible word above the fold line should be fully shown
+  p.scrollTop=p.scrollHeight;await sleep(200);
+  const vis=[...d.querySelectorAll("#pbody .rw")].filter(e=>e.offsetParent);
+  r.rwVisible=vis.length;r.rwNotDone=vis.filter(e=>{const v=parseFloat(e.style.getPropertyValue("--p"));const t=e.getBoundingClientRect().top;return t<win.innerHeight*.8&&!(v>.999)}).length;
+  r.roles=d.querySelectorAll("#pbody .om-roles,#pbody .om-why").length;
+  r.caps=d.querySelectorAll("#pbody .om-node.cap").length;r.projs=d.querySelectorAll("#pbody .om-node.project").length;
+  const sq=d.querySelector("#pbody .om-node.project .om-mk");r.square=sq?sq.getAttribute("width"):null;
+  const arc=d.querySelector('#pbody .om-arc[data-p="titrelab"]');r.tlStroke=arc?win.getComputedStyle(arc).stroke:null;
+  r.listItems=d.querySelectorAll("#pbody .om-list > li").length;r.listShown=!!(d.querySelector("#pbody .om-list")||{}).offsetParent;
+  r.chartShown=!!(d.querySelector("#pbody .om-chart svg")||{}).getBoundingClientRect?.().width;
+  const tb=d.querySelector('#pbody input[name="omview"][value="table"]');tb.click();await sleep(300);
+  r.tableRows=d.querySelectorAll("#pbody table tbody tr").length;r.tableShown=!!d.querySelector("#pbody .om-data").offsetParent;
+  r.panelOverflowTable=p.scrollWidth-p.clientWidth;
+  d.querySelector('#pbody input[name="omview"][value="map"]').click();
+  const det=[...d.querySelectorAll("#pbody .hy-how details")].find(x=>!x.open);if(det){det.open=true;await sleep(300);p.scrollTop=0;await sleep(50);const dd=det.querySelector(".rw");r.openedGroupWords=det.querySelectorAll(".rw").length;}
+  const fs=[...d.querySelectorAll("#pbody .rw")].map(e=>e.textContent).join(" ");r.hasCitations=/citations/.test(d.getElementById("pg-about").innerHTML);
+  r.errors=win.__err;res[w]=r;show();
+ }
+ res.done=true;show();
+})().catch(e=>{res.fatal=String(e);show()});
+</script>
