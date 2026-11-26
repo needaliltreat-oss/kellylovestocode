@@ -23,12 +23,15 @@ const show=()=>out.textContent=JSON.stringify(res,null,1);
   r.panelOn=p.classList.contains("on");r.panelOverflow=p.scrollWidth-p.clientWidth;
   r.rw=d.querySelectorAll("#pbody .rw").length;r.rvBlocks=d.querySelectorAll("#pbody .rv").length;
   r.intro=(d.querySelector("#pbody .hy-txt p")||{}).textContent.slice(0,60);
+  r.titles=[...d.querySelectorAll("#pbody h3.sh")].map(h=>h.textContent.replace(/\s+/g," ").trim());r.titleWords=d.querySelectorAll("#pbody h3.sh .rw").length;r.titleDouble=d.querySelectorAll("#pbody .rw .rw").length;
+  {const f=d.querySelector("#pbody h3.sh .rw");r.firstTitleP=f?f.style.getPropertyValue("--p"):null}
   for(let y=0;y<=p.scrollHeight;y+=200){p.scrollTop=y;p.dispatchEvent(new Event("scroll"));await sleep(40)}
   await sleep(300);
   // after scrolling, every visible word above the fold line should be fully shown
   p.scrollTop=p.scrollHeight;await sleep(200);
   const vis=[...d.querySelectorAll("#pbody .rw")].filter(e=>e.offsetParent);
   r.rwVisible=vis.length;r.rwNotDone=vis.filter(e=>{const v=parseFloat(e.style.getPropertyValue("--p"));const t=e.getBoundingClientRect().top;return t<win.innerHeight*.8&&!(v>.999)}).length;
+  r.titleNotDone=[...d.querySelectorAll("#pbody h3.sh .rw")].filter(e=>e.offsetParent&&e.getBoundingClientRect().top<win.innerHeight*.8&&!(parseFloat(e.style.getPropertyValue("--p"))>.999)).length;
   r.roles=d.querySelectorAll("#pbody .om-roles,#pbody .om-why").length;
   r.caps=d.querySelectorAll("#pbody .om-node.cap").length;r.projs=d.querySelectorAll("#pbody .om-node.project").length;
   const sq=d.querySelector("#pbody .om-node.project .om-mk");r.square=sq?sq.getAttribute("width"):null;
