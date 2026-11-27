@@ -747,7 +747,7 @@ svg.tight .om-node .om-meta{font-size:12px}
      705 tests in 75 files, run 19 Nov). Spelled TitréLab on the page. Her square T icon and her TITRE LAB wordmark (her files, 27 Nov) sit to the right of Overview, as she asked (27 Nov). -->
 <template id="pg-titrelab"><div class="grid">
   <div class="wide gb-ov mk-r"><div><h3 class="sh">Overview</h3><p class="lede">TitréLab is an app I designed and built on my own for small-batch cannabis makers. It works out the potency of a batch, doses a topical or a recipe from it, and keeps a log of every tested batch with its lab report. It began as my own tool and is now built for other makers to use.</p></div><div class="gb-marks"><img class="gb-logo tl-logo" src="../assets/titrelab/titrelab-icon.svg" width="210" height="206" alt="TitréLab logo" decoding="async"><img class="gb-word" src="../assets/titrelab/titrelab-logo.svg" width="613" height="91" alt="" decoding="async"></div></div>
-  <div class="wide"><h3 class="sh">On the bench</h3><ol class="tracks">
+  <div class="wide"><h3 class="sh">What it does</h3><ol class="tracks">
     <li><span class="no">No. 01</span><h4>Potency</h4><p>THC and CBD potency for every batch, tied to its lot and lab report.</p></li>
     <li><span class="no">No. 02</span><h4>Dosing</h4><p>Dose a topical, a recipe, or a blend of two batches to a target ratio.</p></li>
     <li><span class="no">No. 03</span><h4>Formulation and labels</h4><p>Scale a salve or a recipe, with INCI names and allergen lines built as you go.</p></li>
@@ -1040,8 +1040,8 @@ const OM_P=[
  {id:"titrelab",name:"TitréLab",col:"#c03221",sum:"An app for small-batch cannabis makers: potency, dosing and a log of every tested batch.",stack:"React, Vite, Supabase, Postgres, Vercel"},
  {id:"formulation-suite",name:"Formulation Suite",col:"#483a58",sum:"Formula builder with scaling, pricing and market-ready ingredient lists."},
  {id:"phytofoundry",name:"PhytoFoundry",col:"#707d1e",sum:"An interactive botanical reference, one plant to a plate."},
- /* Step Up 4 Learning (Kelly, 27 Nov): its own square, lines from her 2013 and 2020 resumes, no project page. Colour shown until she picks one. */
- {id:"stepup",name:"Step Up 4 Learning",col:"#16171b",sum:"VP of Technology, 2002 to 2007",page:false}];
+ /* Step Up 4 Learning (Kelly, 27 Nov): its own square, lines from her 2013 and 2020 resumes, no project page, orange, called a Role (Kelly, q59 c, q60 role). */
+ {id:"stepup",name:"Step Up 4 Learning",col:"#ff6a2b",kind:"Role",sum:"VP of Technology, 2002 to 2007",page:false}];
 const OM_C=[
  {id:"lead",name:"Technical leadership",gen:["VP of Technology at Step Up 4 Learning, 2002 to 2007, leading the development team"],ev:{gigbag:["Co-founder, CTO and sole developer"],stepup:["Managed development team for 6TPW™ version 2","Supervised a team of 3 ColdFusion senior developers for 6TPW™ version 1"]}},
  {id:"launch",name:"Zero to launch",ev:{gigbag:["A four-product platform taken solo from zero to closed beta"],titrelab:["A live app at titrelab.com that installs on a phone"],"formulation-suite":["A formulation and labeling workflow inside a live app"],phytofoundry:["Ten of 23 plates live"],stepup:["Lead Project Manager for all phases of 6TPW™ development","Developed entire front-end interface for 6 Trait Power Write™ (6TPW™) version 1"]}},
@@ -1071,7 +1071,7 @@ function initMap(root){
  const nodes=new Map();
  [...OM_P.map(p=>({...p,type:"project"})),...OM_C.map(c=>({...c,type:"cap"}))].forEach(n=>{
   const count=n.type==="project"?capsOf(n.id).length:projsOf(n.id).length;
-  const g=mk("g",{class:`om-node ${n.type}`,role:"button",tabindex:"-1","aria-pressed":"false","aria-label":n.type==="project"?`${n.name}, project, proves ${count} capabilit${count===1?"y":"ies"}`:`${n.name}, capability, shown in ${count} project${count===1?"":"s"}`});
+  const g=mk("g",{class:`om-node ${n.type}`,role:"button",tabindex:"-1","aria-pressed":"false","aria-label":n.type==="project"?`${n.name}, ${(n.kind||"project").toLowerCase()}, proves ${count} capabilit${count===1?"y":"ies"}`:`${n.name}, capability, shown in ${count} project${count===1?"":"s"}`});
   const row=mk("rect",{class:"om-row"}),hit=mk("rect",{class:"om-hit"});
   const mark=n.type==="project"?mk("rect",{class:"om-mk",width:18,height:18,x:-9,y:-9,style:`fill:${n.col};stroke:${n.col}`}):mk("circle",{class:"om-mk",r:9});
   const t=mk("text",{x:16,"aria-hidden":"true"}),m=mk("text",{class:"om-meta","aria-hidden":"true"});
@@ -1118,7 +1118,7 @@ function initMap(root){
  function renderEv(){const id=st.sel;
   if(!id){ev.innerHTML=`<p class="om-kind">Evidence</p><p class="om-empty">Select a project or a capability to see what proves it.</p>`;return}
   if(P[id]){const p=P[id],caps=capsOf(id);
-   ev.innerHTML=`<p class="om-kind">Project</p><h4 class="om-h">${sw(p)}${esc(p.name)}</h4><p class="om-sum">${esc(p.sum)}</p>${p.stack?`<p class="om-stack">${esc(p.stack)}</p>`:""}
+   ev.innerHTML=`<p class="om-kind">${esc(p.kind||"Project")}</p><h4 class="om-h">${sw(p)}${esc(p.name)}</h4><p class="om-sum">${esc(p.sum)}</p>${p.stack?`<p class="om-stack">${esc(p.stack)}</p>`:""}
     <ul class="om-evl">${caps.map(c=>`<li><button type="button" data-sel="${c.id}">${esc(c.name)}</button><ul>${c.ev[id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}</ul>
     ${p.page===false?"":`<p class="om-more"><button type="button" data-go="${p.id}">Open the ${esc(p.name)} project <span aria-hidden="true">→</span></button></p>`}`}
   else{const c=C[id];
