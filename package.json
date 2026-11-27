@@ -1,0 +1,8 @@
+{
+  "name": "kellylovestocode",
+  "private": true,
+  "description": "kellylovestocode.com. Static site; api/contact.js runs on Vercel.",
+  "dependencies": {
+    "nodemailer": "10.4.1"
+  }
+}

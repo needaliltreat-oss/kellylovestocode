@@ -180,7 +180,7 @@ body.locked{overflow:hidden}
 .cform .f[hidden]{display:none}
 /* anti-spam trap: a field people never see or reach; bots that fill every field fill it */
 .cform .hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.cform .ph{font:600 .6875rem var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--muted);padding:4px 8px}
+.cform .btn[aria-disabled="true"]{opacity:.6;cursor:progress}
 .formnote{font:400 .875rem var(--body);color:var(--muted);margin:8px 0 0;min-height:1.4em}
 .clinks{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;font:600 .875rem var(--head)}
 .clinks a{color:inherit;text-decoration:none;border-bottom:2px solid currentColor}
@@ -679,8 +679,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 <section class="contact leaf" id="contact" aria-label="Contact">
  <div class="wrap">
   <div class="sheet" id="sheet">
-    <!-- PLACEHOLDER: this form sends nothing yet. There is no action and no network call; the submit handler only checks the fields.
-         Wire it to the form service Kelly picks, then remove the "Preview only" tag and the placeholder note. -->
+    <!-- Sends through /api/contact (api/contact.js on Vercel, Fastmail SMTP). The live site is on GitHub Pages, so it posts to the Vercel URL. -->
     <form class="cform" id="cform" novalidate>
       <div class="f"><label for="fn">Name<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fn" name="name" type="text" autocomplete="name" required aria-describedby="fn-e"><p class="ferr" id="fn-e"></p></div>
       <div class="f"><label for="fe">Email<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><input id="fe" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="fe-e"><p class="ferr" id="fe-e"></p></div>
@@ -689,7 +688,7 @@ svg.tight .om-node .om-meta{font-size:12px}
       <div class="f wide" id="fo-w" hidden><label for="fo">Tell me what you need <span class="opt">(optional)</span></label><input id="fo" name="need_other" type="text" maxlength="200"></div>
       <div class="f wide"><label for="fm">Message<span class="req" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-10.1-9.4C.2 8.6 1.9 4.6 5.6 4.2c2.4-.3 4.3 1 6.4 3.3 2.1-2.3 4-3.6 6.4-3.3 3.7.4 5.4 4.4 3.7 7.7C19.6 16.6 12 21.3 12 21.3z" fill="currentColor"/></svg></span></label><textarea id="fm" name="message" rows="4" maxlength="2000" required aria-describedby="fm-e"></textarea><p class="ferr" id="fm-e"></p></div>
       <div class="hp" aria-hidden="true"><label for="fw">Website</label><input id="fw" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <div class="f wide"><div class="send"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button><span class="ph">Preview only · not sending yet</span></div><p class="formnote" id="fnote" role="status"></p></div>
+      <div class="f wide"><div class="send"><button type="submit" class="btn">Send <span aria-hidden="true">→</span></button></div><p class="formnote" id="fnote" role="status" aria-live="polite"></p></div>
     </form>
   </div>
   <div class="clinks"><span>hello@kellylovestocode.com</span><a href="#contact">LinkedIn ↗</a></div>
@@ -1256,11 +1255,14 @@ addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
  if(e.key==="Tab"){const f=[...panel.querySelectorAll("button,a[href],input,select,textarea,[tabindex]:not([tabindex='-1'])")].filter(x=>!x.disabled&&x.offsetParent!==null);if(!f.length)return;
   const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
 
-/* ── the form: PLACEHOLDER. It checks each field inline and sends nothing until a form service is chosen. ── */
-{const form=$("#cform"),note=$("#fnote"),need=$("#ft"),otherW=$("#fo-w"),trap=$("#fw");
+/* ── the form: checks each field inline, then sends to /api/contact (api/contact.js on Vercel, through Fastmail). ── */
+{const form=$("#cform"),note=$("#fnote"),need=$("#ft"),otherW=$("#fo-w"),trap=$("#fw"),btn=form.querySelector(".btn");
+ /* the live site is on GitHub Pages, so it posts to the Vercel URL; on Vercel itself (production and previews) it posts to its own /api */
+ const API=/(^|\.)kellylovestocode\.com$/.test(location.hostname)?"https://kellylovestocode.vercel.app/api/contact":"/api/contact";
  const RULES={fn:v=>v?"":"Please add your name.",
   fe:v=>!v?"Please add your email.":/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?"":"That email address does not look right.",
   fm:v=>v?"":"Please add a short message."};
+ const FIELD={name:"fn",email:"fe",message:"fm"};
  const check=id=>{const el=$("#"+id),msg=RULES[id](el.value.trim());el.setAttribute("aria-invalid",msg?"true":"false");$("#"+id+"-e").textContent=msg;return !msg};
  Object.keys(RULES).forEach(id=>{const el=$("#"+id);
   el.addEventListener("blur",()=>{if(el.value.trim()||el.getAttribute("aria-invalid"))check(id)});
@@ -1268,18 +1270,33 @@ addEventListener("keydown",e=>{if(!panel.classList.contains("on"))return;
  /* "Other" opens an optional field for what they need (Kelly, 19 Nov); picking anything else hides it */
  const syncOther=()=>{otherW.hidden=need.value!=="Other"};
  need.addEventListener("change",syncOther);syncOther();
- /* anti-spam, in the browser only (Kelly, 19 Nov). The hidden trap field and a minimum time between first touching the form and sending.
-    A filled trap gets the normal message and nothing else; a send under MIN_MS gets a polite "press Send again", and the next press goes through.
-    Server-side protection is chosen when sending is set up. */
- const MIN_MS=2500;let firstTouch=0,warned=false;
+ /* anti-spam (Kelly, 19 Nov): the hidden trap field and a minimum time between first touching the form and sending.
+    The browser checks both first; the server checks them again, with an origin allowlist, size limits and a rate limit. */
+ const MIN_MS=2500;let firstTouch=0,warned=false,busy=false;
  form.addEventListener("focusin",()=>{if(!firstTouch)firstTouch=performance.now()});
- const OK="Everything looks right. This form is a preview and is not connected yet, so nothing was sent.";
- form.addEventListener("submit",e=>{e.preventDefault();
-  if(trap.value){note.textContent=OK;return}
+ const MSG={sending:"Sending your message…",ok:"Thank you. Your message is on its way, and I'll reply soon.",
+  quick:"That was quick. Please check your details and press Send again.",
+  rate:"A few messages have come from here already. Please try again a little later.",
+  fail:"Sorry, your message didn't send. Please try again in a minute."};
+ const setBusy=on=>{busy=on;btn.setAttribute("aria-disabled",on?"true":"false");form.setAttribute("aria-busy",on?"true":"false")};
+ form.addEventListener("submit",async e=>{e.preventDefault();if(busy)return;
   const bad=Object.keys(RULES).filter(id=>!check(id));
   if(bad.length){note.textContent="";$("#"+bad[0]).focus();return}
-  if(!warned&&(!firstTouch||performance.now()-firstTouch<MIN_MS)){warned=true;note.textContent="That was quick. Please check your details and press Send again.";return}
-  note.textContent=OK});
+  const elapsed=firstTouch?Math.round(performance.now()-firstTouch):0;
+  if(!warned&&elapsed<MIN_MS){warned=true;note.textContent=MSG.quick;return}
+  const data=Object.fromEntries(new FormData(form));data.t=elapsed;
+  setBusy(true);note.textContent=MSG.sending;
+  let res=null,out={};
+  try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),20000);
+   res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data),signal:ctl.signal,credentials:"same-origin"});
+   clearTimeout(to);out=await res.json().catch(()=>({}))}catch(_){res=null}
+  setBusy(false);
+  if(res&&res.ok&&out.ok){form.reset();syncOther();firstTouch=0;warned=false;
+   Object.keys(RULES).forEach(id=>{$("#"+id).removeAttribute("aria-invalid");$("#"+id+"-e").textContent=""});
+   note.textContent=MSG.ok;return}
+  if(res&&res.status===422&&out.fields){const ids=Object.keys(out.fields).map(k=>FIELD[k]).filter(Boolean);ids.forEach(check);
+   if(ids.length){note.textContent="";$("#"+ids[0]).focus();return}}
+  note.textContent=res&&out.error==="fast"?MSG.quick:res&&res.status===429?MSG.rate:MSG.fail});
  chamFill(form.querySelector(".btn"),["#94180a","#8c3f3f"],false)}
 
 /* ── start ── */
