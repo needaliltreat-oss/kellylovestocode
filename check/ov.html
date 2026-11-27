@@ -1,0 +1,51 @@
+<!doctype html><meta charset="utf-8"><title>check ov</title>
+<style>body{font:12px monospace;margin:8px}iframe{border:1px solid #999;display:block;margin:8px 0}pre{white-space:pre-wrap}</style>
+<pre id="out">running</pre><div id="fr"></div>
+<script>
+const SHA=new URLSearchParams(location.search).get("sha");
+const BASE=`https://raw.githack.com/needaliltreat-oss/kellylovestocode/${SHA}/studio/`;
+const W=[1440,1024,820,390,320],P=["gigbag","titrelab","phytofoundry"],res={},out=document.getElementById("out");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const show=()=>out.textContent=JSON.stringify(res);
+const R=b=>[+b.left.toFixed(0),+b.top.toFixed(0),+b.width.toFixed(0),+b.height.toFixed(0)];
+const hit=(a,b)=>!(a.right<=b.left||b.right<=a.left||a.bottom<=b.top||b.bottom<=a.top);
+(async()=>{
+ const html=await (await fetch(BASE+"index.html",{cache:"no-store"})).text();
+ const inj=`<base href="${BASE}"><script>window.__err=[];addEventListener("error",e=>__err.push(String(e.message||e.type)+" @"+((e.target&&e.target.src)||e.filename||"").split("/").pop()+":"+(e.lineno||"")),true);<\/script>`;
+ const doc=html.replace(/<head[^>]*>/i,m=>m+inj);
+ for(const w of W)for(const pid of P){
+  const f=document.createElement("iframe");f.width=w;f.height=820;f.srcdoc=doc;document.getElementById("fr").append(f);
+  await new Promise(r=>f.onload=r);await sleep(1500);
+  const d=f.contentDocument,win=f.contentWindow,r={};
+  d.querySelector(`a[data-open="${pid}"]`).click();await sleep(2400);
+  const p=d.getElementById("opened");r.on=p.classList.contains("on")&&p.dataset.p===pid;r.hOverflow=Math.max(p.scrollWidth-p.clientWidth,d.documentElement.scrollWidth-w);
+  const ov=d.querySelector("#pbody .gb-ov"),txt=ov.querySelector(".lede").getBoundingClientRect(),h3=ov.querySelector("h3").getBoundingClientRect();
+  const imgs=[...ov.querySelectorAll(".gb-logo,.gb-word")];
+  r.marks=imgs.map(im=>{const b=im.getBoundingClientRect();return {c:im.className,loaded:im.tagName!=="IMG"?"n/a":(im.complete&&im.naturalWidth>0),box:R(b),inView:b.left>=0&&b.right<=w,hitsText:hit(b,txt)||hit(b,h3)}});
+  const first=imgs[0].getBoundingClientRect();
+  r.layout=first.left>=txt.right-1?"marks right of text":first.bottom<=h3.top+1?"marks above text":first.right<=txt.left+1?"marks left of text":"other";
+  r.text=R(txt);
+  if(imgs.length>1){const a=imgs[0].getBoundingClientRect(),b=imgs[1].getBoundingClientRect();r.markGap=+(b.top-a.bottom).toFixed(0);r.marksOverlap=hit(a,b)}
+  r.h3s=[...d.querySelectorAll("#opened h3.sh")].map(x=>x.textContent);r.err=win.__err.slice(0,4);
+  res[w+"/"+pid]=r;show();f.remove();
+ }
+ for(const w of W){
+  const f=document.createElement("iframe");f.width=w;f.height=820;f.srcdoc=doc;document.getElementById("fr").append(f);await new Promise(r=>f.onload=r);await sleep(1500);
+  const d=f.contentDocument,win=f.contentWindow,r={};
+  d.querySelector('a[data-open="about"]').click();await sleep(2600);
+  const p=d.getElementById("opened");r.hOverflow=Math.max(p.scrollWidth-p.clientWidth,d.documentElement.scrollWidth-w);
+  const om=d.querySelector(".om");const chart=om.querySelector(".om-chart");r.chartVisible=chart.getBoundingClientRect().width>0&&getComputedStyle(chart).display!=="none";
+  const nodes=[...om.querySelectorAll(".om-node.project")];r.projects=nodes.map(n=>n.getAttribute("aria-label"));
+  const su=nodes.find(n=>/Step Up/.test(n.getAttribute("aria-label")));
+  if(su&&r.chartVisible){su.dispatchEvent(new MouseEvent("click",{bubbles:true}));await sleep(300);const ev=om.querySelector(".om-ev");r.ev=ev.innerText.replace(/\s+/g," ").slice(0,600);r.openBtn=!!ev.querySelector("[data-go]");
+   const b=su.getBoundingClientRect();r.suBox=R(b);r.suInView=b.left>=0&&b.right<=w;r.suFill=su.querySelector(".om-mk").style.fill;
+   const lead=[...om.querySelectorAll(".om-node.cap")].find(n=>/Technical leadership/.test(n.getAttribute("aria-label")));lead.dispatchEvent(new MouseEvent("click",{bubbles:true}));await sleep(300);r.leadEv=ev.innerText.replace(/\s+/g," ").slice(0,500)}
+  const list=om.querySelector(".om-list");r.listHasStepUp=/Step Up 4 Learning/.test(list.textContent);
+  const tbl=om.querySelector("table");r.tableCols=tbl.querySelectorAll("thead th").length;const tw=om.querySelector(".om-tw");r.tableScroll=tw?tw.scrollWidth-tw.clientWidth:null;
+  r.err=win.__err.slice(0,4);res["map/"+w]=r;show();
+  if(w===1440){const t=d.getElementById("pg-about");res.aboutIntro=(t?t.innerHTML:"").match(/Clients and projects[^<]*/)?.[0];}
+  f.remove();
+ }
+ res.done=true;show();
+})().catch(e=>{res.fatal=String(e);show()});
+</script>
