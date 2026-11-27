@@ -255,7 +255,9 @@ body.locked{overflow:hidden}
 .study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
 /* TitreLab page (20 Nov): Kelly's square T icon (her file, 27 Nov) in the logo spot, kept to its own proportions, and the demo login shown once See the demo is pressed */
-#opened[data-p="titrelab"] .tl-logo{object-fit:contain}
+#opened[data-p="titrelab"] .tl-logo{object-fit:contain;width:clamp(48px,6.5vw,76px)}
+/* TitréLab (Kelly, 27 Nov): wordmark bigger, icon smaller */
+#opened[data-p="titrelab"] .gb-word{width:clamp(160px,20vw,280px)}
 #opened[data-p="titrelab"] .gb-ask .btn{text-decoration:none}
 #opened[data-p="titrelab"] .tl-login{margin-top:24px;padding-left:clamp(12px,2vw,20px);border-left:4px solid var(--p-acc)}
 #opened[data-p="titrelab"] .tl-login .gb-hint{margin:0 0 12px}
@@ -810,7 +812,7 @@ svg.tight .om-node .om-meta{font-size:12px}
 </div></template>
 <!-- PhytoFoundry page (20 Nov), Kelly's picks (20 Nov): "I designed and built", "AI-generated art", the name set as text for the logo, and the button opens the live site. The plate screens are the opening view of each live plate, captured at 1440 by 900. Facts from the PhytoFoundry repo and its live site. -->
 <template id="pg-phytofoundry"><div class="grid">
-  <div class="wide gb-ov"><div class="gb-logo pf-logo" aria-hidden="true"><span>Phyto</span><span>Foundry</span></div><div><h3 class="sh">Overview</h3><p class="lede">PhytoFoundry is an interactive botanical reference I designed and built: one plant to a plate, each one part scientific infographic and part field journal, with its sources cited. Ten of its 23 plates are live.</p></div></div>
+  <div class="wide gb-ov mk-r"><div><h3 class="sh">Overview</h3><p class="lede">PhytoFoundry is an interactive botanical reference I designed and built: one plant to a plate, each one part scientific infographic and part field journal, with its sources cited. Ten of its 23 plates are live.</p></div><div class="gb-marks"><div class="gb-logo pf-logo" aria-hidden="true"><span>Phyto</span><span>Foundry</span></div></div></div>
   <div class="wide"><h3 class="sh">On the plates</h3><ol class="tracks">
     <li><span class="no">Plate I</span><h4>Shea Butter Tree</h4><p>Scroll one two-hundred-year-old tree from crown to root, by day or by night.</p></li>
     <li><span class="no">Plate IV</span><h4>Vitamin E</h4><p>An endless zoom that travels through all eight forms of the vitamin.</p></li>
@@ -1037,16 +1039,18 @@ const OM_P=[
  {id:"gigbag",name:"GigBag",col:"#38748c",sum:"Co-founder, CTO and sole developer. Four products taken solo from zero to closed beta, built with Claude Code."},
  {id:"titrelab",name:"TitréLab",col:"#c03221",sum:"An app for small-batch cannabis makers: potency, dosing and a log of every tested batch.",stack:"React, Vite, Supabase, Postgres, Vercel"},
  {id:"formulation-suite",name:"Formulation Suite",col:"#483a58",sum:"Formula builder with scaling, pricing and market-ready ingredient lists."},
- {id:"phytofoundry",name:"PhytoFoundry",col:"#707d1e",sum:"An interactive botanical reference, one plant to a plate."}];
+ {id:"phytofoundry",name:"PhytoFoundry",col:"#707d1e",sum:"An interactive botanical reference, one plant to a plate."},
+ /* Step Up 4 Learning (Kelly, 27 Nov): its own square, lines from her 2013 and 2020 resumes, no project page. Colour shown until she picks one. */
+ {id:"stepup",name:"Step Up 4 Learning",col:"#16171b",sum:"VP of Technology, 2002 to 2007",page:false}];
 const OM_C=[
- {id:"lead",name:"Technical leadership",gen:["VP of Technology at Step Up 4 Learning, 2002 to 2007, leading the development team"],ev:{gigbag:["Co-founder, CTO and sole developer"]}},
- {id:"launch",name:"Zero to launch",ev:{gigbag:["A four-product platform taken solo from zero to closed beta"],titrelab:["A live app at titrelab.com that installs on a phone"],"formulation-suite":["A formulation and labeling workflow inside a live app"],phytofoundry:["Ten of 23 plates live"]}},
+ {id:"lead",name:"Technical leadership",gen:["VP of Technology at Step Up 4 Learning, 2002 to 2007, leading the development team"],ev:{gigbag:["Co-founder, CTO and sole developer"],stepup:["Managed development team for 6TPW™ version 2","Supervised a team of 3 ColdFusion senior developers for 6TPW™ version 1"]}},
+ {id:"launch",name:"Zero to launch",ev:{gigbag:["A four-product platform taken solo from zero to closed beta"],titrelab:["A live app at titrelab.com that installs on a phone"],"formulation-suite":["A formulation and labeling workflow inside a live app"],phytofoundry:["Ten of 23 plates live"],stepup:["Lead Project Manager for all phases of 6TPW™ development","Developed entire front-end interface for 6 Trait Power Write™ (6TPW™) version 1"]}},
  {id:"risk",name:"Risk, legal and compliance",ev:{gigbag:["Platform kept out of the payment path for gigs and sessions","Rights and consent captured with warranty and indemnity, kept as evidence","Policies launched as provisional, pending attorney review"],"formulation-suite":["Label rules written for eight markets plus a general default"]}},
  {id:"arch",name:"Architecture and database design",ev:{gigbag:["Multi-tenant business accounts with team permission levels"],titrelab:["Plan limits enforced by Postgres triggers","Proof scripts for key database rules, with every write rolled back"],"formulation-suite":["A formula and its ingredients save in one Postgres transaction","One label engine for the screen, the copy button and the PDF"],phytofoundry:["Each plant in Postgres, with compounds, anatomy, bloom calendar and folklore in their own tables","A public, cached JSON feed for every specimen"]}},
  {id:"pay",name:"Payments and pricing",ev:{gigbag:["Stripe Connect for the marketplace and studio bookings","Free collaboration board, paid tiers to reply"],"formulation-suite":["Markup or margin from real ingredient cost"]}},
  {id:"data",name:"Data and security",ev:{gigbag:["Role-based access enforced with row-level security","Email authenticated with SPF, DKIM and DMARC"],titrelab:["Row-level security on every table"],"formulation-suite":["Row-level security keeps each formula to its maker","Strict security headers on every page"]}},
  {id:"quality",name:"Quality, testing and accessibility",ev:{titrelab:["705 tests across 75 files","Lowest contrast 5.40:1, against the 4.5:1 AA asks for","Every screen checked from 320 to 1024px, light and dark"],"formulation-suite":["Vitest tests for scaling, mass, pricing, inventory and ingredient lists"],phytofoundry:["Motion that respects reduced-motion settings","99 frames checked across five screen sizes, no console errors"]}},
- {id:"design",name:"UI, UX and design systems",gen:["UX architect for the Carolinas AGC platform rebuild"],ev:{gigbag:["Four products designed and built as one platform"],titrelab:["Designed and built on my own for small-batch makers"],"formulation-suite":["Formula sheets and print-ready label sheets as PDFs"],phytofoundry:["AI-generated art under one art direction"]}},
+ {id:"design",name:"UI, UX and design systems",gen:["UX architect for the Carolinas AGC platform rebuild"],ev:{gigbag:["Four products designed and built as one platform"],titrelab:["Designed and built on my own for small-batch makers"],"formulation-suite":["Formula sheets and print-ready label sheets as PDFs"],phytofoundry:["AI-generated art under one art direction"],stepup:["Designed wireframes for 6 Trait Power Write™ (6TPW™) version 1"]}},
  
  {id:"ai",name:"AI-assisted builds with Claude Code",ev:{gigbag:["Built with Claude Code, with hooks and guards that keep the work verified and permission-first"],phytofoundry:["Built with Claude Code, with checks that block code-drawn art and any “done” without a render"]}},
  {id:"domain",name:"Regulated product markets",ev:{titrelab:["THC and CBD potency for every batch, and dosing to a target ratio","Each batch’s lab report stored with it","INCI names and allergen lines built as you go"],"formulation-suite":["Label rules written for eight markets, with US labels live today","INCI names and allergen lines in the format each market asks for","EU, UK and US food allergen formats"]}}];
@@ -1116,7 +1120,7 @@ function initMap(root){
   if(P[id]){const p=P[id],caps=capsOf(id);
    ev.innerHTML=`<p class="om-kind">Project</p><h4 class="om-h">${sw(p)}${esc(p.name)}</h4><p class="om-sum">${esc(p.sum)}</p>${p.stack?`<p class="om-stack">${esc(p.stack)}</p>`:""}
     <ul class="om-evl">${caps.map(c=>`<li><button type="button" data-sel="${c.id}">${esc(c.name)}</button><ul>${c.ev[id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}</ul>
-    <p class="om-more"><button type="button" data-go="${p.id}">Open the ${esc(p.name)} project <span aria-hidden="true">→</span></button></p>`}
+    ${p.page===false?"":`<p class="om-more"><button type="button" data-go="${p.id}">Open the ${esc(p.name)} project <span aria-hidden="true">→</span></button></p>`}`}
   else{const c=C[id];
    ev.innerHTML=`<p class="om-kind">Capability</p><h4 class="om-h">${esc(c.name)}</h4>
     <ul class="om-evl">${projsOf(id).map(p=>`<li><button type="button" data-sel="${p.id}">${sw(p)}${esc(p.name)}</button><ul>${c.ev[p.id].map(f=>`<li>${esc(f)}</li>`).join("")}</ul></li>`).join("")}
