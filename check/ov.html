@@ -3,7 +3,7 @@
 <pre id="out">running</pre><div id="fr"></div>
 <script>
 const SHA=new URLSearchParams(location.search).get("sha");
-const BASE=`https://raw.githack.com/needaliltreat-oss/kellylovestocode/${SHA}/studio/`;
+const Q=new URLSearchParams(location.search);const BASE=Q.get("base")||`https://raw.githack.com/needaliltreat-oss/kellylovestocode/${SHA}/studio/`;
 const W=[1440,1024,820,390,320],P=["gigbag","titrelab","phytofoundry"],res={},out=document.getElementById("out");
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const show=()=>out.textContent=JSON.stringify(res);
