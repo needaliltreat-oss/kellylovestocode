@@ -29,8 +29,23 @@ const hit=(a,b)=>!(a.right<=b.left||b.right<=a.left||a.bottom<=b.top||b.bottom<=
   r.err=win.__err.slice(0,4);
   res[w+"/"+pid]=r;show();f.remove();
  }
- const f=document.createElement("iframe");f.width=1440;f.height=820;f.srcdoc=doc;document.getElementById("fr").append(f);await new Promise(r=>f.onload=r);await sleep(1500);
- const t=f.contentDocument.getElementById("pg-about");res.aboutIntro=(t?t.innerHTML:"").match(/Clients and projects[^<]*/)?.[0];
+ for(const w of W){
+  const f=document.createElement("iframe");f.width=w;f.height=820;f.srcdoc=doc;document.getElementById("fr").append(f);await new Promise(r=>f.onload=r);await sleep(1500);
+  const d=f.contentDocument,win=f.contentWindow,r={};
+  d.querySelector('a[data-open="about"]').click();await sleep(2600);
+  const p=d.getElementById("opened");r.hOverflow=Math.max(p.scrollWidth-p.clientWidth,d.documentElement.scrollWidth-w);
+  const om=d.querySelector(".om");const chart=om.querySelector(".om-chart");r.chartVisible=chart.getBoundingClientRect().width>0&&getComputedStyle(chart).display!=="none";
+  const nodes=[...om.querySelectorAll(".om-node.project")];r.projects=nodes.map(n=>n.getAttribute("aria-label"));
+  const su=nodes.find(n=>/Step Up/.test(n.getAttribute("aria-label")));
+  if(su&&r.chartVisible){su.dispatchEvent(new MouseEvent("click",{bubbles:true}));await sleep(300);const ev=om.querySelector(".om-ev");r.ev=ev.innerText.replace(/\s+/g," ").slice(0,600);r.openBtn=!!ev.querySelector("[data-go]");
+   const b=su.getBoundingClientRect();r.suBox=R(b);r.suInView=b.left>=0&&b.right<=w;
+   const lead=[...om.querySelectorAll(".om-node.cap")].find(n=>/Technical leadership/.test(n.getAttribute("aria-label")));lead.dispatchEvent(new MouseEvent("click",{bubbles:true}));await sleep(300);r.leadEv=ev.innerText.replace(/\s+/g," ").slice(0,500)}
+  const list=om.querySelector(".om-list");r.listHasStepUp=/Step Up 4 Learning/.test(list.textContent);
+  const tbl=om.querySelector("table");r.tableCols=tbl.querySelectorAll("thead th").length;const tw=om.querySelector(".om-tw");r.tableScroll=tw?tw.scrollWidth-tw.clientWidth:null;
+  r.err=win.__err.slice(0,4);res["map/"+w]=r;show();
+  if(w===1440){const t=d.getElementById("pg-about");res.aboutIntro=(t?t.innerHTML:"").match(/Clients and projects[^<]*/)?.[0];}
+  f.remove();
+ }
  res.done=true;show();
 })().catch(e=>{res.fatal=String(e);show()});
 </script>
