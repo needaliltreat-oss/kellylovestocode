@@ -250,8 +250,8 @@ body.locked{overflow:hidden}
 .study .bul li{margin:0 0 .6em}
 .study .gb-ask .btn{--c-fill:var(--p-base);background-color:var(--c-fill);border-color:var(--c-fill);color:#fff;margin-top:4px}
 .study .gb-ask .btn:hover{background-color:var(--c-fill);color:#fff}
-/* TitreLab page (20 Nov): the logo placeholder until Kelly has a logo, and the demo login shown once See the demo is pressed */
-#opened[data-p="titrelab"] .tl-logo{display:grid;place-items:center;border:2px dashed var(--p-acc);color:var(--muted);font:600 .75rem var(--head);letter-spacing:.14em;text-transform:uppercase}
+/* TitreLab page (20 Nov): Kelly's square T icon (her file, 27 Nov) in the logo spot, kept to its own proportions, and the demo login shown once See the demo is pressed */
+#opened[data-p="titrelab"] .tl-logo{object-fit:contain}
 #opened[data-p="titrelab"] .gb-ask .btn{text-decoration:none}
 #opened[data-p="titrelab"] .tl-login{margin-top:24px;padding-left:clamp(12px,2vw,20px);border-left:4px solid var(--p-acc)}
 #opened[data-p="titrelab"] .tl-login .gb-hint{margin:0 0 12px}
@@ -738,9 +738,9 @@ svg.tight .om-node .om-meta{font-size:12px}
   <div class="gb-ask"><h3 class="sh">Walkthrough</h3><p>There's a lot more under the hood than I can put on a public page. Once we've signed an NDA, I'd love to walk you through GigBag properly: the architecture, the trade-offs and the calls I'd make again.</p><button type="button" class="btn" data-contact>Ask for a walkthrough <span aria-hidden="true">→</span></button></div>
 </div></template>
 <!-- TitreLab (20 Nov, Kelly's approved plan and her answers): copy from her Portfolio drafts, checked against the titre code (THC and CBD only;
-     705 tests in 75 files, run 19 Nov). Spelled TitréLab on the page. The logo and the four screens are placeholders until she has them. -->
+     705 tests in 75 files, run 19 Nov). Spelled TitréLab on the page. Logo spot holds her square T icon (her file, 27 Nov); her wordmark is in assets/titrelab/titrelab-logo.svg, placement asked on her checklist. -->
 <template id="pg-titrelab"><div class="grid">
-  <div class="wide gb-ov"><div class="gb-logo tl-logo" aria-hidden="true">Logo</div><div><h3 class="sh">Overview</h3><p class="lede">TitréLab is an app I designed and built on my own for small-batch cannabis makers. It works out the potency of a batch, doses a topical or a recipe from it, and keeps a log of every tested batch with its lab report. It began as my own tool and is now built for other makers to use.</p></div></div>
+  <div class="wide gb-ov"><img class="gb-logo tl-logo" src="../assets/titrelab/titrelab-icon.svg" width="210" height="206" alt="TitréLab logo" decoding="async"><div><h3 class="sh">Overview</h3><p class="lede">TitréLab is an app I designed and built on my own for small-batch cannabis makers. It works out the potency of a batch, doses a topical or a recipe from it, and keeps a log of every tested batch with its lab report. It began as my own tool and is now built for other makers to use.</p></div></div>
   <div class="wide"><h3 class="sh">On the bench</h3><ol class="tracks">
     <li><span class="no">No. 01</span><h4>Potency</h4><p>THC and CBD potency for every batch, tied to its lot and lab report.</p></li>
     <li><span class="no">No. 02</span><h4>Dosing</h4><p>Dose a topical, a recipe, or a blend of two batches to a target ratio.</p></li>
